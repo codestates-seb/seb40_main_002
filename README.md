@@ -32,7 +32,7 @@
 
 ## ✅ 회의 일정
 
-[Figjam](https://www.figma.com/file/Wc7guqWSlroe8VDBb5E5It/%EB%A9%94%EC%9D%B8%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%95%84%EC%9D%B4%EC%8A%A4%EB%B8%8C%EB%A0%88%EC%9D%B4%ED%82%B9?node-id=0%3A1)
+[Figjam]()
 
 <br/>
 
