@@ -1,7 +1,16 @@
 import React from 'react';
+import Navbar from './components/common/Navbar';
+import Location from './components/common/Nav/Location';
+import DatePicker1 from './components/common/Nav/DatePicker';
 
 export default function App() {
-  return <div>Hello World</div>;
+  return (
+    <>
+      <Navbar />
+      <Location />
+      <DatePicker1 />
+    </>
+  );
 }
 
 // import React from 'react';
