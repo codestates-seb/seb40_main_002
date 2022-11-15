@@ -1,8 +1,6 @@
 package main.project.server.member.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import main.project.server.audit.Auditable;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberRegisterKind;
@@ -10,19 +8,22 @@ import main.project.server.member.entity.enums.MemberStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Member extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
+    @Column(unique = true)
+    private String memberId;
 
-    private String memberName;
+    private String memberNickname;
 
     private String memberPassword;
 
@@ -42,6 +43,8 @@ public class Member extends Auditable {
 
     private String memberTags;
 
+
+    //    private List<String> memberRoles = new ArrayList<>(); //초기화 해주지 않으면 에러 발생
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> memberRoles;
 
