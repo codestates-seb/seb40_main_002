@@ -13,7 +13,7 @@ function Heart({ isFavorite = false, id }: Props) {
     console.log(id);
   };
   return (
-    <div>
+    <div onClick={(e) => e.stopPropagation()}>
       <button onClick={handleFavorite}>
         {isRed ? (
           <IoMdHeart color="red" size={'25px'} />
