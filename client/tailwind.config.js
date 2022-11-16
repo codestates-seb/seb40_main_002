@@ -31,6 +31,12 @@ module.exports = {
           'font-color': '#717171',
         },
       },
+      fontSize: {
+        sm: '11px',
+        base: '15px',
+        lg: '18px',
+        xl: '26px',
+      },
     },
     variants: {
       extend: {},
