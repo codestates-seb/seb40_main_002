@@ -34,6 +34,4 @@ public class CustomRedisConfiguration {
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         return redisTemplate;
     }
-
-
 }

@@ -2,11 +2,12 @@ package main.project.server.security.config;
 
 import lombok.RequiredArgsConstructor;
 import main.project.server.jwt.JwtTokenizer;
-import main.project.server.jwt.JwtVerificationFilter;
+import main.project.server.security.filter.JwtVerificationFilter;
 import main.project.server.oauth.handler.OauthSuccessHandler;
 import main.project.server.oauth.service.OauthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -28,6 +29,8 @@ public class SecurityConfiguration {
     private final OauthSuccessHandler oauthSuccessHandler;
 
     private final JwtTokenizer jwtTokenizer;
+
+    private final RedisTemplate redisTemplate;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -66,7 +69,7 @@ public class SecurityConfiguration {
     public class AuthFilterConfigurer extends AbstractHttpConfigurer<AuthFilterConfigurer, HttpSecurity> {
         @Override
         public void configure(HttpSecurity builder) throws Exception {
-            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, redisTemplate);
 
             builder.addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class);
         }

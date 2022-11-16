@@ -37,6 +37,7 @@ public class MemberController {
 //    @GetMapping("/api/auth/members")
 //    public ResponseEntity getMember(){
 //
+//
 //        return new ResponseEntity<>( , HttpStatus.OK);
 //    }
 //
@@ -57,8 +58,7 @@ public class MemberController {
     @PostMapping("/api/auth/members/logout")
     public ResponseEntity logoutMember(HttpServletRequest request) {
 
-        String authorizationHeaderValue = request.getHeader("Authorization");
-        String jws = authorizationHeaderValue.replace("Bearer ", "");
+        String jws = request.getHeader("Authorization");
         memberService.registerLogoutToken(jws);
         SingleResponseDto<Object> singleResponseDto = new SingleResponseDto<>();
         singleResponseDto.setMessage("logout completed");
