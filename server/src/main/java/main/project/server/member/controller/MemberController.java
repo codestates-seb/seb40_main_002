@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @RestController
@@ -53,5 +54,15 @@ public class MemberController {
     public ResponseEntity deleteMember(){
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/api/auth/members/logout")
+    public ResponseEntity logoutMember(HttpServletRequest request) {
+
+        String jws = request.getHeader("Authorization");
+        memberService.registerLogoutToken(jws);
+        SingleResponseDto<Object> singleResponseDto = new SingleResponseDto<>();
+        singleResponseDto.setMessage("logout completed");
+        return new ResponseEntity(singleResponseDto, HttpStatus.OK);
     }
 }

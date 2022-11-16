@@ -1,9 +1,14 @@
-package main.project.server.jwt;
+package main.project.server.security.filter;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
+import main.project.server.exception.AuthException;
+import main.project.server.exception.ExceptionCode;
+import main.project.server.jwt.JwtTokenizer;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,14 +29,29 @@ import java.util.stream.Collectors;
 public class JwtVerificationFilter extends OncePerRequestFilter {
 
     private final JwtTokenizer jwtTokenizer;
+    private final RedisTemplate redisTemplate;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        Map<String, Object> claims = verifyJws(request);
-        setAuthenticationToContext(claims);
 
+        String jws = request.getHeader("Authorization");
+        Map<String, Object> claims = verifyJws(jws);
+        verifyLogoutToken(jws);
+        setAuthenticationToContext(claims);
         filterChain.doFilter(request, response);
     }
+
+    private void verifyLogoutToken(String jws) {
+
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        String memberId = (String)valueOperations.get("logout@" + jws);
+
+        if (memberId != null) {
+            throw new AuthException(ExceptionCode.ALREADY_LOGOUT_MEMBER);
+        }
+    }
+
+
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -45,11 +65,9 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
     // 서명(Signature)된 jwt(jsw)를 검증
-    private Map<String, Object> verifyJws(HttpServletRequest request) {
-        String jws = request.getHeader("Authorization");
+    private Map<String, Object> verifyJws(String jws) {
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey()); // JWT 서명(Signature)을 검증하기 위한 Secret Key
         Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody(); // 파싱에 성공하면 서명 검증에 성공한 것
-
         return claims;
     }
 
