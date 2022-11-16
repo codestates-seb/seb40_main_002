@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -61,8 +62,18 @@ public class MemberService {
     }
 
 
-    public void deleteMember(Member member) {
+    public Member deleteMember(String memberId) {
+        Member findMember = findVerifiedMember(memberId);
+        findMember.setMemberStatus(MemberStatus.MEMBER_DISABLE);
 
+        return memberRepository.save(findMember);
+    }
+
+    public Member findVerifiedMember(String memberId) {
+        Optional<Member> optionalMember = memberRepository.findById(memberId);
+        Member findMember =
+                optionalMember.orElseThrow(() -> new NoSuchElementException("No value present"));
+        return findMember;
     }
 
 
