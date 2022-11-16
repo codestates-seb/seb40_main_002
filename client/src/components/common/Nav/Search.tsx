@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+import DatePicker1 from './DatePicker';
+import Keyword_Input from './Keyword_input';
+import Location from './Location';
 
 const Search = () => {
+  const [keyword, setKeyword] = useState('');
+
   return (
     <>
-      <div className="flex justify-center items-center text-2xl w-search h-search border-solid border-2 border-point rounded-search">
-        <div className="mx-10"> 지역 </div>
-        <div className="mx-10"> 날짜 </div>
-        <div className="mx-10"> 키워드 </div>
+      <div className="flex justify-between items-center text-base w-search h-search border-solid border-4 border-point rounded-search">
+        <Location />
+        <DatePicker1 />
+        <Keyword_Input keyword={keyword} setkeyword={setKeyword} />
       </div>
     </>
   );
