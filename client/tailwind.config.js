@@ -10,6 +10,12 @@ module.exports = {
         'border-color': '#DDDDDD',
         'font-color': '#717171',
       },
+      fontSize: {
+        sm: '11px',
+        base: '15px',
+        lg: '18px',
+        xl: '26px',
+      },
     },
   },
 
