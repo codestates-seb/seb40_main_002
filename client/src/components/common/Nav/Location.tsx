@@ -1,21 +1,23 @@
-import React from 'react';
-import Tag from './Tag';
+import React, { useState } from 'react';
+import SelectLocation from './SelectLocation';
 
 const Location = () => {
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
+  const modalHandler = (state: boolean, setState: any) => {
+    setState(!state);
+  };
+
   return (
     <>
-      <div className="flex flex-wrap justify-center items-center w-selectModal h-selectModal border-solid border-2 border-borderline rounded-2xl py-1">
-        <Tag />
-        <Tag />
-        <Tag />
-        <Tag />
-        <Tag />
-        <Tag />
-        <Tag />
-        <Tag />
-        <Tag />
-        <Tag />
+      <div
+        className="mx-10 relative"
+        onClick={() => {
+          modalHandler(isLocationOpen, setIsLocationOpen);
+        }}
+      >
+        지역
       </div>
+      {isLocationOpen && <SelectLocation />}
     </>
   );
 };
