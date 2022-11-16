@@ -8,7 +8,7 @@ import main.project.server.member.entity.enums.MemberStatus;
 import java.time.LocalDateTime;
 
 public class MemberDto {
-
+    // Dto 항목 고려 필요
     @Setter
     @Getter
     @NoArgsConstructor
@@ -24,11 +24,17 @@ public class MemberDto {
 
         private String memberPhone;
 
+//        private MemberStatus memberStatus;
+
         private String memberBirth;
 
-        private String memberNationality;
+        private MemberNationality memberNationality;
 
-        private String memberRegisterKind;
+        private MemberRegisterKind memberRegisterKind;
+
+        private String memberImageUrl;
+
+        private String memberTags;
 
     }
 
@@ -37,7 +43,7 @@ public class MemberDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class Put{
+    public static class Patch{
 
         private String memberId;
 
@@ -47,11 +53,17 @@ public class MemberDto {
 
         private String memberPhone;
 
+//        private MemberStatus memberStatus;
+
         private String memberBirth;
 
-        private String memberNationality;
+        private MemberNationality memberNationality;
 
-        private String memberRegisterKind;
+        private MemberRegisterKind memberRegisterKind;
+
+//        private String memberImageUrl;
+
+        private String memberTags;
 
     }
 
@@ -70,9 +82,9 @@ public class MemberDto {
 
         private String memberPhone;
 
-        private MemberStatus memberStatus;
+//        private MemberStatus memberStatus;
 
-        private LocalDateTime memberBirth;
+        private String memberBirth;
 
         private MemberNationality memberNationality;
 

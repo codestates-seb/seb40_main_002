@@ -25,15 +25,13 @@ public class Member extends Auditable {
 
     private String memberNickname;
 
-    private String memberPassword;
-
     private String memberEmail;
 
     private String memberPhone;
 
     private MemberStatus memberStatus;
 
-    private LocalDateTime memberBirth;
+    private String memberBirth;     // LocalDateTime -> String
 
     private MemberNationality memberNationality;
 
