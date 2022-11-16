@@ -59,7 +59,7 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     public String delegateAccessToken(Member member) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("memberId", member.getMemberId());
-        claims.put("roles", member.getMemberRoles());
+        claims.put("memberRoles", member.getMemberRoles());
 
         String subject = member.getMemberId();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
