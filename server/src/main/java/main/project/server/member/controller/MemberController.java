@@ -1,22 +1,28 @@
-//package main.project.server.member.controller;
-//
-//import lombok.RequiredArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-//import main.project.server.member.dto.MemberDto;
-//import main.project.server.member.entity.Member;
-//import main.project.server.member.mapper.MemberMapper;
-//import main.project.server.member.service.MemberService;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.validation.annotation.Validated;
-//import org.springframework.web.bind.annotation.*;
-//
-//@RestController
-//@Validated
-//@Slf4j
-//@RequiredArgsConstructor
-//public class MemberController {
-//    private final MemberService memberService;
+package main.project.server.member.controller;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import main.project.server.dto.SingleResponseDto;
+import main.project.server.member.dto.MemberDto;
+import main.project.server.member.entity.Member;
+import main.project.server.member.mapper.MemberMapper;
+import main.project.server.member.service.MemberService;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+
+@RestController
+@Validated
+@Slf4j
+@RequiredArgsConstructor
+public class MemberController {
+
+
+    private final MemberService memberService;
 //    private final MemberMapper memberMapper;
 //
 //    // 맴버 생성
@@ -47,4 +53,18 @@
 //
 //        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 //    }
-//}
+
+    @PostMapping("/api/auth/members/logout")
+    public ResponseEntity logoutMember(HttpServletRequest request) {
+
+        String authorizationHeaderValue = request.getHeader("Authorization");
+        String jws = authorizationHeaderValue.replace("Bearer ", "");
+        memberService.registerLogoutToken(jws);
+        SingleResponseDto<Object> singleResponseDto = new SingleResponseDto<>();
+        singleResponseDto.setMessage("logout completed");
+        return new ResponseEntity(singleResponseDto, HttpStatus.OK);
+    }
+
+
+
+}

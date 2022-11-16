@@ -1,4 +1,4 @@
-package main.project.server.config;
+package main.project.server.security.config;
 
 import lombok.RequiredArgsConstructor;
 import main.project.server.oauth.handler.OauthSuccessHandler;
@@ -7,8 +7,14 @@ import main.project.server.oauth.service.OauthService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @RequiredArgsConstructor
 @Configuration
@@ -26,7 +32,7 @@ public class SecurityConfiguration {
                 .and()
 
                 .csrf().disable()
-                .cors()
+                .cors().configurationSource(corsConfigurationSource())
                 .and()
 
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -38,7 +44,6 @@ public class SecurityConfiguration {
 //                .authenticationEntryPoint()
 //                .accessDeniedHandler()
                 .and()
-
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll()
                 )
@@ -49,6 +54,26 @@ public class SecurityConfiguration {
 
 
         return httpSecurity.build();
+    }
+
+
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+//        configuration.addAllowedOriginPattern("*");
+//        configuration.addAllowedHeader("*");
+//        configuration.addAllowedMethod("*");
+//        configuration.setAllowCredentials(true);
+
+        //기존 소스에 비해 명확하게 지정.. 효과는 다를것 없음:wq
+        configuration.addAllowedOriginPattern("*");
+        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT" ,"PATCH", "DELETE"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
 

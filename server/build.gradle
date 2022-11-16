@@ -51,8 +51,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 	// redis cache
-//	implementation 'org.springframework.boot:spring-boot-starter-cache:2.7.5'
-//	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.5'
+	implementation 'org.springframework.boot:spring-boot-starter-cache:2.7.5'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.5'
 
 	// aop
 //	implementation 'org.springframework.boot:spring-boot-starter-aop'
