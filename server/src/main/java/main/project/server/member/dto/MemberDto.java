@@ -37,6 +37,29 @@ public class MemberDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
+    public static class Put{
+
+        private String memberId;
+
+        private String memberNickname;
+
+        private String memberEmail;
+
+        private String memberPhone;
+
+        private String memberBirth;
+
+        private String memberNationality;
+
+        private String memberRegisterKind;
+
+    }
+
+    @Setter
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class Response{
 
         private String memberId;
