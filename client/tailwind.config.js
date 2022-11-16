@@ -6,8 +6,9 @@ module.exports = {
   theme: {
     extend: {
       width: {
-        search: '750px',
+        search: '650px',
         selectModal: '340px',
+        datapicker: '240px',
       },
       height: {
         search: '50px',
@@ -19,6 +20,7 @@ module.exports = {
         borderline: '#DDDDDD',
       },
       borderRadius: {
+        base: '15px',
         search: '30px',
       },
       fontSize: {
