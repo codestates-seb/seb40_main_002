@@ -6,7 +6,7 @@ import UserIcon from './Nav/UserIcon';
 const Navbar = () => {
   return (
     <>
-      <div className="flex justify-between items-center mx-14 h-nav">
+      <div className="flex justify-between items-center w-screen h-[80px] px-10 py-5 fixed top-0">
         <Logo />
         <Search />
         <UserIcon />
