@@ -12,7 +12,7 @@ const UserIcon = () => {
   return (
     <>
       <div className="relative">
-        <FaUserCircle size="50" onClick={ModalHandler} />
+        <FaUserCircle size="40" onClick={ModalHandler} />
       </div>
       {isModalOpne && <UserIconModal />}
     </>
