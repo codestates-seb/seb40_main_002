@@ -29,18 +29,20 @@ public class Member extends Auditable {
 
     private String memberPhone;
 
+    @Enumerated(EnumType.STRING)
     private MemberStatus memberStatus;
 
     private String memberBirth;     // LocalDateTime -> String
 
+    @Enumerated(EnumType.STRING)
     private MemberNationality memberNationality;
 
+    @Enumerated(EnumType.STRING)
     private MemberRegisterKind memberRegisterKind;
 
     private String memberImageUrl;
 
     private String memberTags;
-
 
     //    private List<String> memberRoles = new ArrayList<>(); //초기화 해주지 않으면 에러 발생
     @ElementCollection(fetch = FetchType.EAGER)
