@@ -1,7 +1,14 @@
 import React from 'react';
+import Navbar from './components/common/Navbar';
+import Footer from './components/common/Footer';
 
 export default function App() {
-  return <div>Hello World</div>;
+  return (
+    <>
+      <Navbar />
+      <Footer />
+    </>
+  );
 }
 
 // import React from 'react';

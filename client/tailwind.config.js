@@ -16,6 +16,11 @@ module.exports = {
         lg: '18px',
         xl: '26px',
       },
+      borderRadius: {
+        btnRadius: '3px',
+        ImgRadius: '15px',
+        CommentRadius: '10px',
+      },
     },
   },
 
