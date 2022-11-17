@@ -6,7 +6,7 @@ type CarouselProps = {
   images: string[];
 } & typeof defaultProps;
 const defaultProps = {
-  carouselSize: 'w-[300px] h-[300px]',
+  carouselSize: 'w-[1120px] h-[560px]',
   images: [
     'https://a0.muscache.com/im/pictures/337660c5-939a-439b-976f-19219dbc80c7.jpg?im_w=720',
     'https://a0.muscache.com/im/pictures/4f70b681-a792-4530-8c52-f2a8d262942d.jpg?im_w=720',
