@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Comment from './Comment';
 import DetailReview from './DetailReview';
+import EditReply from './EditReply';
+
 export default function Sample() {
   const id = '해당객실주소';
   const detailReviewPage = '유동적으로 설정';
+
   return (
     <>
       {/* myPage 예약 목록 */}
@@ -30,6 +33,13 @@ export default function Sample() {
             comment: '정말 즐거웠어요',
             ProfileImg: 'http://gravatar.com/avatar/5',
             starScore: 5,
+            admin: 'mk',
+            id: 'bye',
+            adminComment: [
+              { replyComment: '안녕하세요', createBy: '2022년 6월' },
+              { replyComment: '안녕하세요', createBy: '2022년 6월' },
+              { replyComment: '안녕하세요', createBy: '2022년 6월' },
+            ],
           }}
         />
       </div>
@@ -44,6 +54,7 @@ export default function Sample() {
             comment: '정말 즐거웠어요',
             ProfileImg: 'http://gravatar.com/avatar/5',
             starScore: 5,
+            id: 'hi',
           }}
         />
       </div>
@@ -67,6 +78,9 @@ export default function Sample() {
             starScore: 5,
           }}
         />
+      </div>
+      <div className="mb-[10px] mt-[10px] ml-[10px]">
+        <EditReply type="user" id={'후기 방 이름'} />
       </div>
     </>
   );

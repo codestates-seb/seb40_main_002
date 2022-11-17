@@ -1,7 +1,12 @@
 import React from 'react';
+import Sample from './components/common/Comment/Sample';
 
 export default function App() {
-  return <div>Hello World</div>;
+  return (
+    <div>
+      <Sample />
+    </div>
+  );
 }
 
 // import React from 'react';
