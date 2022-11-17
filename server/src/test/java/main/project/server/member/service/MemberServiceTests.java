@@ -32,6 +32,7 @@ public class MemberServiceTests {
     @Test
     void registerLogoutTokenTest() {
 
+
         //givne
         Member member = Member.builder().memberId("12341234@kakao").memberRoles(List.of("USER","ADMIN")).build();
         Map<String, Object> claims = new HashMap<>();

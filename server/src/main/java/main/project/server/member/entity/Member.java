@@ -7,8 +7,6 @@ import main.project.server.member.entity.enums.MemberRegisterKind;
 import main.project.server.member.entity.enums.MemberStatus;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Member extends Auditable {
+
 
     @Id
     @Column(unique = true)
@@ -49,4 +48,12 @@ public class Member extends Auditable {
     private List<String> memberRoles;
 
     // 찜 추가 가능
+
+
+    public static Member Member(String memberId) {
+        Member member = new Member();
+        member.setMemberId(memberId);
+        return member;
+    }
+
 }
