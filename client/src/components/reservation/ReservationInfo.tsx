@@ -6,6 +6,10 @@ const ReservationInfo = (reservationData: Iprops['reservationData']) => {
   const price = useRef(
     reservationData.guestHouseDays * reservationData.guestHousePrice
   );
+  const handleToMain = () => {
+    //메인으로 이동
+    console.log('/');
+  };
 
   return (
     <div className="flex justify-center items-center h-screen ">
@@ -40,7 +44,11 @@ const ReservationInfo = (reservationData: Iprops['reservationData']) => {
                 </span>
               </div>
               <div className="flex justify-center mt-[35px]">
-                <CommonBtn text={'예약 확인'} btnSize={'w-[235px] h-[47px]'} />
+                <CommonBtn
+                  text={'예약 확인'}
+                  btnSize={'w-[235px] h-[47px]'}
+                  btnHandler={handleToMain}
+                />
               </div>
             </div>
           </div>
