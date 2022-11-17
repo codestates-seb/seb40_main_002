@@ -51,9 +51,9 @@ public class MemberController {
 
     // 맴버 삭제
     @DeleteMapping("/api/auth/members")
-    public ResponseEntity deleteMember(){
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity deleteMember(Principal principal){
+        memberService.deleteMember(principal.getName());
+        return new ResponseEntity<>(new SingleResponseDto<>("deleted", null),HttpStatus.OK);
     }
 
     @PostMapping("/api/auth/members/logout")
