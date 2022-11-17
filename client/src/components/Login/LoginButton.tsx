@@ -28,7 +28,7 @@ function LoginButton({ socialType }: { socialType: string }) {
   return (
     <button
       onClick={handleLogin}
-      className={`${nowSocial['color']} relative flex items-center justify-center rounded-[3px] border-border-color border-[1px] w-full px-[12px] py-[8px] text-lg`}
+      className={`${nowSocial['color']} relative flex items-center justify-center rounded-[3px] border-border-color border-[1px] w-full px-[12px] py-[8px] text-base m-[4px]`}
     >
       <div className="absolute left-[12px]">{nowSocial['icon']}</div>
       <div>{`${nowSocial['korean']}로 로그인하기`}</div>
