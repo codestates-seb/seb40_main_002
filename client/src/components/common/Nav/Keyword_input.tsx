@@ -8,7 +8,7 @@ interface Props {
 const Keyword_Input = ({ keyword, setkeyword }: Props) => {
   return (
     <>
-      <div className="mx-3">
+      <div className="mr-7 w-[100px]">
         <input
           onChange={(e) => {
             setkeyword(e.target.value);
