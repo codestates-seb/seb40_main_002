@@ -1,12 +1,12 @@
 import Footer from '../components/common/Footer';
 import Navbar from '../components/common/Navbar';
-import TestReservation from '../components/reservation/testReservation';
+import ReservationInfo from '../components/common/ReservationInfo';
 
 const Reservation = () => {
   return (
     <>
       <Navbar />
-      <TestReservation />
+      <ReservationInfo />
       <Footer />
     </>
   );
