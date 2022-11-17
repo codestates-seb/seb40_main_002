@@ -32,15 +32,25 @@ export default function EditReply({ type, id }: Props) {
       if (type === 'user') {
         // 유저가 후기 작성 시 유저에 쌓이게 api 호출 필요
         // starCount 는 별점이기 때문에 유저일때만 보내주면 됩니다.
-        const starCount = star.filter((x) => x === true).length;
-        if (starCount === 0) return alert('별점을 눌러주세요');
-        setStar([...new Array(5).fill(false)]); // 유저가 별점 남긴후에 별점 초기화
-        await axios.post(commentId, {});
+        try {
+          const starCount = star.filter((x) => x === true).length;
+          if (starCount === 0) return alert('별점을 눌러주세요');
+          await axios.post(commentId, {});
+          setStar([...new Array(5).fill(false)]); // 유저가 별점 남긴후에 별점 초기화
+          setReply('');
+        } catch (e) {
+          console.log(e);
+        }
       } else {
         // 관리자가 후기에 대댓글 작성 시 해당 대댓글로 보내줘야함
         console.log(type);
         console.log(message);
-        await axios.post(commentId, {});
+        try {
+          await axios.post(commentId, {});
+          setReply('');
+        } catch (e) {
+          console.log(e);
+        }
       }
     } else {
       alert('메세지를 입력하세요');
