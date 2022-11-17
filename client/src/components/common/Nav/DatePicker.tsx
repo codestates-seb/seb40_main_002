@@ -6,9 +6,10 @@ const DatePicker1 = () => {
   const [dateRange, setDateRange] = useState([new Date(), null]);
   const [startDate, endDate] = dateRange;
   return (
-    <div className="flex justify-center items-center text-base w-datapicker h-search border-solid border-2 border-point rounded-search">
+    <div className="flex justify-center items-center text-base w-[275px] h-[50px]">
       <DatePicker
-        className="mx-4"
+        className="w-[250px]"
+        dateFormat={'yyyy년 MM월 dd일'}
         placeholderText="날짜를 선택해주세요"
         locale={ko}
         selectsRange={true}
