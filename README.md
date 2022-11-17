@@ -15,7 +15,7 @@
     </tr>
     <tr>
     <td align="center"><a href="https://github.com/JanuaryKim"><img src="https://avatars.githubusercontent.com/u/107736531?v=4" width="100px;" alt=""/><br /><sub><b>김영현</b></sub></a>
-    <td align="center"><a href="https://github.com/NTY-1017"><img src="https://avatars.githubusercontent.com/u/108003862?v=4" width="100px;" alt=""/><br /><sub><b>노태윤</b></sub></a>
+    <td align="center"><a href="https://github.com/NTY-1017"><img src="https://avatars.githubusercontent.com/u/88229250?v=4" width="100px;" alt=""/><br /><sub><b>노태윤</b></sub></a>
     <td align="center"><a href="https://github.com/see1237"><img src="https://avatars.githubusercontent.com/u/105643326?v=4" width="100px;" alt=""/><br /><sub><b>최수혜</b></sub></a>
     </tr>
   </tbody>
