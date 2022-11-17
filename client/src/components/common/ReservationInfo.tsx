@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import CommonBtn from '../common/CommonBtn/CommonBtn';
+import CommonBtn from './CommonBtn/CommonBtn';
 import axios from 'axios';
 type ReservationType = {
   guestHouserName: string;
@@ -11,7 +11,7 @@ type ReservationType = {
 const ReservationInfo = () => {
   const [reservationData, setReservationData] = useState<ReservationType>();
   const [price, setPrice] = useState<number>(10000);
-  //임시로 구현 해 두었습니다 !!
+  //임시로 구현 해 두었습니다
   const getReservationData = async () => {
     setReservationData({
       guestHouserName: '팜파스트호텔 제주',

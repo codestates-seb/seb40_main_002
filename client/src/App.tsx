@@ -7,7 +7,8 @@ import Reservation from './pages/Reservation';
 export default function App() {
   return (
     <>
-      <Reservation></Reservation>
+      <Navbar />
+      <Footer />
     </>
   );
 }
