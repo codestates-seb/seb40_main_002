@@ -5,8 +5,11 @@ import main.project.server.audit.Auditable;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberRegisterKind;
 import main.project.server.member.entity.enums.MemberStatus;
+import main.project.server.review.entity.Review;
+import main.project.server.review.entity.ReviewComment;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +19,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Member extends Auditable {
-
 
     @Id
     @Column(unique = true)
@@ -43,6 +45,7 @@ public class Member extends Auditable {
 
     private String memberTags;
 
+
     //    private List<String> memberRoles = new ArrayList<>(); //초기화 해주지 않으면 에러 발생
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> memberRoles;
@@ -55,5 +58,12 @@ public class Member extends Auditable {
         member.setMemberId(memberId);
         return member;
     }
+
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<ReviewComment> reviewComments = new ArrayList<>();
 
 }
