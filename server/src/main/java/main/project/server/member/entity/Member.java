@@ -5,6 +5,8 @@ import main.project.server.audit.Auditable;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberRegisterKind;
 import main.project.server.member.entity.enums.MemberStatus;
+import main.project.server.review.entity.Review;
+import main.project.server.review.entity.ReviewComment;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -47,4 +49,11 @@ public class Member extends Auditable {
     private List<String> memberRoles;
 
     // 찜 추가 가능
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<ReviewComment> reviewComments = new ArrayList<>();
+
 }
