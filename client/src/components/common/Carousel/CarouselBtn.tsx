@@ -1,7 +1,5 @@
 import React from 'react';
 import CarouselDot from './CarouselDot';
-import arrowLeft from '../../../assets/img/arrowLeft.png';
-import arrowRight from '../../../assets/img/arrowRight.png';
 import { AiOutlineRightCircle, AiOutlineLeftCircle } from 'react-icons/ai';
 
 type CarouselBtnprops = {
