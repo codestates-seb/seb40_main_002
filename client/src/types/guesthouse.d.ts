@@ -5,3 +5,12 @@ export interface Room {
   roomPrice: number;
   roomImage?: string;
 }
+
+export interface GuestHouseShort {
+  imgSrc: string;
+  name: string;
+  price: number;
+  star: number;
+  tags: Array<string>;
+  id: number;
+}
