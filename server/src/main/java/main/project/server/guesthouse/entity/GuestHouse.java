@@ -12,6 +12,7 @@ import main.project.server.guesthouseroom.entity.GuestHouseRoom;
 import main.project.server.guesthousedetails.entity.GuestHouseDetails;
 import main.project.server.guesthouseimage.entity.GuestHouseImage;
 import main.project.server.member.entity.Member;
+import main.project.server.room.entity.Room;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -69,6 +70,9 @@ public class GuestHouse extends Auditable {
 
     @OneToMany(mappedBy = "guestHouse")
     private List<Review> review = new ArrayList<>();
+
+    @OneToMany(mappedBy = "guestHouse")
+    private List<Room> rooms = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private GuestHouseDetails guestHouseDetails;

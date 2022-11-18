@@ -49,3 +49,4 @@ src/main/resources/application-naver.yml
 
 ### images ###
 imagesdir
+images/
