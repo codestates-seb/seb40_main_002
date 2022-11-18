@@ -31,13 +31,11 @@ import java.util.List;
 public class RoomController {
 
     // principal.getName(); 룸이 속하는 숙소가 post하는 member 소유의 숙소id가 맞는지 확인할 것
-    // guestHouse 연결
+    // guestHouse 연결 .검사
 
     private final RoomService roomService;
 
     private final RoomMapper mapper;
-
-    private final MemberService memberService;
 
     private final RoomRepository roomRepository;
 
@@ -46,14 +44,14 @@ public class RoomController {
                                    @RequestPart("image") MultipartFile roomImageFile,
                                    @PathVariable("guest-house-id") long guestHouseId,
                                    Principal principal) throws IOException {
-        Room room = mapper.roomPostToRoom(roomPost);
 
-//        room.setGuestHouse(GuestHouse.builder().guestHouseId(guestHouseId).build());
+
+        Room room = mapper.roomPostToRoom(roomPost);
 
         roomService.saveFile(roomImageFile);
         room.setRoomImageUrl(roomService.findFileUrl(roomImageFile));
 
-        roomService.createRoom(room);
+        roomService.createRoom(room, guestHouseId, principal);
 
         return new ResponseEntity<>(new SingleResponseDto<>("created", null), HttpStatus.CREATED);
     }
@@ -62,14 +60,15 @@ public class RoomController {
     public ResponseEntity putRoom(@RequestPart("request") RoomDto.Put roomPut,
                                   @RequestPart("image") MultipartFile roomImageFile,
                                   @PathVariable("guest-house-id") long guestHouseId,
-                                  @PathVariable("room-id") long roomId) throws IOException {
+                                  @PathVariable("room-id") long roomId,
+                                  Principal principal) throws IOException {
         roomPut.setRoomId(roomId);
         Room room = mapper.roomPutToRoom(roomPut);
 
         roomService.saveFile(roomImageFile);
         room.setRoomImageUrl(roomService.findFileUrl(roomImageFile));
 
-        roomService.updateRoom(room);
+        roomService.updateRoom(room, guestHouseId, principal);
 
         return new ResponseEntity<>(new SingleResponseDto<>("modified", null), HttpStatus.OK);
     }
@@ -79,22 +78,8 @@ public class RoomController {
     public ResponseEntity deleteRoom(@PathVariable("guest-house-id") long guestHouseId,
                                      @PathVariable("room-id") long roomId,
                                      Principal principal) {
-        roomService.deleteRoom(roomId);
+        roomService.deleteRoom(roomId, guestHouseId, principal);
         return new ResponseEntity<>(new SingleResponseDto<>("deleted", null), HttpStatus.OK);
     }
 
-//    @GetMapping
-//    public ResponseEntity getRooms(@PathVariable("guest-house-id") long guestHouseId,
-//                                   @Positive @RequestParam int page,
-//                                   @Positive @RequestParam int size) {
-//        // guestHouse 찾아서
-//
-//        PageRequest pageRequest = PageRequest.of(page, size);
-//        Page<Room> pageRooms = roomRepository.findByGuestHouse(guestHouse, pageRequest);
-//        List<Room> rooms = pageRooms.getContent();
-//
-//        return new ResponseEntity<>(
-//                new SingleResponseDto<>("ok",mapper.roomsToRoomResponses(rooms)),
-//                HttpStatus.OK);
-//    }
 }

@@ -3,7 +3,7 @@ package main.project.server.guesthouse.dto;
 import lombok.*;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 import main.project.server.guesthousedetails.dto.GuestHouseDetailsDto;
-import main.project.server.guesthouseroom.dto.GuestHouseRoomDto;
+import main.project.server.room.dto.RoomDto;
 
 import java.util.List;
 
@@ -110,7 +110,7 @@ public class GuestHouseDto {
 
         private String guestHouseInfo;
 
-        private List<GuestHouseRoomDto.Response> guestHouseRoom;
+        private List<RoomDto.Response> rooms;
 
         private String createdAt;
 

@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class RoomReservationDto {
@@ -16,11 +17,31 @@ public class RoomReservationDto {
     @Builder
     public static class Post {
 
-//        private Long roomId;
-
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDateTime roomReservationStart;
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDateTime roomReservationEnd;
+        @DateTimeFormat(pattern = "yyyy-mm-dd")
+        private LocalDate roomReservationStart;
+        @DateTimeFormat(pattern = "yyyy-mm-dd")
+        private LocalDate roomReservationEnd;
     }
+
+
+    @Setter
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class Response {
+
+        private String guestHouseName;
+
+        private String roomName;
+
+        private String roomImageUrl;
+
+        @DateTimeFormat(pattern = "yyyy-mm-dd")
+        private LocalDate roomReservationStart;
+        @DateTimeFormat(pattern = "yyyy-mm-dd")
+        private LocalDate roomReservationEnd;
+
+    }
+
 }

@@ -5,8 +5,10 @@ import main.project.server.audit.Auditable;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.room.entity.enums.RoomStatus;
 import main.project.server.room.service.RoomService;
+import main.project.server.roomreservation.entity.RoomReservation;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -34,7 +36,23 @@ public class Room extends Auditable {
 
     private int roomCapacity;
 
+    @Enumerated(EnumType.STRING)
     private RoomStatus roomStatus;
 
-//    private Long guestHouseId;
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    private List<RoomReservation> roomReservations = new ArrayList<>();
+
+    public static Room Room(Long roomId) {
+        Room room = new Room();
+        room.setRoomId(roomId);
+        return room;
+    }
+
+    public void addGuestHouse(GuestHouse guestHouse) {
+        this.guestHouse = guestHouse;
+        if (!this.guestHouse.getRooms().contains(this)) {
+            this.guestHouse.getRooms().add(this);
+        }
+    }
+
 }

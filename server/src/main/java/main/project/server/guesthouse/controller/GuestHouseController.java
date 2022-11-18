@@ -10,6 +10,7 @@ import main.project.server.guesthouse.service.GuestHouseService;
 import main.project.server.guesthousedetails.dto.GuestHouseDetailsDto;
 import main.project.server.guesthousedetails.entity.GuestHouseDetails;
 import main.project.server.guesthousedetails.mapper.GuestHouseDetailsMapper;
+import main.project.server.room.service.RoomService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.io.IOException;
 import java.security.Principal;
 
@@ -27,6 +29,8 @@ public class GuestHouseController {
     private final GuestHouseService guestHouseService;
     private final GuestHouseMapper guestHouseMapper;
     private final GuestHouseDetailsMapper guestHouseDetailsMapper;
+
+    private final RoomService roomService;
 
 
     @PostMapping(value = "/api/auth/guesthouse", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
@@ -81,11 +85,15 @@ public class GuestHouseController {
 
     @GetMapping("/api/auth/guesthouse/{guesthouse-id}")
     public ResponseEntity getGuestHouse(Principal principal,
-                                        @PathVariable("guesthouse-id") Long guestHouseId){
+                                        @PathVariable("guesthouse-id") Long guestHouseId,
+                                        @Positive @RequestParam int roomPage,
+                                        @Positive @RequestParam int roomSize) {
 
         GuestHouse guestHouse = guestHouseService.findGuestHouse(guestHouseId);
 
-        GuestHouseDto.SingleGuestHouseResponse singleGuestHouseResponse = guestHouseMapper.guestHouseToSingleGuestHouseResponse(guestHouse, guestHouseDetailsMapper);
+        GuestHouseDto.SingleGuestHouseResponse singleGuestHouseResponse =
+                guestHouseMapper.guestHouseToSingleGuestHouseResponse(guestHouse, guestHouseDetailsMapper, roomService, roomPage - 1, roomSize);
+
 
         SingleResponseDto<GuestHouseDto.SingleGuestHouseResponse> singleResponseDto = new SingleResponseDto<>("find",singleGuestHouseResponse);
         return new ResponseEntity(singleResponseDto, HttpStatus.OK);

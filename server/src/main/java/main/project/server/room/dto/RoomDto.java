@@ -2,8 +2,6 @@ package main.project.server.room.dto;
 
 
 import lombok.*;
-import main.project.server.guesthouse.entity.GuestHouse;
-import main.project.server.room.entity.enums.RoomStatus;
 
 public class RoomDto {
 
@@ -13,8 +11,6 @@ public class RoomDto {
     @AllArgsConstructor
     @Builder
     public static class Post {
-
-//        private long guestHouseId;
 
         private String roomName;
 
@@ -57,8 +53,6 @@ public class RoomDto {
         private String roomInfo;
 
         private int roomCapacity;
-
-        private RoomStatus roomStatus;
 
     }
 }
