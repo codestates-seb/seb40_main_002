@@ -4,9 +4,13 @@ import main.project.server.room.dto.RoomDto;
 import main.project.server.room.entity.Room;
 import org.mapstruct.Mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Mapper(componentModel = "spring")
 public interface RoomMapper {
     Room roomPostToRoom(RoomDto.Post roomPostDto);
     Room roomPutToRoom(RoomDto.Put roomPutDto);
-    RoomDto.Response roomToRoomResponse(Room room);
+
+    List<RoomDto.Response> roomsToRoomResponses(List<Room> rooms);
 }

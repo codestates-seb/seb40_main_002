@@ -2,10 +2,12 @@ package main.project.server.room.dto;
 
 
 import lombok.*;
+import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.room.entity.enums.RoomStatus;
 
 public class RoomDto {
 
+    @Setter
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
@@ -16,13 +18,13 @@ public class RoomDto {
 
         private String roomName;
 
-        private int price;
+        private int roomPrice;
 
         private String roomInfo;
 
         private int roomCapacity;
     }
-
+    @Setter
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
@@ -33,20 +35,22 @@ public class RoomDto {
 
         private String roomName;
 
-        private int price;
+        private int roomPrice;
 
         private String roomInfo;
 
         private int roomCapacity;
     }
 
+    @Getter
+    @Builder
     public static class Response {
 
         private long roomId;
 
         private String roomName;
 
-        private int price;
+        private int roomPrice;
 
         private String roomImageUrl;
 
@@ -55,5 +59,6 @@ public class RoomDto {
         private int roomCapacity;
 
         private RoomStatus roomStatus;
+
     }
 }

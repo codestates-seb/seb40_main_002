@@ -2,6 +2,7 @@ package main.project.server.room.entity;
 
 import lombok.*;
 import main.project.server.audit.Auditable;
+import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.room.entity.enums.RoomStatus;
 import main.project.server.room.service.RoomService;
 
@@ -19,9 +20,13 @@ public class Room extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roomId;
 
+    @ManyToOne
+    @JoinColumn(name = "GUEST_HOUSE_ID")
+    private GuestHouse guestHouse;
+
     private String roomName;
 
-    private int price;
+    private int roomPrice;
 
     private String roomImageUrl;
 

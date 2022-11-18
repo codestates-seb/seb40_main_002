@@ -7,6 +7,7 @@ import main.project.server.member.entity.enums.MemberRegisterKind;
 import main.project.server.member.entity.enums.MemberStatus;
 import main.project.server.review.entity.Review;
 import main.project.server.review.entity.ReviewComment;
+import main.project.server.roomreservation.entity.RoomReservation;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -44,6 +45,9 @@ public class Member extends Auditable {
     private String memberImageUrl;
 
     private String memberTags;
+
+    @OneToMany(mappedBy = "member")
+    private List<RoomReservation> roomReservations = new ArrayList<>();
 
 
     //    private List<String> memberRoles = new ArrayList<>(); //초기화 해주지 않으면 에러 발생

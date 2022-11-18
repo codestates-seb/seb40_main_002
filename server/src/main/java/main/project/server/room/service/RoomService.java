@@ -5,9 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import main.project.server.room.entity.Room;
 import main.project.server.room.entity.enums.RoomStatus;
 import main.project.server.room.repository.RoomRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,17 +31,9 @@ public class RoomService {
     }
 
     public Room updateRoom(Room room) {
-        Room findRoom = findVerifiedRoom(room.getRoomId());
-//        findRoom.set
-        findRoom.setPrice(room.getPrice());
-        findRoom.setRoomImageUrl(room.getRoomImageUrl());
+        // 기존에 저장되어있던 파일 삭제 기능 추가할 것
 
-        return roomRepository.save(findRoom);
-    }
-
-    public Page<Room> findRooms(int page, int size) {
-        return roomRepository.findAll(PageRequest.of(page, size,
-                Sort.by("roomId").descending()));
+        return roomRepository.save(room);
     }
 
     public Room deleteRoom(Long roomId) {
