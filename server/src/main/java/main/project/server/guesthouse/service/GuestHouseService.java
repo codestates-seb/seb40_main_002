@@ -38,7 +38,8 @@ public class GuestHouseService {
         //entity 저장
         GuestHouse savedGuestHouse = repository.save(guestHouse);
 
-        if(guestHouseImages != null)
+        //파일이 없을 경우에 대한 더 적절한 처리가 필요
+        if(guestHouseImages != null && guestHouseImages.length != 0 && !guestHouseImages[0].getOriginalFilename().equals(""))
         {
             //이미지 저장
             List<String> imageUrls = saveFiles(guestHouseImages, savedGuestHouse.getGuestHouseId());
@@ -72,6 +73,9 @@ public class GuestHouseService {
             guestHouse.setGuestHouseImage(urlListToGuestHouseImageList(guestHouse, imageUrls));
         }
 
+        //GuestHouseDetails가 새롭게 생성되지 않도록, DB에서 가져온 GuestHouseDetails의 id를 세팅
+        guestHouse.getGuestHouseDetails().setGuestHouseDetailsId(existsGuestHouse.getGuestHouseDetails().getGuestHouseDetailsId());
+
         //entity 저장
         repository.save(guestHouse);
 
@@ -94,7 +98,7 @@ public class GuestHouseService {
 
     private List<String> saveFiles(MultipartFile[] images, Long guestHouseId) throws IOException {
 
-        String uploadDir = "imagesdir/guesthouseimages/" + guestHouseId; //저장 디렉토리 경로
+        String uploadDir = guestHouseImageDir + guestHouseId; //저장 디렉토리 경로
 //        Long currentTimeMillis = System.currentTimeMillis();//현재 시간 밀리세컨드로
 
         List<String> imageUrl = new ArrayList<>();
@@ -110,8 +114,6 @@ public class GuestHouseService {
     }
 
     private List<String> deleteAllGuestHouseImageByGuestHouse(List<String> imageUrl, Long guestHouseId) throws IOException {
-
-        String uploadDir = "imagesdir/guesthouseimages/" + guestHouseId; //저장 디렉토리 경로
 
         for (String url : imageUrl) {
             FileUtil.deleteFile(url);
