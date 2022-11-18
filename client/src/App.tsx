@@ -1,12 +1,13 @@
 import React from 'react';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
+import GuestHouseDetail from './pages/GusetHouseDetail';
+import Carousel from './components/common/Carousel/Carousel';
 
 export default function App() {
   return (
     <>
-      <Navbar />
-      <Footer />
+      <GuestHouseDetail></GuestHouseDetail>
     </>
   );
 }
