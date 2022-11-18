@@ -9,7 +9,6 @@ import main.project.server.review.entity.Review;
 import main.project.server.review.entity.ReviewComment;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,12 +30,15 @@ public class Member extends Auditable {
 
     private String memberPhone;
 
+    @Enumerated(EnumType.STRING)
     private MemberStatus memberStatus;
 
     private String memberBirth;     // LocalDateTime -> String
 
+    @Enumerated(EnumType.STRING)
     private MemberNationality memberNationality;
 
+    @Enumerated(EnumType.STRING)
     private MemberRegisterKind memberRegisterKind;
 
     private String memberImageUrl;
@@ -49,6 +51,14 @@ public class Member extends Auditable {
     private List<String> memberRoles;
 
     // 찜 추가 가능
+
+
+    public static Member Member(String memberId) {
+        Member member = new Member();
+        member.setMemberId(memberId);
+        return member;
+    }
+
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();

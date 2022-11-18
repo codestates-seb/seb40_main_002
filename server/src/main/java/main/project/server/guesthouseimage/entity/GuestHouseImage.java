@@ -1,9 +1,8 @@
-package main.project.server.review.entity;
+package main.project.server.guesthouseimage.entity;
 
 import lombok.*;
 import main.project.server.audit.Auditable;
 import main.project.server.guesthouse.entity.GuestHouse;
-import main.project.server.member.entity.Member;
 
 import javax.persistence.*;
 
@@ -13,26 +12,17 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Review extends Auditable {
+public class GuestHouseImage extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reviewId;
+    private Long guestHouseImageId;
 
     @ManyToOne
     @JoinColumn(name = "GUEST_HOUSE_ID")
     private GuestHouse guestHouse;
 
-    private String comment;
+    private String guestHouseImageUrl;
 
-    @ManyToOne
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
-
-    private float star;
-
-    @OneToOne(mappedBy = "review")
-    @JoinColumn
-    private ReviewComment reviewComment;
 
 }
