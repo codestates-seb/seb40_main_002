@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import CommonBtn from './CommonBtn/CommonBtn';
+import CommonBtn from '../common/CommonBtn/CommonBtn';
 import axios from 'axios';
 type ReservationType = {
   guestHouserName: string;
