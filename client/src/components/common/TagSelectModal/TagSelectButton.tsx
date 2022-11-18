@@ -15,7 +15,7 @@ const testTags = [
   '태그7',
 ];
 
-export const TagSelectModal = () => {
+export const TagSelectButton = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModalHandler = () => {
