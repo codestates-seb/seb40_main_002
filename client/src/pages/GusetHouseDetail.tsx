@@ -1,17 +1,12 @@
-import Carousel from '../components/common/Carousel/Carousel';
-import DetailReview from '../components/common/Comment/DetailReview';
-import CommonBtn from '../components/common/CommonBtn/CommonBtn';
-import Heart from '../components/common/Heart';
-import RatedStar from '../components/common/RatedStar';
 import RoomInfo from '../components/common/RoomInfo/RoomInfo';
-import Tag from '../components/common/Tag';
 import GhDetailComment from '../components/GhDetail/GhDetailComment';
 import GhInfo from '../components/GhDetail/GhInfo';
 import GhReservation from '../components/GhDetail/GhReservation';
-import MapContainer from '../components/KakaoMap';
-
+import GhLocation from '../components/GhDetail/GhLocation';
 const GuestHouseDetail = () => {
   const tags = ['안녕', '안녕', '안녕', '안녕'];
+  const latitude = 33.450701;
+  const longitude = 126.570667;
   const rooms = [
     {
       room: {
@@ -99,15 +94,10 @@ const GuestHouseDetail = () => {
         </div>
         <GhReservation rooms={rooms}></GhReservation>
         <GhDetailComment reviewComment={reviewComment}></GhDetailComment>
-        <div>
-          <div>호스팅 지역</div>
-          <div>
-            <MapContainer
-              latitude={33.450701}
-              longitude={126.570667}
-            ></MapContainer>
-          </div>
-          <div>제주특별자치도 제주시 첨단로 242</div>
+        <GhLocation latitude={latitude} longitude={longitude}></GhLocation>
+        <div className="flex w-full  mt-[20px]">
+          <div className="w-6/12  ">숙소 편의시설</div>
+          <div className="w-6/12">문의하기</div>
         </div>
       </div>
     </div>

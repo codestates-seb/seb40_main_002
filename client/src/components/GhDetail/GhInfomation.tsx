@@ -6,7 +6,7 @@ import Carousel from '../common/Carousel/Carousel';
 type Props = {
   tags: string[];
 };
-const GhInfo = ({ tags }: Props) => {
+const GhInfomation = ({ tags }: Props) => {
   return (
     <>
       <div className="">정우게스트하우스</div>
@@ -38,4 +38,4 @@ const GhInfo = ({ tags }: Props) => {
   );
 };
 
-export default GhInfo;
+export default GhInfomation;
