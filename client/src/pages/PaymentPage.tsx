@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import CommonBtn from '../components/common/CommonBtn/CommonBtn';
 
 import PaymentLeft from '../components/paymentPage/PaymentLeft';
 import PaymentRight from '../components/paymentPage/PaymentRight';
@@ -18,13 +19,22 @@ export default function PaymentPage() {
     ghname: '팜파스호텔 제주',
     payMoney: 30000,
     url: 'http://gravatar.com/avatar/1',
+    reply: ['정말 재밌어요', '행복했어요'],
+    ratedScore: 4,
   };
 
   const [ghData, setGhdata] = useState<Props>({
     date: [],
     ghname: null,
     payMoney: null,
+    url: null,
+    reply: null,
+    ratedScore: null,
+    filterDate: [],
+    totalMoney: null,
   });
+
+  const [paymentRole, setPaymentRole] = useState<string>('카카오페이');
 
   useEffect(() => {
     // api 요청을 적어주세용 로직 수정 필요
@@ -34,21 +44,46 @@ export default function PaymentPage() {
 
     if (ghData.ghname && ghData.date.length > 0) {
       const data = dateCheck([...ghData.date]);
-      setGhdata(() => {
-        return { ...ghData, date: [...data] };
+      setGhdata((prev) => {
+        return {
+          ...prev,
+          filterDate: [...data],
+          totalMoney: Number(ghData.filterDate[0]) * Number(ghData.payMoney),
+        };
       });
     }
   }, [ghData.ghname]);
+  const reservationHandler = () => {
+    if (paymentRole === '현금결제') return alert('준비 중입니다.');
 
+    // api로 예약 데이터를 전송해야함
+    const reservationData = {
+      ...ghData,
+      paymentRole,
+    };
+    console.log(reservationData);
+  };
   return (
     <div
       className={`flex flex-col w-full justify-center items-center p-[10px] 
-        sm:justify-center sm:items-center`}
+      md:justify-center md:items-center`}
       // 최소 764이상일때 sm들이 실행됨
     >
-      <div className="flex flex-col  w-full sm:flex-row-reverse sm:justify-center sm:items-end">
+      <div className="flex flex-col  w-full md:flex-row md:justify-center md:items-end">
+        <PaymentLeft
+          ghData={ghData}
+          paymentRole={paymentRole}
+          setPaymentRole={setPaymentRole}
+        />
         <PaymentRight ghData={ghData} />
-        <PaymentLeft ghData={ghData} />
+      </div>
+      <div className="w-full justify-center flex">
+        <CommonBtn
+          btnSize="mt-[30px] self-start w-[200px] h-[60px] md:w-[270px] md:h-[55px] md:mt-[70px] "
+          text="계속"
+          btnFs="text-lg"
+          btnHandler={reservationHandler}
+        />
       </div>
     </div>
   );

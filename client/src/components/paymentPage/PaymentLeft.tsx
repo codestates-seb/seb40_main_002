@@ -2,15 +2,20 @@ import React from 'react';
 
 import PaymentContainer from './PaymentContainer';
 import ReservationContainer from './ReservationContainer';
-import { Props } from '../../types/payment';
-import CommonBtn from '../common/CommonBtn/CommonBtn';
+import { PropsMix } from '../../types/payment';
 
-export default function PaymentLeft({ ghData }: { ghData: Props }) {
+export default function PaymentLeft({
+  ghData,
+  paymentRole,
+  setPaymentRole,
+}: PropsMix) {
   return (
-    <div className="flex flex-col w-[100%] justify-center items-center sm:mr-[110px] sm:w-[550px] sm:h-[570px] sm:justify-between">
+    <div className="flex flex-col w-[100%] justify-center items-center md:mr-[110px] md:w-[550px] md:h-[440px] md:justify-end">
       <ReservationContainer ghData={ghData} />
-      <PaymentContainer ghData={ghData} />
-      <CommonBtn btnSize="w-[270px] h-[55px]" text="계속" btnFs="text-lg" />
+      <PaymentContainer
+        paymentRole={paymentRole}
+        setPaymentRole={setPaymentRole}
+      />
     </div>
   );
 }
