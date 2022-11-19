@@ -1,6 +1,8 @@
 package main.project.server.review.service;
 
 import lombok.RequiredArgsConstructor;
+import main.project.server.guesthouse.entity.GuestHouse;
+import main.project.server.guesthouse.service.GuestHouseService;
 import main.project.server.member.entity.Member;
 import main.project.server.member.service.MemberService;
 import main.project.server.review.entity.Review;
@@ -23,12 +25,15 @@ import java.util.Optional;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final MemberService memberService;
+    private final GuestHouseService guestHouseService;
 
 
-    public Review postReview(Review review, Principal principal) {
+    public Review postReview(Review review, Long guestHouseId, Principal principal) {
 
         Member member = memberService.findVerifiedMember(principal.getName());
+        GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(guestHouseId);
         review.setMember(member);
+        review.setGuestHouse(guestHouse);
 
         return reviewRepository.save(review);
     }
@@ -38,19 +43,21 @@ public class ReviewService {
 
         Review review = findVerifiedReview(reviewId);
         Member member = memberService.findVerifiedMember(principal.getName());
+        GuestHouse guestHouse = review.getGuestHouse();
         verifyMemberConfirm(review, principal);
         putReview.setReviewId(reviewId);
         putReview.setMember(member);
+        putReview.setGuestHouse(guestHouse);
 
         return reviewRepository.save(putReview);
     }
 
 
-    public Page<Review> getReviewPage(int page, int size){
+    public Page<Review> getReviewPage(int page, int size, Long guestHouseId){
 
         Pageable pageable = PageRequest.of(page-1, size, Sort.by("reviewId").descending());
 
-        return reviewRepository.findAll(pageable);
+        return reviewRepository.findByGuestHouseGuestHouseId(guestHouseId, pageable);
     }
 
 

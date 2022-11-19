@@ -50,18 +50,6 @@ public class MemberDto {
 
         private String memberNickname;
 
-        private String memberEmail; //사용 X
-
-        private String memberPhone; //사용 X
-
-//        private MemberStatus memberStatus;
-
-        private String memberBirth; //사용 X
-
-        private MemberNationality memberNationality; //사용 X
-
-        private MemberRegisterKind memberRegisterKind; //사용 X
-
         private String[] memberTag;
     }
 
