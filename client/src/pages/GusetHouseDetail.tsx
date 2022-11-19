@@ -3,7 +3,9 @@ import GhDetailComment from '../components/GhDetail/GhDetailComment';
 import GhInfomation from '../components/GhDetail/GhInfomation';
 import GhReservation from '../components/GhDetail/GhReservation';
 import GhLocation from '../components/GhDetail/GhLocation';
+import GhAsk from '../components/GhDetail/GhAsk';
 const GuestHouseDetail = () => {
+  //임시 데이터 입니다
   const tags = ['안녕', '안녕', '안녕', '안녕'];
   const latitude = 33.450701;
   const longitude = 126.570667;
@@ -85,19 +87,19 @@ const GuestHouseDetail = () => {
   return (
     <div className="flex justify-center	items-center xl:p-0 text-xl font-semibold ">
       <div className="flex-row">
-        <GhInfomation tags={tags}></GhInfomation>
+        <GhInfomation tags={tags} />
         <div>
           <div className="my-[20px]">객실정보</div>
           {rooms.map((el, i) => (
-            <RoomInfo {...el} key={i}></RoomInfo>
+            <RoomInfo {...el} key={i} />
           ))}
         </div>
-        <GhReservation rooms={rooms}></GhReservation>
-        <GhDetailComment reviewComment={reviewComment}></GhDetailComment>
-        <GhLocation latitude={latitude} longitude={longitude}></GhLocation>
+        <GhReservation rooms={rooms} />
+        <GhDetailComment reviewComment={reviewComment} />
+        <GhLocation latitude={latitude} longitude={longitude} />
         <div className="flex w-full  mt-[20px]">
           <div className="w-6/12  ">숙소 편의시설</div>
-          <div className="w-6/12">문의하기</div>
+          <GhAsk />
         </div>
       </div>
     </div>
