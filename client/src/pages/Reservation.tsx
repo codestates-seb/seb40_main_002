@@ -1,15 +1,7 @@
-import Footer from '../components/common/Footer';
-import Navbar from '../components/common/Navbar';
-import ReservationInfo from '../components/common/ReservationInfo';
+import ReservationInfo from '../components/ReservationInfo/ReservationInfo';
 
 const Reservation = () => {
-  return (
-    <>
-      <Navbar />
-      <ReservationInfo />
-      <Footer />
-    </>
-  );
+  return <ReservationInfo />;
 };
 
 export default Reservation;
