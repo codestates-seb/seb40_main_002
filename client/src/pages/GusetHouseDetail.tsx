@@ -1,9 +1,14 @@
 import Carousel from '../components/common/Carousel/Carousel';
+import DetailReview from '../components/common/Comment/DetailReview';
+import CommonBtn from '../components/common/CommonBtn/CommonBtn';
 import Heart from '../components/common/Heart';
 import RatedStar from '../components/common/RatedStar';
 import RoomInfo from '../components/common/RoomInfo/RoomInfo';
 import Tag from '../components/common/Tag';
+import GhDetailComment from '../components/GhDetail/GhDetailComment';
+import GhInfo from '../components/GhDetail/GhInfo';
 import GhReservation from '../components/GhDetail/GhReservation';
+import MapContainer from '../components/KakaoMap';
 
 const GuestHouseDetail = () => {
   const tags = ['안녕', '안녕', '안녕', '안녕'];
@@ -18,36 +23,74 @@ const GuestHouseDetail = () => {
           'https://a0.muscache.com/im/pictures/337660c5-939a-439b-976f-19219dbc80c7.jpg?im_w=720',
       },
     },
+    {
+      room: {
+        roomName: 'asd',
+        roomExplain: 'asd',
+        roomPersonnel: 1,
+        roomPrice: 1,
+        roomImage:
+          'https://a0.muscache.com/im/pictures/337660c5-939a-439b-976f-19219dbc80c7.jpg?im_w=720',
+      },
+    },
+    {
+      room: {
+        roomName: 'asd',
+        roomExplain: 'asd',
+        roomPersonnel: 1,
+        roomPrice: 1,
+        roomImage:
+          'https://a0.muscache.com/im/pictures/337660c5-939a-439b-976f-19219dbc80c7.jpg?im_w=720',
+      },
+    },
+  ];
+  const reviewComment = [
+    {
+      reviewComment: {
+        userName: '정우허',
+        createBy: '2022년 6월',
+        comment: '정말 즐거웠어요',
+        ProfileImg: 'http://gravatar.com/avatar/5',
+        starScore: 5,
+        id: 'hi',
+      },
+    },
+    {
+      reviewComment: {
+        userName: '정우허',
+        createBy: '2022년 6월',
+        comment: '정말 즐거웠어요',
+        ProfileImg: 'http://gravatar.com/avatar/5',
+        starScore: 5,
+        id: 'hi',
+      },
+    },
+    {
+      reviewComment: {
+        userName: '정우허',
+        createBy: '2022년 6월',
+        comment: '정말 즐거웠어요',
+        ProfileImg: 'http://gravatar.com/avatar/5',
+        starScore: 5,
+        id: 'hi',
+      },
+    },
+    {
+      reviewComment: {
+        userName: '정우허',
+        createBy: '2022년 6월',
+        comment: '정말 즐거웠어요',
+        ProfileImg: 'http://gravatar.com/avatar/5',
+        starScore: 5,
+        id: 'hi',
+      },
+    },
   ];
 
   return (
     <div className="flex justify-center	items-center xl:p-0 text-xl font-semibold ">
       <div className="flex-row">
-        <div className="">정우게스트하우스</div>
-        <div className=" flex my-[10px] h-[30px] gap-[4px] justify-between">
-          <div className="flex">
-            <RatedStar star={3}></RatedStar>
-            <div className="ml-[20px] flex">
-              {tags.map((el, i) => (
-                <Tag name={el} key={i}></Tag>
-              ))}
-            </div>
-          </div>
-          <div>
-            <Heart id={3}></Heart>
-          </div>
-        </div>
-        <div className="max-w-[1120px] ">
-          <Carousel></Carousel>
-        </div>
-        <div>
-          <div className="my-[20px]">숙소정보</div>
-          <div className="text-lg max-w-[1120px]">
-            우리 정우 게스트하우스는요 편의점 1분거리 버스타고 금방와요 사람들이
-            착해요 고양이가 있어요 우도 선착장 30분 거리 숙소가 이동되요 전용
-            주차장이 있어요 인스타로 서로를 인증해요
-          </div>
-        </div>
+        <GhInfo tags={tags}></GhInfo>
         <div>
           <div className="my-[20px]">객실정보</div>
           {rooms.map((el, i) => (
@@ -55,6 +98,17 @@ const GuestHouseDetail = () => {
           ))}
         </div>
         <GhReservation rooms={rooms}></GhReservation>
+        <GhDetailComment reviewComment={reviewComment}></GhDetailComment>
+        <div>
+          <div>호스팅 지역</div>
+          <div>
+            <MapContainer
+              latitude={33.450701}
+              longitude={126.570667}
+            ></MapContainer>
+          </div>
+          <div>제주특별자치도 제주시 첨단로 242</div>
+        </div>
       </div>
     </div>
   );
