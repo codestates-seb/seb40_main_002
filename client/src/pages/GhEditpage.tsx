@@ -1,6 +1,7 @@
 import React from 'react';
 import FacilitiesContainer from '../components/ghEdit/FacilitiesContainer';
 import GhDescription from '../components/ghEdit/GhDescription';
+import Messenger from '../components/ghEdit/Messenger';
 
 export default function GhEditpage() {
   return (
@@ -8,6 +9,7 @@ export default function GhEditpage() {
       <div className="md:max-w-[1120px] w-full">
         <GhDescription />
         <FacilitiesContainer />
+        <Messenger />
       </div>
     </div>
   );
