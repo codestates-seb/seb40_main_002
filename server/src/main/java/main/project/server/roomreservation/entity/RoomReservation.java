@@ -31,5 +31,6 @@ public class RoomReservation extends Auditable {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime roomReservationEnd;
 
+    @Enumerated(EnumType.STRING)
     private RoomReservationStatus roomReservationStatus;
 }

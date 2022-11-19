@@ -34,6 +34,7 @@ public class Room extends Auditable {
 
     private int roomCapacity;
 
+    @Enumerated(EnumType.STRING)
     private RoomStatus roomStatus;
 
 //    private Long guestHouseId;
