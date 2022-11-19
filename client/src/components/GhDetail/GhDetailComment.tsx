@@ -1,6 +1,5 @@
 import React from 'react';
 import CommonBtn from '../common/CommonBtn/CommonBtn';
-import RatedStar from '../common/RatedStar';
 import DetailReview from '../common/Comment/DetailReview';
 type Props = {
   reviewComment: {
@@ -10,8 +9,6 @@ type Props = {
       comment: string;
       ProfileImg: string;
       starScore: number;
-      admin?: string;
-      id?: string; // 해당 댓글 고유 아이디
     };
   }[];
 };
@@ -23,10 +20,6 @@ const GhDetailComment = ({ reviewComment }: Props) => {
 
   return (
     <div>
-      <div className="flex gap-[10px] mb-[20px] items-center">
-        <RatedStar star={4}></RatedStar>
-        <div className="text-xl ">후기 {reviewComment.length} 개</div>
-      </div>
       <div className="grid grid-cols-2 items-center">
         {reviewComment.map((el, i) => (
           <DetailReview key={i} type={'roomDetail'} {...el}></DetailReview>

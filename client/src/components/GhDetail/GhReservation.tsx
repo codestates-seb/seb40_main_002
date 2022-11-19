@@ -17,10 +17,14 @@ const GhReservation = ({ rooms }: Props) => {
   const [startDay, setStartDay] = useState<string>('2022-11-20');
   const [endDay, setEndDay] = useState<string>('2022-11-21');
   const [participate, setParticipate] = useState<boolean>(false);
+  //파티 참석 여부
   const handleParticipate = () => {
     setParticipate(!participate);
   };
-
+  //예약데이터 리덕스로 관리??
+  const ReservationData = () => {
+    console.log('예약 데이터');
+  };
   return (
     <div>
       <div>숙소 예약</div>
@@ -78,7 +82,10 @@ const GhReservation = ({ rooms }: Props) => {
               </div>
             </div>
             <div className="my-[10px] px-[10px]">
-              <CommonBtn btnSize={'w-full h-[40px]'} />
+              <CommonBtn
+                btnSize={'w-full h-[40px]'}
+                btnHandler={ReservationData}
+              />
             </div>
           </div>
         </div>

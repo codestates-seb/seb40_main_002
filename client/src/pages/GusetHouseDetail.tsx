@@ -4,8 +4,9 @@ import GhInfomation from '../components/GhDetail/GhInfomation';
 import GhReservation from '../components/GhDetail/GhReservation';
 import GhLocation from '../components/GhDetail/GhLocation';
 import GhAsk from '../components/GhDetail/GhAsk';
+import RatedStar from '../components/common/RatedStar';
 const GuestHouseDetail = () => {
-  //임시 데이터 입니다
+  //임시 데이터 입니다 (수정예정)
   const tags = ['안녕', '안녕', '안녕', '안녕'];
   const latitude = 33.450701;
   const longitude = 126.570667;
@@ -95,6 +96,10 @@ const GuestHouseDetail = () => {
           ))}
         </div>
         <GhReservation rooms={rooms} />
+        <div className="flex gap-[10px] mb-[20px] items-center">
+          <RatedStar star={4}></RatedStar>
+          <div className="text-xl ">후기 {reviewComment.length} 개</div>
+        </div>
         <GhDetailComment reviewComment={reviewComment} />
         <GhLocation latitude={latitude} longitude={longitude} />
         <div className="flex w-full  mt-[20px]">

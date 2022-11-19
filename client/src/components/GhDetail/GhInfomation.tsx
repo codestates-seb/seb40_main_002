@@ -7,6 +7,7 @@ type Props = {
   tags: string[];
 };
 const GhInfomation = ({ tags }: Props) => {
+  //api 명세가 정해지면 수정예정입니다!!
   return (
     <>
       <div className="">정우게스트하우스</div>
@@ -14,7 +15,7 @@ const GhInfomation = ({ tags }: Props) => {
         <div className="flex">
           <RatedStar star={3}></RatedStar>
           <div className="ml-[20px] flex">
-            {tags.map((el: any, i: number) => (
+            {tags.map((el: string, i: number) => (
               <Tag name={el} key={i}></Tag>
             ))}
           </div>
