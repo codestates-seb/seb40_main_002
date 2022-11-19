@@ -6,7 +6,6 @@ import main.project.server.guesthouse.dto.GuestHouseDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 import main.project.server.guesthousedetails.mapper.GuestHouseDetailsMapper;
-import main.project.server.guesthouseroom.mapper.GuestHouseRoomMapper;
 import main.project.server.member.entity.Member;
 import org.mapstruct.Mapper;
 

@@ -8,7 +8,6 @@ import main.project.server.city.City;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 
 import main.project.server.review.entity.Review;
-import main.project.server.guesthouseroom.entity.GuestHouseRoom;
 import main.project.server.guesthousedetails.entity.GuestHouseDetails;
 import main.project.server.guesthouseimage.entity.GuestHouseImage;
 import main.project.server.member.entity.Member;
@@ -66,7 +65,7 @@ public class GuestHouse extends Auditable {
     private List<GuestHouseImage> guestHouseImage = new ArrayList<>();
 
     @OneToMany(mappedBy = "guestHouse")
-    private List<GuestHouseRoom> guestHouseRoom = new ArrayList<>();
+    private List<Room> guestHouseRoom = new ArrayList<>();
 
     @OneToMany(mappedBy = "guestHouse")
     private List<Review> review = new ArrayList<>();
