@@ -74,7 +74,7 @@ public class GuestHouseDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class SingleGuestHouseResponse { //숙소 상세 정보시 사용하는 Response
+    public static class response { //숙소 상세 정보시 사용하는 Response
 
         private Long guestHouseId;
 

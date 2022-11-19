@@ -6,10 +6,13 @@ import main.project.server.guesthouse.dto.GuestHouseDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 import main.project.server.guesthousedetails.mapper.GuestHouseDetailsMapper;
+import main.project.server.guesthouseroom.mapper.GuestHouseRoomMapper;
 import main.project.server.member.entity.Member;
 import org.mapstruct.Mapper;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface GuestHouseMapper {
@@ -44,6 +47,36 @@ public interface GuestHouseMapper {
                 .guestHouseTag(createSortedTagString(dto.getGuestHouseTag()))
                 .guestHouseInfo(dto.getGuestHouseInfo())
                 .build();
+    }
+
+    default List<GuestHouseDto.response> guestHouseListToGuestHouseResponse(
+            List<GuestHouse> guestHouseList,
+            GuestHouseDetailsMapper guestHouseDetailsMapper) {
+
+        return guestHouseList.stream().map(guestHouse -> {
+
+            return GuestHouseDto.response.builder()
+                    .guestHouseId(guestHouse.getGuestHouseId())
+                    .guestHouseName(guestHouse.getGuestHouseName())
+                    .memberId(guestHouse.getMember().getMemberId())
+                    .memberNickname(guestHouse.getMember().getMemberNickname())
+                    .memberPhone(guestHouse.getMember().getMemberPhone())
+                    .memberImageUrl(guestHouse.getMember().getMemberImageUrl())
+                    .guestHouseLocation(guestHouse.getGuestHouseLocation())
+                    .guestHouseAddress(guestHouse.getGuestHouseAddress())
+                    .guestHousePhone(guestHouse.getGuestHousePhone())
+                    .guestHouseStatus(guestHouse.getGuestHouseStatus())
+                    .guestHouseDetails(guestHouseDetailsMapper.guestHouseDetailsToGuestHouseDetailsDtoResponse(guestHouse.getGuestHouseDetails()))
+                    .guestHouseStar(guestHouse.getGuestHouseStar())
+                    .guestHouseTag(createSortedTagArray(guestHouse.getGuestHouseTag()))
+                    .guestHouseImage(guestHouse.guestHouseImageListToUrlList())
+                    .guestHouseInfo(guestHouse.getGuestHouseInfo())
+                    .guestHouseRoom(null)
+                    .createdAt(guestHouse.getCreatedAt().toString())
+                    .modifiedAt(guestHouse.getModifiedAt().toString())
+                    .build();
+
+        }).collect(Collectors.toList());
     }
 
 
@@ -86,11 +119,11 @@ public interface GuestHouseMapper {
     }
 
 
-    default GuestHouseDto.SingleGuestHouseResponse guestHouseToSingleGuestHouseResponse(GuestHouse guestHouse, GuestHouseDetailsMapper guestHouseDetailsMapper) {
+    default GuestHouseDto.response guestHouseToSingleGuestHouseResponse(GuestHouse guestHouse, GuestHouseDetailsMapper guestHouseDetailsMapper) {
 
         Member adminMember = guestHouse.getMember();
 
-        return GuestHouseDto.SingleGuestHouseResponse.builder()
+        return GuestHouseDto.response.builder()
                 .guestHouseId(guestHouse.getGuestHouseId())
                 .guestHouseName(guestHouse.getGuestHouseName())
                 .memberId(adminMember.getMemberId())
