@@ -1,6 +1,6 @@
 import RoomInfo from '../components/common/RoomInfo/RoomInfo';
 import GhDetailComment from '../components/GhDetail/GhDetailComment';
-import GhInfo from '../components/GhDetail/GhInfo';
+import GhInfomation from '../components/GhDetail/GhInfomation';
 import GhReservation from '../components/GhDetail/GhReservation';
 import GhLocation from '../components/GhDetail/GhLocation';
 const GuestHouseDetail = () => {
@@ -85,7 +85,7 @@ const GuestHouseDetail = () => {
   return (
     <div className="flex justify-center	items-center xl:p-0 text-xl font-semibold ">
       <div className="flex-row">
-        <GhInfo tags={tags}></GhInfo>
+        <GhInfomation tags={tags}></GhInfomation>
         <div>
           <div className="my-[20px]">객실정보</div>
           {rooms.map((el, i) => (
