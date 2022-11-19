@@ -10,7 +10,7 @@ export default function App() {
       <Navbar />
       <div className="flex mx-auto pt-[80px] w-full min-h-[100%] pb-[60px]">
         <Routes>
-          <Route path="/" element={<PaymentPage />} />
+          <Route path="/paymentPage" element={<PaymentPage />} />
         </Routes>
       </div>
       <Footer />
