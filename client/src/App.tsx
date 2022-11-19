@@ -5,8 +5,8 @@ import Footer from './components/common/Footer';
 export default function App() {
   return (
     <>
-      <Navbar></Navbar>
-      <Footer></Footer>
+      <Navbar />
+      <Footer />
     </>
   );
 }
