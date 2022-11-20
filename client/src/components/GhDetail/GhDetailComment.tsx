@@ -19,13 +19,13 @@ const GhDetailComment = ({ reviewComment }: Props) => {
   };
 
   return (
-    <div>
+    <div className="mb-[20px] border-b-[2px] ">
       <div className="grid grid-cols-2 items-center">
         {reviewComment.map((el, i) => (
           <DetailReview key={i} type={'roomDetail'} {...el} />
         ))}
       </div>
-      <div className="mt-[20px]">
+      <div className="my-[20px]">
         <CommonBtn
           text={`${reviewComment.length}개 후기 모두 보기`}
           btnSize={'w-[210px] h-[40px]'}

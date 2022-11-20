@@ -1,12 +1,20 @@
 import CommonBtn from '../common/CommonBtn/CommonBtn';
-
-const GhAsk = () => {
+interface AskProps {
+  ghName?: string;
+  GhPhone?: string;
+}
+const GhAsk = ({
+  ghName = '정우네 게스트 하우스',
+  GhPhone = '010-1234-5678',
+}: AskProps) => {
   return (
     <div className="w-6/12">
       <div>문의하기</div>
       <div className="flex justify-between items-center mt-[20px]">
-        <div>숙소이름</div>
-        <CommonBtn text={'010-1234-1234'} btnSize={'w-[300px] h-[40px]'} />
+        <div>{ghName}</div>
+        <div className="flex justify-center items-center text-lg bg-point-color text-white rounded-btnRadius w-[200px] h-[40px]">
+          {GhPhone}
+        </div>
       </div>
     </div>
   );
