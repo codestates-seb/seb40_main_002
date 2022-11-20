@@ -29,8 +29,11 @@ import java.util.stream.Collectors;
 @Service
 public class GuestHouseService {
 
-    @Value("${images.guest-house-dir}")
-    private String guestHouseImageDir;
+    @Value("${images.guest-house-path.upload}")
+    private String guestHouseImageUploadPath;
+
+    @Value("${images.guest-house-path.down}")
+    private String guestHouseImageDownDir;
     private final GuestHouseRepository repository;
 
     private final GuestHouseDetailsRepository guestHouseDetailsRepository;
@@ -66,7 +69,7 @@ public class GuestHouseService {
 
         //url만 String으로 매핑
         List<String> urlList = existsGuestHouse.getGuestHouseImage().stream().map(
-                guestHouseImage -> new String(guestHouseImage.getGuestHouseImageUrl())).collect(Collectors.toList());
+                guestHouseImage -> new String(guestHouseImage.getGuestHouseImageUploadUrl())).collect(Collectors.toList());
 
 
         //기존 이미지 파일 삭제, 기존 이미지 데이터 삭제
@@ -127,16 +130,19 @@ public class GuestHouseService {
 
     private List<String> saveFiles(MultipartFile[] images, Long guestHouseId) throws IOException {
 
-        String uploadDir = guestHouseImageDir + guestHouseId; //저장 디렉토리 경로
+        String uploadPath = guestHouseImageUploadPath + guestHouseId; //저장 디렉토리 경로
+        String downPath = guestHouseImageDownDir + guestHouseId; //저장 디렉토리 경로
+
+
 //        Long currentTimeMillis = System.currentTimeMillis();//현재 시간 밀리세컨드로
 
         List<String> imageUrl = new ArrayList<>();
 
         for (MultipartFile multipartFile : images) {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            FileUtil.saveFile(uploadDir, fileName, multipartFile);
+            FileUtil.saveFile(uploadPath, fileName, multipartFile);
 
-            String totalUrl = uploadDir+ "/" + fileName;
+            String totalUrl = downPath+ "/" + fileName;
             imageUrl.add(totalUrl);
         }
         return imageUrl;
@@ -154,7 +160,7 @@ public class GuestHouseService {
     private List<GuestHouseImage> urlListToGuestHouseImageList(GuestHouse guestHouse,List<String> urls) {
 
         return urls.stream().map(url ->
-                GuestHouseImage.builder().guestHouse(guestHouse).guestHouseImageUrl(url).build()).collect(Collectors.toList());
+                GuestHouseImage.builder().guestHouse(guestHouse).guestHouseImageDownUrl(url).build()).collect(Collectors.toList());
     }
 
     /** 게스트 하우스의 소유 멤버와 처리 요청한 멤버가 동일한지 검증  **/

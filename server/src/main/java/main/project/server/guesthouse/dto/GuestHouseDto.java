@@ -2,7 +2,6 @@ package main.project.server.guesthouse.dto;
 
 import lombok.*;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
-import main.project.server.guesthousedetails.dto.GuestHouseDetailsDto;
 import main.project.server.room.dto.RoomDto;
 
 import java.util.List;
@@ -28,8 +27,7 @@ public class GuestHouseDto {
 
         private String guestHousePhone;
 
-        //상태 받지 않음
-
+        private Boolean[] guestHouseDetails;
 
         private String[] guestHouseTag;
 
@@ -52,15 +50,13 @@ public class GuestHouseDto {
 
         private Long cityId;
 
-        //하위 도시 삭제
-
         private String guestHouseLocation;
 
         private String guestHouseAddress;
 
         private String guestHousePhone;
 
-        //상태 받지 않음
+        private Boolean[] guestHouseDetails;
 
         private String[] guestHouseTag;
 
@@ -99,7 +95,7 @@ public class GuestHouseDto {
 
         private GuestHouseStatus guestHouseStatus;
 
-        private GuestHouseDetailsDto.Response guestHouseDetails;
+        private Boolean[] guestHouseDetails;
 
 
         private Float guestHouseStar;

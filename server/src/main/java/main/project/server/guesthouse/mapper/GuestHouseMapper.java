@@ -5,6 +5,7 @@ import main.project.server.city.City;
 import main.project.server.guesthouse.dto.GuestHouseDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
+import main.project.server.guesthousedetails.entity.GuestHouseDetails;
 import main.project.server.guesthousedetails.mapper.GuestHouseDetailsMapper;
 import main.project.server.member.entity.Member;
 import org.mapstruct.Mapper;
@@ -18,7 +19,7 @@ public interface GuestHouseMapper {
 
     default public GuestHouse guestHouseDtoPostToGuestHouse(GuestHouseDto.Post dto, String memberId){
 
-        return GuestHouse.builder()
+        GuestHouse guestHouse = GuestHouse.builder()
                 .guestHouseName(dto.getGuestHouseName())
                 .member(Member.Member(memberId))
                 .city(City.City(dto.getCityId()))
@@ -26,16 +27,21 @@ public interface GuestHouseMapper {
                 .guestHouseAddress(dto.getGuestHouseAddress())
                 .guestHousePhone(dto.getGuestHousePhone())
                 .guestHouseStatus(GuestHouseStatus.OPEN)
+                .guestHouseDetails(booleanArrayToGuestHouseDetails(dto.getGuestHouseDetails()))
                 .guestHouseTag(createSortedTagString(dto.getGuestHouseTag()))
                 .guestHouseInfo(dto.getGuestHouseInfo())
                 .build();
+
+        guestHouse.getGuestHouseDetails().setGuestHouse(guestHouse);
+
+        return guestHouse;
 
     }
 
 
     default public GuestHouse guestHouseDtoPutToGuestHouse(GuestHouseDto.Put dto, String memberId){
 
-        return GuestHouse.builder()
+        GuestHouse guestHouse = GuestHouse.builder()
                 .guestHouseName(dto.getGuestHouseName())
                 .member(Member.Member(memberId))
                 .city(City.City(dto.getCityId()))
@@ -43,9 +49,14 @@ public interface GuestHouseMapper {
                 .guestHouseAddress(dto.getGuestHouseAddress())
                 .guestHousePhone(dto.getGuestHousePhone())
                 .guestHouseStatus(GuestHouseStatus.OPEN)
+                .guestHouseDetails(booleanArrayToGuestHouseDetails(dto.getGuestHouseDetails()))
                 .guestHouseTag(createSortedTagString(dto.getGuestHouseTag()))
                 .guestHouseInfo(dto.getGuestHouseInfo())
                 .build();
+
+        guestHouse.getGuestHouseDetails().setGuestHouse(guestHouse);
+
+        return guestHouse;
     }
 
     default List<GuestHouseDto.response> guestHouseListToGuestHouseResponse(
@@ -65,7 +76,7 @@ public interface GuestHouseMapper {
                     .guestHouseAddress(guestHouse.getGuestHouseAddress())
                     .guestHousePhone(guestHouse.getGuestHousePhone())
                     .guestHouseStatus(guestHouse.getGuestHouseStatus())
-                    .guestHouseDetails(guestHouseDetailsMapper.guestHouseDetailsToGuestHouseDetailsDtoResponse(guestHouse.getGuestHouseDetails()))
+                    .guestHouseDetails(guestHouseDetailsToBooleanArray(guestHouse.getGuestHouseDetails()))
                     .guestHouseStar(guestHouse.getGuestHouseStar())
                     .guestHouseTag(createSortedTagArray(guestHouse.getGuestHouseTag()))
                     .guestHouseImage(guestHouse.guestHouseImageListToUrlList())
@@ -76,6 +87,22 @@ public interface GuestHouseMapper {
                     .build();
 
         }).collect(Collectors.toList());
+    }
+
+    default GuestHouseDetails booleanArrayToGuestHouseDetails(Boolean[] option) {
+
+        return GuestHouseDetails.builder()
+                .guestHouseParty(option[0])
+                .guestHouseKitchen(option[1])
+                .guestHouseWashing(option[2])
+                .guestHouseOcean(option[3])
+                .guestHouseTask(option[4])
+                .guestHouseEssential(option[5])
+                .guestHouseWifi(option[6])
+                .guestHouseBoard(option[7])
+                .guestHouseCook(option[8])
+                .guestHouseParking(option[9])
+                .build();
     }
 
 
@@ -133,7 +160,7 @@ public interface GuestHouseMapper {
                 .guestHouseAddress(guestHouse.getGuestHouseAddress())
                 .guestHousePhone(guestHouse.getGuestHousePhone())
                 .guestHouseStatus(guestHouse.getGuestHouseStatus())
-                .guestHouseDetails(guestHouseDetailsMapper.guestHouseDetailsToGuestHouseDetailsDtoResponse(guestHouse.getGuestHouseDetails()))
+                .guestHouseDetails(guestHouseDetailsToBooleanArray(guestHouse.getGuestHouseDetails()))
                 .guestHouseStar(guestHouse.getGuestHouseStar())
                 .guestHouseTag(createSortedTagArray(guestHouse.getGuestHouseTag()))
                 .guestHouseImage(guestHouse.guestHouseImageListToUrlList()) //리스트, 처리 필요
@@ -143,6 +170,22 @@ public interface GuestHouseMapper {
                 .modifiedAt(guestHouse.getModifiedAt().toString())
                 .build();
     }
+
+    default Boolean[] guestHouseDetailsToBooleanArray(GuestHouseDetails guestHouseDetails) {
+
+        return new Boolean[]{
+                guestHouseDetails.getGuestHouseParty(),
+                guestHouseDetails.getGuestHouseWashing(),
+                guestHouseDetails.getGuestHouseOcean(),
+                guestHouseDetails.getGuestHouseTask(),
+                guestHouseDetails.getGuestHouseEssential(),
+                guestHouseDetails.getGuestHouseWifi(),
+                guestHouseDetails.getGuestHouseBoard(),
+                guestHouseDetails.getGuestHouseCook(),
+                guestHouseDetails.getGuestHouseParking()
+        };
+    }
+
 
 
 }

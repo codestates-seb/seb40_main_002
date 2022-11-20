@@ -36,18 +36,13 @@ public class GuestHouseController {
     /** 업주가 게스트하우스를 등록하는 api **/
     @PostMapping(value = "/api/auth/guesthouse", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity postGuestHouse(@RequestPart(value = "guest-house-dto", required = false) @Valid GuestHouseDto.Post guestHouseDto,
-                                         @RequestPart(value = "guest-house-details-dto", required = false) @Valid GuestHouseDetailsDto.Post guestHouseDetailsDto,
                                          @RequestPart(required = false) MultipartFile[] guestHouseImage,
                                          Principal principal
                                          ) throws IOException {
 
         String memberId = principal.getName();
 
-        GuestHouseDetails guestHouseDetails = guestHouseDetailsMapper.guestHouseDetailsDtoPostToGuestHouseDetails(guestHouseDetailsDto);
         GuestHouse guestHouse = guestHouseMapper.guestHouseDtoPostToGuestHouse(guestHouseDto, memberId);
-        guestHouseDetails.setGuestHouse(guestHouse);
-        guestHouse.setGuestHouseDetails(guestHouseDetails);
-
         GuestHouse createdGuestHouse = guestHouseService.createGuestHouse(guestHouse, guestHouseImage);
 
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("created",null);
@@ -58,7 +53,6 @@ public class GuestHouseController {
     /** 업주가 자신의 게스트하우스의 내용을 업데이트 하는 api **/
     @PutMapping(value = "/api/auth/guesthouse/{guesthouse-id}")
     public ResponseEntity putGuestHouse(@RequestPart(value = "guest-house-dto", required = false) @Valid GuestHouseDto.Put guestHouseDto,
-                                        @RequestPart(value = "guest-house-details-dto", required = false) @Valid GuestHouseDetailsDto.Put guestHouseDetailsDto,
                                         @RequestPart(required = false) MultipartFile[] guestHouseImage,
                                         Principal principal,
                                         @PathVariable("guesthouse-id") Long guestHouseId
@@ -66,10 +60,8 @@ public class GuestHouseController {
 
         String memberId = principal.getName();
 
-        GuestHouseDetails guestHouseDetails = guestHouseDetailsMapper.guestHouseDetailsDtoPutToGuestHouseDetails(guestHouseDetailsDto);
+
         GuestHouse guestHouse = guestHouseMapper.guestHouseDtoPutToGuestHouse(guestHouseDto, memberId);
-        guestHouseDetails.setGuestHouse(guestHouse);
-        guestHouse.setGuestHouseDetails(guestHouseDetails);
 
         guestHouse.setGuestHouseId(guestHouseId);
         guestHouseService.modifyGuestHouse(guestHouse, guestHouseImage, memberId);
@@ -99,6 +91,7 @@ public class GuestHouseController {
                                            @PathVariable("guesthouse-id") @Positive Long guestHouseId) {
 
         String memberId = principal.getName();
+
 
         guestHouseService.changeGuestHouseStatusAsClosed(guestHouseId, memberId);
 

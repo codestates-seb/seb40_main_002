@@ -22,7 +22,8 @@ public class GuestHouseImage extends Auditable {
     @JoinColumn(name = "GUEST_HOUSE_ID")
     private GuestHouse guestHouse;
 
-    private String guestHouseImageUrl;
+    private String guestHouseImageDownUrl;
+    private String guestHouseImageUploadUrl;
 
 
 }
