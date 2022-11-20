@@ -9,7 +9,7 @@ const GhLocation = ({ latitude, longitude, address = '제주도' }: Porps) => {
     <div className="border-b-[1px] border-[black]">
       <div>호스팅 지역</div>
       <div>
-        <MapContainer latitude={latitude} longitude={longitude}></MapContainer>
+        <MapContainer latitude={latitude} longitude={longitude} />
       </div>
       <div className="mb-10px">{address}</div>
     </div>

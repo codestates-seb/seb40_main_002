@@ -6,10 +6,7 @@ const GhAsk = () => {
       <div>문의하기</div>
       <div className="flex justify-between items-center mt-[20px]">
         <div>숙소이름</div>
-        <CommonBtn
-          text={'010-1234-1234'}
-          btnSize={'w-[300px] h-[40px]'}
-        ></CommonBtn>
+        <CommonBtn text={'010-1234-1234'} btnSize={'w-[300px] h-[40px]'} />
       </div>
     </div>
   );

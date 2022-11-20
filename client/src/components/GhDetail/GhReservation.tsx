@@ -26,13 +26,10 @@ const GhReservation = ({ rooms }: Props) => {
     console.log('예약 데이터');
   };
   return (
-    <div>
+    <div className="border-b-[2px] ">
       <div>숙소 예약</div>
-      <div className="flex justify-between items-center">
-        <ReservationPiker
-          setStartDay={setStartDay}
-          setEndDay={setEndDay}
-        ></ReservationPiker>
+      <div className="flex justify-between items-center mb-[20px]">
+        <ReservationPiker setStartDay={setStartDay} setEndDay={setEndDay} />
         <div className="w-[370px]  border-[1px] border-black rounded-xl drop-shadow-2xl bg-white text-lg">
           <div className="text-center">
             <form className="mt-[10px]">

@@ -6,9 +6,9 @@ type CarouselProps = {
 } & typeof defaultProps;
 const defaultProps = {
   images: [
-    'https://a0.muscache.com/im/pictures/337660c5-939a-439b-976f-19219dbc80c7.jpg?im_w=720',
-    'https://a0.muscache.com/im/pictures/4f70b681-a792-4530-8c52-f2a8d262942d.jpg?im_w=720',
-    'https://a0.muscache.com/im/pictures/d7c1f140-c33a-4d68-aaf8-b7b8d7292b11.jpg?im_w=720',
+    'https://a0.muscache.com/im/pictures/miso/Hosting-713898202877836679/original/7b073b89-ffea-47f9-a8b3-e6ccd96f0f16.jpeg?im_w=1200',
+    'https://a0.muscache.com/im/pictures/miso/Hosting-715759276214360126/original/6c04ca59-6e3b-4cf3-8cb2-210b01e4f09a.jpeg?im_w=720',
+    'https://a0.muscache.com/im/pictures/miso/Hosting-715759276214360126/original/ad0118a8-db37-4027-a038-d4ec8e77ca5b.jpeg?im_w=1200',
   ],
 };
 const Carousel = ({ images }: CarouselProps) => {
