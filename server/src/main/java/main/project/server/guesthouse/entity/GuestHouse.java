@@ -8,11 +8,11 @@ import main.project.server.city.City;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 
 import main.project.server.review.entity.Review;
-import main.project.server.guesthouseroom.entity.GuestHouseRoom;
 import main.project.server.guesthousedetails.entity.GuestHouseDetails;
 import main.project.server.guesthouseimage.entity.GuestHouseImage;
 import main.project.server.member.entity.Member;
 import main.project.server.room.entity.Room;
+import main.project.server.roomreservation.entity.RoomReservation;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -66,13 +66,13 @@ public class GuestHouse extends Auditable {
     private List<GuestHouseImage> guestHouseImage = new ArrayList<>();
 
     @OneToMany(mappedBy = "guestHouse")
-    private List<GuestHouseRoom> guestHouseRoom = new ArrayList<>();
-
-    @OneToMany(mappedBy = "guestHouse")
     private List<Review> review = new ArrayList<>();
 
-    @OneToMany(mappedBy = "guestHouse")
+    @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.ALL)
+    private List<RoomReservation> roomReservations = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private GuestHouseDetails guestHouseDetails;

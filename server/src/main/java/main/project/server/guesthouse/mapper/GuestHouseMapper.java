@@ -7,9 +7,12 @@ import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 import main.project.server.guesthousedetails.mapper.GuestHouseDetailsMapper;
 import main.project.server.member.entity.Member;
+import main.project.server.room.entity.Room;
+import main.project.server.room.service.RoomService;
 import org.mapstruct.Mapper;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface GuestHouseMapper {
@@ -86,7 +89,10 @@ public interface GuestHouseMapper {
     }
 
 
-    default GuestHouseDto.SingleGuestHouseResponse guestHouseToSingleGuestHouseResponse(GuestHouse guestHouse, GuestHouseDetailsMapper guestHouseDetailsMapper) {
+    default GuestHouseDto.SingleGuestHouseResponse guestHouseToSingleGuestHouseResponse(GuestHouse guestHouse,
+                                                                                        GuestHouseDetailsMapper guestHouseDetailsMapper,
+                                                                                        RoomService roomService,
+                                                                                        int roomPage, int roomSize) {
 
         Member adminMember = guestHouse.getMember();
 
@@ -106,7 +112,7 @@ public interface GuestHouseMapper {
                 .guestHouseTag(createSortedTagArray(guestHouse.getGuestHouseTag()))
                 .guestHouseImage(guestHouse.guestHouseImageListToUrlList()) //리스트, 처리 필요
                 .guestHouseInfo(guestHouse.getGuestHouseInfo())
-                .guestHouseRoom(null) //리스트, 처리 필요
+                .rooms(roomService.getRoomResponses(guestHouse.getGuestHouseId(), roomPage, roomSize)) //리스트, 처리 필요
                 .createdAt(guestHouse.getCreatedAt().toString())
                 .modifiedAt(guestHouse.getModifiedAt().toString())
                 .build();
