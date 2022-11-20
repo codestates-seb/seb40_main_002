@@ -2,6 +2,7 @@ package main.project.server.roomreservation.entity;
 
 import lombok.*;
 import main.project.server.audit.Auditable;
+import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.member.entity.Member;
 import main.project.server.roomreservation.entity.enums.RoomReservationStatus;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,6 +20,10 @@ public class RoomReservation extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roomReservationId;
+
+    @ManyToOne
+    @JoinColumn(name = "GUEST_HOUSE_ID")
+    private GuestHouse guestHouse;
 
     private Long roomId;
 
