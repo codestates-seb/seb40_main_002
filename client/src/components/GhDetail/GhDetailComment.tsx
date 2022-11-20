@@ -25,11 +25,13 @@ const GhDetailComment = ({ reviewComment }: Props) => {
           <DetailReview key={i} type={'roomDetail'} {...el} />
         ))}
       </div>
-      <CommonBtn
-        text={`${reviewComment.length}개 후기 모두 보기`}
-        btnSize={'w-[210px] h-[50px]'}
-        btnHandler={commentHandler}
-      />
+      <div className="mt-[20px]">
+        <CommonBtn
+          text={`${reviewComment.length}개 후기 모두 보기`}
+          btnSize={'w-[210px] h-[40px]'}
+          btnHandler={commentHandler}
+        />
+      </div>
     </div>
   );
 };

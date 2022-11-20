@@ -7,11 +7,11 @@ interface Porps {
 const GhLocation = ({ latitude, longitude, address = '제주도' }: Porps) => {
   return (
     <div className="border-b-[1px] border-[black]">
-      <div>호스팅 지역</div>
+      <div className="mb-[20px]">호스팅 지역</div>
       <div>
         <MapContainer latitude={latitude} longitude={longitude} />
       </div>
-      <div className="mb-10px">{address}</div>
+      <div className="my-[20px]">{address}</div>
     </div>
   );
 };

@@ -9,7 +9,7 @@ interface Props {
 const ReservationPiker = ({ setStartDay, setEndDay }: Props) => {
   const [dateRange, setDateRange] = useState([new Date(), null]);
   const [startDate, endDate] = dateRange;
-  const dateToString = (date: any) => {
+  const dateToString = (date: Date) => {
     return (
       date?.getFullYear() +
       '-' +
@@ -19,7 +19,7 @@ const ReservationPiker = ({ setStartDay, setEndDay }: Props) => {
     );
   };
   useEffect(() => {
-    setStartDay(dateToString(startDate));
+    if (startDate) setStartDay(dateToString(startDate));
     if (endDate) {
       setEndDay(dateToString(endDate));
     } else return;

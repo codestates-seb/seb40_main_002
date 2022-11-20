@@ -80,6 +80,7 @@ const GhReservation = ({ rooms }: Props) => {
             </div>
             <div className="my-[10px] px-[10px]">
               <CommonBtn
+                text="예약 하기"
                 btnSize={'w-full h-[40px]'}
                 btnHandler={ReservationData}
               />

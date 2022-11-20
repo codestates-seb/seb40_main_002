@@ -13,19 +13,19 @@ const GhInfomation = ({ tags }: Props) => {
       <div className="">정우게스트하우스</div>
       <div className=" flex my-[10px] h-[30px] gap-[4px] justify-between">
         <div className="flex">
-          <RatedStar star={3}></RatedStar>
+          <RatedStar star={3} />
           <div className="ml-[20px] flex">
             {tags.map((el: string, i: number) => (
-              <Tag name={el} key={i}></Tag>
+              <Tag name={el} key={i} />
             ))}
           </div>
         </div>
         <div>
-          <Heart id={3}></Heart>
+          <Heart id={3} />
         </div>
       </div>
       <div className="max-w-[1120px] ">
-        <Carousel></Carousel>
+        <Carousel />
       </div>
       <div className="border-b-[2px]">
         <div className="mt-[40px] mb-[20px] ">숙소정보</div>

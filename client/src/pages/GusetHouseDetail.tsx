@@ -13,8 +13,8 @@ const GuestHouseDetail = () => {
   const rooms = [
     {
       room: {
-        roomName: 'asd',
-        roomExplain: 'asd',
+        roomName: '남자 도미토리 6인실',
+        roomExplain: '남자 도미토리 6인실 입니다',
         roomPersonnel: 1,
         roomPrice: 1,
         roomImage:
