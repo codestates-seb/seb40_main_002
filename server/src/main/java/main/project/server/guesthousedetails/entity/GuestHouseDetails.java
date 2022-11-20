@@ -18,7 +18,7 @@ public class GuestHouseDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long guestHouseDetailsId;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "GUEST_HOUSE_ID")
     private GuestHouse guestHouse;
 
