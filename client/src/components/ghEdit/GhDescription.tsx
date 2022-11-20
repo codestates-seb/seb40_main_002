@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 export default function GhDescription() {
+  // 로직 위로 올리기
   const [description, setDescription] = useState('');
   return (
     <div>
