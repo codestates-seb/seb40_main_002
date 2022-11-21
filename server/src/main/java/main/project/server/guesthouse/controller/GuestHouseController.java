@@ -1,9 +1,11 @@
 package main.project.server.guesthouse.controller;
 
 import lombok.RequiredArgsConstructor;
+import main.project.server.annotation.QueryStringArgResolver;
 import main.project.server.dto.MultiResponseDto;
 import main.project.server.dto.SingleResponseDto;
 import main.project.server.guesthouse.dto.GuestHouseDto;
+import main.project.server.guesthouse.dto.QueryStringDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.mapper.GuestHouseMapper;
 import main.project.server.guesthouse.service.GuestHouseService;
@@ -131,5 +133,15 @@ public class GuestHouseController {
         MultiResponseDto<GuestHouseDto.response> multiResponseDto = new MultiResponseDto<>("success",guestHouseResponseList,guestHousePage);
 
         return new ResponseEntity(multiResponseDto, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/api/guesthouse")
+    public ResponseEntity getGuestHouseMainFilter(Principal principal,
+                                                  @QueryStringArgResolver QueryStringDto.MainFilterDto mainFilterDto) {
+
+        guestHouseService.findGuestHouseByFilter(mainFilterDto);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
