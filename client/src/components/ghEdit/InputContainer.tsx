@@ -5,7 +5,7 @@ type InputContainer = {
   value: string | number;
   name: string;
   placeholder: string;
-
+  type: string;
   changeFunc: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -15,6 +15,7 @@ export default function InputContainer({
   changeFunc,
   name,
   placeholder,
+  type,
 }: InputContainer) {
   return (
     <div className="flex flex-col items-start md:flex-row">
@@ -23,8 +24,8 @@ export default function InputContainer({
       </label>
 
       <input
-        type="text"
-        className="border border-border-color mb-3 md:mb-0 rounded-btnRadius w-8/12 pl-[5px] focus:border-border-color focus : border focus:outline-none"
+        type={type}
+        className="border border-border-color mb-3 md:mb-0 rounded-btnRadius w-full md:w-8/12 pl-[5px] focus:border-border-color focus : border focus:outline-none"
         id={name}
         name={name}
         value={value}
