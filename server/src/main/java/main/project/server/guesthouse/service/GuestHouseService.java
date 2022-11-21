@@ -3,6 +3,7 @@ package main.project.server.guesthouse.service;
 import lombok.RequiredArgsConstructor;
 import main.project.server.exception.BusinessException;
 import main.project.server.exception.ExceptionCode;
+import main.project.server.guesthouse.dto.QueryStringDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 import main.project.server.guesthousedetails.repository.GuestHouseDetailsRepository;
@@ -21,7 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -29,7 +32,7 @@ import java.util.stream.Collectors;
 @Service
 public class GuestHouseService {
 
-    @Value("${images.guest-house-path}")
+    @Value("${images.upload-path}")
     private String guestHouseImagePath;
 
     private final GuestHouseRepository repository;
@@ -112,6 +115,29 @@ public class GuestHouseService {
     public Page<GuestHouse> findGuestHouseByMember(String memberId, Integer page, Integer size) {
 
         return repository.findGuestHouseByMember(Member.Member(memberId), PageRequest.of(page-1, size));
+    }
+
+
+    public Page<GuestHouse> findGuestHouseByFilter(QueryStringDto.MainFilterDto queryStringDto) {
+
+        Arrays.sort(queryStringDto.getTag());
+
+
+        StringBuilder likeStringBuilder = new StringBuilder("%");
+        String[] tag = queryStringDto.getTag();
+        for (int i = 0; i < tag.length; i++) {
+            likeStringBuilder.append(tag[i] + "%");
+        }
+
+
+        Page<GuestHouse> guestHouseByFilter = repository.findGuestHouseByFilter(
+                queryStringDto.getCityId(),
+                likeStringBuilder.toString(),
+                queryStringDto.getStart(),
+                queryStringDto.getEnd(),
+                PageRequest.of(queryStringDto.getPage() - 1, queryStringDto.getSize()));
+
+        return null;
     }
 
 
