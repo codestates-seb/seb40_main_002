@@ -17,8 +17,6 @@ public class RoomDto {
         private int roomPrice;
 
         private String roomInfo;
-
-        private int roomCapacity;
     }
     @Setter
     @Getter
@@ -27,15 +25,13 @@ public class RoomDto {
     @Builder
     public static class Put {
 
-        private long roomId;
+        private Long roomId;
 
         private String roomName;
 
         private int roomPrice;
 
         private String roomInfo;
-
-        private int roomCapacity;
     }
 
     @Getter
@@ -51,8 +47,5 @@ public class RoomDto {
         private String roomImageUrl;
 
         private String roomInfo;
-
-        private int roomCapacity;
-
     }
 }

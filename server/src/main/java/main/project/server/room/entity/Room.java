@@ -4,7 +4,6 @@ import lombok.*;
 import main.project.server.audit.Auditable;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.room.entity.enums.RoomStatus;
-import main.project.server.room.service.RoomService;
 import main.project.server.roomreservation.entity.RoomReservation;
 
 import javax.persistence.*;
@@ -33,8 +32,6 @@ public class Room extends Auditable {
     private String roomImageUrl;
 
     private String roomInfo;
-
-    private int roomCapacity;
 
     @Enumerated(EnumType.STRING)
     private RoomStatus roomStatus;
