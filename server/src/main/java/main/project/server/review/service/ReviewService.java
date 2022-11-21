@@ -34,7 +34,7 @@ public class ReviewService {
         review.setMember(member);
         review.setGuestHouse(guestHouse);
         Review result = reviewRepository.save(review);
-        guestHouse.setGuestHouseStar(averageStar());    // 리뷰 평점 평균 저장
+        guestHouse.setGuestHouseStar(averageStar(guestHouseId));    // 리뷰 평점 평균 저장
 
         return result;
     }
@@ -50,7 +50,7 @@ public class ReviewService {
         putReview.setMember(member);
         putReview.setGuestHouse(guestHouse);
         Review result = reviewRepository.save(review);
-        guestHouse.setGuestHouseStar(averageStar());
+        guestHouse.setGuestHouseStar(averageStar(guestHouse.getGuestHouseId()));
 
         return result;
     }
@@ -90,8 +90,8 @@ public class ReviewService {
     }
 
     // 리뷰 평균 계산
-    public Float averageStar(){
-        List<Review> reviews = reviewRepository.findAll();
+    public Float averageStar(Long guestHouseId){
+        List<Review> reviews = reviewRepository.findByGuestHouseGuestHouseId(guestHouseId);
         float average = (float) reviews.stream().mapToDouble(s -> s.getStar()).average().orElse(Double.NaN);
         return average;
     }
