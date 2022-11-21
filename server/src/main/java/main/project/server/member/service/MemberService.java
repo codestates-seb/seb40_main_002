@@ -9,7 +9,6 @@ import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberStatus;
 import main.project.server.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -117,10 +115,10 @@ public class MemberService {
         String originalName = memberImageFile.getOriginalFilename();
         String fileName = originalName.substring(originalName.lastIndexOf("."));
         String folderPath = makeFolder(memberId);
-        String saveName = uploadPath + File.separator + folderPath + File.separator + memberId + fileName;
+        String saveName = uploadPath + folderPath + File.separator + memberId + fileName;
 
         // 경로 정의
-        Path path = Paths.get(saveName);
+        Path path = Paths.get(saveName).toAbsolutePath();
         try {
             memberImageFile.transferTo(path);
         } catch (IOException e) {

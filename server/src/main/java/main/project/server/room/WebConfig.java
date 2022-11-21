@@ -1,7 +1,6 @@
 package main.project.server.room;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -15,5 +14,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:///Users/suhye/Desktop/seb40_main_002/server/images/");
 
 
+//                .addResourceLocations("file:///Users/nty/project/main-project/server/images/");
     }
 }
