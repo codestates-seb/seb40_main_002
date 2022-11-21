@@ -5,12 +5,12 @@ import { ko } from 'date-fns/esm/locale';
 interface SetDayProps {
   setStartDay: Dispatch<SetStateAction<string>>;
   setEndDay: Dispatch<SetStateAction<string>>;
-  setdayCal: Dispatch<SetStateAction<number>>;
+  setDayCal: Dispatch<SetStateAction<number>>;
 }
 const ReservationPiker = ({
   setStartDay,
   setEndDay,
-  setdayCal,
+  setDayCal,
 }: SetDayProps) => {
   const [dateRange, setDateRange] = useState([new Date(), null]);
   const [startDate, endDate] = dateRange;
@@ -27,7 +27,7 @@ const ReservationPiker = ({
     if (startDate) setStartDay(dateToString(startDate));
     if (endDate && startDate) {
       setEndDay(dateToString(endDate));
-      setdayCal(
+      setDayCal(
         (Number(new Date(endDate)) - Number(new Date(startDate))) / 86400000
       );
     } else return;

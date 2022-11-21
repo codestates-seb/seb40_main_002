@@ -18,7 +18,7 @@ const GhReservation = ({ rooms }: RoomsProps) => {
   const [endDay, setEndDay] = useState<string>('2022-11-21');
   const [participate, setParticipate] = useState<boolean>(false);
   const [ghPrice, setGhPrice] = useState<number>(0);
-  const [dayCal, setdayCal] = useState<number>(0);
+  const [dayCal, setDayCal] = useState<number>(0);
 
   //파티 참석 여부
   const handleParticipate = () => {
@@ -43,7 +43,7 @@ const GhReservation = ({ rooms }: RoomsProps) => {
       <div className="md:flex md:justify-between flex-row justify-center items-center mb-[20px]">
         <div className="text-center">
           <ReservationPiker
-            setdayCal={setdayCal}
+            setDayCal={setDayCal}
             setStartDay={setStartDay}
             setEndDay={setEndDay}
           />
