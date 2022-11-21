@@ -28,6 +28,7 @@ public interface RoomReservationMapper {
                 .roomImageUrl(room.getRoomImageUrl())
                 .roomReservationStart(roomReservation.getRoomReservationStart())
                 .roomReservationEnd(roomReservation.getRoomReservationEnd())
+                .roomReservationStatus(roomReservation.getRoomReservationStatus())
                 .build();
         return response;
     }
@@ -45,6 +46,7 @@ public interface RoomReservationMapper {
                             .roomImageUrl(reservation.getRoom().getRoomImageUrl())
                             .roomReservationStart(reservation.getRoomReservationStart())
                             .roomReservationEnd(reservation.getRoomReservationEnd())
+                            .roomReservationStatus(reservation.getRoomReservationStatus())
                             .build())
                     .collect(Collectors.toList());
     }

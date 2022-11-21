@@ -71,7 +71,7 @@ public class GuestHouse extends Auditable {
     @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.ALL)
     private List<Room> rooms = new ArrayList<>();
 
-    @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.PERSIST)
     private List<RoomReservation> roomReservations = new ArrayList<>();
 
     @OneToOne(mappedBy = "guestHouse",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
