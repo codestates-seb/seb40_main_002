@@ -31,7 +31,7 @@ public class Review extends Auditable {
 
     private Float star;
 
-    @OneToOne(mappedBy = "review", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "review", cascade = CascadeType.REMOVE)
     @JoinColumn
     private ReviewComment reviewComment;
 

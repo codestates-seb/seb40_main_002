@@ -67,7 +67,7 @@ public class GuestHouse extends Auditable {
     @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.ALL)
     private List<GuestHouseImage> guestHouseImage = new ArrayList<>();
 
-    @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.REMOVE)
     private List<Review> review = new ArrayList<>();
 
     @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.ALL)
