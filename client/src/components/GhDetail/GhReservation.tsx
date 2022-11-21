@@ -20,10 +20,6 @@ const GhReservation = ({ rooms }: RoomsProps) => {
   const [ghPrice, setGhPrice] = useState<number>(0);
   const [dayCal, setdayCal] = useState<number>(0);
 
-  //가격, 날짜 계산
-  // const dayCal =
-  //   (Number(new Date(endDay)) - Number(new Date(startDay))) / 86400000;
-
   //파티 참석 여부
   const handleParticipate = () => {
     setParticipate(!participate);

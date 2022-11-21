@@ -45,7 +45,7 @@ const GuestHouseDetail = () => {
       },
     },
   ];
-  const qwe = [false, true, true, false, true, false, true, true, true];
+  const facilities = [false, true, true, false, true, false, true, true, true];
   return (
     <div className="flex justify-center	items-center xl:p-0 text-xl font-semibold ">
       <div className="flex-row">
@@ -59,7 +59,7 @@ const GuestHouseDetail = () => {
         <GhDetailComment reviewComment={reviewComment} />
         <GhLocation latitude={latitude} longitude={longitude} />
         <div className="flex w-full  mt-[20px]">
-          <GhDetailFacilities GhFacilities={qwe}></GhDetailFacilities>
+          <GhDetailFacilities GhFacilities={facilities}></GhDetailFacilities>
           <GhAsk />
         </div>
       </div>
