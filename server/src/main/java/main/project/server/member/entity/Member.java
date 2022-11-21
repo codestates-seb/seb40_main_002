@@ -64,10 +64,10 @@ public class Member extends Auditable {
     }
 
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<ReviewComment> reviewComments = new ArrayList<>();
 
 }
