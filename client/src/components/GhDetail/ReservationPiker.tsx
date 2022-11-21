@@ -5,8 +5,13 @@ import { ko } from 'date-fns/esm/locale';
 interface SetDayProps {
   setStartDay: Dispatch<SetStateAction<string>>;
   setEndDay: Dispatch<SetStateAction<string>>;
+  setdayCal: Dispatch<SetStateAction<number>>;
 }
-const ReservationPiker = ({ setStartDay, setEndDay }: SetDayProps) => {
+const ReservationPiker = ({
+  setStartDay,
+  setEndDay,
+  setdayCal,
+}: SetDayProps) => {
   const [dateRange, setDateRange] = useState([new Date(), null]);
   const [startDate, endDate] = dateRange;
   const dateToString = (date: Date) => {
@@ -20,8 +25,11 @@ const ReservationPiker = ({ setStartDay, setEndDay }: SetDayProps) => {
   };
   useEffect(() => {
     if (startDate) setStartDay(dateToString(startDate));
-    if (endDate) {
+    if (endDate && startDate) {
       setEndDay(dateToString(endDate));
+      setdayCal(
+        (Number(new Date(endDate)) - Number(new Date(startDate))) / 86400000
+      );
     } else return;
   }, [dateRange]);
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ReservationPiker from './ReservationPiker';
 import CommonBtn from '../common/CommonBtn/CommonBtn';
 interface RoomsProps {
@@ -18,10 +18,12 @@ const GhReservation = ({ rooms }: RoomsProps) => {
   const [endDay, setEndDay] = useState<string>('2022-11-21');
   const [participate, setParticipate] = useState<boolean>(false);
   const [ghPrice, setGhPrice] = useState<number>(0);
+  const [dayCal, setdayCal] = useState<number>(0);
+
   //가격, 날짜 계산
-  const dayCal =
-    (Number(new Date(endDay)) - Number(new Date(startDay))) / 86400000;
-  const price = dayCal * ghPrice;
+  // const dayCal =
+  //   (Number(new Date(endDay)) - Number(new Date(startDay))) / 86400000;
+
   //파티 참석 여부
   const handleParticipate = () => {
     setParticipate(!participate);
@@ -44,7 +46,11 @@ const GhReservation = ({ rooms }: RoomsProps) => {
       <div>숙소 예약</div>
       <div className="md:flex md:justify-between flex-row justify-center items-center mb-[20px]">
         <div className="text-center">
-          <ReservationPiker setStartDay={setStartDay} setEndDay={setEndDay} />
+          <ReservationPiker
+            setdayCal={setdayCal}
+            setStartDay={setStartDay}
+            setEndDay={setEndDay}
+          />
         </div>
         <div className=" md:w-[370px] md:m-[0] m-[40px] border-[1px] border-black rounded-xl drop-shadow-2xl bg-white text-lg">
           <form className="mt-[10px] text-center">
@@ -93,7 +99,10 @@ const GhReservation = ({ rooms }: RoomsProps) => {
                 {`₩${ghPrice}`} x {dayCal < 0 ? 0 : dayCal}박
               </div>
               <div className="pr-[20px]">
-                ₩{price < 0 ? 0 : price.toLocaleString()}
+                ₩
+                {ghPrice * dayCal <= 0
+                  ? 0
+                  : (ghPrice * dayCal).toLocaleString()}
               </div>
             </div>
           </div>

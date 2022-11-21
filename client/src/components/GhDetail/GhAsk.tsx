@@ -1,4 +1,3 @@
-import CommonBtn from '../common/CommonBtn/CommonBtn';
 interface AskProps {
   ghName?: string;
   GhPhone?: string;
