@@ -31,6 +31,7 @@ public class ReviewDto {
         private Long reviewId;
         private String comment;
         private float star;
+        private ReviewCommentDto.Response reviewComment;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private MemberDto.Response user;

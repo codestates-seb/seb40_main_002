@@ -30,9 +30,11 @@ public class ReviewController {
 
     // 리뷰 생성
     @PostMapping("/api/auth/guesthouse/{guesthouse-id}/review")
-    public ResponseEntity postReview(@RequestBody ReviewDto.Post post, Principal principal) {
+    public ResponseEntity postReview(@RequestBody ReviewDto.Post post,
+                                     @PathVariable("guesthouse-id") @Positive Long guestHouseId,
+                                     Principal principal) {
 
-        Review review = reviewService.postReview(reviewMapper.reviewPostDtoToReview(post), principal);
+        Review review = reviewService.postReview(reviewMapper.reviewPostDtoToReview(post), guestHouseId, principal);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>("created", reviewMapper.reviewToReviewResponseDto(review)),
@@ -40,7 +42,7 @@ public class ReviewController {
     }
 
     // 리뷰 수정
-    @PutMapping("/api/auth/guesthouse/{guesthouse-id}/review/{review-id}")
+    @PutMapping("/api/auth/guesthouse/review/{review-id}")
     public ResponseEntity patchReview(@RequestBody ReviewDto.Put put,
                                       @PathVariable("review-id") @Positive Long reviewId,
                                       Principal principal) {
@@ -53,10 +55,11 @@ public class ReviewController {
     }
 
     // 리뷰 조회(페이지)
-    @GetMapping("/api/auth/guesthouse/{guesthouse-id}/review")
+    @GetMapping("/api/guesthouse/{guesthouse-id}/review")
     public ResponseEntity getReview(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                    @RequestParam(name = "size", required = false, defaultValue = "15") int size){
-        Page<Review> reviewPage = reviewService.getReviewPage(page, size);
+                                    @RequestParam(name = "size", required = false, defaultValue = "15") int size,
+                                    @PathVariable("guesthouse-id") @Positive Long guestHouseId){
+        Page<Review> reviewPage = reviewService.getReviewPage(page, size, guestHouseId);
         PageInfo pageInfo = PageInfo.of(reviewPage);
         List<ReviewDto.Response> reviewResponseDto = reviewMapper.reviewToReviewResponseDto(reviewPage.getContent());
 
@@ -65,8 +68,9 @@ public class ReviewController {
     }
 
     // 리뷰 삭제
-    @DeleteMapping("/api/auth/guesthouse/{guesthouse-id}/review/{review-id}")
-    public ResponseEntity deleteReview(@PathVariable("review-id") @Positive Long reviewId, Principal principal) {
+    @DeleteMapping("/api/auth/guesthouse/review/{review-id}")
+    public ResponseEntity deleteReview(@PathVariable("review-id") @Positive Long reviewId,
+                                       Principal principal) {
 
         reviewService.deleteReview(reviewId, principal);
 
