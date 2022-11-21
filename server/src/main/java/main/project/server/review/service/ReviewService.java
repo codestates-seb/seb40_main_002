@@ -15,9 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,8 +33,10 @@ public class ReviewService {
         GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(guestHouseId);
         review.setMember(member);
         review.setGuestHouse(guestHouse);
+        Review result = reviewRepository.save(review);
+        guestHouse.setGuestHouseStar(averageStar());    // 리뷰 평점 평균 저장
 
-        return reviewRepository.save(review);
+        return result;
     }
 
 
@@ -48,8 +49,10 @@ public class ReviewService {
         putReview.setReviewId(reviewId);
         putReview.setMember(member);
         putReview.setGuestHouse(guestHouse);
+        Review result = reviewRepository.save(review);
+        guestHouse.setGuestHouseStar(averageStar());
 
-        return reviewRepository.save(putReview);
+        return result;
     }
 
 
@@ -84,5 +87,12 @@ public class ReviewService {
         if(!Objects.equals(principal.getName(), review.getMember().getMemberId())) {
             // throw
         }
+    }
+
+    // 리뷰 평균 계산
+    public Float averageStar(){
+        List<Review> reviews = reviewRepository.findAll();
+        float average = (float) reviews.stream().mapToDouble(s -> s.getStar()).average().orElse(Double.NaN);
+        return average;
     }
 }

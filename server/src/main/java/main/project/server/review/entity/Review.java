@@ -29,7 +29,7 @@ public class Review extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    private float star;
+    private Float star;
 
     @OneToOne(mappedBy = "review", cascade = CascadeType.ALL)
     @JoinColumn
