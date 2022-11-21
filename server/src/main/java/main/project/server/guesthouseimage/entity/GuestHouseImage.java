@@ -24,5 +24,4 @@ public class GuestHouseImage extends Auditable {
 
     private String guestHouseImageUrl;
 
-
 }

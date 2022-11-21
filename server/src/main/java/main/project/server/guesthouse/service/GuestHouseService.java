@@ -4,12 +4,16 @@ import lombok.RequiredArgsConstructor;
 import main.project.server.exception.BusinessException;
 import main.project.server.exception.ExceptionCode;
 import main.project.server.guesthouse.entity.GuestHouse;
+import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 import main.project.server.guesthousedetails.repository.GuestHouseDetailsRepository;
 import main.project.server.guesthouseimage.entity.GuestHouseImage;
 import main.project.server.guesthouse.repository.GuestHouseRepository;
 import main.project.server.guesthouseimage.repository.GuestHouseImageRepository;
+import main.project.server.member.entity.Member;
 import main.project.server.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,14 +29,16 @@ import java.util.stream.Collectors;
 @Service
 public class GuestHouseService {
 
-    @Value("${images.guest-house-dir}")
-    private String guestHouseImageDir;
+    @Value("${images.guest-house-path}")
+    private String guestHouseImagePath;
+
     private final GuestHouseRepository repository;
 
     private final GuestHouseDetailsRepository guestHouseDetailsRepository;
 
     private final GuestHouseImageRepository guestHouseImageRepository;
 
+    //-- 컨트롤러와 직접 연결된 메소드
     public GuestHouse createGuestHouse(GuestHouse guestHouse, MultipartFile[] guestHouseImages) throws IOException {
 
         //entity 저장
@@ -50,10 +56,14 @@ public class GuestHouseService {
     }
 
 
-    public GuestHouse modifyGuestHouse(GuestHouse guestHouse, MultipartFile[] guestHouseImages) throws IOException {
+    public GuestHouse modifyGuestHouse(GuestHouse guestHouse, MultipartFile[] guestHouseImages, String memberId) throws IOException {
+
 
         //기존 게스트하우스 데이터 가져오기
         GuestHouse existsGuestHouse = verifyExistsGuestHouse(guestHouse.getGuestHouseId());
+
+        //수정할 수 있는 멤버가 맞는지 검증
+        verifyOwnGuestHouse(existsGuestHouse, memberId);
 
         //url만 String으로 매핑
         List<String> urlList = existsGuestHouse.getGuestHouseImage().stream().map(
@@ -89,6 +99,26 @@ public class GuestHouseService {
     }
 
 
+    public void changeGuestHouseStatusAsClosed(Long guestHouseId, String memberId) {
+
+        GuestHouse guestHouse = verifyExistsGuestHouse(guestHouseId);
+
+        //삭제 처리를 할 수 있는 멤버가 맞는지 검증
+        verifyOwnGuestHouse(guestHouse, memberId);
+
+        guestHouse.setGuestHouseStatus(GuestHouseStatus.CLOSED);
+    }
+
+    public Page<GuestHouse> findGuestHouseByMember(String memberId, Integer page, Integer size) {
+
+        return repository.findGuestHouseByMember(Member.Member(memberId), PageRequest.of(page-1, size));
+    }
+
+
+
+    //-- ~ 컨트롤러와 직접 연결된 메소드
+
+
     public GuestHouse verifyExistsGuestHouse(Long guestHouseId) {
 
         return repository.findById(guestHouseId).orElseThrow(()
@@ -98,18 +128,20 @@ public class GuestHouseService {
 
     private List<String> saveFiles(MultipartFile[] images, Long guestHouseId) throws IOException {
 
-        String uploadDir = guestHouseImageDir + guestHouseId; //저장 디렉토리 경로
+        String uploadPath = guestHouseImagePath + guestHouseId; //저장 디렉토리 경로
+
 //        Long currentTimeMillis = System.currentTimeMillis();//현재 시간 밀리세컨드로
 
         List<String> imageUrl = new ArrayList<>();
 
         for (MultipartFile multipartFile : images) {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-            FileUtil.saveFile(uploadDir, fileName, multipartFile);
+            FileUtil.saveFile(uploadPath, fileName, multipartFile);
 
-            String totalUrl = uploadDir+ "/" + fileName;
+            String totalUrl = guestHouseImagePath+ "/" + fileName;
             imageUrl.add(totalUrl);
         }
+
         return imageUrl;
     }
 
@@ -126,6 +158,15 @@ public class GuestHouseService {
 
         return urls.stream().map(url ->
                 GuestHouseImage.builder().guestHouse(guestHouse).guestHouseImageUrl(url).build()).collect(Collectors.toList());
+    }
+
+    /** 게스트 하우스의 소유 멤버와 처리 요청한 멤버가 동일한지 검증  **/
+    private void verifyOwnGuestHouse(GuestHouse guestHouse, String memberId) {
+
+        if (!guestHouse.getMember().getMemberId().equals(memberId)) {
+
+            throw new BusinessException(ExceptionCode.NOT_OWN_GUESTHOUSE);
+        }
     }
 
 }

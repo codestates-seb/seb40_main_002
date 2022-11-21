@@ -16,6 +16,7 @@ public class MemberDto {
     @Builder
     public static class Post{
 
+
         private String memberId;
 
         private String memberNickname;
@@ -30,11 +31,11 @@ public class MemberDto {
 
         private MemberNationality memberNationality;
 
-        private MemberRegisterKind memberRegisterKind;
+        private MemberRegisterKind memberRegisterKind; //가입 경로, ex) GOOGLE, NAVER, KAKAO....
 
-        private String memberImageUrl;
+        private String[] memberRole; //멤버 역할, ex) USER, ADMIN ...
 
-        private String memberTags;
+        private String[] memberTag;
 
     }
 
@@ -49,22 +50,19 @@ public class MemberDto {
 
         private String memberNickname;
 
-        private String memberEmail;
+        private String memberEmail; //사용 X
 
-        private String memberPhone;
+        private String memberPhone; //사용 X
 
 //        private MemberStatus memberStatus;
 
-        private String memberBirth;
+        private String memberBirth; //사용 X
 
-        private MemberNationality memberNationality;
+        private MemberNationality memberNationality; //사용 X
 
-        private MemberRegisterKind memberRegisterKind;
+        private MemberRegisterKind memberRegisterKind; //사용 X
 
-//        private String memberImageUrl;
-
-        private String memberTags;
-
+        private String[] memberTag;
     }
 
     @Setter
@@ -92,6 +90,6 @@ public class MemberDto {
 
         private String memberImageUrl;
 
-        private String memberTags;
+        private String[] memberTag;
     }
 }
