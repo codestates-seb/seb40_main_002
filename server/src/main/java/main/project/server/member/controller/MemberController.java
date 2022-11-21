@@ -23,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
@@ -42,35 +43,39 @@ public class MemberController {
     private final RoomService roomService;
 
     // 맴버 생성
-    @PostMapping("api/members")
-    public ResponseEntity postMember(@RequestBody MemberDto.Post memberPostDto){
-        Member member = memberService.createMember(memberMapper.memberPostDtoToMember(memberPostDto));
-        return new ResponseEntity<>(new SingleResponseDto<>("created", null), HttpStatus.CREATED);
+    @PostMapping("/api/members")
+    public ResponseEntity postMember(@RequestPart(value = "member-dto") MemberDto.Post memberPostDto,
+                                     @RequestPart(required = false) MultipartFile memberImageFile){
+        Member member = memberService.createMember(memberMapper.memberPostDtoToMember(memberPostDto), memberImageFile);
+        return new ResponseEntity<>(new SingleResponseDto<>("created", memberMapper.memberToMemberResponseDto(member)), HttpStatus.CREATED);
     }
 
 
     // 맴버 정보 조회
     @GetMapping("/api/auth/members")
     public ResponseEntity getMember(Principal principal){
-        Member member = memberService.findMember(principal.getName()).get();
-        return new ResponseEntity<>(new SingleResponseDto<>(null, memberMapper.memberToMemberResponseDto(member)), HttpStatus.OK);
+        Member member = memberService.findVerifiedMember(principal.getName());
+        return new ResponseEntity<>(new SingleResponseDto<>("get ok", memberMapper.memberToMemberResponseDto(member)), HttpStatus.OK);
     }
 
 
     // 맴버 정보 수정
     @PatchMapping("/api/auth/members")
-    public ResponseEntity patchMember(@RequestBody MemberDto.Patch memberPatchDto, Principal principal){
+    public ResponseEntity patchMember(@RequestPart(value = "member-dto") MemberDto.Patch memberPatchDto,
+                                      @RequestPart(required = false) MultipartFile memberImageFile,
+                                      Principal principal){
+
         memberPatchDto.setMemberId(principal.getName());
-        Member member = memberService.patchMember(memberMapper.memberPatchDtoToMember(memberPatchDto));
-        return new ResponseEntity<>(new SingleResponseDto<>("modified",null) , HttpStatus.OK);
+        Member member = memberService.patchMember(memberMapper.memberPatchDtoToMember(memberPatchDto), memberImageFile);
+        return new ResponseEntity<>(new SingleResponseDto<>("modified",memberMapper.memberToMemberResponseDto(member)) , HttpStatus.OK);
     }
 
 
     // 맴버 삭제
     @DeleteMapping("/api/auth/members")
     public ResponseEntity deleteMember(Principal principal){
-        memberService.deleteMember(principal.getName());
-        return new ResponseEntity<>(new SingleResponseDto<>("deleted", null),HttpStatus.OK);
+        Member member = memberService.deleteMember(principal.getName());
+        return new ResponseEntity<>(new SingleResponseDto<>("deleted", memberMapper.memberToMemberResponseDto(member)),HttpStatus.OK);
     }
 
     @PostMapping("/api/auth/members/logout")

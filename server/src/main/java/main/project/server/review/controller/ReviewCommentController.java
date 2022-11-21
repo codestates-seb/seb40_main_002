@@ -54,7 +54,7 @@ public class ReviewCommentController {
     }
 
     // 리뷰 조회
-    @GetMapping("/api/auth/guesthouse/review/{review-id}/comment")
+    @GetMapping("/api/guesthouse/review/{review-id}/comment")
     public ResponseEntity getReviewComment(@PathVariable("review-id") @Positive Long reviewId) {
 
         ReviewComment reviewComment = reviewCommentService.getReviewComment(reviewId);

@@ -1,6 +1,8 @@
 package main.project.server.review.service;
 
 import lombok.RequiredArgsConstructor;
+import main.project.server.guesthouse.entity.GuestHouse;
+import main.project.server.guesthouse.service.GuestHouseService;
 import main.project.server.member.entity.Member;
 import main.project.server.member.service.MemberService;
 import main.project.server.review.entity.Review;
@@ -13,9 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,14 +24,19 @@ import java.util.Optional;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final MemberService memberService;
+    private final GuestHouseService guestHouseService;
 
 
-    public Review postReview(Review review, Principal principal) {
+    public Review postReview(Review review, Long guestHouseId, Principal principal) {
 
         Member member = memberService.findVerifiedMember(principal.getName());
+        GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(guestHouseId);
         review.setMember(member);
+        review.setGuestHouse(guestHouse);
+        Review result = reviewRepository.save(review);
+        guestHouse.setGuestHouseStar(averageStar(guestHouseId));    // 리뷰 평점 평균 저장
 
-        return reviewRepository.save(review);
+        return result;
     }
 
 
@@ -38,19 +44,23 @@ public class ReviewService {
 
         Review review = findVerifiedReview(reviewId);
         Member member = memberService.findVerifiedMember(principal.getName());
+        GuestHouse guestHouse = review.getGuestHouse();
         verifyMemberConfirm(review, principal);
         putReview.setReviewId(reviewId);
         putReview.setMember(member);
+        putReview.setGuestHouse(guestHouse);
+        Review result = reviewRepository.save(review);
+        guestHouse.setGuestHouseStar(averageStar(guestHouse.getGuestHouseId()));
 
-        return reviewRepository.save(putReview);
+        return result;
     }
 
 
-    public Page<Review> getReviewPage(int page, int size){
+    public Page<Review> getReviewPage(int page, int size, Long guestHouseId){
 
         Pageable pageable = PageRequest.of(page-1, size, Sort.by("reviewId").descending());
 
-        return reviewRepository.findAll(pageable);
+        return reviewRepository.findByGuestHouseGuestHouseId(guestHouseId, pageable);
     }
 
 
@@ -77,5 +87,12 @@ public class ReviewService {
         if(!Objects.equals(principal.getName(), review.getMember().getMemberId())) {
             // throw
         }
+    }
+
+    // 리뷰 평균 계산
+    public Float averageStar(Long guestHouseId){
+        List<Review> reviews = reviewRepository.findByGuestHouseGuestHouseId(guestHouseId);
+        float average = (float) reviews.stream().mapToDouble(s -> s.getStar()).average().orElse(Double.NaN);
+        return average;
     }
 }
