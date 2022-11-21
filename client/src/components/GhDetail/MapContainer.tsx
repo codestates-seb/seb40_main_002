@@ -5,11 +5,11 @@ declare global {
     kakao: any;
   }
 }
-interface Porps {
+interface coordinate {
   latitude: number;
   longitude: number;
 }
-const MapContainer = ({ latitude, longitude }: Porps) => {
+const MapContainer = ({ latitude, longitude }: coordinate) => {
   useEffect(() => {
     const container = document.getElementById('map');
     const options = {

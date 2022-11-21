@@ -1,6 +1,6 @@
 import RoomInfo from '../common/RoomInfo/RoomInfo';
 
-type Props = {
+interface RoomsProps {
   rooms: {
     room: {
       roomName: string;
@@ -10,8 +10,8 @@ type Props = {
       roomImage: string;
     };
   }[];
-};
-const RoomsDetail = ({ rooms }: Props) => {
+}
+const RoomsDetail = ({ rooms }: RoomsProps) => {
   return (
     <div className="border-b-[2px] mb-[20px]">
       <div className="my-[20px]">객실정보</div>

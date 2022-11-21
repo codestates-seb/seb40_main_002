@@ -5,7 +5,7 @@ import GhLocation from '../components/GhDetail/GhLocation';
 import GhAsk from '../components/GhDetail/GhAsk';
 import RatedStar from '../components/common/RatedStar';
 import RoomsDetail from '../components/GhDetail/RoomsDetail';
-import GhFacilities from '../components/GhDetail/GhFacilities';
+import GhDetailFacilities from '../components/GhDetail/GhDetailFacilities';
 const GuestHouseDetail = () => {
   //임시 데이터 입니다 (수정예정)
   const tags = ['안녕', '안녕', '안녕', '안녕'];
@@ -17,7 +17,17 @@ const GuestHouseDetail = () => {
         roomName: '남자 도미토리 6인실',
         roomExplain: '남자 도미토리 6인실 입니다',
         roomPersonnel: 1,
-        roomPrice: 1,
+        roomPrice: 10000,
+        roomImage:
+          'https://a0.muscache.com/im/pictures/337660c5-939a-439b-976f-19219dbc80c7.jpg?im_w=720',
+      },
+    },
+    {
+      room: {
+        roomName: '남자 도미토리 6인실',
+        roomExplain: '남자 도미토리 6인실 입니다',
+        roomPersonnel: 1,
+        roomPrice: 20000,
         roomImage:
           'https://a0.muscache.com/im/pictures/337660c5-939a-439b-976f-19219dbc80c7.jpg?im_w=720',
       },
@@ -35,6 +45,7 @@ const GuestHouseDetail = () => {
       },
     },
   ];
+  const qwe = [false, true, true, false, true, false, true, true, true];
   return (
     <div className="flex justify-center	items-center xl:p-0 text-xl font-semibold ">
       <div className="flex-row">
@@ -48,7 +59,7 @@ const GuestHouseDetail = () => {
         <GhDetailComment reviewComment={reviewComment} />
         <GhLocation latitude={latitude} longitude={longitude} />
         <div className="flex w-full  mt-[20px]">
-          <GhFacilities />
+          <GhDetailFacilities GhFacilities={qwe}></GhDetailFacilities>
           <GhAsk />
         </div>
       </div>

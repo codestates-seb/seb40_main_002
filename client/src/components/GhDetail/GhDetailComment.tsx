@@ -1,7 +1,7 @@
 import React from 'react';
 import CommonBtn from '../common/CommonBtn/CommonBtn';
 import DetailReview from '../common/Comment/DetailReview';
-type Props = {
+interface ReviewProps {
   reviewComment: {
     reviewComment: {
       userName: string;
@@ -11,9 +11,9 @@ type Props = {
       starScore: number;
     };
   }[];
-};
+}
 
-const GhDetailComment = ({ reviewComment }: Props) => {
+const GhDetailComment = ({ reviewComment }: ReviewProps) => {
   const commentHandler = () => {
     console.log('모든후기');
   };

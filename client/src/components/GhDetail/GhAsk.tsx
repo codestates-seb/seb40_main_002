@@ -9,10 +9,10 @@ const GhAsk = ({
 }: AskProps) => {
   return (
     <div className="w-6/12">
-      <div>문의하기</div>
-      <div className="flex justify-between items-center mt-[20px]">
+      <div className="font-bold ">문의하기</div>
+      <div className="text-font-color text-lg flex justify-between items-center mt-[20px]">
         <div>{ghName}</div>
-        <div className="flex justify-center items-center text-lg bg-point-color text-white rounded-btnRadius w-[200px] h-[40px]">
+        <div className=" text-lg flex justify-center items-center  bg-point-color text-white rounded-btnRadius w-[200px] h-[40px]">
           {GhPhone}
         </div>
       </div>
