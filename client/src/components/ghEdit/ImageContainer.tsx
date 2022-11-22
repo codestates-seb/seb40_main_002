@@ -1,9 +1,18 @@
 import React, { useRef, useState } from 'react';
 import { BsPlusLg } from 'react-icons/bs';
 import { TiDelete } from 'react-icons/ti';
-export default function ImageContainer() {
+
+type ImgContainer = {
+  imgFiles: File[];
+  setImgFiles: React.Dispatch<React.SetStateAction<File[]>>;
+};
+
+export default function ImageContainer({
+  imgFiles,
+  setImgFiles,
+}: ImgContainer) {
   // 6번째 줄만 올려서 관리
-  const [imgFiles, setImgFiles] = useState<File[]>([]);
+
   const imageRef = useRef<HTMLInputElement>(null);
 
   const cilckInput = () => {
@@ -32,7 +41,7 @@ export default function ImageContainer() {
 
   return (
     <div className=" md:flex md:flex-col ">
-      <p className="font-bold text-lg mb-2.5 md:mb-5">
+      <p className="font-bold text-lg mb-2.5 md:mb-7">
         대표 사진 선택(최대 10장)
       </p>
       <div

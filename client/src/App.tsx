@@ -4,6 +4,7 @@ import Footer from './components/common/Footer';
 import { Route, Routes } from 'react-router-dom';
 import PaymentPage from './pages/PaymentPage';
 import GhEditpage from './pages/GhEditpage';
+import GuestHouseDetail from './pages/GusetHouseDetail';
 
 export default function App() {
   return (
@@ -13,6 +14,7 @@ export default function App() {
         <Routes>
           <Route path="/paymentPage" element={<PaymentPage />} />
           <Route path="/ghedit" element={<GhEditpage />} />
+          <Route path="/ghdetail" element={<GuestHouseDetail />} />
         </Routes>
       </div>
       <Footer />

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { BsPlusLg } from 'react-icons/bs';
 import InputContainer from './InputContainer';
-import { TiDelete } from 'react-icons/ti';
+
 import CommonBtn from '../common/CommonBtn/CommonBtn';
 
 type Room = {

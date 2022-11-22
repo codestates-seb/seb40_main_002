@@ -2,15 +2,25 @@ import React, { useEffect, useState } from 'react';
 import Facilities from '../common/Facilities';
 import FacilitiesArr from '../common/FacilitiesArray';
 
-type ghOption = {
+type GhOption = {
   icon: JSX.Element;
   name: string;
   checked: boolean;
 };
 
-export default function FacilitiesContainer() {
-  // 데이터 상위로 올릴것
-  const [icons, setIcons] = useState(FacilitiesArr());
+type GhOptionProps = {
+  icons: GhOption[];
+  setIcons: React.Dispatch<React.SetStateAction<GhOption[]>>;
+};
+
+export default function FacilitiesContainer({
+  icons,
+  setIcons,
+}: GhOptionProps) {
+  // 옵션을 boolean 값으로만 보내줘야함. post 로직에 들어가면 될듯
+  const ghOptionsArr = (options: GhOption[]) => {
+    const optionsBoolean = options.map((x) => x.checked);
+  };
 
   const selectIcon = (name: string) => {
     setIcons((prev) => {
@@ -24,12 +34,6 @@ export default function FacilitiesContainer() {
 
       return [...icons];
     });
-  };
-
-  // 옵션을 boolean 값으로만 보내줘야함. post 로직에 들어가면 될듯
-  const ghOptionsArr = (options: ghOption[]) => {
-    const optionsBoolean = options.map((x) => x.checked);
-    // setOptionsBoolean([...optionsBoolean]);
   };
 
   // // 상세 페이지에서의 로직
@@ -86,7 +90,6 @@ export default function FacilitiesContainer() {
           }
         })}
       </div> */}
-      <button onClick={() => ghOptionsArr(icons)}>ㅁㄴㅇㄹ</button>
     </div>
   );
 }

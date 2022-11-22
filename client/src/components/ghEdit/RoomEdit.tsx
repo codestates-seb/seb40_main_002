@@ -30,9 +30,13 @@ export interface RemoveRoom {
   roomImage?: string;
 }
 
-export default function RoomEdit() {
+type RoomsProps = {
+  rooms: Room[];
+  setRooms: React.Dispatch<React.SetStateAction<Room[]>>;
+};
+
+export default function RoomEdit({ rooms, setRooms }: RoomsProps) {
   // 카드들의 정보들을 배열에다 담음 상위로 올려줄것
-  const [rooms, setRooms] = useState<Room[]>([]);
 
   // 인풋 수정을 위한 데이터 관리
   const [input, setInput] = useState<Room>({
@@ -69,7 +73,7 @@ export default function RoomEdit() {
   return (
     <div className="flex flex-col mb-3 md:mb-5">
       <p className="font-bold text-lg mb-2.5">객실 정보</p>
-      <div className="w-full flex  flex-col justify-center items-center bg-border-color rounded-CommentRadius p-3 md:rounded-ImgRadius max-h-[500px] md:min-h-[500px]">
+      <div className="w-full flex  flex-col justify-center items-center bg-border-color rounded-CommentRadius p-3 md:rounded-ImgRadius min-h-[300px] max-h-[500px] md:min-h-[500px]">
         {rooms.length > 0 && (
           <div className="self-start w-full flex flex-col overflow-auto p-2.5 md:p-5">
             {rooms.map((room, idx) => {
