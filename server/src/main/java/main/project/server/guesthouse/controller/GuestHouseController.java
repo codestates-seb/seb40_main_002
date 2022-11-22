@@ -9,8 +9,6 @@ import main.project.server.guesthouse.dto.QueryStringDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.mapper.GuestHouseMapper;
 import main.project.server.guesthouse.service.GuestHouseService;
-import main.project.server.guesthousedetails.dto.GuestHouseDetailsDto;
-import main.project.server.guesthousedetails.entity.GuestHouseDetails;
 import main.project.server.guesthousedetails.mapper.GuestHouseDetailsMapper;
 import org.springframework.data.domain.Page;
 import main.project.server.room.service.RoomService;
@@ -103,7 +101,6 @@ public class GuestHouseController {
     @DeleteMapping("/api/auth/guesthouse/{guesthouse-id}")
     public ResponseEntity deleteGuestHouse(Principal principal,
                                            @PathVariable("guesthouse-id") @Positive Long guestHouseId) {
-
 //        String memberId = principal.getName();
 
         String memberId = "업주";
@@ -128,7 +125,7 @@ public class GuestHouseController {
         Page<GuestHouse> guestHousePage = guestHouseService.findGuestHouseByMember(authMemberId, page, size);
 
         List<GuestHouseDto.response> guestHouseResponseList = guestHouseMapper.
-                guestHouseListToGuestHouseResponse(guestHousePage.getContent(), roomService, guestHouseDetailsMapper,page,size );
+                guestHouseListToGuestHouseResponse(guestHousePage.getContent(), roomService, guestHouseDetailsMapper);
 
         MultiResponseDto<GuestHouseDto.response> multiResponseDto = new MultiResponseDto<>("success",guestHouseResponseList,guestHousePage);
 
@@ -140,8 +137,13 @@ public class GuestHouseController {
     public ResponseEntity getGuestHouseMainFilter(Principal principal,
                                                   @QueryStringArgResolver QueryStringDto.MainFilterDto mainFilterDto) {
 
-        guestHouseService.findGuestHouseByFilter(mainFilterDto);
+        Page<GuestHouse> guestHousePageByMainFilter = guestHouseService.findGuestHouseByMainFilter(mainFilterDto);
 
-        return new ResponseEntity(HttpStatus.OK);
+        List<GuestHouseDto.response> guestHouseResponseList = guestHouseMapper.
+                guestHouseListToGuestHouseResponse(guestHousePageByMainFilter.getContent(), roomService, guestHouseDetailsMapper);
+
+
+        MultiResponseDto<GuestHouseDto.response> multiResponseDto = new MultiResponseDto<>("success",guestHouseResponseList, guestHousePageByMainFilter);
+        return new ResponseEntity(multiResponseDto, HttpStatus.OK);
     }
 }

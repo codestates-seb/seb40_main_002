@@ -4,7 +4,7 @@ package main.project.server.guesthouse.entity;
 import lombok.*;
 import main.project.server.audit.Auditable;
 
-import main.project.server.city.City;
+import main.project.server.city.entity.City;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 
 import main.project.server.review.entity.Review;

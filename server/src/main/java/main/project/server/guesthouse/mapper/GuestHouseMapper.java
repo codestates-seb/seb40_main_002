@@ -1,7 +1,7 @@
 package main.project.server.guesthouse.mapper;
 
 
-import main.project.server.city.City;
+import main.project.server.city.entity.City;
 import main.project.server.guesthouse.dto.GuestHouseDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
@@ -9,7 +9,6 @@ import main.project.server.guesthousedetails.entity.GuestHouseDetails;
 
 import main.project.server.guesthousedetails.mapper.GuestHouseDetailsMapper;
 import main.project.server.member.entity.Member;
-import main.project.server.room.entity.Room;
 import main.project.server.room.service.RoomService;
 
 import org.mapstruct.Mapper;
@@ -64,11 +63,12 @@ public interface GuestHouseMapper {
         return guestHouse;
     }
 
+
+
     default List<GuestHouseDto.response> guestHouseListToGuestHouseResponse(
             List<GuestHouse> guestHouseList,
             RoomService roomService,
-            GuestHouseDetailsMapper guestHouseDetailsMapper,
-            int roomPage, int roomSize) {
+            GuestHouseDetailsMapper guestHouseDetailsMapper) {
 
         return guestHouseList.stream().map(guestHouse -> {
 
@@ -88,7 +88,6 @@ public interface GuestHouseMapper {
                     .guestHouseTag(createSortedTagArray(guestHouse.getGuestHouseTag()))
                     .guestHouseImage(guestHouse.guestHouseImageListToUrlList())
                     .guestHouseInfo(guestHouse.getGuestHouseInfo())
-                    .rooms(roomService.getRoomResponses(guestHouse.getGuestHouseId(), roomPage, roomSize))
                     .createdAt(guestHouse.getCreatedAt().toString())
                     .modifiedAt(guestHouse.getModifiedAt().toString())
                     .build();
