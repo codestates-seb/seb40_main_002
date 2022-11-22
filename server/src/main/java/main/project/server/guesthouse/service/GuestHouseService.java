@@ -15,6 +15,7 @@ import main.project.server.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +25,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -89,6 +89,12 @@ public class GuestHouseService {
         //GuestHouseDetails가 새롭게 생성되지 않도록, DB에서 가져온 GuestHouseDetails의 id를 세팅
         guestHouse.getGuestHouseDetails().setGuestHouseDetailsId(existsGuestHouse.getGuestHouseDetails().getGuestHouseDetailsId());
 
+        //기존 값으로 세팅
+        guestHouse.setGuestHouseReviewCount(existsGuestHouse.getGuestHouseReviewCount());
+        guestHouse.setGuestHouseStar(existsGuestHouse.getGuestHouseStar());
+        guestHouse.setGuestHouseStatus(existsGuestHouse.getGuestHouseStatus());
+
+
         //entity 저장
         repository.save(guestHouse);
 
@@ -118,11 +124,12 @@ public class GuestHouseService {
     }
 
 
-    public Page<GuestHouse> findGuestHouseByFilter(QueryStringDto.MainFilterDto queryStringDto) {
+    public Page<GuestHouse> findGuestHouseByMainFilter(QueryStringDto.MainFilterDto queryStringDto) {
 
+        //태그 정렬
         Arrays.sort(queryStringDto.getTag());
 
-
+        //DB에 저장되어 있는 문자열 형식으로 변환
         StringBuilder likeStringBuilder = new StringBuilder("%");
         String[] tag = queryStringDto.getTag();
         for (int i = 0; i < tag.length; i++) {
@@ -130,14 +137,30 @@ public class GuestHouseService {
         }
 
 
+        //오더바이 정렬 구하기
+        String sortValue = queryStringDto.getSort();
+
+        Sort sort = Sort.by(Sort.Direction.DESC, "guest_house_id"); //기본, 등록순 내림차순
+
+        if (sortValue.equals("star")) {
+
+            sort = Sort.by(Sort.Direction.DESC,"guest_house_star");
+
+        } else if (sortValue.equals("review")) {
+
+           sort = Sort.by(Sort.Direction.DESC,"guest_house_review_count");
+        }
+
+
+        //필터링으로 인한 게스트하우스 리스트 구하기
         Page<GuestHouse> guestHouseByFilter = repository.findGuestHouseByFilter(
                 queryStringDto.getCityId(),
                 likeStringBuilder.toString(),
                 queryStringDto.getStart(),
                 queryStringDto.getEnd(),
-                PageRequest.of(queryStringDto.getPage() - 1, queryStringDto.getSize()));
+                PageRequest.of(queryStringDto.getPage() - 1, queryStringDto.getSize(), sort));
 
-        return null;
+        return guestHouseByFilter;
     }
 
 

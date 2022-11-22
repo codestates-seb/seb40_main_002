@@ -1,4 +1,4 @@
-package main.project.server.city;
+package main.project.server.city.entity;
 
 import lombok.*;
 

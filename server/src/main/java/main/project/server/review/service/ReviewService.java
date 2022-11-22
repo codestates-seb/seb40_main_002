@@ -36,6 +36,9 @@ public class ReviewService {
         Review result = reviewRepository.save(review);
         guestHouse.setGuestHouseStar(averageStar(guestHouseId));    // 리뷰 평점 평균 저장
 
+        //게스트 하우스의 리뷰를 등록 했을 경우에 현재 리뷰 갯수에서 + 1
+        guestHouse.setGuestHouseReviewCount(guestHouse.getGuestHouseReviewCount() + 1);
+
         return result;
     }
 
@@ -68,6 +71,9 @@ public class ReviewService {
 
         Review deleteReview = findVerifiedReview(reviewId);
         verifyMemberConfirm(deleteReview, principal);
+
+        //게스트 하우스의 리뷰를 삭제 했을 경우에 현재 리뷰 갯수에서 - 1
+        deleteReview.getGuestHouse().setGuestHouseReviewCount(deleteReview.getGuestHouse().getGuestHouseReviewCount() - 1);
 
         reviewRepository.delete(deleteReview);
     }

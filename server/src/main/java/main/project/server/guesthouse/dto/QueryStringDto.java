@@ -1,10 +1,7 @@
 package main.project.server.guesthouse.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 public class QueryStringDto {
 
@@ -12,6 +9,7 @@ public class QueryStringDto {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
+    @Builder
     public static class MainFilterDto{
 
         private Integer cityId;

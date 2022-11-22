@@ -1,7 +1,7 @@
 package main.project.server.guesthouse.mapper;
 
 
-import main.project.server.city.City;
+import main.project.server.city.entity.City;
 import main.project.server.guesthouse.dto.GuestHouseDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
@@ -9,7 +9,6 @@ import main.project.server.guesthousedetails.entity.GuestHouseDetails;
 
 import main.project.server.guesthousedetails.mapper.GuestHouseDetailsMapper;
 import main.project.server.member.entity.Member;
-import main.project.server.room.entity.Room;
 import main.project.server.room.service.RoomService;
 
 import org.mapstruct.Mapper;
@@ -24,6 +23,7 @@ public interface GuestHouseMapper {
 
     default public GuestHouse guestHouseDtoPostToGuestHouse(GuestHouseDto.Post dto, String memberId){
 
+
         GuestHouse guestHouse = GuestHouse.builder()
                 .guestHouseName(dto.getGuestHouseName())
                 .member(Member.Member(memberId))
@@ -35,6 +35,8 @@ public interface GuestHouseMapper {
                 .guestHouseDetails(booleanArrayToGuestHouseDetails(dto.getGuestHouseDetails()))
                 .guestHouseTag(createSortedTagString(dto.getGuestHouseTag()))
                 .guestHouseInfo(dto.getGuestHouseInfo())
+                .guestHouseReviewCount(0L) //최초 등록시 초기화
+                .guestHouseStar(0f) //최초 등록시 초기화
                 .build();
 
         guestHouse.getGuestHouseDetails().setGuestHouse(guestHouse);
@@ -64,11 +66,12 @@ public interface GuestHouseMapper {
         return guestHouse;
     }
 
+
+
     default List<GuestHouseDto.response> guestHouseListToGuestHouseResponse(
             List<GuestHouse> guestHouseList,
             RoomService roomService,
-            GuestHouseDetailsMapper guestHouseDetailsMapper,
-            int roomPage, int roomSize) {
+            GuestHouseDetailsMapper guestHouseDetailsMapper) {
 
         return guestHouseList.stream().map(guestHouse -> {
 
@@ -88,7 +91,6 @@ public interface GuestHouseMapper {
                     .guestHouseTag(createSortedTagArray(guestHouse.getGuestHouseTag()))
                     .guestHouseImage(guestHouse.guestHouseImageListToUrlList())
                     .guestHouseInfo(guestHouse.getGuestHouseInfo())
-                    .rooms(roomService.getRoomResponses(guestHouse.getGuestHouseId()))
                     .createdAt(guestHouse.getCreatedAt().toString())
                     .modifiedAt(guestHouse.getModifiedAt().toString())
                     .build();
@@ -115,6 +117,7 @@ public interface GuestHouseMapper {
 
 
 
+    /** 배열로 넘어온 태그를 정렬하여 DB에 저장되는 포맷의 형태로 변환시켜 주는 메소드 **/
     default String createSortedTagString(String[] tags) {
 
         Arrays.sort(tags);
