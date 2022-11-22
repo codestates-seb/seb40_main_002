@@ -2,6 +2,7 @@ package main.project.server.security.filter;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import main.project.server.exception.AuthException;
@@ -33,12 +34,31 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        try {
+            String jws = request.getHeader("Authorization");
+            Map<String, Object> claims = verifyJws(jws);
+            verifyLogoutToken(jws);
 
-        String jws = request.getHeader("Authorization");
-        Map<String, Object> claims = verifyJws(jws);
-        verifyLogoutToken(jws);
-        setAuthenticationToContext(claims);
+
+
+            setAuthenticationToContext(claims);
+
+        } catch (SignatureException se) {
+            request.setAttribute("exception", se);
+        } catch (ExpiredJwtException ee) {
+            request.setAttribute("exception", ee);
+        } catch (MalformedJwtException me) {
+            request.setAttribute("exception", me);
+        } catch (UnsupportedJwtException ue) {
+            request.setAttribute("exception", ue);
+        } catch (IllegalArgumentException ie) {
+            request.setAttribute("exception", ie);
+        } catch (Exception e) {
+            request.setAttribute("exception", e);
+        }
+
         filterChain.doFilter(request, response);
+
     }
 
     private void verifyLogoutToken(String jws) {

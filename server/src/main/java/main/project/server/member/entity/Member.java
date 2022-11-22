@@ -2,6 +2,7 @@ package main.project.server.member.entity;
 
 import lombok.*;
 import main.project.server.audit.Auditable;
+import main.project.server.jwt.entity.RefreshToken;
 import main.project.server.heart.entity.Heart;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberRegisterKind;
@@ -57,6 +58,8 @@ public class Member extends Auditable {
 
     // 찜 추가 가능
 
+    @OneToOne(mappedBy = "member")
+    private RefreshToken refreshToken;
 
     public static Member Member(String memberId) {
         Member member = new Member();

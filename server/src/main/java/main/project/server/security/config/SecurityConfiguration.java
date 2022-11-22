@@ -2,6 +2,8 @@ package main.project.server.security.config;
 
 import lombok.RequiredArgsConstructor;
 import main.project.server.jwt.JwtTokenizer;
+import main.project.server.oauth.handler.MemberAccessDeniedHandler;
+import main.project.server.oauth.handler.MemberAuthenticationEntryPoint;
 import main.project.server.security.filter.JwtVerificationFilter;
 import main.project.server.oauth.handler.OauthSuccessHandler;
 import main.project.server.oauth.service.OauthService;
@@ -49,8 +51,8 @@ public class SecurityConfiguration {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .exceptionHandling()
-//                .authenticationEntryPoint()
-//                .accessDeniedHandler()
+                .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
+                .accessDeniedHandler(new MemberAccessDeniedHandler())
                 .and()
                 .apply(new AuthFilterConfigurer())
                 .and()

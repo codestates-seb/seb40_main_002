@@ -1,12 +1,16 @@
 package main.project.server.jwt;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import main.project.server.exception.BusinessException;
+import main.project.server.exception.ExceptionCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
+@Slf4j
 @Component
 public class JwtTokenizer {
     @Getter
@@ -76,11 +81,14 @@ public class JwtTokenizer {
     // 검증
     public void verifySignature(String jws, String base64EncodedSecretKey) {
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
-
-        Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(jws);
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(jws);
+        } catch (ExpiredJwtException ee) {
+            throw new BusinessException(ExceptionCode.INVALID_REFRESH_TOKEN);
+        }
     }
     // 토큰 유효기간 계산
     public Date getTokenExpiration(int expirationMinutes) {
@@ -96,5 +104,16 @@ public class JwtTokenizer {
         Key key = Keys.hmacShaKeyFor(keyBytes);
 
         return key;
+    }
+
+    // 토큰으로부터 유효기간 추출
+    public Date getExpirationFromToken(String jws, String base64EncodedSecretKey) {
+        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
+
+        Date expiration = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(jws).getBody().getExpiration();
+        return expiration;
     }
 }

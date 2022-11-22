@@ -3,6 +3,8 @@ package main.project.server.exception;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -12,12 +14,23 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
-@AllArgsConstructor
 public class ErrorResponse {
+
+    private int status;
+    private String message;
 
     private List<FieldErrorResponse> fieldErrors;
     private List<ConstraintViolationErrorResponse> violationErrors;
 
+    private ErrorResponse(int status, String message) {
+        this.status = status;
+        this.message = message;
+    }
+
+    public ErrorResponse(List<FieldErrorResponse> fieldErrors, List<ConstraintViolationErrorResponse> violationErrors) {
+        this.fieldErrors = fieldErrors;
+        this.violationErrors = violationErrors;
+    }
 
     public static ErrorResponse of(BindingResult bindingResult) {
         return new ErrorResponse(FieldErrorResponse.of(bindingResult), null);
@@ -25,6 +38,14 @@ public class ErrorResponse {
 
     public static ErrorResponse of(Set<ConstraintViolation<?>> violations) {
         return new ErrorResponse(null, ConstraintViolationErrorResponse.of(violations));
+    }
+
+    public static ErrorResponse of(HttpStatus httpStatus) {
+        return new ErrorResponse(httpStatus.value(), httpStatus.getReasonPhrase());
+    }
+
+    public static ErrorResponse of(ExceptionCode exceptionCode) {
+        return new ErrorResponse(exceptionCode.getCode(), exceptionCode.getMessage());
     }
 
     @Getter
