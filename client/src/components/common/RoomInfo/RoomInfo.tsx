@@ -3,7 +3,7 @@ import Info from './Info';
 
 function RoomInfo({ room }: { room: Room }) {
   return (
-    <div className="flex h-fit p-[12px]">
+    <div className="flex h-fit p-[12px] shadow-xl rounded-[15px] mb-[20px]">
       <img
         src={room.roomImage}
         className="w-[160px] h-[120px] object-cover mr-[12px] rounded-[15px]"
