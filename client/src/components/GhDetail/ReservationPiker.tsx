@@ -7,6 +7,7 @@ interface SetDayProps {
   setEndDay: Dispatch<SetStateAction<string>>;
   setDayCal: Dispatch<SetStateAction<number>>;
 }
+
 const ReservationPiker = ({
   setStartDay,
   setEndDay,
@@ -43,6 +44,8 @@ const ReservationPiker = ({
       startDate={startDate}
       endDate={endDate}
       monthsShown={2}
+      minDate={new Date()}
+      maxDate={new Date(new Date().getFullYear(), 20)}
       onChange={(update) => {
         setDateRange(update);
       }}
