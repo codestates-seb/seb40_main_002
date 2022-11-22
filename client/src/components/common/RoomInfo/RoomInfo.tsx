@@ -48,7 +48,7 @@ function RoomInfo({
     }
   };
   return (
-    <div className="flex flex-col md:flex-row h-fit p-[12px]  shadow-xl rounded-[15px] mb-[20px]">
+    <div className="flex flex-col md:flex-row h-fit p-[12px] bg-white shadow-xl rounded-[15px] mb-[20px]">
       <img
         src={room.roomImage}
         className="w-[120px] h-[80px] md:w-[160px] md:h-[120px] object-cover mr-[12px] rounded-[15px]"
@@ -68,7 +68,10 @@ function RoomInfo({
             className="cursor-pointer"
             onClick={() => changeEditData(room, idx)}
           />
-          <BsFillTrashFill onClick={() => remove(room)} />
+          <BsFillTrashFill
+            className="cursor-pointer"
+            onClick={() => remove(room)}
+          />
         </div>
       )}
     </div>

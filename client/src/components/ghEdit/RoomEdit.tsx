@@ -71,14 +71,11 @@ export default function RoomEdit() {
       <p className="font-bold text-lg mb-2.5">객실 정보</p>
       <div className="w-full flex  flex-col justify-center items-center bg-border-color rounded-CommentRadius p-3 md:rounded-ImgRadius max-h-[500px] md:min-h-[500px]">
         {rooms.length > 0 && (
-          <div className="self-start w-full flex flex-col  overflow-auto p-2.5 md:p-5">
+          <div className="self-start w-full flex flex-col overflow-auto p-2.5 md:p-5">
             {rooms.map((room, idx) => {
               if (room.roomPrice) {
                 return (
-                  <div
-                    key={idx}
-                    className="w-full bg-white rounded-ImgRadius mb-3"
-                  >
+                  <div key={idx} className="w-full rounded-ImgRadius mb-3">
                     <RoomInfo
                       room={RoomInfoData(room)}
                       reEdit={reEdit}
