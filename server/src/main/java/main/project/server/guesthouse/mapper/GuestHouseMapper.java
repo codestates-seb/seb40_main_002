@@ -114,6 +114,7 @@ public interface GuestHouseMapper {
 
 
 
+    /** 배열로 넘어온 태그를 정렬하여 DB에 저장되는 포맷의 형태로 변환시켜 주는 메소드 **/
     default String createSortedTagString(String[] tags) {
 
         Arrays.sort(tags);
