@@ -18,6 +18,9 @@ public class Heart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long heartId;
 
+    @Column
+    private Boolean heartStatus;
+
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
