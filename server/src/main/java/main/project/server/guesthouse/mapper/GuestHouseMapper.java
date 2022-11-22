@@ -153,8 +153,7 @@ public interface GuestHouseMapper {
 
     default GuestHouseDto.response guestHouseToSingleGuestHouseResponse(GuestHouse guestHouse,
                                                                                         GuestHouseDetailsMapper guestHouseDetailsMapper,
-                                                                                        RoomService roomService,
-                                                                                        int roomPage, int roomSize) {
+                                                                                        RoomService roomService) {
 
         Member adminMember = guestHouse.getMember();
 
@@ -174,7 +173,7 @@ public interface GuestHouseMapper {
                 .guestHouseTag(createSortedTagArray(guestHouse.getGuestHouseTag()))
                 .guestHouseImage(guestHouse.guestHouseImageListToUrlList()) //리스트, 처리 필요
                 .guestHouseInfo(guestHouse.getGuestHouseInfo())
-                .rooms(roomService.getRoomResponses(guestHouse.getGuestHouseId(), roomPage, roomSize)) //리스트, 처리 필요
+                .rooms(roomService.getRoomResponses(guestHouse.getGuestHouseId())) //리스트, 처리 필요
                 .createdAt(guestHouse.getCreatedAt().toString())
                 .modifiedAt(guestHouse.getModifiedAt().toString())
                 .build();

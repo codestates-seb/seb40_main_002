@@ -10,6 +10,10 @@ import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.mapper.GuestHouseMapper;
 import main.project.server.guesthouse.service.GuestHouseService;
 import main.project.server.guesthousedetails.mapper.GuestHouseDetailsMapper;
+import main.project.server.room.dto.MultiRoomDto;
+import main.project.server.room.dto.RoomDto;
+import main.project.server.room.entity.Room;
+import main.project.server.room.mapper.RoomMapper;
 import org.springframework.data.domain.Page;
 import main.project.server.room.service.RoomService;
 import org.springframework.http.HttpStatus;
@@ -35,11 +39,15 @@ public class GuestHouseController {
 
     private final RoomService roomService;
 
+    private final RoomMapper roomMapper;
+
 
     /** 업주가 게스트하우스를 등록하는 api **/
     @PostMapping(value = "/api/auth/guesthouse", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity postGuestHouse(@RequestPart(value = "guest-house-dto", required = false) @Valid GuestHouseDto.Post guestHouseDto,
                                          @RequestPart(required = false) MultipartFile[] guestHouseImage,
+                                         @RequestPart(value = "room-dto") MultiRoomDto<RoomDto.Post> roomPostDtos,
+                                         @RequestPart (value = "room-image", required = false) MultipartFile[] roomImages,
                                          Principal principal
                                          ) throws IOException {
 
@@ -52,6 +60,10 @@ public class GuestHouseController {
 
         GuestHouse createdGuestHouse = guestHouseService.createGuestHouse(guestHouse, guestHouseImage);
 
+        List<Room> rooms = roomMapper.roomPostsToRooms(roomPostDtos);
+
+        roomService.createRoom(rooms, roomImages, createdGuestHouse.getGuestHouseId(), principal);
+
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("created",null);
         return new ResponseEntity(singleResponseDto, HttpStatus.CREATED);
     }
@@ -61,6 +73,9 @@ public class GuestHouseController {
     @PutMapping(value = "/api/auth/guesthouse/{guesthouse-id}")
     public ResponseEntity putGuestHouse(@RequestPart(value = "guest-house-dto", required = false) @Valid GuestHouseDto.Put guestHouseDto,
                                         @RequestPart(required = false) MultipartFile[] guestHouseImage,
+                                        @RequestPart(value = "room-dto") MultiRoomDto<RoomDto.Put> roomPutDtos,
+                                        @RequestPart (value = "room-image", required = false) MultipartFile[] roomImages,
+                                        @RequestPart(value = "new-room-image", required = false) MultipartFile[] newRoomImages,
                                         Principal principal,
                                         @PathVariable("guesthouse-id") Long guestHouseId
                                         ) throws IOException {
@@ -74,6 +89,11 @@ public class GuestHouseController {
         guestHouse.setGuestHouseId(guestHouseId);
         guestHouseService.modifyGuestHouse(guestHouse, guestHouseImage, memberId);
 
+        List<List<Room>> rooms = roomMapper.roomPutsToRooms(roomPutDtos);
+
+        roomService.updateRoom(rooms, roomImages, newRoomImages, guestHouseId, principal);
+
+
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("modified",null);
         return new ResponseEntity(singleResponseDto, HttpStatus.OK);
     }
@@ -82,14 +102,12 @@ public class GuestHouseController {
     /** 업주, 일반 회원이 볼 수 있는 게스트하우스의 상세내용 호출 api **/
     @GetMapping("/api/guesthouse/{guesthouse-id}")
     public ResponseEntity getGuestHouse(Principal principal,
-                                        @PathVariable("guesthouse-id") Long guestHouseId,
-                                        @Positive @RequestParam int roomPage,
-                                        @Positive @RequestParam int roomSize) {
+                                        @PathVariable("guesthouse-id") Long guestHouseId) {
 
         GuestHouse guestHouse = guestHouseService.findGuestHouse(guestHouseId);
 
         GuestHouseDto.response response = guestHouseMapper.
-                guestHouseToSingleGuestHouseResponse(guestHouse, guestHouseDetailsMapper, roomService, roomPage - 1, roomSize);
+                guestHouseToSingleGuestHouseResponse(guestHouse, guestHouseDetailsMapper, roomService);
 
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("success", response);
         return new ResponseEntity(singleResponseDto, HttpStatus.OK);

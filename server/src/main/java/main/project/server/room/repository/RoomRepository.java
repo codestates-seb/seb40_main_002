@@ -10,5 +10,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    Page<Room> findByGuestHouseAndRoomStatus(GuestHouse guestHouse, RoomStatus roomStatus, Pageable pageable);
+    List<Room> findByGuestHouseAndRoomStatus(GuestHouse guestHouse, RoomStatus roomStatus);
 }
