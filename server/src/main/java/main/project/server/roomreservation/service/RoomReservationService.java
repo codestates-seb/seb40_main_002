@@ -2,12 +2,14 @@ package main.project.server.roomreservation.service;
 
 import lombok.RequiredArgsConstructor;
 import main.project.server.exception.BusinessException;
+import main.project.server.exception.ExceptionCode;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.service.GuestHouseService;
 import main.project.server.member.entity.Member;
 import main.project.server.member.service.MemberService;
 import main.project.server.room.entity.Room;
 import main.project.server.room.entity.enums.RoomStatus;
+import main.project.server.room.repository.RoomRepository;
 import main.project.server.room.service.RoomService;
 import main.project.server.roomreservation.entity.RoomReservation;
 import main.project.server.roomreservation.entity.enums.RoomReservationStatus;
@@ -20,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -35,6 +39,8 @@ public class RoomReservationService {
 
     private final MemberService memberService;
 
+    private final RoomRepository roomRepository;
+
     public RoomReservation createRoomReservation(RoomReservation roomReservation,
                                                  long guestHouseId,
                                                  long roomId, Principal principal) {
@@ -43,15 +49,30 @@ public class RoomReservationService {
                 != guestHouseId) {
             throw new RuntimeException("createReservation Exception");
         }
-
+        verifyAvailableReservation(guestHouseId, roomId, roomReservation); //예약 검증
         roomReservation.setRoomReservationStatus(RoomReservationStatus.RESERVATION_COMPLETE);
         roomReservation.addGuestHouse(GuestHouse.GuestHouse(guestHouseId));
         roomReservation.addRoom(Room.Room(roomId));
-        roomReservation.addMember(Member.Member("테스터")); // 테스트용
-
+        roomReservation.addMember(Member.Member("업주")); // 테스트용
 
         roomReservation.setRoomReservationStatus(RoomReservationStatus.RESERVATION_COMPLETE);
         return roomReservationRepository.save(roomReservation);
+    }
+
+    private void verifyAvailableReservation(Long guestHouseId, Long roomId, RoomReservation roomReservation) {
+
+        String start = roomReservation.getRoomReservationStart().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String end = roomReservation.getRoomReservationEnd().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        List<Room> availableReserveRoomList = roomRepository.findAllAvailableReservation(guestHouseId, start, end, RoomStatus.ROOM_ENABLE.toString());
+
+        boolean find = availableReserveRoomList.stream().anyMatch(room -> {
+            if (room.getRoomId().equals(roomId)) return true;
+            return false;
+        });
+
+        if(!find)
+            throw new BusinessException(ExceptionCode.NOT_AVAILABLE_RESERVATION);
     }
 
     public void deleteRoomReservation(long guestHouseId, long roomId, long reservationId, Principal principal) {

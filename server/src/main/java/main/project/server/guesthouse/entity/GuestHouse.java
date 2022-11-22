@@ -84,7 +84,7 @@ public class GuestHouse extends Auditable {
     private List<Heart> heart = new ArrayList<>();
 
     @Column
-    private int hearts = 0;
+    private Integer hearts = 0;
 
     public static GuestHouse GuestHouse(Long guestHouseId) {
         GuestHouse guestHouse = new GuestHouse();

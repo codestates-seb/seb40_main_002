@@ -7,7 +7,9 @@ public enum ExceptionCode {
 
     NOT_EXISTS_GUESTHOUSE(400, "not exists guesthouse"),
 
-    NOT_OWN_GUESTHOUSE(400, "not own guesthouse");
+    NOT_OWN_GUESTHOUSE(400, "not own guesthouse"),
+
+    NOT_AVAILABLE_RESERVATION(400, "not available reservation");
 
     int code;
     String message;
