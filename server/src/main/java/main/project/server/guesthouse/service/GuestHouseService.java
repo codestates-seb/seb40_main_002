@@ -89,6 +89,12 @@ public class GuestHouseService {
         //GuestHouseDetails가 새롭게 생성되지 않도록, DB에서 가져온 GuestHouseDetails의 id를 세팅
         guestHouse.getGuestHouseDetails().setGuestHouseDetailsId(existsGuestHouse.getGuestHouseDetails().getGuestHouseDetailsId());
 
+        //기존 값으로 세팅
+        guestHouse.setGuestHouseReviewCount(existsGuestHouse.getGuestHouseReviewCount());
+        guestHouse.setGuestHouseStar(existsGuestHouse.getGuestHouseStar());
+        guestHouse.setGuestHouseStatus(existsGuestHouse.getGuestHouseStatus());
+
+
         //entity 저장
         repository.save(guestHouse);
 
