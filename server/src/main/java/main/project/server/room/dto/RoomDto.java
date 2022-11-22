@@ -34,6 +34,7 @@ public class RoomDto {
         private String roomInfo;
     }
 
+    @Setter
     @Getter
     @Builder
     public static class Response {
@@ -47,5 +48,7 @@ public class RoomDto {
         private String roomImageUrl;
 
         private String roomInfo;
+
+        private Boolean reservePossible; //필드 하나만 추가하면 되기때문에 기존 DTO에 추가, 예약 가능 여부를 보내주기 위해 추가
     }
 }

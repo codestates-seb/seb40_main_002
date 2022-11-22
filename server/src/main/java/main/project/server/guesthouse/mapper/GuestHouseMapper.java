@@ -9,6 +9,7 @@ import main.project.server.guesthousedetails.entity.GuestHouseDetails;
 
 import main.project.server.guesthousedetails.mapper.GuestHouseDetailsMapper;
 import main.project.server.member.entity.Member;
+import main.project.server.room.mapper.RoomMapper;
 import main.project.server.room.service.RoomService;
 
 import org.mapstruct.Mapper;
@@ -155,9 +156,12 @@ public interface GuestHouseMapper {
     }
 
 
-    default GuestHouseDto.response guestHouseToSingleGuestHouseResponse(GuestHouse guestHouse,
-                                                                                        GuestHouseDetailsMapper guestHouseDetailsMapper,
-                                                                                        RoomService roomService) {
+    default GuestHouseDto.response guestHouseToSingleGuestHouseResponse(
+
+            GuestHouse guestHouse,
+            RoomService roomService,
+            String start,
+            String end) {
 
         Member adminMember = guestHouse.getMember();
 
@@ -177,7 +181,7 @@ public interface GuestHouseMapper {
                 .guestHouseTag(createSortedTagArray(guestHouse.getGuestHouseTag()))
                 .guestHouseImage(guestHouse.guestHouseImageListToUrlList()) //리스트, 처리 필요
                 .guestHouseInfo(guestHouse.getGuestHouseInfo())
-                .rooms(roomService.getRoomResponses(guestHouse.getGuestHouseId())) //리스트, 처리 필요
+                .rooms(roomService.getReservePossibleOfRoomDtoResponseList(guestHouse.getGuestHouseId(), guestHouse.getRooms(), start, end)) //리스트, 처리 필요
                 .createdAt(guestHouse.getCreatedAt().toString())
                 .modifiedAt(guestHouse.getModifiedAt().toString())
                 .build();

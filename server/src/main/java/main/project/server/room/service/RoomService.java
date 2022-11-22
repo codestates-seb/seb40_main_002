@@ -115,4 +115,29 @@ public class RoomService {
 
         return imageUrl;
     }
+
+
+    public List<RoomDto.Response> getReservePossibleOfRoomDtoResponseList(Long guestHouseId, List<Room> roomList, String start, String end) {
+
+        List<RoomDto.Response> responses = roomMapper.roomsToRoomResponses(roomList); //모든 룸의 Response 리스트
+
+        List<Room> allRoomAvailableReservation = roomRepository.findAllAvailableReservation( //예약 가능한 룸만 가져 온 리스트
+                guestHouseId,
+                start,
+                end,
+                RoomStatus.ROOM_ENABLE.toString());
+
+        allRoomAvailableReservation.stream().forEach(resPossRoom-> {
+
+            for (RoomDto.Response res : responses) {
+
+                if (resPossRoom.getRoomId().equals(res.getRoomId())) { //예약 가능 룸의 id와 일치하다면
+                    res.setReservePossible(true); //예약 가능 룸이므로 Response 안에 예약 가능 여부 필드를 true 할당
+                }
+            }
+        });
+
+        return responses;
+
+    }
 }
