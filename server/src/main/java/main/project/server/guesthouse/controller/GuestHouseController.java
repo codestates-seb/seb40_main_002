@@ -101,12 +101,14 @@ public class GuestHouseController {
     /** 업주, 일반 회원이 볼 수 있는 게스트하우스의 상세내용 호출 api **/
     @GetMapping("/api/guesthouse/{guesthouse-id}")
     public ResponseEntity getGuestHouse(Principal principal,
-                                        @PathVariable("guesthouse-id") Long guestHouseId) {
+                                        @PathVariable("guesthouse-id") Long guestHouseId,
+                                        String start,
+                                        String end) {
 
         GuestHouse guestHouse = guestHouseService.findGuestHouse(guestHouseId);
 
         GuestHouseDto.response response = guestHouseMapper.
-                guestHouseToSingleGuestHouseResponse(guestHouse, guestHouseDetailsMapper, roomService);
+                guestHouseToSingleGuestHouseResponse(guestHouse, roomService, start, end);
 
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("success", response);
         return new ResponseEntity(singleResponseDto, HttpStatus.OK);
