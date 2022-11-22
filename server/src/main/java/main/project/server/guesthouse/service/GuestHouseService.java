@@ -94,6 +94,8 @@ public class GuestHouseService {
         guestHouse.setGuestHouseStar(existsGuestHouse.getGuestHouseStar());
         guestHouse.setGuestHouseStatus(existsGuestHouse.getGuestHouseStatus());
 
+        //기존 찜 갯수 저장
+        guestHouse.setHearts(existsGuestHouse.getHearts());
 
         //entity 저장
         repository.save(guestHouse);

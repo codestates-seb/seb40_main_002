@@ -11,4 +11,5 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findByGuestHouseGuestHouseId(Long guestHouseId, Pageable pageable);
     List<Review> findByGuestHouseGuestHouseId(Long guestHouseId);
+    Page<Review> findByMemberMemberId(String memberId, Pageable pageable);
 }

@@ -14,4 +14,5 @@ public interface ReviewMapper {
     ReviewDto.Response reviewToReviewResponseDto(Review review);
 
     List<ReviewDto.Response> reviewToReviewResponseDto(List<Review> reviews);
+    List<ReviewDto.ResponseMyPage> reviewToReviewResponseMyPageDto(List<Review> reviews);   // 마이페이지 리뷰 조회
 }

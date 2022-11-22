@@ -7,6 +7,7 @@ import main.project.server.audit.Auditable;
 import main.project.server.city.entity.City;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 
+import main.project.server.heart.entity.Heart;
 import main.project.server.review.entity.Review;
 import main.project.server.guesthousedetails.entity.GuestHouseDetails;
 import main.project.server.guesthouseimage.entity.GuestHouseImage;
@@ -67,7 +68,7 @@ public class GuestHouse extends Auditable {
     @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.ALL)
     private List<GuestHouseImage> guestHouseImage = new ArrayList<>();
 
-    @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.REMOVE)
     private List<Review> review = new ArrayList<>();
 
     @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.ALL)
@@ -79,6 +80,11 @@ public class GuestHouse extends Auditable {
     @OneToOne(mappedBy = "guestHouse",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private GuestHouseDetails guestHouseDetails;
 
+    @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.REMOVE)
+    private List<Heart> heart = new ArrayList<>();
+
+    @Column
+    private int hearts = 0;
 
     public static GuestHouse GuestHouse(Long guestHouseId) {
         GuestHouse guestHouse = new GuestHouse();
