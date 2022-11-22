@@ -2,6 +2,7 @@ package main.project.server.review.service;
 
 import lombok.RequiredArgsConstructor;
 import main.project.server.guesthouse.entity.GuestHouse;
+import main.project.server.guesthouse.repository.GuestHouseRepository;
 import main.project.server.guesthouse.service.GuestHouseService;
 import main.project.server.member.entity.Member;
 import main.project.server.member.service.MemberService;
@@ -16,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class ReviewService {
     private final ReviewRepository reviewRepository;
+    private final GuestHouseRepository guestHouseRepository;
     private final MemberService memberService;
     private final GuestHouseService guestHouseService;
 
@@ -31,10 +32,13 @@ public class ReviewService {
 
         Member member = memberService.findVerifiedMember(principal.getName());
         GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(guestHouseId);
+
         review.setMember(member);
         review.setGuestHouse(guestHouse);
         Review result = reviewRepository.save(review);
+
         guestHouse.setGuestHouseStar(averageStar(guestHouseId));    // 리뷰 평점 평균 저장
+        guestHouseRepository.save(guestHouse);
 
         return result;
     }
@@ -46,11 +50,14 @@ public class ReviewService {
         Member member = memberService.findVerifiedMember(principal.getName());
         GuestHouse guestHouse = review.getGuestHouse();
         verifyMemberConfirm(review, principal);
+
         putReview.setReviewId(reviewId);
         putReview.setMember(member);
         putReview.setGuestHouse(guestHouse);
         Review result = reviewRepository.save(review);
-        guestHouse.setGuestHouseStar(averageStar(guestHouse.getGuestHouseId()));
+
+        guestHouse.setGuestHouseStar(averageStar(guestHouse.getGuestHouseId()));    // 리뷰 평점 평균 저장
+        guestHouseRepository.save(guestHouse);
 
         return result;
     }
@@ -68,8 +75,9 @@ public class ReviewService {
 
         Review deleteReview = findVerifiedReview(reviewId);
         verifyMemberConfirm(deleteReview, principal);
-
+        GuestHouse guestHouse = deleteReview.getGuestHouse();
         reviewRepository.delete(deleteReview);
+        guestHouse.setGuestHouseStar(averageStar(guestHouse.getGuestHouseId()));    // 리뷰 평점 평균 저장(삭제 반영)
     }
 
 
@@ -94,5 +102,13 @@ public class ReviewService {
         List<Review> reviews = reviewRepository.findByGuestHouseGuestHouseId(guestHouseId);
         float average = (float) reviews.stream().mapToDouble(s -> s.getStar()).average().orElse(Double.NaN);
         return average;
+    }
+
+    // 리뷰 멤버기준 조회(페이지)
+    public Page<Review> getReviewPageByMember(int page, int size, String memberId){
+
+        Pageable pageable = PageRequest.of(page-1, size, Sort.by("reviewId").descending());
+
+        return reviewRepository.findByMemberMemberId(memberId, pageable);
     }
 }

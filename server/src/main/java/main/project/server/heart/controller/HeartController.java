@@ -20,33 +20,14 @@ public class HeartController {
 
 
     // 찜하기
-    @PostMapping("/api/auth/guesthouse/{guesthouse-id}/heart-on")
+    @PostMapping("/api/auth/guesthouse/{guesthouse-id}/heart")
     public ResponseEntity postHeartOn(@PathVariable("guesthouse-id") @Positive Long guestHouseId, Principal principal){
 
         String memberId = principal.getName();
-        String response = heartService.clickEmptyHeart(memberId, guestHouseId);
+        String response = heartService.clickHeart(memberId, guestHouseId);
         Boolean heartStatus = heartService.heartStatus(memberId, guestHouseId);
 
-        HttpStatus httpStatus;
-        if(response.equals("Duplicate Heart On")) httpStatus = HttpStatus.NOT_ACCEPTABLE;
-        else httpStatus = HttpStatus.OK;
-
-        return new ResponseEntity<>(new SingleResponseDto<>(response, heartStatus), httpStatus);
-    }
-
-    // 찜하기 취소
-    @PostMapping("/api/auth/guesthouse/{guesthouse-id}/heart-off")
-    public ResponseEntity postHeartOff(@PathVariable("guesthouse-id") @Positive Long guestHouseId, Principal principal) {
-
-        String memberId = principal.getName();
-        String response = heartService.clickFullHeart(memberId, guestHouseId);
-        Boolean heartStatus = heartService.heartStatus(memberId, guestHouseId);
-
-        HttpStatus httpStatus;
-        if(response.equals("Duplicate Heart Off")) httpStatus = HttpStatus.NOT_ACCEPTABLE;
-        else httpStatus = HttpStatus.OK;
-
-        return new ResponseEntity<>(new SingleResponseDto<>(response, heartStatus), httpStatus);
+        return new ResponseEntity<>(new SingleResponseDto<>(response, heartStatus), HttpStatus.OK);
     }
 
     // 찜하기 상태

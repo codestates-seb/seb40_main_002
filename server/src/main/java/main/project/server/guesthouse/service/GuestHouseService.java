@@ -89,6 +89,9 @@ public class GuestHouseService {
         //GuestHouseDetails가 새롭게 생성되지 않도록, DB에서 가져온 GuestHouseDetails의 id를 세팅
         guestHouse.getGuestHouseDetails().setGuestHouseDetailsId(existsGuestHouse.getGuestHouseDetails().getGuestHouseDetailsId());
 
+        //기존 찜 갯수 저장
+        guestHouse.setHearts(existsGuestHouse.getHearts());
+
         //entity 저장
         repository.save(guestHouse);
 
