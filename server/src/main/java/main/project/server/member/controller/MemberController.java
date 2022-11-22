@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.security.Principal;
 import java.util.List;
@@ -53,7 +54,7 @@ public class MemberController {
 
     // 맴버 생성
     @PostMapping("/api/members")
-    public ResponseEntity postMember(@RequestPart(value = "member-dto") MemberDto.Post memberPostDto,
+    public ResponseEntity postMember(@RequestPart(value = "member-dto") @Valid MemberDto.Post memberPostDto,
                                      @RequestPart(required = false) MultipartFile memberImageFile){
         Member member = memberService.createMember(memberMapper.memberPostDtoToMember(memberPostDto), memberImageFile);
         return new ResponseEntity<>(new SingleResponseDto<>("created", memberMapper.memberToMemberResponseDto(member)), HttpStatus.CREATED);
