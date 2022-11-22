@@ -57,7 +57,6 @@ public class GuestHouseController {
 
         GuestHouse guestHouse = guestHouseMapper.guestHouseDtoPostToGuestHouse(guestHouseDto, memberId);
 
-
         GuestHouse createdGuestHouse = guestHouseService.createGuestHouse(guestHouse, guestHouseImage);
 
         List<Room> rooms = roomMapper.roomPostsToRooms(roomPostDtos);

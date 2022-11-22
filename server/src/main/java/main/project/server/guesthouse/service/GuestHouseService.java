@@ -134,8 +134,7 @@ public class GuestHouseService {
         //오더바이 정렬 구하기
         String sortValue = queryStringDto.getSort();
 
-        Sort sort = Sort.by(Sort.Direction.DESC, "guest_house_id");
-
+        Sort sort = Sort.by(Sort.Direction.DESC, "guest_house_id"); //기본, 등록순 내림차순
 
         if (sortValue.equals("star")) {
 
@@ -143,8 +142,7 @@ public class GuestHouseService {
 
         } else if (sortValue.equals("review")) {
 
-           //리뷰 갯수 구하는 로직필요
-
+           sort = Sort.by(Sort.Direction.DESC,"guest_house_review_count");
         }
 
 

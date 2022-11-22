@@ -23,6 +23,7 @@ public interface GuestHouseMapper {
 
     default public GuestHouse guestHouseDtoPostToGuestHouse(GuestHouseDto.Post dto, String memberId){
 
+
         GuestHouse guestHouse = GuestHouse.builder()
                 .guestHouseName(dto.getGuestHouseName())
                 .member(Member.Member(memberId))
@@ -34,6 +35,8 @@ public interface GuestHouseMapper {
                 .guestHouseDetails(booleanArrayToGuestHouseDetails(dto.getGuestHouseDetails()))
                 .guestHouseTag(createSortedTagString(dto.getGuestHouseTag()))
                 .guestHouseInfo(dto.getGuestHouseInfo())
+                .guestHouseReviewCount(0L) //최초 등록시 초기화
+                .guestHouseStar(0f) //최초 등록시 초기화
                 .build();
 
         guestHouse.getGuestHouseDetails().setGuestHouse(guestHouse);
