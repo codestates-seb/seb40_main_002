@@ -2,6 +2,7 @@ package main.project.server.member.entity;
 
 import lombok.*;
 import main.project.server.audit.Auditable;
+import main.project.server.heart.entity.Heart;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberRegisterKind;
 import main.project.server.member.entity.enums.MemberStatus;
@@ -64,10 +65,13 @@ public class Member extends Auditable {
     }
 
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<ReviewComment> reviewComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Heart> heart = new ArrayList<>();
 
 }

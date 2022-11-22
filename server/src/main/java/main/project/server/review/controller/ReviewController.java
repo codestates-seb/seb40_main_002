@@ -57,7 +57,7 @@ public class ReviewController {
     // 리뷰 조회(페이지)
     @GetMapping("/api/guesthouse/{guesthouse-id}/review")
     public ResponseEntity getReview(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
-                                    @RequestParam(name = "size", required = false, defaultValue = "15") int size,
+                                    @RequestParam(name = "size", required = false, defaultValue = "4") int size,
                                     @PathVariable("guesthouse-id") @Positive Long guestHouseId){
         Page<Review> reviewPage = reviewService.getReviewPage(page, size, guestHouseId);
         PageInfo pageInfo = PageInfo.of(reviewPage);

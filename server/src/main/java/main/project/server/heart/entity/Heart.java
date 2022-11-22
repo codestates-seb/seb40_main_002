@@ -1,4 +1,4 @@
-package main.project.server.review.entity;
+package main.project.server.heart.entity;
 
 import lombok.*;
 import main.project.server.audit.Auditable;
@@ -13,26 +13,20 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Review extends Auditable {
+public class Heart extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reviewId;
+    private Long heartId;
 
-    @ManyToOne
-    @JoinColumn(name = "GUEST_HOUSE_ID")
-    private GuestHouse guestHouse;
-
-    private String comment;
+    @Column
+    private Boolean heartStatus;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    private Float star;
-
-    @OneToOne(mappedBy = "review", cascade = CascadeType.REMOVE)
-    @JoinColumn
-    private ReviewComment reviewComment;
-
+    @ManyToOne
+    @JoinColumn(name = "GUEST_HOUSE_ID")
+    private GuestHouse guestHouse;
 }

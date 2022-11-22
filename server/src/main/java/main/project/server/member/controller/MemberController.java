@@ -6,12 +6,18 @@ import main.project.server.dto.MultiResponseDto;
 import main.project.server.dto.PageInfo;
 import main.project.server.dto.SingleResponseDto;
 import main.project.server.guesthouse.service.GuestHouseService;
+import main.project.server.heart.dto.HeartDto;
+import main.project.server.heart.entity.Heart;
+import main.project.server.heart.mapper.HeartMapper;
+import main.project.server.heart.service.HeartService;
 import main.project.server.member.dto.MemberDto;
 import main.project.server.member.entity.Member;
 import main.project.server.member.mapper.MemberMapper;
 import main.project.server.member.service.MemberService;
 import main.project.server.review.dto.ReviewDto;
 import main.project.server.review.entity.Review;
+import main.project.server.review.mapper.ReviewMapper;
+import main.project.server.review.service.ReviewService;
 import main.project.server.room.service.RoomService;
 import main.project.server.roomreservation.dto.RoomReservationDto;
 import main.project.server.roomreservation.entity.RoomReservation;
@@ -19,7 +25,6 @@ import main.project.server.roomreservation.mapper.RoomReservationMapper;
 import main.project.server.roomreservation.service.RoomReservationService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +46,10 @@ public class MemberController {
     private final RoomReservationMapper reservationMapper;
     private final GuestHouseService guestHouseService;
     private final RoomService roomService;
+    private final ReviewMapper reviewMapper;
+    private final ReviewService reviewService;
+    private final HeartService heartService;
+    private final HeartMapper heartMapper;
 
     // 맴버 생성
     @PostMapping("/api/members")
@@ -102,5 +111,33 @@ public class MemberController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>("get", responses, pageInfo), HttpStatus.OK);
 
+    }
+
+    // 멤버 리뷰 조회
+    @GetMapping("/api/auth/members/review")
+    public ResponseEntity getReview(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                    @RequestParam(name = "size", required = false, defaultValue = "4") int size,
+                                    Principal principal) {
+
+        Page<Review> reviewPage = reviewService.getReviewPageByMember(page, size, principal.getName());
+        PageInfo pageInfo = PageInfo.of(reviewPage);
+        List<ReviewDto.ResponseMyPage> responses = reviewMapper.reviewToReviewResponseMyPageDto(reviewPage.getContent());
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>("get ok", responses, pageInfo), HttpStatus.OK);
+    }
+
+    // 멤버 찜 조회
+    @GetMapping("/api/auth/members/heart")
+    public ResponseEntity getHeart(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                   @RequestParam(name = "size", required = false, defaultValue = "4") int size,
+                                   Principal principal) {
+        
+        Page<Heart> heartPage = heartService.getHeartPageByMember(page, size, principal.getName());
+        PageInfo pageInfo = PageInfo.of(heartPage);
+        List<HeartDto.ResponseMyPage> responses = heartMapper.reviewToReviewResponseMyPageDto(heartPage.getContent());
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>("get ok", responses, pageInfo), HttpStatus.OK);
     }
 }
