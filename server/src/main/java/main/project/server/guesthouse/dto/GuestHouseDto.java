@@ -112,4 +112,13 @@ public class GuestHouseDto {
 
         private String modifiedAt;
     }
+
+    // 숙소에 대한 간단한 정보(id, 이름) response
+    @Setter
+    @Getter
+    @NoArgsConstructor
+    public static class responseSimple {
+        private Long guestHouseId;
+        private String guestHouseName;
+    }
 }

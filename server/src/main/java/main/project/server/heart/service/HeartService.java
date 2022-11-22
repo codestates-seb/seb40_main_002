@@ -9,6 +9,10 @@ import main.project.server.heart.repository.HeartRepository;
 import main.project.server.member.entity.Member;
 import main.project.server.member.repository.MemberRepository;
 import main.project.server.member.service.MemberService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +30,7 @@ public class HeartService {
     private final GuestHouseService guestHouseService;
 
 
-    public String clickEmptyHeart(String memberId, Long guestHouseId){
+    public String clickHeart(String memberId, Long guestHouseId){
         try {
             Heart heart = heartRepository.findByMemberMemberIdAndGuestHouseGuestHouseId(memberId, guestHouseId).orElseThrow();
             GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(guestHouseId);
@@ -34,8 +38,18 @@ public class HeartService {
 
             Boolean preHeart = heart.getHeartStatus();
 
-            if (preHeart) return "Duplicate Heart On";
-            else {
+            if (preHeart) {
+                heart.setHeartStatus(false);
+                heartRepository.saveAndFlush(heart);
+
+                member.getHeart().add(heart);
+                memberRepository.saveAndFlush(member);
+
+                guestHouse.setHearts(guestHouse.getHearts() - 1);
+                guestHouseRepository.saveAndFlush(guestHouse);
+
+                return "Heart Off";
+            } else {
                 heart.setHeartStatus(true);
                 heartRepository.saveAndFlush(heart);
 
@@ -57,55 +71,10 @@ public class HeartService {
             heart.setHeartStatus(true);
             heartRepository.saveAndFlush(heart);
 
-            member.getHeart().add(heart);
-            memberRepository.saveAndFlush(member);
-
             guestHouse.setHearts(guestHouse.getHearts() + 1);
             guestHouseRepository.saveAndFlush(guestHouse);
 
             return "Heart On";
-        }
-    }
-
-    public String clickFullHeart(String memberId, Long guestHouseId){
-        try {
-            Heart heart = heartRepository.findByMemberMemberIdAndGuestHouseGuestHouseId(memberId, guestHouseId).orElseThrow();
-            GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(guestHouseId);
-            Member member = memberService.findVerifiedMember(memberId);
-
-            Boolean preHeart = heart.getHeartStatus();
-
-            if (preHeart) return "Duplicate Heart Off";
-            else {
-                heart.setHeartStatus(false);
-                heartRepository.saveAndFlush(heart);
-
-                member.getHeart().add(heart);
-                memberRepository.saveAndFlush(member);
-
-                guestHouse.setHearts(guestHouse.getHearts() - 1);
-                guestHouseRepository.saveAndFlush(guestHouse);
-
-                return "Heart Off";
-            }
-
-        } catch (Exception e) {     // preHeart 없는 경우 -> 생성 및 하트 적용
-            Heart heart = new Heart();
-            Member member = memberService.findVerifiedMember(memberId);
-            GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(guestHouseId);
-
-            heart.setMember(member);
-            heart.setGuestHouse(guestHouse);
-            heart.setHeartStatus(false);
-            heartRepository.saveAndFlush(heart);
-
-            member.getHeart().add(heart);
-            memberRepository.saveAndFlush(member);
-
-            guestHouse.setHearts(guestHouse.getHearts() - 1);
-            guestHouseRepository.saveAndFlush(guestHouse);
-
-            return "Heart Off";
         }
     }
 
@@ -114,6 +83,14 @@ public class HeartService {
                 .orElseThrow(() -> new NoSuchElementException("No value present"));
 
         return heart.getHeartStatus();
+    }
+
+    // 멤버 찜 조회(페이지)
+    public Page<Heart> getHeartPageByMember(int page, int size, String memberId){
+
+        Pageable pageable = PageRequest.of(page-1, size, Sort.by("heartId").descending());
+
+        return heartRepository.findByMemberMemberId(memberId, pageable);
     }
 }
 

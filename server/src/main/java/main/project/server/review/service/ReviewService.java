@@ -31,9 +31,11 @@ public class ReviewService {
 
         Member member = memberService.findVerifiedMember(principal.getName());
         GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(guestHouseId);
+
         review.setMember(member);
         review.setGuestHouse(guestHouse);
         Review result = reviewRepository.save(review);
+
         guestHouse.setGuestHouseStar(averageStar(guestHouseId));    // 리뷰 평점 평균 저장
 
         //게스트 하우스의 리뷰를 등록 했을 경우에 현재 리뷰 갯수에서 + 1
@@ -49,11 +51,13 @@ public class ReviewService {
         Member member = memberService.findVerifiedMember(principal.getName());
         GuestHouse guestHouse = review.getGuestHouse();
         verifyMemberConfirm(review, principal);
+
         putReview.setReviewId(reviewId);
         putReview.setMember(member);
         putReview.setGuestHouse(guestHouse);
         Review result = reviewRepository.save(review);
-        guestHouse.setGuestHouseStar(averageStar(guestHouse.getGuestHouseId()));
+
+        guestHouse.setGuestHouseStar(averageStar(guestHouse.getGuestHouseId()));    // 리뷰 평점 평균 저장
 
         return result;
     }
@@ -71,11 +75,13 @@ public class ReviewService {
 
         Review deleteReview = findVerifiedReview(reviewId);
         verifyMemberConfirm(deleteReview, principal);
+        GuestHouse guestHouse = deleteReview.getGuestHouse();
 
         //게스트 하우스의 리뷰를 삭제 했을 경우에 현재 리뷰 갯수에서 - 1
         deleteReview.getGuestHouse().setGuestHouseReviewCount(deleteReview.getGuestHouse().getGuestHouseReviewCount() - 1);
 
         reviewRepository.delete(deleteReview);
+        guestHouse.setGuestHouseStar(averageStar(guestHouse.getGuestHouseId()));    // 리뷰 평점 평균 저장(삭제 반영)
     }
 
 
@@ -100,5 +106,13 @@ public class ReviewService {
         List<Review> reviews = reviewRepository.findByGuestHouseGuestHouseId(guestHouseId);
         float average = (float) reviews.stream().mapToDouble(s -> s.getStar()).average().orElse(Double.NaN);
         return average;
+    }
+
+    // 리뷰 멤버기준 조회(페이지)
+    public Page<Review> getReviewPageByMember(int page, int size, String memberId){
+
+        Pageable pageable = PageRequest.of(page-1, size, Sort.by("reviewId").descending());
+
+        return reviewRepository.findByMemberMemberId(memberId, pageable);
     }
 }

@@ -1,6 +1,7 @@
 package main.project.server.heart.entity;
 
 import lombok.*;
+import main.project.server.audit.Auditable;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.member.entity.Member;
 
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Heart {
+public class Heart extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
