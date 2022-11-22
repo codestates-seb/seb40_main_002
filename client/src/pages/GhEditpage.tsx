@@ -4,6 +4,7 @@ import GhDescription from '../components/ghEdit/GhDescription';
 import Ghname from '../components/ghEdit/Ghname';
 import ImageContainer from '../components/ghEdit/ImageContainer';
 import Messenger from '../components/ghEdit/Messenger';
+import RoomEdit from '../components/ghEdit/RoomEdit';
 import TagContainer from '../components/ghEdit/TagContainer';
 
 export default function GhEditpage() {
@@ -14,6 +15,7 @@ export default function GhEditpage() {
         <TagContainer />
         <ImageContainer />
         <GhDescription />
+        <RoomEdit />
         <FacilitiesContainer />
         <Messenger />
       </div>
