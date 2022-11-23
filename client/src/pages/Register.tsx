@@ -19,7 +19,7 @@ export default function Register() {
   );
 
   return (
-    <div className="flex flex-col justify-center items-center w-full h-screen">
+    <div className="flex flex-col items-center w-full h-screen mt-20">
       <div className="font-bold text-xl border-b-[1.5px] w-[1120px] border-#dddddd mb-5">
         회원님의 정보를 입력해주세요
       </div>
