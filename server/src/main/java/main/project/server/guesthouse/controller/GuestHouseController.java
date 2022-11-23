@@ -61,7 +61,7 @@ public class GuestHouseController {
 
         List<Room> rooms = roomMapper.roomPostsToRooms(roomPostDtos);
 
-        roomService.createRoom(rooms, roomImages, createdGuestHouse.getGuestHouseId(), principal);
+        roomService.createRoom(rooms, roomImages, createdGuestHouse.getGuestHouseId());
 
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("created",null);
         return new ResponseEntity(singleResponseDto, HttpStatus.CREATED);
@@ -90,7 +90,7 @@ public class GuestHouseController {
 
         List<List<Room>> rooms = roomMapper.roomPutsToRooms(roomPutDtos);
 
-        roomService.updateRoom(rooms, roomImages, newRoomImages, guestHouseId, principal);
+        roomService.updateRoom(rooms, roomImages, newRoomImages, guestHouseId);
 
 
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("modified",null);

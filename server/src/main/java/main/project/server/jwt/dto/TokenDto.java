@@ -9,6 +9,4 @@ public class TokenDto {
 
     @NotBlank
     String refreshToken;
-    @NotBlank
-    String memberId;
 }

@@ -1,9 +1,6 @@
 package main.project.server.jwt.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import main.project.server.member.entity.Member;
 
 import javax.persistence.*;
@@ -13,6 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Getter
+@Setter
 @Builder
 public class RefreshToken {
 
@@ -25,7 +23,5 @@ public class RefreshToken {
     private Member member;
 
     private String refreshToken;
-
-    private Date expiration;
 
 }

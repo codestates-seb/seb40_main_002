@@ -90,7 +90,6 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         RefreshToken token = RefreshToken.builder()
                 .refreshToken(refreshToken)
                 .member(member)
-                .expiration(expiration)
                 .build();
 
         refreshTokenRepository.save(token);

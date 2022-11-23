@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.security.Principal;
+import java.util.Objects;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -42,12 +43,11 @@ public class RoomReservationService {
     private final RoomRepository roomRepository;
 
     public RoomReservation createRoomReservation(RoomReservation roomReservation,
-                                                 long guestHouseId,
-                                                 long roomId, Principal principal) {
+                                                 Long guestHouseId,
+                                                 Long roomId, Principal principal) {
 
-        if (roomService.findVerifiedRoom(roomId).getGuestHouse().getGuestHouseId()
-                != guestHouseId) {
-            throw new RuntimeException("createReservation Exception");
+        if (!Objects.equals(roomService.findVerifiedRoom(roomId).getGuestHouse().getGuestHouseId(), guestHouseId)) {
+            throw new BusinessException(ExceptionCode.NOT_MATCH_ROOM);
         }
         verifyAvailableReservation(guestHouseId, roomId, roomReservation); //예약 검증
         roomReservation.setRoomReservationStatus(RoomReservationStatus.RESERVATION_COMPLETE);
@@ -75,10 +75,13 @@ public class RoomReservationService {
             throw new BusinessException(ExceptionCode.NOT_AVAILABLE_RESERVATION);
     }
 
-    public void deleteRoomReservation(long guestHouseId, long roomId, long reservationId, Principal principal) {
-        if (roomService.findVerifiedRoom(roomId).getGuestHouse().getGuestHouseId() != guestHouseId
-                || findVerifiedRoomReservation(reservationId).getRoom().getRoomId() != roomId) {
-            throw new RuntimeException("createReservation Exception");
+
+    public void deleteRoomReservation(Long guestHouseId, Long roomId, Long reservationId, Principal principal) {
+        if (!Objects.equals(roomService.findVerifiedRoom(roomId).getGuestHouse().getGuestHouseId(), guestHouseId)) {
+            throw new BusinessException(ExceptionCode.NOT_MATCH_ROOM);
+        }
+        if (!Objects.equals(findVerifiedRoomReservation(reservationId).getRoom().getRoomId(), roomId)) {
+            throw new BusinessException(ExceptionCode.NOT_MATCH_RESERVATION);
         }
 
         // 멤버 검사
@@ -88,7 +91,7 @@ public class RoomReservationService {
         roomReservationRepository.save(findRoomReservation);
     }
 
-    public Page<RoomReservation> findMyReservation(Principal principal, int page, int size) {
+    public Page<RoomReservation> findMyReservation(Principal principal, Integer page, Integer size) {
         Member tempMember = memberService.findVerifiedMember("테스터"); // principal에서 추출할 것
 
         return roomReservationRepository.findByMember(tempMember, PageRequest.of(page, size,
@@ -99,7 +102,7 @@ public class RoomReservationService {
         Optional<RoomReservation> optionalRoomReservation = roomReservationRepository.findById(roomReservationId);
         RoomReservation findRoomReservation =
                 optionalRoomReservation.orElseThrow(() ->
-                        new RuntimeException("cannot find Reservation"));
+                        new BusinessException(ExceptionCode.RESERVATION_NOT_FOUND));
         return findRoomReservation;
     }
 }

@@ -43,17 +43,16 @@ public class TokenController {
 
         RefreshToken refreshToken = tokenMapper.tokenPostToRefreshToken(tokenDto);
 
-        // refresh 토큰 검사
+        // refresh 토큰 검사, memberId 추출
         String encodedBase64SecretKey = jwtTokenizer.encodeBase64SecretKey(secretKey);
-        jwtTokenizer.verifySignature(refreshToken.getRefreshToken(), encodedBase64SecretKey);
 
-        // 멤버에 맞는 토큰 값인지 검사
-        tokenService.findVerifiedToken(refreshToken.getMember().getMemberId());
+        String memberIdFromToken = jwtTokenizer.getMemberIdFromToken(refreshToken.getRefreshToken(), encodedBase64SecretKey);
 
-        String accessToken = oauthSuccessHandler.delegateAccessToken(Member.Member(refreshToken.getMember().getMemberId()));
+        String accessToken = oauthSuccessHandler.delegateAccessToken(Member.Member(memberIdFromToken));
         response.addHeader("Authorization", accessToken);
+        System.out.println(accessToken);
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity("토큰발급 완료", HttpStatus.OK);
     }
 
 }
