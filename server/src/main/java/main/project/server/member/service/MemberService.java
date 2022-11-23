@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -52,7 +53,9 @@ public class MemberService {
 //        else throw
 
         member.setMemberStatus(MemberStatus.MEMBER_ENABLE);
-        member.setMemberImageUrl(saveFile(memberImageFile, member.getMemberId()));
+
+        // 파일이 있는 경우만 저장
+        if(!(memberImageFile.isEmpty())) member.setMemberImageUrl(saveFile(memberImageFile, member.getMemberId()));
 
         return memberRepository.save(member);
     }
