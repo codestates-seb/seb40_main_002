@@ -1,7 +1,7 @@
 import RadioBtn from './RadioBtn';
 import Input from '../common/Input';
 import Birthday from './Birthday';
-import { TagSelectModal } from '../common/TagSelectModal/TagSelectModal';
+import { TagSelectButton } from '../common/TagSelectModal/TagSelectButton';
 import { Dispatch, SetStateAction } from 'react';
 
 interface Props {
@@ -46,7 +46,7 @@ const RightSide = ({ setNickname, setPhoneNum }: Props) => {
         <p className="text-lg">
           선호하는 태그를 선택하고 회원가입을 완료하세요.
         </p>
-        <TagSelectModal />
+        <TagSelectButton />
       </div>
     </section>
   );
