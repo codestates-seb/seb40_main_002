@@ -15,7 +15,11 @@ const testTags = [
   '태그7',
 ];
 
-export const TagSelectButton = () => {
+export const TagSelectButton = ({
+  setTags,
+}: {
+  setTags: React.Dispatch<React.SetStateAction<string[]>>;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModalHandler = () => {
@@ -36,7 +40,11 @@ export const TagSelectButton = () => {
           onClick={openModalHandler}
           className="flex justify-center items-center fixed top-0 left-0 right-0 bottom-0 bg-black/50 z-[100]"
         >
-          <TagSelect tags={testTags} openModalHandler={openModalHandler} />
+          <TagSelect
+            tags={testTags}
+            openModalHandler={openModalHandler}
+            setTags={setTags}
+          />
         </div>
       )}
     </div>
