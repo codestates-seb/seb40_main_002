@@ -4,13 +4,14 @@ import Tag from '../Tag';
 interface Props {
   tags: Array<string>;
   openModalHandler: () => void;
+  setTags?: React.Dispatch<React.SetStateAction<string[]>>;
 }
 const checkMaxSelect = (selectedTags: Array<string>) => {
   if (selectedTags.length > 3) return false;
   else return true;
 };
 
-function TagSelect({ tags, openModalHandler }: Props) {
+function TagSelect({ tags, openModalHandler, setTags }: Props) {
   const [selects, setSelects] = useState(new Array(tags.length).fill(false));
   const handleSelect = (idx: number) => {
     const newSelects = selects.slice();
@@ -20,11 +21,12 @@ function TagSelect({ tags, openModalHandler }: Props) {
   const handleComplete = () => {
     // 선택한 tag들
     const selectedTags = tags.filter((_, idx) => selects[idx]);
-    console.log(selectedTags); //
+
     // 3개 이하인지 체크
     const check = checkMaxSelect(selectedTags);
     if (check) {
       // 상태로 저장하고
+      setTags && setTags([...selectedTags]);
       openModalHandler();
     } else {
       alert('태그는 최대 3개까지 선택할 수 있습니다.');
