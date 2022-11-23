@@ -3,9 +3,10 @@ package main.project.server.member.dto;
 import lombok.*;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberRegisterKind;
-import main.project.server.member.entity.enums.MemberStatus;
 
-import java.time.LocalDateTime;
+import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 public class MemberDto {
     // Dto 항목 고려 필요
@@ -16,13 +17,14 @@ public class MemberDto {
     @Builder
     public static class Post{
 
-
+        @Id
         private String memberId;
-
+        @NotBlank
         private String memberNickname;
-
+        @Email
+        @NotBlank
         private String memberEmail;
-
+        @NotBlank
         private String memberPhone;
 
 //        private MemberStatus memberStatus;

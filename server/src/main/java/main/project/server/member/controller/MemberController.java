@@ -6,11 +6,13 @@ import main.project.server.dto.MultiResponseDto;
 import main.project.server.dto.PageInfo;
 import main.project.server.dto.SingleResponseDto;
 import main.project.server.guesthouse.service.GuestHouseService;
+import main.project.server.jwt.service.TokenService;
 import main.project.server.heart.dto.HeartDto;
 import main.project.server.heart.entity.Heart;
 import main.project.server.heart.mapper.HeartMapper;
 import main.project.server.heart.service.HeartService;
 import main.project.server.member.dto.MemberDto;
+import main.project.server.jwt.dto.TokenDto;
 import main.project.server.member.entity.Member;
 import main.project.server.member.mapper.MemberMapper;
 import main.project.server.member.service.MemberService;
@@ -31,6 +33,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.security.Principal;
 import java.util.List;
@@ -51,9 +55,11 @@ public class MemberController {
     private final HeartService heartService;
     private final HeartMapper heartMapper;
 
+    private final TokenService tokenService;
+
     // 맴버 생성
     @PostMapping("/api/members")
-    public ResponseEntity postMember(@RequestPart(value = "member-dto") MemberDto.Post memberPostDto,
+    public ResponseEntity postMember(@RequestPart(value = "member-dto") @Valid MemberDto.Post memberPostDto,
                                      @RequestPart(required = false) MultipartFile memberImageFile){
         Member member = memberService.createMember(memberMapper.memberPostDtoToMember(memberPostDto), memberImageFile);
         return new ResponseEntity<>(new SingleResponseDto<>("created", memberMapper.memberToMemberResponseDto(member)), HttpStatus.CREATED);
@@ -87,20 +93,10 @@ public class MemberController {
         return new ResponseEntity<>(new SingleResponseDto<>("deleted", memberMapper.memberToMemberResponseDto(member)),HttpStatus.OK);
     }
 
-    @PostMapping("/api/auth/members/logout")
-    public ResponseEntity logoutMember(HttpServletRequest request) {
-
-        String jws = request.getHeader("Authorization");
-        memberService.registerLogoutToken(jws);
-        SingleResponseDto<Object> singleResponseDto = new SingleResponseDto<>();
-        singleResponseDto.setMessage("logout completed");
-        return new ResponseEntity(singleResponseDto, HttpStatus.OK);
-    }
-
     // 멤버 예약 정보
     @GetMapping("/api/auth/members/reservations")
-    public ResponseEntity getMemberReservation(@Positive @RequestParam int page,
-                                               @Positive @RequestParam int size,
+    public ResponseEntity getMemberReservation(@Positive @RequestParam Integer page,
+                                               @Positive @RequestParam Integer size,
                                                Principal principal) {
 
         Page<RoomReservation> reservationPage = reservationService.findMyReservation(principal, page - 1, size);
@@ -109,8 +105,19 @@ public class MemberController {
         List<RoomReservationDto.Response> responses =
                 reservationMapper.reservationsToReservationResponses(reservationPage.getContent(), guestHouseService, roomService);
         return new ResponseEntity<>(
-                new MultiResponseDto<>("get", responses, pageInfo), HttpStatus.OK);
+                new MultiResponseDto<>("get member'", responses, pageInfo), HttpStatus.OK);
 
+    }
+
+    @PostMapping("/api/auth/members/logout")
+    public ResponseEntity logoutMember(HttpServletRequest request, Principal principal) {
+
+        String jws = request.getHeader("Authorization");
+        memberService.registerLogoutToken(jws);
+        SingleResponseDto<Object> singleResponseDto = new SingleResponseDto<>();
+        singleResponseDto.setMessage("logout completed");
+        tokenService.deleteToken(principal.getName()); // 리프레시 토큰 삭제
+        return new ResponseEntity(singleResponseDto, HttpStatus.OK);
     }
 
     // 멤버 리뷰 조회
@@ -132,7 +139,7 @@ public class MemberController {
     public ResponseEntity getHeart(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
                                    @RequestParam(name = "size", required = false, defaultValue = "4") int size,
                                    Principal principal) {
-        
+
         Page<Heart> heartPage = heartService.getHeartPageByMember(page, size, principal.getName());
         PageInfo pageInfo = PageInfo.of(heartPage);
         List<HeartDto.ResponseMyPage> responses = heartMapper.reviewToReviewResponseMyPageDto(heartPage.getContent());
@@ -140,4 +147,5 @@ public class MemberController {
         return new ResponseEntity<>(
                 new MultiResponseDto<>("get ok", responses, pageInfo), HttpStatus.OK);
     }
+
 }

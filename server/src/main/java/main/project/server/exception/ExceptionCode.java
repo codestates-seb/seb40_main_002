@@ -1,6 +1,8 @@
 package main.project.server.exception;
 
 
+import lombok.Getter;
+
 public enum ExceptionCode {
 
     ALREADY_LOGOUT_MEMBER(400, "already logout member"),
@@ -9,9 +11,13 @@ public enum ExceptionCode {
 
     NOT_OWN_GUESTHOUSE(400, "not own guesthouse"),
 
-    NOT_AVAILABLE_RESERVATION(400, "not available reservation");
+    INVALID_REFRESH_TOKEN(500, "invalid refresh token"),
 
+    NOT_AVAILABLE_RESERVATION(400,"not available reservation");
+
+    @Getter
     int code;
+    @Getter
     String message;
 
     ExceptionCode(int code, String message) {
