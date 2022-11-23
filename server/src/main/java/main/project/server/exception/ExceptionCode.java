@@ -11,7 +11,10 @@ public enum ExceptionCode {
 
     NOT_OWN_GUESTHOUSE(400, "not own guesthouse"),
 
-    INVALID_REFRESH_TOKEN(500, "invalid refresh token");
+    INVALID_REFRESH_TOKEN(500, "invalid refresh token"),
+
+    ALREADY_LOGOUT_TOKEN(400, "already logout token"),
+    NOT_AVAILABLE_RESERVATION(400,"not available reservation");
 
     @Getter
     int code;
