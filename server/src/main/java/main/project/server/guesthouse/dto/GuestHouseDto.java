@@ -108,6 +108,8 @@ public class GuestHouseDto {
 
         private List<RoomDto.Response> rooms;
 
+        private Long guestHouseReviewCount;
+
         private String createdAt;
 
         private String modifiedAt;
