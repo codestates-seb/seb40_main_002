@@ -63,13 +63,13 @@ function RoomInfo({
         />
       </div>
       {edit && (
-        <div className="self-end">
+        <div className="  flex flex-row-reverse justify-between md:ml-auto md:flex-col md:justify-between">
           <BsPencilSquare
-            className="cursor-pointer"
+            className="cursor-pointer w-5 h-5"
             onClick={() => changeEditData(room, idx)}
           />
           <BsFillTrashFill
-            className="cursor-pointer"
+            className="cursor-pointer w-5 h-5"
             onClick={() => remove(room)}
           />
         </div>

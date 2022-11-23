@@ -1,4 +1,6 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import CommonBtn from '../components/common/CommonBtn/CommonBtn';
 import FacilitiesArr from '../components/common/FacilitiesArray';
 import AddressContainer from '../components/ghEdit/AddressContainer';
 import FacilitiesContainer from '../components/ghEdit/FacilitiesContainer';
@@ -43,6 +45,66 @@ export default function GhEditpage() {
   // 태그 로직
   const [icons, setIcons] = useState(FacilitiesArr());
 
+  const sendData = async () => {
+    const formData = new FormData();
+
+    const guestHouseDetails = icons.map((icon) => icon.checked);
+
+    const guest_house_dto = {
+      guestHouseName,
+      guestHouseLocation: address.guestHouseLocation,
+      guestHouseAddress: `${address.guestHouseAddress} ${address.detailAddress}`,
+      guestHousePhone: '010-1234-1234',
+      guestHouseTag,
+      guestHouseInfo,
+      guestHouseDetails,
+    };
+
+    const roomData = rooms.map((room) => {
+      return {
+        roomName: room.roomName,
+        roomPrice: room.roomPrice,
+        roomInfo: room.roomExplain,
+      };
+    });
+
+    const roomImg = rooms.map((room) => {
+      return room.roomImage[0];
+    });
+    const roomDto = {
+      roomDto: [...roomData],
+    };
+
+    formData.append('guest-house-dto', JSON.stringify(guest_house_dto));
+    formData.append('room-dto', JSON.stringify(roomDto));
+    for (const el of imgFiles) {
+      formData.append('guestHouseImage', el);
+    }
+    for (const el of roomImg) {
+      formData.append('room-image', el);
+    }
+
+    // for (const values of formData.values()) {
+    //   console.log(values); // 이미지 객체의 정보
+    // }
+    // for (const key of formData.keys()) {
+    //   console.log(key);
+    // }
+    try {
+      const data = await axios.get(
+        '/api/guesthouse/1?start=2022-11-22&end=2022-11-28',
+        {
+          headers: {
+            'ngrok-skip-browser-warning': '111',
+          },
+        }
+      );
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <div className="mt-8 p-3 w-full flex justify-center ">
       <div className="md:max-w-[1120px] w-full flex-col flex gap-y-4 md:gap-y-7">
@@ -64,6 +126,23 @@ export default function GhEditpage() {
         />
         <RoomEdit rooms={rooms} setRooms={setRooms} />
         <FacilitiesContainer icons={icons} setIcons={setIcons} />
+        <div className="flex justify-center mt-20 mb-20">
+          {/* 28 14  */}
+          <CommonBtn
+            btnSize="w-28 h-14 mr-20 md:mr-30 md:w-28 md:h-14"
+            text="작성 취소"
+            btnFs="text-lg"
+            btnHandler={() => {
+              console.log('라우터 달기');
+            }}
+          />
+          <CommonBtn
+            btnSize="w-28 h-14 md:w-28 md:h-14"
+            btnFs="text-lg"
+            text="숙소 등록"
+            btnHandler={sendData}
+          />
+        </div>
       </div>
     </div>
   );
