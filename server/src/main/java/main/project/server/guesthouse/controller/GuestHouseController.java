@@ -10,6 +10,9 @@ import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.mapper.GuestHouseMapper;
 import main.project.server.guesthouse.service.GuestHouseService;
 import main.project.server.guesthousedetails.mapper.GuestHouseDetailsMapper;
+import main.project.server.review.dto.ReviewDto;
+import main.project.server.review.mapper.ReviewMapper;
+import main.project.server.review.service.ReviewService;
 import main.project.server.room.dto.MultiRoomDto;
 import main.project.server.room.dto.RoomDto;
 import main.project.server.room.entity.Room;
@@ -41,6 +44,8 @@ public class GuestHouseController {
 
     private final RoomMapper roomMapper;
 
+    private final ReviewService reviewService;
+    private final ReviewMapper reviewMapper;
 
     /** 업주가 게스트하우스를 등록하는 api **/
     @PostMapping(value = "/api/auth/guesthouse", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
@@ -107,8 +112,12 @@ public class GuestHouseController {
 
         GuestHouse guestHouse = guestHouseService.findGuestHouse(guestHouseId);
 
+        // 호출 될 때 기본적으로 보여지는 리뷰(size=4)
+        List<ReviewDto.Response> reviews = reviewMapper
+                .reviewToReviewResponseDto(reviewService.getReviewPage(1, 4, guestHouseId).getContent());
+
         GuestHouseDto.response response = guestHouseMapper.
-                guestHouseToSingleGuestHouseResponse(guestHouse, roomService, start, end);
+                guestHouseToSingleGuestHouseResponse(guestHouse, roomService, start, end, reviews);
 
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("success", response);
         return new ResponseEntity(singleResponseDto, HttpStatus.OK);
