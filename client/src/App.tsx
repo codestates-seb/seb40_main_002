@@ -4,6 +4,7 @@ import Footer from './components/common/Footer';
 import { Route, Routes } from 'react-router-dom';
 import PaymentPage from './pages/PaymentPage';
 import ReviewPage from './pages/ReviewPage';
+import Register from './pages/Register';
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <Route path="/paymentPage" element={<PaymentPage />} />
           {/* 동적 라우팅 필요 */}
           <Route path="/review" element={<ReviewPage />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
       <Footer />
