@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react';
 import CarouselBtn from './CarouselBtn';
 //carouselSize 값으로 width,height값을 문자열로 넣어 주시면 됩니다(e.g {w-[250px] h-[250px]}),images 값은 이미지 배열을 프롭스로 내려주면 됩니다.
 type CarouselProps = {
-  carouselSize?: string;
   images: string[];
 } & typeof defaultProps;
 const defaultProps = {
-  carouselSize: 'w-[1120px] h-[560px]',
   images: [
-    'https://a0.muscache.com/im/pictures/337660c5-939a-439b-976f-19219dbc80c7.jpg?im_w=720',
-    'https://a0.muscache.com/im/pictures/4f70b681-a792-4530-8c52-f2a8d262942d.jpg?im_w=720',
-    'https://a0.muscache.com/im/pictures/d7c1f140-c33a-4d68-aaf8-b7b8d7292b11.jpg?im_w=720',
+    'https://a0.muscache.com/im/pictures/miso/Hosting-713898202877836679/original/7b073b89-ffea-47f9-a8b3-e6ccd96f0f16.jpeg?im_w=1200',
+    'https://a0.muscache.com/im/pictures/miso/Hosting-715759276214360126/original/6c04ca59-6e3b-4cf3-8cb2-210b01e4f09a.jpeg?im_w=720',
+    'https://a0.muscache.com/im/pictures/miso/Hosting-715759276214360126/original/ad0118a8-db37-4027-a038-d4ec8e77ca5b.jpeg?im_w=1200',
   ],
 };
-const Carousel = ({ carouselSize, images }: CarouselProps) => {
+const Carousel = ({ images }: CarouselProps) => {
   const [btnHover, setBtnHover] = useState<boolean>(false); //Carousel hover  state
   const [current, setCurrent] = useState<number>(0);
   const [style, setStyle] = useState<{ marginLeft: string }>({
@@ -34,7 +32,7 @@ const Carousel = ({ carouselSize, images }: CarouselProps) => {
 
   return (
     <div
-      className={`relative ${carouselSize}`}
+      className={`relative w-full`}
       onMouseEnter={() => {
         setBtnHover(true);
       }}
@@ -42,7 +40,7 @@ const Carousel = ({ carouselSize, images }: CarouselProps) => {
         setBtnHover(false);
       }}
     >
-      <div className={`overflow-hidden w-full h-full`}>
+      <div className={`overflow-hidden w-full `}>
         <CarouselBtn
           btnHover={btnHover}
           current={current}
@@ -50,13 +48,13 @@ const Carousel = ({ carouselSize, images }: CarouselProps) => {
           images={images}
         />
         <div
-          className={`flex transition-all duration-700	ease-out w-full h-full`}
+          className={`flex transition-all duration-700	ease-out w-full `}
           style={style}
         >
           {images.map((img, i) => (
             <img
               key={i}
-              className={`bg-center bg-no-repeat bg-cover flex-none	rounded-xl w-full h-full`}
+              className={`bg-center bg-no-repeat bg-cotain flex-none	rounded-xl  w-full h-[560px]`}
               src={`${img}`}
             ></img>
           ))}
