@@ -3,17 +3,24 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
 interface SetDayProps {
+  startDay: string;
+  endDay: string;
   setStartDay: Dispatch<SetStateAction<string>>;
   setEndDay: Dispatch<SetStateAction<string>>;
   setDayCal: Dispatch<SetStateAction<number>>;
 }
 
 const ReservationPiker = ({
+  startDay,
+  endDay,
   setStartDay,
   setEndDay,
   setDayCal,
 }: SetDayProps) => {
-  const [dateRange, setDateRange] = useState([new Date(), null]);
+  const [dateRange, setDateRange] = useState<Array<Date | null>>([
+    new Date(startDay),
+    new Date(endDay),
+  ]);
   const [startDate, endDate] = dateRange;
   const dateToString = (date: Date) => {
     return (

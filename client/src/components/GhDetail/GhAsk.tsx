@@ -7,7 +7,7 @@ const GhAsk = ({
   GhPhone = '010-1234-5678',
 }: AskProps) => {
   return (
-    <div className="w-6/12">
+    <div className="md:w-6/12">
       <div className="font-bold ">문의하기</div>
       <div className="text-font-color text-lg flex justify-between items-center mt-[20px]">
         <div>{ghName}</div>

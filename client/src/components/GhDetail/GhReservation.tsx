@@ -14,8 +14,8 @@ interface RoomsProps {
 }
 
 const GhReservation = ({ rooms }: RoomsProps) => {
-  const [startDay, setStartDay] = useState<string>('2022-11-20');
-  const [endDay, setEndDay] = useState<string>('2022-11-21');
+  const [startDay, setStartDay] = useState<string>('2022-11-23');
+  const [endDay, setEndDay] = useState<string>('2022-11-24');
   const [participate, setParticipate] = useState<boolean>(false);
   const [ghPrice, setGhPrice] = useState<number>(0);
   const [dayCal, setDayCal] = useState<number>(0);
@@ -43,6 +43,8 @@ const GhReservation = ({ rooms }: RoomsProps) => {
       <div className="md:flex md:justify-between flex-row justify-center items-center mb-[20px]">
         <div className="text-center">
           <ReservationPiker
+            startDay={startDay}
+            endDay={endDay}
             setDayCal={setDayCal}
             setStartDay={setStartDay}
             setEndDay={setEndDay}

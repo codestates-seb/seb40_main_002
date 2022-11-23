@@ -58,7 +58,7 @@ const GuestHouseDetail = () => {
         </div>
         <GhDetailComment reviewComment={reviewComment} />
         <GhLocation latitude={latitude} longitude={longitude} />
-        <div className="flex w-full  mt-[20px]">
+        <div className="flex-row justify-center items-center md:flex w-full  mt-[20px]">
           <GhDetailFacilities GhFacilities={facilities}></GhDetailFacilities>
           <GhAsk />
         </div>
