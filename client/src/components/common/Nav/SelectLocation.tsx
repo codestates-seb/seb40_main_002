@@ -38,7 +38,7 @@ const SelectLocation = ({
 
   return (
     <>
-      <div className="flex flex-wrap justify-center items-center bg-white w-[340px] h-fit border-solid border-2 border-borderline rounded-2xl py-2 absolute top-20">
+      <div className="flex flex-wrap justify-center items-center w-[340px] h-fit border-solid border-2 border-borderline rounded-2xl py-2 absolute top-20 bg-white">
         <div className="text-lg font-medium w-fit mb-[20px]">
           장소를 선택해 주세요.
         </div>
