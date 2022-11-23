@@ -6,6 +6,7 @@ import PaymentPage from './pages/PaymentPage';
 import GhEditpage from './pages/GhEditpage';
 import GuestHouseDetail from './pages/GusetHouseDetail';
 import Sample from './components/common/Comment/Sample';
+import Register from './pages/Register';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="/ghedit" element={<GhEditpage />} />
           <Route path="/ghdetail" element={<GuestHouseDetail />} />
           <Route path="/sample" element={<Sample />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </div>
       <Footer />
