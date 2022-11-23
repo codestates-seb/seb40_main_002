@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
-const Birthday = () => {
+interface Props {
+  form: { year: number; month: string; day: string };
+  setForm: Dispatch<
+    SetStateAction<{ year: number; month: string; day: string }>
+  >;
+}
+
+const Birthday = ({ form, setForm }: Props) => {
   // 상태를 위로 올려줘야함
-  const [form, setForm] = useState({
-    year: new Date().getFullYear(),
-    month: '01',
-    day: '01',
-  });
 
   const now = new Date();
 
