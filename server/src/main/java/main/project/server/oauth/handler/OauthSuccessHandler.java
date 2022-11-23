@@ -2,8 +2,11 @@ package main.project.server.oauth.handler;
 
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import main.project.server.jwt.JwtTokenizer;
-import main.project.server.member.dto.MemberDto;
+import main.project.server.jwt.entity.RefreshToken;
+import main.project.server.jwt.repository.RefreshTokenRepository;
+import main.project.server.jwt.service.TokenService;
 import main.project.server.member.entity.Member;
 import main.project.server.member.service.MemberService;
 import main.project.server.oauth.wrapper.CustomDefaultOAuth2User;
@@ -22,6 +25,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -32,10 +36,14 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtTokenizer jwtTokenizer;
 
+    private final RefreshTokenRepository refreshTokenRepository;
+
+    private final TokenService tokenService;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 
-
+        log.info("# Authenticated successfully");
         CustomDefaultOAuth2User customDefaultOAuth2User = (CustomDefaultOAuth2User) authentication.getPrincipal();
         String memberId = customDefaultOAuth2User.getOAuthAttributes().getMemberId();
 
@@ -43,6 +51,7 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
         //이미 oauth 가입되어 있는 유저
         if (member.isPresent()) {
+            log.info("# Already signed up member. Redirect to main page");
             //토큰 발행
             //DB에 최신 데이터 업데이트
             //본 서비스의 메인페이지로 Redirect
@@ -50,9 +59,10 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         }
         //최초 oauth 로그인을 한 유저
         else {
+            log.info("# Not signed up member. Redirect to add-info page");
+            System.out.println(memberId);
             addInfoRedirect(request, response, customDefaultOAuth2User);
         }
-
     }
 
 
@@ -68,12 +78,31 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         return jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
     }
 
-    // 리프레시 토큰 추가할 수도 있다.
+    // 리프레시 토큰 추가
+    public String delegateRefreshToken(Member member) {
+        String subject = member.getMemberId();
+
+        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
+
+        String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
+
+        RefreshToken token = RefreshToken.builder()
+                .refreshToken(refreshToken)
+                .member(member)
+                .expiration(expiration)
+                .build();
+
+        refreshTokenRepository.save(token);
+
+        return refreshToken;
+    }
 
 
-    private URI createMainPageURI(String accessToken) {
+    private URI createMainPageURI(String accessToken, String refreshToken) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);
+        queryParams.add("refresh_token", refreshToken);
 
         return UriComponentsBuilder
                 .newInstance()
@@ -134,14 +163,18 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private void mainRedirect(HttpServletRequest request, HttpServletResponse response, Member member) throws IOException{
         String accessToken = delegateAccessToken(member);
-        String mainUri = createMainPageURI(accessToken).toString();
+
+        if (refreshTokenRepository.findByMember(member).isPresent()) {
+            log.info("delete token");
+            tokenService.deleteToken(member.getMemberId());
+        }
+        String refreshToken = delegateRefreshToken(member);
+        String mainUri = createMainPageURI(accessToken, refreshToken).toString();
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setHeader("memberId", member.getMemberId());
         response.setHeader("memberEmail", member.getMemberEmail());
         getRedirectStrategy().sendRedirect(request, response, mainUri);
     }
-
-
 
     private void addInfoRedirect(HttpServletRequest request, HttpServletResponse response, CustomDefaultOAuth2User customDefaultOAuth2User) throws IOException{
         String addInfoUri = createAddInfoURI().toString();
@@ -154,5 +187,4 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
         getRedirectStrategy().sendRedirect(request, response, addInfoUri);
     }
-
 }
