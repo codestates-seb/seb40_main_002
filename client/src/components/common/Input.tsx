@@ -2,19 +2,12 @@ import { Dispatch, SetStateAction } from 'react';
 
 type Props = {
   what: string;
-  setNickname: Dispatch<SetStateAction<string>>;
-  setPhoneNum: Dispatch<SetStateAction<string>>;
+  funcProp: Dispatch<SetStateAction<string>>;
 };
 
-const Input = ({ setNickname, setPhoneNum, what }: Props) => {
+const Input = ({ funcProp }: Props) => {
   const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (what === 'nickname') {
-      setNickname(e.target.value);
-      console.log('닉네임');
-    } else if (what === 'phoneNum') {
-      setPhoneNum(e.target.value);
-      console.log('전화번호');
-    }
+    funcProp(e.target.value);
   };
   return (
     <>
