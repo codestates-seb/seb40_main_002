@@ -40,7 +40,7 @@ function useInfiniteScroll(path: string): [
     ]);
     setTotalCount(guesthouses.length); // 임시
     setLoading(false);
-    console.log(page);
+    // console.log(page);
   }, [page]);
 
   // sortType, page에 따라 다르게 api 요청하기
@@ -52,10 +52,10 @@ function useInfiniteScroll(path: string): [
   // 페이지 설정
   useEffect(() => {
     // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면
-    console.log(inView, loading);
+    // console.log(inView, loading);
     if (inView && !loading) {
       setPage((page) => page + 1);
-      console.log(page);
+      // console.log(page);
     }
   }, [inView, loading]);
 
