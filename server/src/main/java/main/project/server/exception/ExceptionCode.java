@@ -13,6 +13,7 @@ public enum ExceptionCode {
 
     INVALID_REFRESH_TOKEN(500, "invalid refresh token"),
 
+    ALREADY_LOGOUT_TOKEN(400, "already logout token"),
     NOT_AVAILABLE_RESERVATION(400,"not available reservation");
 
     @Getter
