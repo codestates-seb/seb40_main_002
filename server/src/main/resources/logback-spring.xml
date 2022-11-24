@@ -6,9 +6,8 @@
     <springProperty scope="context" name="LOG_FILE_NAME" source="log.config.filename" defaultValue="main-project-log"/>
     <springProperty scope="context" name="ERR_LOG_FILE_NAME" source="log.config.err-log-filename" defaultValue="main-project-log-err"/>
 
-
-
-
+<!--    스프링부트에서 채택하는 logback의 기본 설정 정보를 포함시킴 -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <!--    아래와 같이 설정하는것은 application.yml 이외의 properties를 사용하는 경우에 불가하다.
 왜냐하면 logback-spring이 너무 일찍 로드되어서 바로 application.yml을 읽어 오기 때문-->
@@ -33,8 +32,10 @@
             <level>info</level>
         </filter>
 
-        <encoder class ="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${LOG_PATTERN}</pattern>
+<!--       include 시킨 logback의 기본 설정값에서 콘솔패턴을 사용 -->
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
         </encoder>
     </appender>
 
@@ -52,6 +53,10 @@
         <encoder class = "ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
+<!--        <encoder>-->
+<!--            <pattern>${CONSOLE_LOG_PATTERN}</pattern>-->
+<!--            <charset>utf8</charset>-->
+<!--        </encoder>-->
 
         <!-- 롤링 정책 -->
         <rollingPolicy class = "ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -60,7 +65,7 @@
 
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- 파일당 최고 용량 -->
-                <maxFileSize>10MB</maxFileSize>
+                <maxFileSize>1MB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
 
             <!-- 로그파일 최대 보관주기 -->
@@ -93,7 +98,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
 
             <!-- 로그파일 최대 보관주기 -->
-            <maxHistory>30</maxHistory>
+            <maxHistory>2</maxHistory>
         </rollingPolicy>
     </appender>
 
