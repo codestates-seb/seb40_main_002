@@ -7,6 +7,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import main.project.server.exception.BusinessException;
@@ -79,17 +80,17 @@ public class JwtTokenizer {
     }
 
     // 검증
-    public void verifySignature(String jws, String base64EncodedSecretKey) {
-        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(key)
-                    .build()
-                    .parseClaimsJws(jws);
-        } catch (ExpiredJwtException ee) {
-            throw new BusinessException(ExceptionCode.INVALID_REFRESH_TOKEN);
-        }
-    }
+//    public void verifySignature(String jws, String base64EncodedSecretKey) {
+//        Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
+//        try {
+//            Jwts.parserBuilder()
+//                    .setSigningKey(key)
+//                    .build()
+//                    .parseClaimsJws(jws);
+//        } catch (ExpiredJwtException ee) {
+//            throw new BusinessException(ExceptionCode.EXPIRED_REFRESH_TOKEN);
+//        }
+//    }
     // 토큰 유효기간 계산
     public Date getTokenExpiration(int expirationMinutes) {
         Calendar calendar = Calendar.getInstance();
@@ -106,14 +107,19 @@ public class JwtTokenizer {
         return key;
     }
 
-    // 토큰으로부터 유효기간 추출
-    public Date getExpirationFromToken(String jws, String base64EncodedSecretKey) {
+    // 토큰으로부터 멤버 추출
+    public String getMemberIdFromToken(String jws, String base64EncodedSecretKey) {
         Key key = getKeyFromBase64EncodedKey(base64EncodedSecretKey);
-
-        Date expiration = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(jws).getBody().getExpiration();
-        return expiration;
+        try {
+            String memberId = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(jws).getBody().getSubject();
+            return memberId;
+        } catch (ExpiredJwtException ee) {
+            throw new BusinessException(ExceptionCode.EXPIRED_REFRESH_TOKEN);
+        } catch (SignatureException e) {
+            throw new BusinessException(ExceptionCode.INVALID_TOKEN);
+        }
     }
 }

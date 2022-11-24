@@ -14,7 +14,7 @@ public class RoomDto {
 
         private String roomName;
 
-        private int roomPrice;
+        private Integer roomPrice;
 
         private String roomInfo;
     }
@@ -29,7 +29,7 @@ public class RoomDto {
 
         private String roomName;
 
-        private int roomPrice;
+        private Integer roomPrice;
 
         private String roomInfo;
     }
@@ -39,11 +39,11 @@ public class RoomDto {
     @Builder
     public static class Response {
 
-        private long roomId;
+        private Long roomId;
 
         private String roomName;
 
-        private int roomPrice;
+        private Integer roomPrice;
 
         private String roomImageUrl;
 

@@ -11,10 +11,23 @@ public enum ExceptionCode {
 
     NOT_OWN_GUESTHOUSE(400, "not own guesthouse"),
 
-    INVALID_REFRESH_TOKEN(500, "invalid refresh token"),
+    EXPIRED_REFRESH_TOKEN(401, "expired refresh token"),
+
+    INVALID_TOKEN(400, "invalid token"),
 
     ALREADY_LOGOUT_TOKEN(400, "already logout token"),
-    NOT_AVAILABLE_RESERVATION(400,"not available reservation");
+
+    NOT_AVAILABLE_RESERVATION(400,"not available reservation"),
+
+    RESERVATION_NOT_FOUND(404,"reservation not found"),
+
+    NOT_MATCH_RESERVATION(400, "reservation not match with guest house"),
+
+    NOT_MATCH_ROOM(400, "room not match with guest house"),
+
+    ROOM_NOT_FOUND(404, "room not found"),
+
+    ROOM_IMAGE_COUNT_INCONSISTENCY(400, "room and image count not match");
 
     @Getter
     int code;

@@ -39,8 +39,6 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             Map<String, Object> claims = verifyJws(jws);
             verifyLogoutToken(jws);
 
-
-
             setAuthenticationToContext(claims);
 
         } catch (SignatureException se) {

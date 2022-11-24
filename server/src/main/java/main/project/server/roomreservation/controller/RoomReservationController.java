@@ -44,8 +44,8 @@ public class RoomReservationController {
 
     @PostMapping
     public ResponseEntity postRoomReservation(@RequestBody @Valid RoomReservationDto.Post reservationPost,
-                                              @PathVariable("guest-house-id") long guestHouseId,
-                                              @PathVariable("room-id") long roomId,
+                                              @PathVariable("guest-house-id") Long guestHouseId,
+                                              @PathVariable("room-id") Long roomId,
                                               Principal principal) throws IOException {
         RoomReservation roomReservation = mapper.roomReservationPostToRoomReservation(reservationPost);
 
@@ -60,9 +60,9 @@ public class RoomReservationController {
     }
 
     @DeleteMapping(value = "/{room-reservation-id}")
-    public ResponseEntity deleteRoomReservation(@PathVariable("guest-house-id") long guestHouseId,
-                                                @PathVariable("room-id") long roomId,
-                                                @PathVariable("room-reservation-id") long reservationId,
+    public ResponseEntity deleteRoomReservation(@PathVariable("guest-house-id") Long guestHouseId,
+                                                @PathVariable("room-id") Long roomId,
+                                                @PathVariable("room-reservation-id") Long reservationId,
                                                 Principal principal) {
         reservationService.deleteRoomReservation(guestHouseId, roomId, reservationId, principal);
 
