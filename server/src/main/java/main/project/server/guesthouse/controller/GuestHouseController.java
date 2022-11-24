@@ -30,6 +30,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Validated
@@ -106,9 +107,11 @@ public class GuestHouseController {
     /** 업주, 일반 회원이 볼 수 있는 게스트하우스의 상세내용 호출 api **/
     @GetMapping("/api/guesthouse/{guesthouse-id}")
     public ResponseEntity getGuestHouse(Principal principal,
-                                        @PathVariable("guesthouse-id") Long guestHouseId,
+                                        @PathVariable("guesthouse-id") @Positive Long guestHouseId,
                                         String start,
                                         String end) {
+
+
 
         GuestHouse guestHouse = guestHouseService.findGuestHouse(guestHouseId);
 
@@ -143,11 +146,8 @@ public class GuestHouseController {
     @GetMapping("/api/auth/members/{member-id}/guesthouse")
     public ResponseEntity getGuestHouseOfAdmin(Principal principal,
                                                @PathVariable("member-id") String memberId,
-                                               @RequestParam("page") @Positive Integer page,
-                                               @RequestParam("size") @Positive Integer size) {
-
-
-
+                                               @RequestParam(name = "page", defaultValue = "1") @Positive Integer page,
+                                               @RequestParam(name = "size", defaultValue = "10") @Positive Integer size) {
         String authMemberId = "업주";
 
         Page<GuestHouse> guestHousePage = guestHouseService.findGuestHouseByMember(authMemberId, page, size);
@@ -163,7 +163,7 @@ public class GuestHouseController {
 
     @GetMapping("/api/guesthouse")
     public ResponseEntity getGuestHouseMainFilter(Principal principal,
-                                                  @QueryStringArgResolver QueryStringDto.MainFilterDto mainFilterDto) {
+                                                  @QueryStringArgResolver @Valid QueryStringDto.MainFilterDto mainFilterDto) {
 
         Page<GuestHouse> guestHousePageByMainFilter = guestHouseService.findGuestHouseByMainFilter(mainFilterDto);
 
@@ -172,6 +172,20 @@ public class GuestHouseController {
 
 
         MultiResponseDto<GuestHouseDto.response> multiResponseDto = new MultiResponseDto<>("success",guestHouseResponseList, guestHousePageByMainFilter);
+        return new ResponseEntity(multiResponseDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/all-guesthouse")
+    public ResponseEntity guestHouseAll(
+            @RequestParam(name = "page", defaultValue = "1") @Positive Integer page,
+            @RequestParam(name = "size", defaultValue = "10") @Positive Integer size,
+            @RequestParam(name = "sort", defaultValue = "default") String sort
+    ) {
+
+        Page<GuestHouse> guestHouseAll = guestHouseService.findAllGuestHouse(page, size, sort);
+        List<GuestHouseDto.response> guestHouseResponseLit = guestHouseMapper.guestHouseListToGuestHouseResponse(guestHouseAll.getContent(), roomService, guestHouseDetailsMapper);
+        MultiResponseDto<GuestHouseDto.response> multiResponseDto = new MultiResponseDto<>("success",guestHouseResponseLit, guestHouseAll);
+
         return new ResponseEntity(multiResponseDto, HttpStatus.OK);
     }
 }

@@ -111,6 +111,8 @@ public class GuestHouseDto {
 
         private List<ReviewDto.Response> reviews;   // 리뷰
 
+        private Long guestHouseReviewCount;
+
         private String createdAt;
 
         private String modifiedAt;

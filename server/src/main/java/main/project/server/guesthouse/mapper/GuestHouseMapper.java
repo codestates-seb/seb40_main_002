@@ -93,6 +93,7 @@ public interface GuestHouseMapper {
                     .guestHouseTag(createSortedTagArray(guestHouse.getGuestHouseTag()))
                     .guestHouseImage(guestHouse.guestHouseImageListToUrlList())
                     .guestHouseInfo(guestHouse.getGuestHouseInfo())
+                    .guestHouseReviewCount(guestHouse.getGuestHouseReviewCount())
                     .createdAt(guestHouse.getCreatedAt().toString())
                     .modifiedAt(guestHouse.getModifiedAt().toString())
                     .build();
@@ -184,6 +185,7 @@ public interface GuestHouseMapper {
                 .guestHouseImage(guestHouse.guestHouseImageListToUrlList()) //리스트, 처리 필요
                 .guestHouseInfo(guestHouse.getGuestHouseInfo())
                 .rooms(roomService.getReservePossibleOfRoomDtoResponseList(guestHouse.getGuestHouseId(), guestHouse.getRooms(), start, end)) //리스트, 처리 필요
+                .guestHouseReviewCount(guestHouse.getGuestHouseReviewCount())
                 .reviews(reviews)   // 리뷰
                 .createdAt(guestHouse.getCreatedAt().toString())
                 .modifiedAt(guestHouse.getModifiedAt().toString())
