@@ -33,21 +33,28 @@ public class LogAspect {
     @Around("controllerLog()")
     public Object logging(ProceedingJoinPoint joinPoint) throws Throwable {
 
-//        TransactionStatus transaction = transactionManager.getTransaction(new DefaultTransactionAttribute());
+//        try {
+//
+//        } catch (RuntimeException e) {
+//            throw new RuntimeException(e.getMessage());
+//        }
+        Object proceed = joinPoint.proceed();
+        return proceed;
 
-        try {
-            log.info("[호출 핸들러 메소드 : " + joinPoint.getSignature().getName() + "]");
-            log.info("[---------- 로직 시작 ----------]");
-            Object proceed = joinPoint.proceed();
-            log.info("[---------- 로직 종료 ----------]");
-            return proceed;
-
-        } catch (RuntimeException e) {
-//            transactionManager.rollback(transaction);
-            throw new RuntimeException(e.getMessage());
-        }
-
-
+////        TransactionStatus transaction = transactionManager.getTransaction(new DefaultTransactionAttribute());
+//
+//        try {
+//            log.info("[호출 핸들러 메소드 : " + joinPoint.getSignature().getName() + "]");
+//            log.info("[---------- 로직 시작 ----------]");
+//            Object proceed = joinPoint.proceed();
+//            log.info("[---------- 로직 종료 ----------]");
+//            return proceed;
+//
+//        } catch (RuntimeException e) {
+////            transactionManager.rollback(transaction);
+////            throw new RuntimeException(e.getMessage());
+//
+//        }
     }
 
 
