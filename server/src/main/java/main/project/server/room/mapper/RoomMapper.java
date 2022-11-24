@@ -4,6 +4,7 @@ import main.project.server.room.dto.MultiRoomDto;
 import main.project.server.room.dto.RoomDto;
 import main.project.server.room.entity.Room;
 import main.project.server.room.entity.enums.RoomStatus;
+import main.project.server.room.repository.RoomRepository;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public interface RoomMapper {
     }
     default List<List<Room>> roomPutsToRooms(MultiRoomDto<RoomDto.Put> roomPutDto) {
         List<List<Room>> lists = new ArrayList<>();
+
 
         List<Room> existRooms = roomPutDto.getRoomDto()
                 .stream()

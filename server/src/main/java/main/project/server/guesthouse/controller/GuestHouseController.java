@@ -66,7 +66,7 @@ public class GuestHouseController {
         List<Room> rooms = roomMapper.roomPostsToRooms(roomPostDtos);
 
         GuestHouse createdGuestHouse = guestHouseService.createGuestHouse(guestHouse, guestHouseImage, rooms, roomImages);
-        
+
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("created",null);
         return new ResponseEntity(singleResponseDto, HttpStatus.CREATED);
     }
