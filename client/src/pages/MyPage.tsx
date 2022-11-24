@@ -35,10 +35,10 @@ const testUser: MyPageUser = {
   ],
   memberComunity: [
     {
-      postTile: '게시글 제목1',
+      postTitle: '게시글 제목1',
     },
     {
-      postTile: '게시글 제목2',
+      postTitle: '게시글 제목2',
     },
   ],
 };
