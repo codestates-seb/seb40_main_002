@@ -23,7 +23,7 @@ import java.lang.reflect.Parameter;
 @Component
 public class LogAspect {
 
-    private final PlatformTransactionManager transactionManager;
+//    private final PlatformTransactionManager transactionManager;
 
 //    @Pointcut("execution(* main.project.server.*.*Controller.*(..))")
     @Pointcut("execution( * *..*Controller.*(..) )")
@@ -33,7 +33,7 @@ public class LogAspect {
     @Around("controllerLog()")
     public Object logging(ProceedingJoinPoint joinPoint) throws Throwable {
 
-        TransactionStatus transaction = transactionManager.getTransaction(new DefaultTransactionAttribute());
+//        TransactionStatus transaction = transactionManager.getTransaction(new DefaultTransactionAttribute());
 
         try {
             log.info("[호출 핸들러 메소드 : " + joinPoint.getSignature().getName() + "]");
@@ -43,7 +43,7 @@ public class LogAspect {
             return proceed;
 
         } catch (RuntimeException e) {
-            transactionManager.rollback(transaction);
+//            transactionManager.rollback(transaction);
             throw new RuntimeException(e.getMessage());
         }
 
