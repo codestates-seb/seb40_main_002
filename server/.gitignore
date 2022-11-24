@@ -51,3 +51,6 @@ src/main/resources/application-naver.yml
 imagesdir
 images/
 room/
+
+### log ###
+main-project/

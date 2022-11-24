@@ -1,0 +1,117 @@
+<configuration scan="true" scanPeriod="10 seconds">
+
+
+    <springProperty scope="context" name="LOG_LEVEL" source="log.config.level" defaultValue="warn"/>
+    <springProperty scope="context" name="LOG_PATH" source="log.config.path" defaultValue="./main-project/dev/log"/>
+    <springProperty scope="context" name="LOG_FILE_NAME" source="log.config.filename" defaultValue="main-project-log"/>
+    <springProperty scope="context" name="ERR_LOG_FILE_NAME" source="log.config.err-log-filename" defaultValue="main-project-log-err"/>
+
+<!--    스프링부트에서 채택하는 logback의 기본 설정 정보를 포함시킴 -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!--    아래와 같이 설정하는것은 application.yml 이외의 properties를 사용하는 경우에 불가하다.
+왜냐하면 logback-spring이 너무 일찍 로드되어서 바로 application.yml을 읽어 오기 때문-->
+
+    <!-- 루트 로그 레벨 -->
+<!--    <property name ="LOG_LEVEL" value = "${log.config.level}"/>-->
+
+    <!-- 로그 파일 경로 -->
+<!--    <property name ="LOG_PATH" value = "${log.config.path}"/>-->
+
+    <!-- 로그 파일 명 -->
+<!--    <property name ="LOG_FILE_NAME" value = "${log.config.filename}"/>-->
+<!--    <property name ="ERR_LOG_FILE_NAME" value = "${log.config.filename}_error"/>-->
+
+    <!-- 로그 파일 패턴 -->
+    <property name ="LOG_PATTERN" value = "%-5level %d{yyyy-MM-dd HH:mm:ss}[%thread] [%logger{0}:%line] - %msg%n"/>
+
+
+    <!-- 콘솔 Appender 설정 -->
+    <appender name ="CONSOLE" class ="ch.qos.logback.core.ConsoleAppender">
+        <filter class ="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+        </filter>
+
+<!--       include 시킨 logback의 기본 설정값에서 콘솔패턴을 사용 -->
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 파일 Appender 설정 -->
+    <appender name="FILE" class ="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <filter class ="ch.qos.logback.classic.filter.LevelFilter">
+            <level>info</level>
+        </filter>
+
+        <!-- 파일 경로 설정 -->
+        <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+
+        <!-- 로그 패턴 설정 -->
+        <encoder class = "ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+<!--        <encoder>-->
+<!--            <pattern>${CONSOLE_LOG_PATTERN}</pattern>-->
+<!--            <charset>utf8</charset>-->
+<!--        </encoder>-->
+
+        <!-- 롤링 정책 : 파일 저장의 허용 범위(최대 크기, 최대 보관주기)를 정하고 허용 범위가 초과된 경우의 처리에 대해 정의를 내리는 설정-->
+        <rollingPolicy class = "ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- gz, zip 등을 넣을 경우 자동 로그파일 압축 -->
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/${LOG_FILE_NAME}_%i.log</fileNamePattern>
+
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 파일당 최고 용량 -->
+                <maxFileSize>1MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+
+            <!-- 로그파일 최대 보관주기 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+
+    <appender name = "ERROR" class ="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class ="ch.qos.logback.classic.filter.LevelFilter">
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${LOG_PATH}/${ERR_LOG_FILE_NAME}.log</file>
+
+        <!-- 로그 패턴 설정 -->
+        <encoder class = "ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+
+        <!-- 롤링 정책 -->
+        <rollingPolicy class = "ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- gz, zip 등을 넣을 경우 자동 로그파일 압축 -->
+            <fileNamePattern>${LOG_PATH}/%d{yyyy-MM-dd}/${ERR_LOG_FILE_NAME}_%i.log</fileNamePattern>
+
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 파일당 최고 용량 -->
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+
+            <!-- 로그파일 최대 보관주기 -->
+            <maxHistory>2</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+
+    <root level = "info">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="ERROR"/>
+    </root>
+
+<!--    <logger name="org.apache.ibatis" level = "DEBUG" additivity = "false">-->
+<!--        <appender-ref ref="CONSOLE"/>-->
+<!--        <appender-ref ref="FILE"/>-->
+<!--        <appender-ref ref="ERROR"/>-->
+<!--    </logger>-->
+</configuration>
