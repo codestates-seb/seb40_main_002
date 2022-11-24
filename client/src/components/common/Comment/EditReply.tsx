@@ -4,7 +4,7 @@ import CommonBtn from '../CommonBtn/CommonBtn';
 import StarRating from './StarRating';
 type Props = {
   type: string;
-  id: string;
+  id: number;
 };
 
 // type : admin(관리자), user(사용자)
@@ -25,7 +25,7 @@ export default function EditReply({ type, id }: Props) {
 
   const sendComment = async (
     message: string,
-    commentId: string,
+    commentId: number,
     star: boolean[]
   ) => {
     if (message.length > 0) {
@@ -35,7 +35,7 @@ export default function EditReply({ type, id }: Props) {
         try {
           const starCount = star.filter((x) => x === true).length;
           if (starCount === 0) return alert('별점을 눌러주세요');
-          await axios.post(commentId, {});
+          await axios.post(`${commentId}`, {});
           setStar([...new Array(5).fill(false)]); // 유저가 별점 남긴후에 별점 초기화
           setReply('');
         } catch (e) {
@@ -46,7 +46,7 @@ export default function EditReply({ type, id }: Props) {
         console.log(type);
         console.log(message);
         try {
-          await axios.post(commentId, {});
+          await axios.post(`${commentId}`, {});
           setReply('');
         } catch (e) {
           console.log(e);

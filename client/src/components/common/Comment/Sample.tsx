@@ -35,7 +35,7 @@ export default function Sample() {
             ProfileImg: 'http://gravatar.com/avatar/5',
             starScore: 5,
             admin: 'mk',
-            id: 'bye',
+            id: 1,
             adminComment: [
               { replyComment: '안녕하세요', createBy: '2022년 6월' },
               { replyComment: '안녕하세요', createBy: '2022년 6월' },
@@ -56,7 +56,7 @@ export default function Sample() {
             ProfileImg: 'http://gravatar.com/avatar/5',
             starScore: 5,
             admin: 'm2',
-            id: 'bye',
+            id: 2,
             adminComment: [
               { replyComment: '안녕하세요', createBy: '2022년 6월' },
               { replyComment: '안녕하세요', createBy: '2022년 6월' },
@@ -76,7 +76,7 @@ export default function Sample() {
             comment: '정말 즐거웠어요',
             ProfileImg: 'http://gravatar.com/avatar/5',
             starScore: 5,
-            id: 'hi',
+            id: 3,
           }}
         />
       </div>
@@ -102,7 +102,7 @@ export default function Sample() {
       </div>
       {/* 후기 작성 창에서 유저가 후기를 남길 때 */}
       <div className="mb-[10px] mt-[10px] ml-[10px]">
-        <EditReply type="user" id={'후기 방 이름'} />
+        <EditReply type="user" id={3} />
       </div>
     </>
   );
