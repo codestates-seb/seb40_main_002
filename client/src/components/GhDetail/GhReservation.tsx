@@ -3,13 +3,12 @@ import ReservationPiker from './ReservationPiker';
 import CommonBtn from '../common/CommonBtn/CommonBtn';
 interface RoomsProps {
   rooms: {
-    room: {
-      roomName: string;
-      roomExplain: string;
-      roomPersonnel: number;
-      roomPrice: number;
-      roomImage: string;
-    };
+    roomId: number;
+    roomName: string;
+    roomPrice: number;
+    roomImageUrl: string;
+    roomInfo: string;
+    reservePossible: boolean;
   }[];
 }
 
@@ -59,8 +58,8 @@ const GhReservation = ({ rooms }: RoomsProps) => {
             >
               <option value={0}>객실 선택</option>
               {rooms.map((el: any, i: number) => (
-                <option value={el.room.roomPrice} key={i}>
-                  {el.room.roomName}
+                <option value={el.roomPrice} key={i}>
+                  {el.roomName}
                 </option>
               ))}
             </select>

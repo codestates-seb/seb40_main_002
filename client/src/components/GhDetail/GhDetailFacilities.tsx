@@ -5,7 +5,7 @@ import FacilitiesArr from '../common/FacilitiesArray';
 export default function GhDetailFacilities({
   GhFacilities,
 }: {
-  GhFacilities: boolean[];
+  GhFacilities: (number | boolean)[];
 }) {
   const [icons, setIcons] = useState(FacilitiesArr());
 
