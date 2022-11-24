@@ -12,7 +12,7 @@ type Props = {
     starScore: number;
     admin?: string;
     adminComment?: Reply[];
-    id?: string; // 해당 댓글 고유 아이디
+    id?: number; // 해당 댓글 고유 아이디
   };
   type?: string;
 };

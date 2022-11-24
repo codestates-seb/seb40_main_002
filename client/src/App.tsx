@@ -6,6 +6,7 @@ import PaymentPage from './pages/PaymentPage';
 import GhEditpage from './pages/GhEditpage';
 import GuestHouseDetail from './pages/GusetHouseDetail';
 import Sample from './components/common/Comment/Sample';
+import ReviewPage from './pages/ReviewPage';
 
 export default function App() {
   return (
@@ -17,6 +18,8 @@ export default function App() {
           <Route path="/ghedit" element={<GhEditpage />} />
           <Route path="/ghdetail" element={<GuestHouseDetail />} />
           <Route path="/sample" element={<Sample />} />
+          {/* 동적 라우팅 필요 */}
+          <Route path="/review" element={<ReviewPage />} />
         </Routes>
       </div>
       <Footer />
