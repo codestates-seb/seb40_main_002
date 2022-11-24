@@ -220,4 +220,15 @@ public class GuestHouseService {
         }
     }
 
+    public Page<GuestHouse> findAllGuestHouse(Integer page, Integer size, String sortValue) {
+
+        //오더바이 정렬 구하기
+        Sort sort;
+        if (sortValue.equals("star")) sort = Sort.by(Sort.Direction.DESC,"guestHouseStar");
+        else if(sortValue.equals("review")) sort = Sort.by(Sort.Direction.DESC,"guestHouseReviewCount");
+        else sort = Sort.by(Sort.Direction.DESC, "guestHouseId"); //기본, 등록순 내림차순
+
+        Page<GuestHouse> guestHousePage = repository.findAll(PageRequest.of(page-1, size, sort));
+        return guestHousePage;
+    }
 }
