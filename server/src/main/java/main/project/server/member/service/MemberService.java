@@ -3,6 +3,8 @@ package main.project.server.member.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
+import main.project.server.exception.BusinessException;
+import main.project.server.exception.ExceptionCode;
 import main.project.server.jwt.JwtTokenizer;
 import main.project.server.member.entity.Member;
 import main.project.server.member.entity.enums.MemberNationality;
@@ -56,6 +58,11 @@ public class MemberService {
 
         // 파일이 있는 경우만 저장
         if(!(memberImageFile.isEmpty())) member.setMemberImageUrl(saveFile(memberImageFile, member.getMemberId()));
+
+        // 멤버 닉네임 체크
+        if(checkNickName(member.getMemberNickname()) == false) {
+            throw new BusinessException(ExceptionCode.NICKNAME_DUPLICATED);
+        }
 
         return memberRepository.save(member);
     }
@@ -165,5 +172,11 @@ public class MemberService {
 //        } catch (IOException e) {
 //            throw
 //        }
+    }
+
+    // 멤버 닉네임 중복 체크
+    public boolean checkNickName(String memberNickname){
+
+        return memberRepository.findByMemberNicknameEquals(memberNickname).isEmpty();
     }
 }

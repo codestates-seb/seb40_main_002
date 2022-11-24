@@ -148,4 +148,14 @@ public class MemberController {
                 new MultiResponseDto<>("get ok", responses, pageInfo), HttpStatus.OK);
     }
 
+    // 멤버 닉네임 중복 조회
+    @GetMapping("/api/members/checkname")
+    public ResponseEntity getCheckName(@RequestPart(value = "memberNickname") String memberNickname) {
+
+        boolean result = memberService.checkNickName(memberNickname);
+        String message;
+        if(memberService.checkNickName(memberNickname)) message = "nickname available";
+        else message = "nickname exist";
+        return new ResponseEntity<>(new SingleResponseDto<>(message, result), HttpStatus.OK);
+    }
 }
