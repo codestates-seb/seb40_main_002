@@ -21,12 +21,12 @@ function TagSelect({ tags, openModalHandler, setTags }: Props) {
   const handleComplete = () => {
     // 선택한 tag들
     const selectedTags = tags.filter((_, idx) => selects[idx]);
-    console.log(selectedTags); //
+
     // 3개 이하인지 체크
     const check = checkMaxSelect(selectedTags);
     if (check) {
       // 상태로 저장하고
-      if (setTags !== undefined) setTags(selectedTags);
+      setTags && setTags([...selectedTags]);
       openModalHandler();
     } else {
       alert('태그는 최대 3개까지 선택할 수 있습니다.');

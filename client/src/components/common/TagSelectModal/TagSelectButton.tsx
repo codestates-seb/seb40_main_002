@@ -14,12 +14,11 @@ const testTags = [
   '태그6',
   '태그7',
 ];
+interface EditProps {
+  setTags?: React.Dispatch<React.SetStateAction<string[]>>;
+}
 
-export const TagSelectButton = ({
-  setTags,
-}: {
-  setTags: React.Dispatch<React.SetStateAction<string[]>>;
-}) => {
+export const TagSelectButton = ({ setTags }: EditProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModalHandler = () => {
@@ -43,7 +42,7 @@ export const TagSelectButton = ({
           <TagSelect
             tags={testTags}
             openModalHandler={openModalHandler}
-            setTags={setTags}
+            setTags={setTags && setTags}
           />
         </div>
       )}
