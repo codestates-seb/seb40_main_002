@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
+    // "downlevelIteration": true,
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -15,7 +16,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types":["kakao.maps.d.ts"],
+    "types": ["kakao.maps.d.ts"]
   },
   "include": ["src"]
 }
