@@ -63,12 +63,10 @@ public class GuestHouseController {
 
         GuestHouse guestHouse = guestHouseMapper.guestHouseDtoPostToGuestHouse(guestHouseDto, memberId);
 
-        GuestHouse createdGuestHouse = guestHouseService.createGuestHouse(guestHouse, guestHouseImage);
-
         List<Room> rooms = roomMapper.roomPostsToRooms(roomPostDtos);
 
-        roomService.createRoom(rooms, roomImages, createdGuestHouse.getGuestHouseId());
-
+        GuestHouse createdGuestHouse = guestHouseService.createGuestHouse(guestHouse, guestHouseImage, rooms, roomImages);
+        
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("created",null);
         return new ResponseEntity(singleResponseDto, HttpStatus.CREATED);
     }
@@ -91,13 +89,11 @@ public class GuestHouseController {
 
         GuestHouse guestHouse = guestHouseMapper.guestHouseDtoPutToGuestHouse(guestHouseDto, memberId);
 
-        guestHouse.setGuestHouseId(guestHouseId);
-        guestHouseService.modifyGuestHouse(guestHouse, guestHouseImage, memberId);
-
         List<List<Room>> rooms = roomMapper.roomPutsToRooms(roomPutDtos);
 
-        roomService.updateRoom(rooms, roomImages, newRoomImages, guestHouseId);
+        guestHouse.setGuestHouseId(guestHouseId);
 
+        guestHouseService.modifyGuestHouse(guestHouse, guestHouseImage, memberId, rooms, roomImages, newRoomImages);
 
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("modified",null);
         return new ResponseEntity(singleResponseDto, HttpStatus.OK);
