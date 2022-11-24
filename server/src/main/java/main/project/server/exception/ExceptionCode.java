@@ -27,7 +27,9 @@ public enum ExceptionCode {
 
     ROOM_NOT_FOUND(404, "room not found"),
 
-    ROOM_IMAGE_COUNT_INCONSISTENCY(400, "room and image count not match");
+    ROOM_IMAGE_COUNT_INCONSISTENCY(400, "room and image count not match"),
+
+    NICKNAME_DUPLICATED(400, "duplicated member nickname");
 
     @Getter
     int code;
