@@ -4,7 +4,7 @@ import Footer from './components/common/Footer';
 import { Route, Routes } from 'react-router-dom';
 import PaymentPage from './pages/PaymentPage';
 import GhEditpage from './pages/GhEditpage';
-import GuestHouseDetail from './pages/GusetHouseDetail';
+import GuestHouseDetail from './pages/GuestHouseDetail';
 import Sample from './components/common/Comment/Sample';
 import ReviewPage from './pages/ReviewPage';
 
