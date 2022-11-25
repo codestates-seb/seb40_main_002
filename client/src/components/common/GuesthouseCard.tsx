@@ -1,13 +1,19 @@
+import { useNavigate } from 'react-router-dom';
 import { GuestHouseShort } from '../../types/guesthouse';
+import getTodayToTomorrow from '../../utils/getTodayToTomorrow';
 import Heart from './Heart';
 import RatedStar from './RatedStar';
 import Tag from './Tag';
 
 function GuesthouseCard({ guesthouse }: { guesthouse: GuestHouseShort }) {
-  //   console.log(imgSrc);
+  const navigate = useNavigate();
   const handleToGuesthouse = () => {
     // 해당 게스트하우스 링크로 이동
-    // navigate('~/id');
+    navigate(
+      `/ghdetail/${guesthouse.id}?start=${getTodayToTomorrow().today}&end=${
+        getTodayToTomorrow().tomorrow
+      }`
+    ); // start, end 지정 필요
     console.log('gonna move to', guesthouse.id);
   };
   return (
