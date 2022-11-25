@@ -8,13 +8,19 @@ interface Props {
   header?: string;
   setSortType?: React.Dispatch<React.SetStateAction<string>>;
   listLength?: number;
+  isMyPage?: boolean;
 }
 
-function GuesthouseList({ guesthouses, header, setSortType }: Props) {
+function GuesthouseList({
+  guesthouses,
+  header,
+  setSortType,
+  isMyPage = false,
+}: Props) {
   return (
     <div className="w-full">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold my-[12px]">{header}</h1>
+        <h1 className="text-lg font-semibold mb-[12px]">{header}</h1>
         {setSortType && (
           <div>
             <SortButton sortType={'standard'} setSortType={setSortType} />
@@ -23,7 +29,13 @@ function GuesthouseList({ guesthouses, header, setSortType }: Props) {
           </div>
         )}
       </div>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[20px] w-full h-full">
+      <div
+        className={`grid ${
+          isMyPage
+            ? 'sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+            : 'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+        } gap-[20px] w-full h-full`}
+      >
         {guesthouses.map((el, idx) => (
           <React.Fragment key={idx}>
             <GuesthouseCard guesthouse={el} />

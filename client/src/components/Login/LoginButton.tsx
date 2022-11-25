@@ -1,8 +1,21 @@
+import { ReactElement } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { SiNaver } from 'react-icons/si';
 
-const social = {
+type SocialView = {
+  color: string;
+  korean: string;
+  icon: ReactElement;
+};
+
+type Social = {
+  naver: SocialView;
+  kakao: SocialView;
+  google: SocialView;
+};
+
+const social: Social = {
   naver: {
     color: 'bg-[#17ce5f]',
     korean: '네이버',
@@ -20,8 +33,8 @@ const social = {
   },
 };
 
-function LoginButton({ socialType }: { socialType: string }) {
-  const nowSocial = social[socialType as keyof object];
+function LoginButton({ socialType }: { socialType: keyof Social }) {
+  const nowSocial = social[socialType];
   const handleLogin = () => {
     // login 호출
   };
