@@ -5,6 +5,8 @@ import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 import main.project.server.review.dto.ReviewDto;
 import main.project.server.room.dto.RoomDto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class GuestHouseDto {
@@ -16,22 +18,32 @@ public class GuestHouseDto {
     @Builder
     public static class Post{ //숙소 등록시 사용하는 Post
 
+        @NotBlank(message = "게스트하우스 이름은 빈값일 수 없습니다")
         private String guestHouseName;
 
         //업주 멤버 아이디는 Principal에서 꺼내서 사용
 
+        @NotNull
         private Long cityId;
 
+        @NotBlank
         private String guestHouseLocation;
 
-        private String guestHouseAddress;
+        @NotNull
+        private String[] guestHouseAddress;
 
+        //정규식 추가 필요
+        @NotBlank
         private String guestHousePhone;
 
+        //애노테이션 만들어서 검증 필요
+        @NotNull
         private Boolean[] guestHouseDetails;
 
+        @NotNull
         private String[] guestHouseTag;
 
+        @NotBlank
         private String guestHouseInfo;
 
     }
@@ -45,22 +57,32 @@ public class GuestHouseDto {
 
         //게스트 하우스는 패스 파라미터에서 꺼내서 사용
 
+        @NotBlank(message = "게스트하우스 이름은 빈값일 수 없습니다")
         private String guestHouseName;
 
         //업주 멤버 아이디는 Principal에서 꺼내서 사용
 
+        @NotNull
         private Long cityId;
 
+        @NotBlank
         private String guestHouseLocation;
 
-        private String guestHouseAddress;
+        @NotNull
+        private String[] guestHouseAddress;
 
+        //정규식 추가 필요
+        @NotBlank
         private String guestHousePhone;
 
+        //애노테이션 만들어서 검증 필요
+        @NotNull
         private Boolean[] guestHouseDetails;
 
+        @NotNull
         private String[] guestHouseTag;
 
+        @NotBlank
         private String guestHouseInfo;
 
     }
@@ -90,7 +112,7 @@ public class GuestHouseDto {
 
         private String guestHouseLocation;
 
-        private String guestHouseAddress;
+        private String[] guestHouseAddress;
 
         private String guestHousePhone;
 
