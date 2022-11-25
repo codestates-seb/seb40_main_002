@@ -106,8 +106,9 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
-                .host("localhost") // 배포시 변경할 것
-                .path("/main.html")
+                .host("localhost")
+                .port(3000)
+                .path("/")  // 배포 반영
                 .queryParams(queryParams)
                 .build()
                 .toUri();
@@ -117,8 +118,9 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
-                .host("localhost")  // 배포시 변경할 것
-                .path("/member-register.html")
+                .host("localhost")
+                .port(3000)
+                .path("/register")  // 배포 반영
                 .build()
                 .toUri();
     }
