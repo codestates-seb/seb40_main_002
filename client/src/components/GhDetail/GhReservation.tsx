@@ -49,7 +49,7 @@ const GhReservation = ({ rooms }: RoomsProps) => {
             setEndDay={setEndDay}
           />
         </div>
-        <div className=" md:w-[370px] md:m-[0] m-[40px] border-[1px] border-black rounded-xl drop-shadow-2xl bg-white text-lg">
+        <div className=" md:min-w-[370px] md:m-[0] m-[40px] border-[1px] border-black rounded-xl drop-shadow-2xl bg-white text-lg">
           <form className="mt-[10px] text-center">
             <select
               name="RoomSelect"
@@ -57,11 +57,13 @@ const GhReservation = ({ rooms }: RoomsProps) => {
               onChange={handleGhPrice}
             >
               <option value={0}>객실 선택</option>
-              {rooms.map((el: any, i: number) => (
-                <option value={el.roomPrice} key={i}>
-                  {el.roomName}
-                </option>
-              ))}
+              {rooms
+                .filter((el) => el.reservePossible)
+                .map((el: any, i: number) => (
+                  <option value={el.roomPrice} key={i}>
+                    {el.roomName}
+                  </option>
+                ))}
             </select>
           </form>
           <div className="flex justify-center	items-center mt-[20px] px-[10px] ">

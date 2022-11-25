@@ -1,13 +1,10 @@
 interface AskProps {
-  ghName?: string;
-  GhPhone?: string;
+  ghName: string;
+  GhPhone: string;
 }
-const GhAsk = ({
-  ghName = '정우네 게스트 하우스',
-  GhPhone = '010-1234-5678',
-}: AskProps) => {
+const GhAsk = ({ ghName, GhPhone }: AskProps) => {
   return (
-    <div className="md:w-6/12">
+    <div>
       <div className="font-bold ">문의하기</div>
       <div className="text-font-color text-lg flex justify-between items-center mt-[20px]">
         <div>{ghName}</div>

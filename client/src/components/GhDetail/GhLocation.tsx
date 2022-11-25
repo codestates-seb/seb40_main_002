@@ -3,10 +3,7 @@ interface LocationPorps {
   ghLocation: string[];
   address?: string;
 }
-const GhLocation = ({
-  ghLocation,
-  address = '제주 제주시 애월읍 일주서로 6158',
-}: LocationPorps) => {
+const GhLocation = ({ ghLocation, address }: LocationPorps) => {
   return (
     <div className="border-b-[1px] border-[black]">
       <div className="mb-[20px] font-bold">호스팅 지역</div>

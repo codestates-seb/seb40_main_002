@@ -6,11 +6,17 @@ import Carousel from '../common/Carousel/Carousel';
 type TagProps = {
   ghName: string;
   ghInfo: string;
+  ghNickname: string;
   tags: string[];
   ghImage: string[];
 };
-const GhInformation = ({ tags, ghInfo, ghName, ghImage }: TagProps) => {
-  //api 명세가 정해지면 수정예정입니다!!
+const GhInformation = ({
+  tags,
+  ghInfo,
+  ghName,
+  ghImage,
+  ghNickname,
+}: TagProps) => {
   const editHandler = () => {
     console.log('수정페이지 이동');
   };
@@ -52,9 +58,7 @@ const GhInformation = ({ tags, ghInfo, ghName, ghImage }: TagProps) => {
       </div>
       <div className="border-b-[2px]">
         <div className="mt-[40px] mb-[20px] font-bold ">숙소정보</div>
-        <div className="text-lg max-w-[1120px] mb-[20px]  text-lg">
-          {ghInfo}
-        </div>
+        <div className="text-lg  mb-[20px]  text-lg">{ghInfo}</div>
       </div>
     </>
   );

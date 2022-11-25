@@ -2,13 +2,12 @@ import RoomInfo from '../common/RoomInfo/RoomInfo';
 
 interface RoomsProps {
   rooms: {
-    room: {
-      roomName: string;
-      roomExplain: string;
-      roomPersonnel: number;
-      roomPrice: number;
-      roomImage: string;
-    };
+    roomId: number;
+    roomName: string;
+    roomPrice: number;
+    roomImageUrl: string;
+    roomInfo: string;
+    reservePossible: boolean;
   }[];
 }
 const RoomsDetail = ({ rooms }: RoomsProps) => {
@@ -16,7 +15,7 @@ const RoomsDetail = ({ rooms }: RoomsProps) => {
     <div className="border-b-[2px] mb-[20px]">
       <div className="my-[20px]">객실정보</div>
       {rooms.map((el, i) => (
-        <RoomInfo {...el} key={i} />
+        <RoomInfo room={el} key={i} />
       ))}
     </div>
   );
