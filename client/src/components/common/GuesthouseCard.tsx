@@ -9,10 +9,9 @@ function GuesthouseCard({ guesthouse }: { guesthouse: GuestHouseShort }) {
   const navigate = useNavigate();
   const handleToGuesthouse = () => {
     // 해당 게스트하우스 링크로 이동
+    const startEnd = getTodayToTomorrow();
     navigate(
-      `/ghdetail/${guesthouse.id}?start=${getTodayToTomorrow().today}&end=${
-        getTodayToTomorrow().tomorrow
-      }`
+      `/ghdetail/${guesthouse.id}?start=${startEnd.today}&end=${startEnd.tomorrow}`
     ); // start, end 지정 필요
     console.log('gonna move to', guesthouse.id);
   };

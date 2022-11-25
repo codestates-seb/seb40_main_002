@@ -31,16 +31,11 @@ function useInfiniteScroll(
 
   const tags = tag?.split('-');
 
-  // let option: SearchOption = {
-  //   cityId: 1, // 변경해야 함
-  //   start: start ? start : getTodayToTomorrow().today,
-  //   end: end ? end : getTodayToTomorrow().tomorrow,
-  //   tags: tags ? tags : [],
-  // };
+  const startEnd = getTodayToTomorrow();
   const [option, setOption] = useState<SearchOption>({
     cityId: 1, // 변경해야 함
-    start: start ? start : getTodayToTomorrow().today,
-    end: end ? end : getTodayToTomorrow().tomorrow,
+    start: start ? start : startEnd.today,
+    end: end ? end : startEnd.tomorrow,
     tags: tags ? tags : [],
   });
 
