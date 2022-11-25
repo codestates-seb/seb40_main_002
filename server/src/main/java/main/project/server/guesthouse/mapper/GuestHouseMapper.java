@@ -7,10 +7,8 @@ import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 import main.project.server.guesthousedetails.entity.GuestHouseDetails;
 
-import main.project.server.guesthousedetails.mapper.GuestHouseDetailsMapper;
 import main.project.server.member.entity.Member;
 import main.project.server.review.dto.ReviewDto;
-import main.project.server.room.mapper.RoomMapper;
 import main.project.server.room.service.RoomService;
 
 import org.mapstruct.Mapper;
@@ -18,6 +16,8 @@ import org.mapstruct.Mapper;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 
 @Mapper(componentModel = "spring")
@@ -31,7 +31,7 @@ public interface GuestHouseMapper {
                 .member(Member.Member(memberId))
                 .city(City.City(dto.getCityId()))
                 .guestHouseLocation(dto.getGuestHouseLocation())
-                .guestHouseAddress(dto.getGuestHouseAddress())
+                .guestHouseAddress(addressArrayToAddressStr(dto.getGuestHouseAddress()))
                 .guestHousePhone(dto.getGuestHousePhone())
                 .guestHouseStatus(GuestHouseStatus.OPEN)
                 .guestHouseDetails(booleanArrayToGuestHouseDetails(dto.getGuestHouseDetails()))
@@ -47,6 +47,24 @@ public interface GuestHouseMapper {
 
     }
 
+    /** 문자열 배열 형태의 주소를 DB에 저장하는 문자열 형태로 변환하는 메소드 **/
+    default String addressArrayToAddressStr(String[] addressArr) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        IntStream.range(0, addressArr.length)
+                .forEach(index-> {
+                    stringBuilder.append(addressArr[index]);
+                    if (index != addressArr.length - 1) {
+                        stringBuilder.append(",");
+                    }
+                });
+
+        return stringBuilder.toString();
+    }
+
+
+
 
     default public GuestHouse guestHouseDtoPutToGuestHouse(GuestHouseDto.Put dto, String memberId){
 
@@ -55,7 +73,7 @@ public interface GuestHouseMapper {
                 .member(Member.Member(memberId))
                 .city(City.City(dto.getCityId()))
                 .guestHouseLocation(dto.getGuestHouseLocation())
-                .guestHouseAddress(dto.getGuestHouseAddress())
+                .guestHouseAddress(addressArrayToAddressStr(dto.getGuestHouseAddress()))
                 .guestHousePhone(dto.getGuestHousePhone())
                 .guestHouseStatus(GuestHouseStatus.OPEN)
                 .guestHouseDetails(booleanArrayToGuestHouseDetails(dto.getGuestHouseDetails()))
@@ -71,9 +89,7 @@ public interface GuestHouseMapper {
 
 
     default List<GuestHouseDto.response> guestHouseListToGuestHouseResponse(
-            List<GuestHouse> guestHouseList,
-            RoomService roomService,
-            GuestHouseDetailsMapper guestHouseDetailsMapper) {
+            List<GuestHouse> guestHouseList) {
 
         return guestHouseList.stream().map(guestHouse -> {
 
@@ -85,7 +101,7 @@ public interface GuestHouseMapper {
                     .memberPhone(guestHouse.getMember().getMemberPhone())
                     .memberImageUrl(guestHouse.getMember().getMemberImageUrl())
                     .guestHouseLocation(guestHouse.getGuestHouseLocation())
-                    .guestHouseAddress(guestHouse.getGuestHouseAddress())
+                    .guestHouseAddress(addressStrToAddressArr(guestHouse.getGuestHouseAddress()))
                     .guestHousePhone(guestHouse.getGuestHousePhone())
                     .guestHouseStatus(guestHouse.getGuestHouseStatus())
                     .guestHouseDetails(guestHouseDetailsToBooleanArray(guestHouse.getGuestHouseDetails()))
@@ -104,16 +120,16 @@ public interface GuestHouseMapper {
     default GuestHouseDetails booleanArrayToGuestHouseDetails(Boolean[] option) {
 
         return GuestHouseDetails.builder()
-                .guestHouseParty(option[0])
-                .guestHouseKitchen(option[1])
-                .guestHouseWashing(option[2])
-                .guestHouseOcean(option[3])
-                .guestHouseTask(option[4])
-                .guestHouseEssential(option[5])
-                .guestHouseWifi(option[6])
-                .guestHouseBoard(option[7])
-                .guestHouseCook(option[8])
-                .guestHouseParking(option[9])
+                .guestHouseKitchen(option[0])
+                .guestHouseOcean(option[1])
+                .guestHouseBoard(option[2])
+                .guestHouseWashing(option[3])
+                .guestHouseEssential(option[4])
+                .guestHouseTask(option[5])
+                .guestHouseCook(option[6])
+                .guestHouseWifi(option[7])
+                .guestHouseParking(option[8])
+                .guestHouseParty(option[9])
                 .build();
     }
 
@@ -122,6 +138,9 @@ public interface GuestHouseMapper {
 
     /** 배열로 넘어온 태그를 정렬하여 DB에 저장되는 포맷의 형태로 변환시켜 주는 메소드 **/
     default String createSortedTagString(String[] tags) {
+
+        if(tags == null)
+            return null;
 
         Arrays.sort(tags);
 
@@ -133,6 +152,7 @@ public interface GuestHouseMapper {
         return stringBuilder.toString();
     }
 
+    /** DB에 저장되어 있는 ||포맷형태의 문자열 형태의 태그를 문자열배열로 변환하는 메소드 **/
     default String[] createSortedTagArray(String tags) {
 
         String[] splStr;
@@ -176,7 +196,7 @@ public interface GuestHouseMapper {
                 .memberPhone(adminMember.getMemberPhone())
                 .memberImageUrl(adminMember.getMemberImageUrl())
                 .guestHouseLocation(guestHouse.getGuestHouseLocation())
-                .guestHouseAddress(guestHouse.getGuestHouseAddress())
+                .guestHouseAddress(addressStrToAddressArr(guestHouse.getGuestHouseAddress()))
                 .guestHousePhone(guestHouse.getGuestHousePhone())
                 .guestHouseStatus(guestHouse.getGuestHouseStatus())
                 .guestHouseDetails(guestHouseDetailsToBooleanArray(guestHouse.getGuestHouseDetails()))
@@ -192,21 +212,55 @@ public interface GuestHouseMapper {
                 .build();
     }
 
+    default String[] addressStrToAddressArr(String address) {
+
+        if (address != null) {
+            String[] addressArr = address.split(",");
+            return addressArr;
+        }
+
+        return new String[0];
+    }
+
     default Boolean[] guestHouseDetailsToBooleanArray(GuestHouseDetails guestHouseDetails) {
 
         return new Boolean[]{
-                guestHouseDetails.getGuestHouseParty(),
-                guestHouseDetails.getGuestHouseWashing(),
+                guestHouseDetails.getGuestHouseKitchen(),
                 guestHouseDetails.getGuestHouseOcean(),
-                guestHouseDetails.getGuestHouseTask(),
-                guestHouseDetails.getGuestHouseEssential(),
-                guestHouseDetails.getGuestHouseWifi(),
                 guestHouseDetails.getGuestHouseBoard(),
+                guestHouseDetails.getGuestHouseWashing(),
+                guestHouseDetails.getGuestHouseEssential(),
+                guestHouseDetails.getGuestHouseTask(),
                 guestHouseDetails.getGuestHouseCook(),
-                guestHouseDetails.getGuestHouseParking()
+                guestHouseDetails.getGuestHouseWifi(),
+                guestHouseDetails.getGuestHouseParking(),
+                guestHouseDetails.getGuestHouseParty(),
         };
     }
 
+
+    /** 프론트에서 들어 온 태그 배열을 정렬하여 DB에 저장되는 태그 문자열 형식으로 변환하여 주는 메소드 **/
+    default String tagStrArrToTagStrForFilter(String[] tag) {
+
+        StringBuilder likeStringBuilder = new StringBuilder("%");
+
+        if(tag == null || tag.length == 0)
+            return likeStringBuilder.toString();
+
+        //태그 정렬
+        Arrays.sort(tag);
+
+        String[] formattedTagArr = Stream.of(tag).map(plainTagStr -> "|" + plainTagStr + "|").toArray(String[]::new);
+
+
+        //DB에 저장되어 있는 문자열 형식으로 변환
+
+        for (int i = 0; i < tag.length; i++) {
+            likeStringBuilder.append(formattedTagArr[i] + "%");
+        }
+
+        return likeStringBuilder.toString();
+    }
 
 
 }

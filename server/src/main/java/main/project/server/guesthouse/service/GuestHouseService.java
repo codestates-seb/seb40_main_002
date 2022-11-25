@@ -6,6 +6,7 @@ import main.project.server.exception.ExceptionCode;
 import main.project.server.guesthouse.dto.QueryStringDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
+import main.project.server.guesthouse.mapper.GuestHouseMapper;
 import main.project.server.guesthousedetails.repository.GuestHouseDetailsRepository;
 import main.project.server.guesthouseimage.entity.GuestHouseImage;
 import main.project.server.guesthouse.repository.GuestHouseRepository;
@@ -25,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +44,9 @@ public class GuestHouseService {
     private final GuestHouseImageRepository guestHouseImageRepository;
 
     private final RoomService roomService;
+
+    private final GuestHouseMapper guestHouseMapper;
+
 
     //-- 컨트롤러와 직접 연결된 메소드
     public GuestHouse createGuestHouse(GuestHouse guestHouse, MultipartFile[] guestHouseImages, List<Room> rooms, MultipartFile[] roomImages) throws IOException {
@@ -138,16 +141,8 @@ public class GuestHouseService {
 
     public Page<GuestHouse> findGuestHouseByMainFilter(QueryStringDto.MainFilterDto queryStringDto) {
 
-        //태그 정렬
-        Arrays.sort(queryStringDto.getTag());
 
-        //DB에 저장되어 있는 문자열 형식으로 변환
-        StringBuilder likeStringBuilder = new StringBuilder("%");
-        String[] tag = queryStringDto.getTag();
-        for (int i = 0; i < tag.length; i++) {
-            likeStringBuilder.append(tag[i] + "%");
-        }
-
+        String tagStr = guestHouseMapper.tagStrArrToTagStrForFilter(queryStringDto.getTag());
 
         //오더바이 정렬 구하기
         String sortValue = queryStringDto.getSort();
@@ -167,7 +162,7 @@ public class GuestHouseService {
         //필터링으로 인한 게스트하우스 리스트 구하기
         Page<GuestHouse> guestHouseByFilter = repository.findGuestHouseByFilter(
                 queryStringDto.getCityId(),
-                likeStringBuilder.toString(),
+                tagStr,
                 queryStringDto.getStart(),
                 queryStringDto.getEnd(),
                 PageRequest.of(queryStringDto.getPage() - 1, queryStringDto.getSize(), sort));
@@ -230,15 +225,18 @@ public class GuestHouseService {
         }
     }
 
-    public Page<GuestHouse> findAllGuestHouse(Integer page, Integer size, String sortValue) {
+    public Page<GuestHouse> findAllGuestHouse(Integer page, Integer size, String[] tag, String sortValue) {
 
-        //오더바이 정렬 구하기
+        String tagStr = guestHouseMapper.tagStrArrToTagStrForFilter(tag);
+
         Sort sort;
-        if (sortValue.equals("star")) sort = Sort.by(Sort.Direction.DESC,"guestHouseStar");
-        else if(sortValue.equals("review")) sort = Sort.by(Sort.Direction.DESC,"guestHouseReviewCount");
-        else sort = Sort.by(Sort.Direction.DESC, "guestHouseId"); //기본, 등록순 내림차순
+        if (sortValue.equals("star")) sort = Sort.by(Sort.Direction.DESC,"guest_house_star");
+        else if(sortValue.equals("review")) sort = Sort.by(Sort.Direction.DESC,"guest_house_review_count");
+        else sort = Sort.by(Sort.Direction.DESC, "guest_house_id"); //기본, 등록순 내림차순
 
-        Page<GuestHouse> guestHousePage = repository.findAll(PageRequest.of(page-1, size, sort));
+        Page<GuestHouse> guestHousePage = repository.findAllGuestHouseOnlyAsTag(tagStr, PageRequest.of(page-1, size, sort));
         return guestHousePage;
+
+
     }
 }

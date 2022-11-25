@@ -9,7 +9,6 @@ import main.project.server.guesthouse.dto.QueryStringDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.mapper.GuestHouseMapper;
 import main.project.server.guesthouse.service.GuestHouseService;
-import main.project.server.guesthousedetails.mapper.GuestHouseDetailsMapper;
 import main.project.server.review.dto.ReviewDto;
 import main.project.server.review.mapper.ReviewMapper;
 import main.project.server.review.service.ReviewService;
@@ -39,7 +38,6 @@ import java.util.List;
 public class GuestHouseController {
     private final GuestHouseService guestHouseService;
     private final GuestHouseMapper guestHouseMapper;
-    private final GuestHouseDetailsMapper guestHouseDetailsMapper;
 
     private final RoomService roomService;
 
@@ -93,7 +91,9 @@ public class GuestHouseController {
 
         guestHouse.setGuestHouseId(guestHouseId);
 
+
         guestHouseService.modifyGuestHouse(guestHouse, guestHouseImage, memberId, rooms, roomImages, newRoomImages);
+
 
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("modified",null);
         return new ResponseEntity(singleResponseDto, HttpStatus.OK);
@@ -149,7 +149,7 @@ public class GuestHouseController {
         Page<GuestHouse> guestHousePage = guestHouseService.findGuestHouseByMember(authMemberId, page, size);
 
         List<GuestHouseDto.response> guestHouseResponseList = guestHouseMapper.
-                guestHouseListToGuestHouseResponse(guestHousePage.getContent(), roomService, guestHouseDetailsMapper);
+                guestHouseListToGuestHouseResponse(guestHousePage.getContent());
 
         MultiResponseDto<GuestHouseDto.response> multiResponseDto = new MultiResponseDto<>("success",guestHouseResponseList,guestHousePage);
 
@@ -164,7 +164,7 @@ public class GuestHouseController {
         Page<GuestHouse> guestHousePageByMainFilter = guestHouseService.findGuestHouseByMainFilter(mainFilterDto);
 
         List<GuestHouseDto.response> guestHouseResponseList = guestHouseMapper.
-                guestHouseListToGuestHouseResponse(guestHousePageByMainFilter.getContent(), roomService, guestHouseDetailsMapper);
+                guestHouseListToGuestHouseResponse(guestHousePageByMainFilter.getContent());
 
 
         MultiResponseDto<GuestHouseDto.response> multiResponseDto = new MultiResponseDto<>("success",guestHouseResponseList, guestHousePageByMainFilter);
@@ -175,11 +175,13 @@ public class GuestHouseController {
     public ResponseEntity guestHouseAll(
             @RequestParam(name = "page", defaultValue = "1") @Positive Integer page,
             @RequestParam(name = "size", defaultValue = "10") @Positive Integer size,
-            @RequestParam(name = "sort", defaultValue = "default") String sort
+            @RequestParam(name = "sort", defaultValue = "default") String sort,
+            @RequestParam(name = "tag") String[] tag
     ) {
 
-        Page<GuestHouse> guestHouseAll = guestHouseService.findAllGuestHouse(page, size, sort);
-        List<GuestHouseDto.response> guestHouseResponseLit = guestHouseMapper.guestHouseListToGuestHouseResponse(guestHouseAll.getContent(), roomService, guestHouseDetailsMapper);
+
+        Page<GuestHouse> guestHouseAll = guestHouseService.findAllGuestHouse(page, size, tag, sort);
+        List<GuestHouseDto.response> guestHouseResponseLit = guestHouseMapper.guestHouseListToGuestHouseResponse(guestHouseAll.getContent());
         MultiResponseDto<GuestHouseDto.response> multiResponseDto = new MultiResponseDto<>("success",guestHouseResponseLit, guestHouseAll);
 
         return new ResponseEntity(multiResponseDto, HttpStatus.OK);
