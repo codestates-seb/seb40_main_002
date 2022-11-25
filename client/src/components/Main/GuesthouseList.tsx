@@ -18,12 +18,12 @@ function GuesthouseList({
   isMyPage = false,
 }: Props) {
   return (
-    <div className="w-full">
+    <div className="w-full mb-[48px]">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold mb-[12px]">{header}</h1>
         {setSortType && (
           <div>
-            <SortButton sortType={'standard'} setSortType={setSortType} />
+            <SortButton sortType={'default'} setSortType={setSortType} />
             <SortButton sortType={'star'} setSortType={setSortType} />
             <SortButton sortType={'review'} setSortType={setSortType} />
           </div>
