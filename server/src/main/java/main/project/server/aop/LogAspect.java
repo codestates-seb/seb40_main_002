@@ -41,6 +41,7 @@ public class LogAspect {
         ServletRequestAttributes attribute = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes());
         HttpServletRequest request = attribute.getRequest();
 
+        //put 순서를 유지하기 위해 LinkedHashMap 구현체를 사용
         Map<String, Object> requestBody = new LinkedHashMap<>();
 
         if (request.getContentType() == null) {
