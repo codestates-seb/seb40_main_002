@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import Tag from '../../common/Tag';
+import CommonBtn from '../CommonBtn/CommonBtn';
 
 interface Props {
   locations: Array<string>;
@@ -38,7 +39,7 @@ const SelectLocation = ({
 
   return (
     <>
-      <div className="flex flex-wrap justify-center items-center w-[340px] h-fit border-solid border-2 border-borderline rounded-2xl py-2 absolute top-20 bg-white">
+      <div className="flex flex-wrap justify-center items-center w-[340px] h-fit border-solid border-[1px] border-border-color rounded-2xl py-4 absolute top-20 bg-white">
         <div className="text-lg font-medium w-fit mb-[20px]">
           장소를 선택해 주세요.
         </div>
@@ -49,12 +50,17 @@ const SelectLocation = ({
             </button>
           ))}
         </div>
-        <button
+        {/* <button
           onClick={handleComplete}
           className="hover:bg-point-color hover:text-white w-32 rounded-[15px]"
         >
           선택 완료
-        </button>
+        </button> */}
+        <CommonBtn
+          btnHandler={handleComplete}
+          text={'선택 완료'}
+          btnSize={'w-20 h-8'}
+        />
       </div>
     </>
   );
