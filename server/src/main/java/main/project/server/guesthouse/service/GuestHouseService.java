@@ -194,7 +194,7 @@ public class GuestHouseService {
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             FileUtil.saveFile(uploadPath, fileName, multipartFile);
 
-            String totalUrl = guestHouseImagePath+ "/" + fileName;
+            String totalUrl = "/images/"+ guestHouseId + "/" + fileName;
             imageUrl.add(totalUrl);
         }
 
