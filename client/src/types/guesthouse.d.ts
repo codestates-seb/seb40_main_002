@@ -22,3 +22,14 @@ export interface GuestHouseShort {
   tags: Array<string>;
   id: number;
 }
+
+export interface MyReservation {
+  guestHouserName: string;
+  guestHouseRoomStart: string;
+  guestHouseRoomEnd: string;
+}
+
+export interface MyReview {
+  guestHouseName: string;
+  reviewContent: string;
+}
