@@ -19,10 +19,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -51,50 +48,63 @@ public class RoomService {
 
         for (int i = 0; i < rooms.size(); i++) {
             rooms.get(i).addGuestHouse(GuestHouse.GuestHouse(guestHouseId));
-            rooms.get(i).setRoomImageUrl(saveFile(roomImages[i]));
             roomRepository.save(rooms.get(i));
+            rooms.get(i).setRoomImageUrl(saveFile(roomImages[i], rooms.get(i).getRoomId()));
         }
     }
 
     public void updateRoom(List<List<Room>> rooms, MultipartFile[] roomImages, MultipartFile[] newRoomImages, Long guestHouseId) throws IOException {
 
 
-        List<Room> findRooms = roomRepository.findAll(Sort.by(Sort.Direction.ASC, "roomId"));
+        List<Room> findRooms = roomRepository.findByGuestHouseGuestHouseId(guestHouseId);
         List<Long> findRoomsId = findRooms.stream().map(Room::getRoomId).collect(Collectors.toList());
 
+        // 기존 룸 요청 목록
         List<Room> existRooms = rooms.get(0);
         List<Long> findExistRoomsId = existRooms.stream().map(Room::getRoomId).collect(Collectors.toList());
 
+        // 요청한 룸이 게스트하우스가 소유한 룸 id가 아닐 경우
+        for (Long id : findExistRoomsId) {
+            if (!findRoomsId.contains(id)) throw new BusinessException(ExceptionCode.NOT_MATCH_ROOM);
+        }
+
+        // 새로운 룸 요청 목록
         List<Room> newRooms = rooms.get(1);
 
-        if (roomImageIsEmpty(existRooms, roomImages) && roomImageIsEmpty(newRooms, newRoomImages)) {
+        // 룸이 없을 경우는 리턴
+        if (roomImageIsEmpty(existRooms, roomImages) && roomImageIsEmpty(newRooms, newRoomImages)
+                && findRooms.size() == 0) {
             log.info("# Updating room & image not exist");
             return;
         }
-
+        // 요청 들어온 룸 갯수와 이미지 갯수가 맞지 않는 경우 예외처리
         if (roomImageCountMatch(existRooms, roomImages) || roomImageCountMatch(newRooms, newRoomImages)) {
             log.error("# Request room & image count inconsistency");
             throw new BusinessException(ExceptionCode.ROOM_IMAGE_COUNT_INCONSISTENCY);
         }
+        // 기존 룸 수정
         int roomIdIdx = 0;
         for (int i = 0; i < findRooms.size(); i++) {
-            if (findExistRoomsId.contains(findRoomsId.get(i))) {
-                existRooms.get(roomIdIdx).setRoomImageUrl(saveFile(roomImages[roomIdIdx]));
-                existRooms.get(roomIdIdx).addGuestHouse(GuestHouse.GuestHouse(guestHouseId));
-                roomRepository.save(existRooms.get(roomIdIdx));
+            Long roomId = findRoomsId.get(i);
+            if (findExistRoomsId.contains(roomId)) {
+                Room room = existRooms.get(roomIdIdx);
+                deleteFile(findVerifiedRoom(roomId).getRoomImageUrl());
+                room.setRoomImageUrl(saveFile(roomImages[roomIdIdx], roomId));
+                room.addGuestHouse(GuestHouse.GuestHouse(guestHouseId));
+                roomRepository.save(room);
                 roomIdIdx++;
             } else {
-                Room disabledRoom = findVerifiedRoom(findRoomsId.get(i));
+                Room disabledRoom = findVerifiedRoom(roomId);
                 disabledRoom.setRoomStatus(RoomStatus.ROOM_DISABLE);
                 deleteFile(disabledRoom.getRoomImageUrl());
                 roomRepository.save(disabledRoom);
             }
         }
-
+        // 신규 룸 등록
         for (int i = 0; i < newRooms.size(); i++) {
             newRooms.get(i).addGuestHouse(GuestHouse.GuestHouse(guestHouseId));
-            newRooms.get(i).setRoomImageUrl(saveFile(newRoomImages[i]));
             roomRepository.save(newRooms.get(i));
+            newRooms.get(i).setRoomImageUrl(saveFile(newRoomImages[i], newRooms.get(i).getRoomId()));
         }
     }
 
@@ -115,9 +125,9 @@ public class RoomService {
     }
 
 
-    private String saveFile(MultipartFile image) throws IOException {
+    private String saveFile(MultipartFile image, Long roomId) throws IOException {
 
-        String uploadDir = roomImageDir;
+        String uploadDir = roomImageDir + roomId;
 
         String fileName = StringUtils.cleanPath(image.getOriginalFilename());
         FileUtil.saveFile(uploadDir, fileName, image);
@@ -165,8 +175,9 @@ public class RoomService {
     }
 
     private boolean roomImageCountMatch(List<Room> rooms, MultipartFile[] roomImages) {
-        return rooms.size() != roomImages.length
-                || Arrays.stream(roomImages).allMatch(i -> Objects.equals(i.getOriginalFilename(), ""));
+        return !roomImageIsEmpty(rooms, roomImages)
+                && (rooms.size() != roomImages.length
+                || Arrays.stream(roomImages).allMatch(i -> Objects.equals(i.getOriginalFilename(), "")));
     }
 
 }

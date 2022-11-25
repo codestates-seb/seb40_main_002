@@ -12,6 +12,8 @@ import main.project.server.guesthouseimage.entity.GuestHouseImage;
 import main.project.server.guesthouse.repository.GuestHouseRepository;
 import main.project.server.guesthouseimage.repository.GuestHouseImageRepository;
 import main.project.server.member.entity.Member;
+import main.project.server.room.entity.Room;
+import main.project.server.room.service.RoomService;
 import main.project.server.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -41,13 +43,19 @@ public class GuestHouseService {
 
     private final GuestHouseImageRepository guestHouseImageRepository;
 
+    private final RoomService roomService;
+
     private final GuestHouseMapper guestHouseMapper;
 
+
     //-- 컨트롤러와 직접 연결된 메소드
-    public GuestHouse createGuestHouse(GuestHouse guestHouse, MultipartFile[] guestHouseImages) throws IOException {
+    public GuestHouse createGuestHouse(GuestHouse guestHouse, MultipartFile[] guestHouseImages, List<Room> rooms, MultipartFile[] roomImages) throws IOException {
 
         //entity 저장
         GuestHouse savedGuestHouse = repository.save(guestHouse);
+
+        // 룸 생성
+        roomService.createRoom(rooms, roomImages, savedGuestHouse.getGuestHouseId());
 
         //파일이 없을 경우에 대한 더 적절한 처리가 필요
         if(guestHouseImages != null && guestHouseImages.length != 0 && !guestHouseImages[0].getOriginalFilename().equals(""))
@@ -61,7 +69,8 @@ public class GuestHouseService {
     }
 
 
-    public GuestHouse modifyGuestHouse(GuestHouse guestHouse, MultipartFile[] guestHouseImages, String memberId) throws IOException {
+    public GuestHouse modifyGuestHouse(GuestHouse guestHouse, MultipartFile[] guestHouseImages, String memberId,
+                                       List<List<Room>> rooms, MultipartFile[] roomImages, MultipartFile[] newRoomImages) throws IOException {
 
 
         //기존 게스트하우스 데이터 가져오기
@@ -74,6 +83,8 @@ public class GuestHouseService {
         List<String> urlList = existsGuestHouse.getGuestHouseImage().stream().map(
                 guestHouseImage -> new String(guestHouseImage.getGuestHouseImageUrl())).collect(Collectors.toList());
 
+        // 룸 정보 업데이트
+        roomService.updateRoom(rooms, roomImages, newRoomImages, existsGuestHouse.getGuestHouseId());
 
         //기존 이미지 파일 삭제, 기존 이미지 데이터 삭제
         guestHouseImageRepository.deleteAllByGuestHouse(guestHouse);
