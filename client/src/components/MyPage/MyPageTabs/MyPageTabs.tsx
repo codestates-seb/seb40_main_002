@@ -21,9 +21,6 @@ function MyPageTabs() {
         <Link to="/mypage/myreview" className="mr-[20px]">
           후기 목록
         </Link>
-        <Link to="/mypage/heart" className="mr-[20px]">
-          커뮤니티
-        </Link>
       </div>
       <div className="my-[12px]">
         <Routes>
