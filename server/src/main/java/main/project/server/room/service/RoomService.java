@@ -132,7 +132,7 @@ public class RoomService {
         String fileName = StringUtils.cleanPath(image.getOriginalFilename());
         FileUtil.saveFile(uploadDir, fileName, image);
 
-        String totalUrl = uploadDir + "/" + fileName;
+        String totalUrl = "/" + uploadDir + "/" + fileName;
         String imageUrl = totalUrl;
 
         return imageUrl;
