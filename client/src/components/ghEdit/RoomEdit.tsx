@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BsPlusLg } from 'react-icons/bs';
+import useModal from '../../hooks/useModal';
 import CommonBtn from '../common/CommonBtn/CommonBtn';
 import RoomInfo from '../common/RoomInfo/RoomInfo';
 import RoomEditer from './RoomEditer';
@@ -39,9 +40,7 @@ export default function RoomEdit({ rooms, setRooms, mode }: RoomsProps) {
     roomId: null,
   });
 
-  const [openEditRoom, setOpenEditRoom] = useState(false);
-
-  const openEditer = () => setOpenEditRoom(!openEditRoom);
+  const [openEditRoom, openEditer] = useModal();
 
   const RoomInfoData = (room: Room) => {
     const dataFilter = {
@@ -56,7 +55,7 @@ export default function RoomEdit({ rooms, setRooms, mode }: RoomsProps) {
 
   const reEdit = (input: Room) => {
     setInput({ ...input });
-    setOpenEditRoom(true);
+    openEditer();
   };
 
   const removeCard = (input: RemoveRoom) => {
@@ -106,7 +105,7 @@ export default function RoomEdit({ rooms, setRooms, mode }: RoomsProps) {
           {openEditRoom && (
             <RoomEditer
               openEditRoom={openEditRoom}
-              setOpenEditRoom={setOpenEditRoom}
+              setOpenEditRoom={openEditer}
               setRooms={setRooms}
               rooms={rooms}
               input={input}
