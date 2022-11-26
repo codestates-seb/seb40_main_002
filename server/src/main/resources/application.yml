@@ -45,13 +45,6 @@ redis:
     port: 6379
 
 
-# jwt, my properties
-jwt:
-  secret-key: gnvdsvnodianvoeiwnfoqwienfrqoifnqwfqw112121
-  access-token-expiration-minutes: 120
-  refresh-token-expiration-minutes: 720
-
-
 images:
   upload-path: "/home/ec2-user/images/guesthouse/"
   member-profile : "images/memberprofile/"
