@@ -94,6 +94,70 @@ const checkAddress = (address: Address): boolean => {
   return false;
 };
 
+const cityIds = [
+  {
+    cityId: 2,
+    cityName: '조천',
+  },
+  {
+    cityId: 3,
+    cityName: '구좌',
+  },
+  {
+    cityId: 4,
+    cityName: '우도',
+  },
+  {
+    cityId: 5,
+    cityName: '성산',
+  },
+  {
+    cityId: 6,
+    cityName: '표선',
+  },
+  {
+    cityId: 7,
+    cityName: '남원',
+  },
+  {
+    cityId: 9,
+    cityName: '중문',
+  },
+  {
+    cityId: 10,
+    cityName: '안덕',
+  },
+  {
+    cityId: 11,
+    cityName: '대정',
+  },
+  {
+    cityId: 12,
+    cityName: '한경',
+  },
+  {
+    cityId: 13,
+    cityName: '한림',
+  },
+  {
+    cityId: 14,
+    cityName: '애월',
+  },
+  {
+    cityId: 8,
+    cityName: '서귀포시',
+  },
+  {
+    cityId: 1,
+    cityName: '제주시',
+  },
+];
+
+const findCityId = (address: string): number => {
+  const filter = cityIds.filter((city) => address.includes(city.cityName));
+  return filter[0].cityId;
+};
+
 const makeGhData = ({
   guestHouseName,
   address,
@@ -104,6 +168,7 @@ const makeGhData = ({
   icons,
 }: FormData) => {
   const guestHouseDetails = icons.map((icon) => icon.checked);
+  const cityId = findCityId(address.guestHouseAddress);
 
   const guest_house_dto = {
     guestHouseName,
@@ -117,7 +182,7 @@ const makeGhData = ({
     guestHouseTag,
     guestHouseInfo,
     guestHouseDetails,
-    cityId: 1,
+    cityId,
   };
   const roomData = rooms.map((room) => {
     return {
@@ -147,6 +212,7 @@ const EditGhData = ({
   icons,
 }: FormData) => {
   const guestHouseDetails = icons.map((icon) => icon.checked);
+  const cityId = findCityId(address.guestHouseAddress);
 
   const guest_house_dto = {
     guestHouseName,
@@ -160,7 +226,7 @@ const EditGhData = ({
     guestHouseTag,
     guestHouseInfo,
     guestHouseDetails,
-    cityId: 1,
+    cityId,
   };
 
   const roomData = rooms.map((room) => {
