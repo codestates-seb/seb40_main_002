@@ -119,9 +119,7 @@ export default function GhEditPage2() {
       roomDto,
       imgFiles,
     });
-    for (const el of formData.keys()) {
-      console.log(el);
-    }
+
     try {
       const postSurvey = await axios.put(
         `/api/auth/guesthouse/${id}`,
