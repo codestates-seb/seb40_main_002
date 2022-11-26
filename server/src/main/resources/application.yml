@@ -1,0 +1,59 @@
+spring:
+  config:
+    import:
+      - application-google.yml
+      - application-kakao.yml
+      - application-naver.yml
+
+
+  # jpa
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+
+  #  # 파일 업로드 용량 제한
+  #  servlet:
+  #    multipart:
+  #      max-file-size: 10MB
+  #      max-request-size: 10MB
+
+
+  # 404 페이지 처리, 404
+  web:
+    resources:
+      add-mappings: false
+
+
+  #spring security filter log
+  logging:
+    level:
+      org:
+        springframework:
+          security: DEBUG
+
+
+# redis, my properties
+redis:
+  network:
+    host: localhost
+    port: 6379
+
+
+# jwt, my properties
+jwt:
+  secret-key: gnvdsvnodianvoeiwnfoqwienfrqoifnqwfqw112121
+  access-token-expiration-minutes: 120
+  refresh-token-expiration-minutes: 720
+
+
+images:
+  upload-path: "/home/ec2-user/images/guesthouse/"
+  member-profile : "images/memberprofile/"
+  room-dir: "images/room/"
+
