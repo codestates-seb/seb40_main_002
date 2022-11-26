@@ -125,7 +125,7 @@ public class MemberService {
         String originalName = memberImageFile.getOriginalFilename();
         String fileName = originalName.substring(originalName.lastIndexOf("."));
         String folderPath = makeFolder(memberId);
-        String saveName = uploadPath + folderPath + File.separator + memberId + fileName;
+        String saveName = File.separator + uploadPath + folderPath + File.separator + memberId + fileName;
 
         // 경로 정의
         Path path = Paths.get(saveName).toAbsolutePath();
