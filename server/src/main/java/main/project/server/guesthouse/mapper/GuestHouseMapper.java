@@ -1,8 +1,11 @@
 package main.project.server.guesthouse.mapper;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import main.project.server.city.entity.City;
 import main.project.server.guesthouse.dto.GuestHouseDto;
+import main.project.server.guesthouse.dto.ReserveStatisticsDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 import main.project.server.guesthousedetails.entity.GuestHouseDetails;
@@ -13,6 +16,8 @@ import main.project.server.room.service.RoomService;
 
 import org.mapstruct.Mapper;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,8 +25,10 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 
+
 @Mapper(componentModel = "spring")
 public interface GuestHouseMapper {
+
 
     default public GuestHouse guestHouseDtoPostToGuestHouse(GuestHouseDto.Post dto, String memberId){
 
@@ -131,6 +138,30 @@ public interface GuestHouseMapper {
                 .guestHouseParking(option[8])
                 .guestHouseParty(option[9])
                 .build();
+    }
+
+
+    default List<ReserveStatisticsDto> ObjectArrayToReserveStatisticsDtoList(List<Object[]> objectsList) {
+
+        if(objectsList == null)
+            return null;
+
+
+        List<ReserveStatisticsDto> reserveStatisticsDtoList = new ArrayList<>();
+
+        for (Object[] objArr : objectsList) {
+
+            String date = (String)objArr[0];
+            BigInteger reserveRegisterCtn = (BigInteger)objArr[1];
+
+            ReserveStatisticsDto reserveStatisticsDto = ReserveStatisticsDto.builder()
+                    .dt(date)
+                    .reserveCount(reserveRegisterCtn)
+                    .build();
+
+            reserveStatisticsDtoList.add(reserveStatisticsDto);
+        }
+        return reserveStatisticsDtoList;
     }
 
 
@@ -261,6 +292,9 @@ public interface GuestHouseMapper {
 
         return likeStringBuilder.toString();
     }
+
+
+
 
 
 }

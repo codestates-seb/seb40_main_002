@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import main.project.server.exception.BusinessException;
 import main.project.server.exception.ExceptionCode;
 import main.project.server.guesthouse.dto.QueryStringDto;
+import main.project.server.guesthouse.dto.ReserveStatisticsDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 import main.project.server.guesthouse.mapper.GuestHouseMapper;
@@ -236,7 +237,19 @@ public class GuestHouseService {
 
         Page<GuestHouse> guestHousePage = repository.findAllGuestHouseOnlyAsTag(tagStr, PageRequest.of(page-1, size, sort));
         return guestHousePage;
+    }
 
+    public List<ReserveStatisticsDto> findAllReserveChartOfCreatedAt(Long guestHouseId,
+                                                                     String yearMonth) {
+
+        String addedBarYearMonth = yearMonth+"-";
+        List<Object[]> guestHouseReserveStatistics = repository.getGuestHouseReserveStatistics(
+                guestHouseId, addedBarYearMonth);
+
+        List<ReserveStatisticsDto> reserveStatisticsDtoList = guestHouseMapper
+                .ObjectArrayToReserveStatisticsDtoList(guestHouseReserveStatistics);
+
+        return reserveStatisticsDtoList;
 
     }
 }

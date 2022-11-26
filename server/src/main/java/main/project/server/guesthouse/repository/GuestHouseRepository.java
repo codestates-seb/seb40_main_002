@@ -1,6 +1,7 @@
 package main.project.server.guesthouse.repository;
 
 
+import main.project.server.guesthouse.dto.ReserveStatisticsDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.member.entity.Member;
 import main.project.server.room.entity.Room;
@@ -51,4 +52,22 @@ public interface GuestHouseRepository extends JpaRepository<GuestHouse, Long> {
     Page<GuestHouse> findAllGuestHouseOnlyAsTag(String tags, Pageable pageable);
 
 
+
+
+    @Query(
+            value = " select day_of_month.dt, ifnull(reserv_statistics.reserve_count,0) from" +
+                    " (" +
+                    " select * from" +
+                    " (select concat( :yearMonth , dc.day_date) as dt from day_cal as dc) as dc" +
+                    " where substring(dc.dt,9,10) <= day(last_day(dc.dt))" +
+                    " ) as day_of_month left join" +
+                    " (" +
+                    " select guest_house_id, date(create_at) as dt, count(*) as reserve_count" +
+                    " from room_reservation as rr where rr.guest_house_id = :guestHouseId" +
+                    " group by date(create_at) order by create_at" +
+                    " ) as reserv_statistics on day_of_month.dt = reserv_statistics.dt"
+                    ,
+            nativeQuery = true
+    )
+    List<Object[]> getGuestHouseReserveStatistics(Long guestHouseId, String yearMonth);
 }
