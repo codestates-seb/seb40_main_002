@@ -4,6 +4,8 @@ spring:
       - application-google.yml
       - application-kakao.yml
       - application-naver.yml
+      - application-rds.yml
+      - application-jwt.yml
 
 
   # jpa
