@@ -17,6 +17,15 @@ interface Address {
   [key: string]: string;
 }
 
+type DataCheck = {
+  guestHouseName: string;
+  address: Address;
+  guestHouseTag: string[];
+  imgFiles: File[];
+  guestHouseInfo: string;
+  rooms: Room[];
+};
+
 interface FormData {
   guestHouseName: string;
   address: Address;
@@ -27,35 +36,63 @@ interface FormData {
   icons: Obj[];
 }
 
-// 게스트하우스 명
-const checkName = (guestHouseName: string) =>
-  guestHouseName.length > 0 ? false : true;
+const checkLength = <T>(lengthCheck: T, alertList: string) => {
+  const type = Array.isArray(lengthCheck) || typeof lengthCheck === 'string';
+  if (type) {
+    if (lengthCheck.length > 0) {
+      return false;
+    } else {
+      alert(`${alertList}등록해주세요`);
+      return true;
+    }
+  }
+};
+
+const ghDataCheck = ({
+  guestHouseName,
+  address,
+  guestHouseTag,
+  imgFiles,
+  guestHouseInfo,
+  rooms,
+}: DataCheck) => {
+  const checkArr = [
+    guestHouseName,
+    guestHouseTag,
+    imgFiles,
+    guestHouseInfo,
+    rooms,
+  ];
+  const alertList = [
+    '숙소 이름을 ',
+    '태그를 ',
+    '숙소 이미지를 ',
+    '숙소 설명을 ',
+    '객실 정보를 ',
+  ];
+  for (let i = 0; i < checkArr.length; i++) {
+    const flag = checkLength(checkArr[i], alertList[i]);
+    if (flag) {
+      return flag;
+    }
+  }
+  const flag = checkAddress(address);
+  if (flag) {
+    alert('주소를 등록해주세요');
+  }
+  return flag;
+};
 
 // 주소 체크
 const checkAddress = (address: Address): boolean => {
   const entries = Object.entries(address);
   for (let i = 0; i < entries.length; i++) {
-    if (entries[i][0] !== 'detailAddress') {
-      if (entries[i][1] === '') {
-        return true;
-      }
+    if (entries[i][1] === '') {
+      return true;
     }
   }
   return false;
 };
-
-// 하우스 태그
-const checkTag = (tags: string[]) => (tags.length > 0 ? false : true);
-
-//하우스 설명
-const checkInfo = (guestHouseInfo: string) =>
-  guestHouseInfo.length > 0 ? false : true;
-
-//객실
-const checkRooms = (rooms: Room[]) => (rooms.length > 0 ? false : true);
-
-// 게스트 하우스 이미지
-const checkGhimages = (imgs: File[]) => (imgs.length > 0 ? false : true);
 
 const makeGhData = ({
   guestHouseName,
@@ -159,13 +196,4 @@ const EditGhData = ({
   return { guest_house_dto, roomDto, roomImg, newRoomImage };
 };
 
-export {
-  checkAddress,
-  checkName,
-  checkInfo,
-  checkRooms,
-  checkTag,
-  checkGhimages,
-  makeGhData,
-  EditGhData,
-};
+export { checkAddress, ghDataCheck, makeGhData, EditGhData };

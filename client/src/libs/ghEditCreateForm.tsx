@@ -10,6 +10,7 @@ type GuesthouseDtoType = {
 };
 
 type RoomImgType = File[];
+
 type RoomDtoDetail = {
   roomId?: number | null;
   roomInfo: string;

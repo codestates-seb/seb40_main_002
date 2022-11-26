@@ -36,7 +36,6 @@ export const ghEditDatafilter = async (url: string) => {
     data: { data: returnData },
   } = await axios.get(url);
   const data = returnData as GetType;
-  console.log(data);
 
   // 게스트하우스 명
   const guestHouseName = data.guestHouseName;
