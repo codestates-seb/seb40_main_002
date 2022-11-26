@@ -58,7 +58,7 @@ function RoomInfo({
     <div className="relative flex flex-col md:flex-row h-fit p-[12px] bg-white shadow-xl rounded-[15px] mb-[20px]">
       <div className="flex ">
         <img
-          src={room.roomImageUrl}
+          src={`http://3.37.58.81:8080${room.roomImageUrl}`}
           className="w-[120px] h-[80px] md:w-[160px] md:h-[120px] object-cover mr-[12px] rounded-[15px]"
         />
         <div className="flex flex-col justify-between my-2">

@@ -1,17 +1,7 @@
 import React from 'react';
 import CommonBtn from '../common/CommonBtn/CommonBtn';
 import DetailReview from '../common/Comment/DetailReview';
-interface ReviewProps {
-  reviewComment: {
-    reviewComment: {
-      userName: string;
-      createBy: string;
-      comment: string;
-      ProfileImg: string;
-      starScore: number;
-    };
-  }[];
-}
+import { ReviewProps } from '../../types/ghDetailData';
 
 const GhDetailComment = ({ reviewComment }: ReviewProps) => {
   const commentHandler = () => {
@@ -22,7 +12,7 @@ const GhDetailComment = ({ reviewComment }: ReviewProps) => {
     <div className="mb-[20px] border-b-[2px] ">
       <div className="grid grid-cols-2 items-center">
         {reviewComment.map((el, i) => (
-          <DetailReview key={i} type={'roomDetail'} {...el} />
+          <DetailReview key={i} type={'roomDetail'} reviewComment={el} />
         ))}
       </div>
       <div className="my-[20px]">

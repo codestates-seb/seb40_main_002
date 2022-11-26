@@ -2,18 +2,9 @@ import React, { useState } from 'react';
 import RatedStar from '../RatedStar';
 import { BiMessage } from 'react-icons/bi';
 import EditReply from './EditReply';
-
+import { ReviewPropsDetail } from '../../../types/ghDetailData';
 type Props = {
-  reviewComment?: {
-    userName: string;
-    createBy: string;
-    comment: string;
-    ProfileImg: string;
-    starScore: number;
-    admin?: string;
-    adminComment?: Reply[];
-    id?: number; // 해당 댓글 고유 아이디
-  };
+  reviewComment?: ReviewPropsDetail;
   type?: string;
 };
 type Reply = {
@@ -32,7 +23,7 @@ export default function DetailReview({ reviewComment, type }: Props) {
           <div className="flex flex-col justify-between">
             <div className="w-[40px] mr-[10px]">
               <img
-                src={reviewComment && reviewComment.ProfileImg}
+                src={reviewComment && reviewComment.member.memberImageUrl}
                 className="rounded-full w-[40px] mr-[10px] mb-[10px]"
               />
             </div>
@@ -55,12 +46,12 @@ export default function DetailReview({ reviewComment, type }: Props) {
             <div className="flex flex-col justify-between">
               <div className="flex">
                 <p className="mr-[5px] text-base font-bold">
-                  {reviewComment && reviewComment.userName}
+                  {reviewComment && reviewComment.member.memberNickname}
                 </p>
-                {reviewComment && <RatedStar star={reviewComment.starScore} />}
+                {reviewComment && <RatedStar star={reviewComment.star} />}
               </div>
               <p className="text-font-color text-sm">
-                {reviewComment && reviewComment.createBy}
+                {reviewComment && reviewComment.reviewComment.createdAt}
               </p>
             </div>
           ) : (

@@ -32,7 +32,10 @@ const ReservationPiker = ({
     );
   };
   useEffect(() => {
-    if (startDate) setStartDay(dateToString(startDate));
+    if (startDate) {
+      setStartDay(dateToString(startDate));
+      setEndDay('');
+    }
     if (endDate && startDate) {
       setEndDay(dateToString(endDate));
       setDayCal(

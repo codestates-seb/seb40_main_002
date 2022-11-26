@@ -5,7 +5,7 @@ import FacilitiesArr from '../common/FacilitiesArray';
 export default function GhDetailFacilities({
   GhFacilities,
 }: {
-  GhFacilities: (number | boolean)[];
+  GhFacilities: boolean[];
 }) {
   const [icons, setIcons] = useState(FacilitiesArr());
 
@@ -14,7 +14,7 @@ export default function GhDetailFacilities({
       <p className="font-bold  mb-2.5">숙소 편의시설</p>
       <div className="flex flex-col w-full justify-around items-center flex-wrap p-2.5 md:flex-row ">
         {GhFacilities.map((x, i) => {
-          if (x) {
+          if (x && i < 9) {
             return (
               <div key={icons[i].name} className="w-3/4 md:w-1/4 mr-2.5 mb-2.5">
                 <Facilities

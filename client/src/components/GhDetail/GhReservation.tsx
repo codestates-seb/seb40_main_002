@@ -1,23 +1,19 @@
 import React, { useState } from 'react';
 import ReservationPiker from './ReservationPiker';
 import CommonBtn from '../common/CommonBtn/CommonBtn';
-interface RoomsProps {
-  rooms: {
-    roomId: number;
-    roomName: string;
-    roomPrice: number;
-    roomImageUrl: string;
-    roomInfo: string;
-    reservePossible: boolean;
-  }[];
-}
+import { RoomsProps } from '../../types/ghDetailData';
 
-const GhReservation = ({ rooms }: RoomsProps) => {
-  const [startDay, setStartDay] = useState<string>('2022-11-23');
-  const [endDay, setEndDay] = useState<string>('2022-11-24');
+const GhReservation = ({
+  rooms,
+  startDay,
+  endDay,
+  setEndDay,
+  setStartDay,
+  dayCal,
+  setDayCal,
+}: RoomsProps) => {
   const [participate, setParticipate] = useState<boolean>(false);
   const [ghPrice, setGhPrice] = useState<number>(0);
-  const [dayCal, setDayCal] = useState<number>(0);
 
   //파티 참석 여부
   const handleParticipate = () => {
@@ -30,16 +26,15 @@ const GhReservation = ({ rooms }: RoomsProps) => {
   const ReservationData = () => {
     if (ghPrice === 0) {
       alert('객실을 선택해주세요');
-    }
-    if (dayCal === 0) {
+    } else if (dayCal === 0 || endDay.length < 6) {
       alert('예약 일정을 선택해주세요');
-    }
+    } else console.log('asd');
   };
 
   return (
     <div className="border-b-[2px] ">
       <div>숙소 예약</div>
-      <div className="md:flex md:justify-between flex-row justify-center items-center mb-[20px]">
+      <div className="md:flex md:justify-between flex-row justify-center items-center mb-[20px] ">
         <div className="text-center">
           <ReservationPiker
             startDay={startDay}
@@ -71,17 +66,19 @@ const GhReservation = ({ rooms }: RoomsProps) => {
               {startDay}
             </div>
             <div className="rounded-tr-CommentRadius border-black  border-y-[1px] border-x-[1px] w-full text-center  py-[10px]">
-              {endDay}
+              {endDay === '' ? '날짜 추가' : endDay}
             </div>
           </div>
-          <div className="flex justify-center	 px-[10px]  text-black">
-            <div className="pl-[10px] w-6/12 h-6/12 flex-row text-start rounded-bl-CommentRadius border-b-[1px] border-l-[1px] border-black  text-center py-[10px]">
-              <div className="font-bold">인원</div>
-              <div className="text-base">게스트 1명</div>
+          <div className="flex justify-center	items-center px-[10px]">
+            <div className=" w-full flex-row text-start rounded-bl-CommentRadius border-b-[1px] border-l-[1px] border-black  text-center py-[10px]">
+              <div className="font-bold ml-[30px]">인원</div>
+              <div className="text-base ml-[30px]">게스트 1명</div>
             </div>
-            <div className="p-[10px] flex-row w-6/12 h-6/12  rounded-br-CommentRadius border-black  border-b-[1px] border-x-[1px] text-center  py-[10px]">
-              <div className="text-left font-bold">파티 참석 여부</div>
-              <div className="flex">
+            <div className=" flex-row w-full  rounded-br-CommentRadius border-black  border-b-[1px] border-x-[1px] text-center  py-[10px]">
+              <div className="text-left font-bold ml-[20px]">
+                파티 참석 여부
+              </div>
+              <div className="flex ml-[20px]">
                 <input
                   type="checkbox"
                   className="checked:bg-blue-500 flex"

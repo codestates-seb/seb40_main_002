@@ -1,7 +1,7 @@
 import MapContainer from './MapContainer';
 interface LocationPorps {
   ghLocation: string[];
-  address?: string;
+  address: string[];
 }
 const GhLocation = ({ ghLocation, address }: LocationPorps) => {
   return (
@@ -13,7 +13,7 @@ const GhLocation = ({ ghLocation, address }: LocationPorps) => {
           longitude={Number(ghLocation[1])}
         />
       </div>
-      <div className="my-[20px] text-lg">{address}</div>
+      <div className="my-[20px] text-lg">{`${address[1]} ${address[2]}`}</div>
     </div>
   );
 };
