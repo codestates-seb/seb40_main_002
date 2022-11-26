@@ -12,7 +12,6 @@ import main.project.server.room.mapper.RoomMapper;
 import main.project.server.room.repository.RoomRepository;
 import main.project.server.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -41,7 +40,7 @@ public class RoomService {
             log.info("# Creating room & image not exist");
             return;
             // 들어온 룸 갯수와 이미지 갯수가 맞지 않는 경우 예외처리
-        } else if (roomImageCountMatch(rooms, roomImages)) {
+        } else if (roomImageNotMatch(rooms, roomImages)) {
             log.error("# Request room & image count inconsistency");
             throw new BusinessException(ExceptionCode.ROOM_IMAGE_COUNT_INCONSISTENCY);
         }
@@ -78,8 +77,8 @@ public class RoomService {
             return;
         }
         // 요청 들어온 룸 갯수와 이미지 갯수가 맞지 않는 경우 예외처리
-        if (roomImageCountMatch(existRooms, roomImages) || roomImageCountMatch(newRooms, newRoomImages)) {
-            log.error("# Request room & image count inconsistency");
+        if (roomImageNotMatch(existRooms, roomImages) || roomImageNotMatch(newRooms, newRoomImages)) {
+            log.error("# Request room & image inconsistency");
             throw new BusinessException(ExceptionCode.ROOM_IMAGE_COUNT_INCONSISTENCY);
         }
         // 기존 룸 수정
@@ -140,7 +139,9 @@ public class RoomService {
 
     private String deleteFile(String imageUrl) throws IOException {
 
-        FileUtil.deleteFile(imageUrl);
+        String url = imageUrl.substring(1);
+
+        FileUtil.deleteFile(url);
 
         return imageUrl;
     }
@@ -171,13 +172,19 @@ public class RoomService {
     }
 
     private boolean roomImageIsEmpty(List<Room> rooms, MultipartFile[] roomImages) {
-        return rooms.size() == 0 && Arrays.stream(roomImages).allMatch(i -> Objects.equals(i.getOriginalFilename(), ""));
+        return rooms.size() == 0 && roomImages == null;
     }
 
-    private boolean roomImageCountMatch(List<Room> rooms, MultipartFile[] roomImages) {
-        return !roomImageIsEmpty(rooms, roomImages)
-                && (rooms.size() != roomImages.length
-                || Arrays.stream(roomImages).allMatch(i -> Objects.equals(i.getOriginalFilename(), "")));
+    private boolean roomImageNotMatch(List<Room> rooms, MultipartFile[] roomImages) {
+
+        if (roomImages == null) {
+            return !roomImageIsEmpty(rooms, roomImages)
+                    && rooms.size() > 0;
+        } else {
+            return !roomImageIsEmpty(rooms, roomImages)
+                    && (rooms.size() != roomImages.length
+                    || Arrays.stream(roomImages).allMatch(i -> Objects.equals(i.getOriginalFilename(), "")));
+        }
     }
 
 }
