@@ -18,7 +18,6 @@ export default function FacilitiesContainer({
   setIcons,
 }: GhOptionProps) {
   // 옵션을 boolean 값으로만 보내줘야함. post 로직에 들어가면 될듯
-
   const selectIcon = (name: string) => {
     setIcons((prev) => {
       const icons = prev.map((facilities) => {

@@ -3,7 +3,7 @@ interface Room {
   roomPrice: number;
   roomExplain: string;
   roomImage: File[];
-  roomId?: number;
+  roomId?: number | null;
   idx?: number;
 }
 
@@ -57,7 +57,7 @@ const checkRooms = (rooms: Room[]) => (rooms.length > 0 ? false : true);
 // 게스트 하우스 이미지
 const checkGhimages = (imgs: File[]) => (imgs.length > 0 ? false : true);
 
-const makeFormData = ({
+const makeGhData = ({
   guestHouseName,
   address,
   guestHouseTag,
@@ -71,14 +71,17 @@ const makeFormData = ({
   const guest_house_dto = {
     guestHouseName,
     guestHouseLocation: address.guestHouseLocation,
-    guestHouseAddress: `${address.guestHouseAddress} ${address.detailAddress}`,
+    guestHouseAddress: [
+      address.zipCode,
+      address.guestHouseAddress,
+      address.detailAddress,
+    ],
     guestHousePhone: '010-1234-1234',
     guestHouseTag,
     guestHouseInfo,
     guestHouseDetails,
     cityId: 1,
   };
-
   const roomData = rooms.map((room) => {
     return {
       roomName: room.roomName,
@@ -97,6 +100,65 @@ const makeFormData = ({
   return { guest_house_dto, roomDto, roomImg };
 };
 
+const EditGhData = ({
+  guestHouseName,
+  address,
+  guestHouseTag,
+  imgFiles,
+  guestHouseInfo,
+  rooms,
+  icons,
+}: FormData) => {
+  const guestHouseDetails = icons.map((icon) => icon.checked);
+
+  const guest_house_dto = {
+    guestHouseName,
+    guestHouseLocation: address.guestHouseLocation,
+    guestHouseAddress: [
+      address.zipCode,
+      address.guestHouseAddress,
+      address.detailAddress,
+    ],
+    guestHousePhone: '010-1234-1234',
+    guestHouseTag,
+    guestHouseInfo,
+    guestHouseDetails,
+    cityId: 1,
+  };
+
+  const roomData = rooms.map((room) => {
+    if (room.roomId) {
+      return {
+        roomName: room.roomName,
+        roomPrice: room.roomPrice,
+        roomInfo: room.roomExplain,
+        roomId: room.roomId,
+      };
+    } else {
+      return {
+        roomName: room.roomName,
+        roomPrice: room.roomPrice,
+        roomInfo: room.roomExplain,
+        roomId: null,
+      };
+    }
+  });
+
+  const roomImg = rooms
+    .filter((room) => room.roomId)
+    .map((room) => room.roomImage[0]) as File[] | [];
+
+  const newRoomImage = rooms
+    .filter((room) => !room.roomId)
+    .map((room) => room.roomImage[0]) as File[] | [];
+
+  const roomDto = {
+    roomDto: [...roomData],
+  };
+
+  return { guest_house_dto, roomDto, roomImg, newRoomImage };
+};
+
 export {
   checkAddress,
   checkName,
@@ -104,5 +166,6 @@ export {
   checkRooms,
   checkTag,
   checkGhimages,
-  makeFormData,
+  makeGhData,
+  EditGhData,
 };

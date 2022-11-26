@@ -16,8 +16,9 @@ import {
   checkInfo,
   checkRooms,
   checkGhimages,
-  makeFormData,
-} from '../libs/checkGhData';
+  makeGhData,
+} from '../libs/ghDatafunc';
+import { ghCreateForm } from '../libs/ghEditCreateForm';
 
 type Room = {
   roomName: string;
@@ -25,7 +26,7 @@ type Room = {
   roomExplain: string;
   roomImage: File[];
   idx?: number;
-  roomId?: number;
+  roomId?: number | null;
 };
 
 export default function Hostingpage() {
@@ -36,8 +37,8 @@ export default function Hostingpage() {
   const [address, setAddress] = useState({
     zipCode: '', // 우편번호
     guestHouseAddress: '', // 건물명 포함
+    detailAddress: '', // 상세 주소
     guestHouseLocation: '', // 경위도
-    detailAddress: '',
   });
 
   // 게스트 하우스 태그
@@ -56,7 +57,6 @@ export default function Hostingpage() {
   const [icons, setIcons] = useState(FacilitiesArr());
 
   const sendData = async () => {
-    const formData = new FormData();
     // 함수에다 몰아넣고 {return true}를 줘서 해당 값에 의해 함수가 끊기게
     if (checkName(guestHouseName))
       return alert('게스트 하우스명을 작성해주세요');
@@ -67,7 +67,7 @@ export default function Hostingpage() {
       return alert('게스트하우스 설명을 작성해주세요');
     if (checkRooms(rooms)) return alert('태그를 선택해주세요');
 
-    const { guest_house_dto, roomImg, roomDto } = makeFormData({
+    const { guest_house_dto, roomImg, roomDto } = makeGhData({
       guestHouseName,
       address,
       guestHouseTag,
@@ -76,26 +76,13 @@ export default function Hostingpage() {
       rooms,
       icons,
     });
-    const guestHouseDto = JSON.stringify(guest_house_dto);
 
-    formData.append(
-      'guest-house-dto',
-      new Blob([guestHouseDto], { type: 'application/json' })
-    );
-    const roomDto2 = JSON.stringify(roomDto);
-
-    formData.append(
-      'room-dto',
-      new Blob([roomDto2], { type: 'application/json' })
-    );
-
-    for (let i = 0; i < imgFiles.length; i++) {
-      formData.append('guestHouseImage', imgFiles[i]);
-    }
-
-    for (let i = 0; i < roomImg.length; i++) {
-      formData.append('room-image', roomImg[i]);
-    }
+    const formData = ghCreateForm({
+      guest_house_dto,
+      roomImg,
+      roomDto,
+      imgFiles,
+    });
 
     try {
       const postSurvey = await axios.post(`/api/auth/guesthouse`, formData, {
@@ -104,13 +91,12 @@ export default function Hostingpage() {
       console.log(postSurvey);
     } catch (e) {
       console.log(e);
-      console.log('ㅗㅑ');
     }
   };
 
   return (
-    <div className="mt-8 p-3 w-full flex justify-center ">
-      <div className="md:max-w-[1120px] w-full flex-col flex gap-y-4 md:gap-y-7">
+    <div className="w-full p-5">
+      <div className="w-full flex-col self-center flex gap-y-4 md:gap-y-7">
         <Ghname
           guestHouseName={guestHouseName}
           setGuestHouseName={setGuestHouseName}
@@ -127,9 +113,9 @@ export default function Hostingpage() {
           guestHouseInfo={guestHouseInfo}
           setGuestHouseInfo={setGuestHouseInfo}
         />
-        <RoomEdit rooms={rooms} setRooms={setRooms} />
+        <RoomEdit rooms={rooms} setRooms={setRooms} mode={'create'} />
         <FacilitiesContainer icons={icons} setIcons={setIcons} />
-        <div className="flex justify-center mt-20 mb-20">
+        <div className="flex justify-center mt-5 md:mt-10 mb-20">
           {/* 28 14  */}
           <CommonBtn
             btnSize="w-28 h-14 mr-20 md:mr-30 md:w-28 md:h-14"

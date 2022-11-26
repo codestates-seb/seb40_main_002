@@ -1,14 +1,3 @@
-// [
-// {"roomName": "방이름수정", "roomPrice":60000,"roomInfo": "룸정보수정", "roomCapacity":3},
-// {"roomPrice":60000,"roomInfo": "룸정보수정", "roomCapacity":3,imgInfo:"{file : fils[0]}"},
-// {"roomName": "방이름수정", {"roomPrice":60000,"roomInfo": "룸정보수정", "roomCapacity":3}]
-// []
-// [{"roomName": "방이름수정", "roomPrice":60000,"roomInfo": "룸정보수정", "roomCapacity":3}]
-// [{"roomName": "방이름수정", "roomPrice":60000,"roomInfo": "룸정보수정", "roomCapacity":3}]
-// [{"roomName": "방이름수정", "roomPrice":60000,"roomInfo": "룸정보수정", "roomCapacity":3}]
-//  [방1 ,방2, 방3 ] => [{방1},{방3}]
-//  [방1 ,방2, 방3 ] => [{방1},{방3}] 방2 서버에서 남아있나요?
-
 import React, { useState } from 'react';
 import { BsPlusLg } from 'react-icons/bs';
 import CommonBtn from '../common/CommonBtn/CommonBtn';
@@ -20,6 +9,7 @@ type Room = {
   roomPrice: number;
   roomExplain: string;
   roomImage: File[];
+  roomId?: number | null;
   idx?: number;
 };
 
@@ -28,14 +18,16 @@ export interface RemoveRoom {
   roomExplain: string;
   roomPrice: number;
   roomImage?: string;
+  roomId?: number;
 }
 
 type RoomsProps = {
   rooms: Room[];
   setRooms: React.Dispatch<React.SetStateAction<Room[]>>;
+  mode?: string;
 };
 
-export default function RoomEdit({ rooms, setRooms }: RoomsProps) {
+export default function RoomEdit({ rooms, setRooms, mode }: RoomsProps) {
   // 카드들의 정보들을 배열에다 담음 상위로 올려줄것
 
   // 인풋 수정을 위한 데이터 관리
@@ -44,6 +36,7 @@ export default function RoomEdit({ rooms, setRooms }: RoomsProps) {
     roomPrice: 0,
     roomExplain: '',
     roomImage: [],
+    roomId: null,
   });
 
   const [openEditRoom, setOpenEditRoom] = useState(false);
@@ -56,6 +49,7 @@ export default function RoomEdit({ rooms, setRooms }: RoomsProps) {
       roomExplain: room.roomExplain,
       roomPrice: room.roomPrice,
       roomImage: URL.createObjectURL(room.roomImage[0]),
+      roomId: room.roomId,
     };
     return dataFilter;
   };
@@ -86,6 +80,7 @@ export default function RoomEdit({ rooms, setRooms }: RoomsProps) {
                       edit={true}
                       idx={idx}
                       removeCard={removeCard}
+                      mode={mode}
                     />
                   </div>
                 );

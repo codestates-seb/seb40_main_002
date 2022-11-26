@@ -34,7 +34,7 @@ export default function AddressContainer({ address, setAddress }: SetAddress) {
           setAddress((prev) => {
             return {
               ...prev,
-              guestHouseLocation: `${result[0].y} , ${result[0].x}`,
+              guestHouseLocation: `${result[0].y},${result[0].x}`,
             };
           });
         }

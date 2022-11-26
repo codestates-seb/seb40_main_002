@@ -6,6 +6,7 @@ export interface Room {
   reEdit?: (room: Room) => void;
   roomPrice: number;
   roomImage?: string;
+  roomId?: number | null;
 }
 
 type Room = {
