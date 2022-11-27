@@ -53,7 +53,7 @@ public class RoomReservationService {
         roomReservation.setRoomReservationStatus(RoomReservationStatus.RESERVATION_COMPLETE);
         roomReservation.addGuestHouse(GuestHouse.GuestHouse(guestHouseId));
         roomReservation.addRoom(Room.Room(roomId));
-        roomReservation.addMember(Member.Member("업주")); // 테스트용
+        roomReservation.addMember(Member.Member(principal.getName()));
 
         roomReservation.setRoomReservationStatus(RoomReservationStatus.RESERVATION_COMPLETE);
         return roomReservationRepository.save(roomReservation);
@@ -92,7 +92,7 @@ public class RoomReservationService {
     }
 
     public Page<RoomReservation> findMyReservation(Principal principal, Integer page, Integer size) {
-        Member tempMember = memberService.findVerifiedMember("테스터"); // principal에서 추출할 것
+        Member tempMember = memberService.findVerifiedMember(principal.getName());
 
         return roomReservationRepository.findByMember(tempMember, PageRequest.of(page, size,
                 Sort.by("roomReservationId").descending()));
