@@ -1,0 +1,114 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
+
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "backend" ]
+  pull_request:
+    branches: [ "backend" ]
+
+permissions:
+  contents: read
+
+env:
+  S3_BUCKET_NAME: s3-bucket-main-project
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    # 빌드 진행할 폴더 
+    env:
+      working-directory: ./server
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        
+        
+    # secret    
+    - name: occupy-google
+      env:
+        OCCUPY_GOOGLE: ${{ secrets.OCCUPY_GOOGLE }}
+        OCCUPY_GOOGLE_DIR: server/src/main/resources
+        OCCUPY_GOOGLE_TEST_DIR: server/src/test/resources
+        OCCUPY_GOOGLE_DIR_FILE_NAME: application-google.yml
+      run: echo $OCCUPY_GOOGLE | base64 --decode > $OCCUPY_GOOGLE_DIR/$OCCUPY_GOOGLE_DIR_FILE_NAME
+           
+    - name: occupy-naver
+      env:
+        OCCUPY_NAVER: ${{ secrets.OCCUPY_NAVER }}
+        OCCUPY_NAVER_DIR: server/src/main/resources
+        OCCUPY_NAVER_TEST_DIR: server/src/test/resources
+        OCCUPY_NAVER_DIR_FILE_NAME: application-naver.yml
+      run: echo $OCCUPY_NAVER | base64 --decode > $OCCUPY_NAVER_DIR/$OCCUPY_NAVER_DIR_FILE_NAME
+           
+    - name: occupy-kakao
+      env:
+        OCCUPY_KAKAO: ${{ secrets.OCCUPY_KAKAO }}
+        OCCUPY_KAKAO_DIR: server/src/main/resources
+        OCCUPY_KAKAO_TEST_DIR: server/src/test/resources
+        OCCUPY_KAKAO_DIR_FILE_NAME: application-kakao.yml
+      run: echo $OCCUPY_KAKAO | base64 --decode > $OCCUPY_KAKAO_DIR/$OCCUPY_KAKAO_DIR_FILE_NAME
+   
+    - name: occupy-rds
+      env:
+        OCCUPY_RDS: ${{ secrets.OCCUPY_RDS }}
+        OCCUPY_RDS_DIR: server/src/main/resources
+        OCCUPY_RDS_TEST_DIR: server/src/test/resources
+        OCCUPY_RDS_DIR_FILE_NAME: application-rds.yml
+      run: echo $OCCUPY_RDS | base64 --decode > $OCCUPY_RDS_DIR/$OCCUPY_RDS_DIR_FILE_NAME
+      
+    - name: occupy-jwt
+      env:
+        OCCUPY_JWT: ${{ secrets.OCCUPY_JWT }}
+        OCCUPY_JWT_DIR: server/src/main/resources
+        OCCUPY_JWT_TEST_DIR: server/src/test/resources
+        OCCUPY_JWT_DIR_FILE_NAME: application-jwt.yml
+      run: echo $OCCUPY_JWT | base64 --decode > $OCCUPY_JWT_DIR/$OCCUPY_JWT_DIR_FILE_NAME  
+
+
+    # 빌드
+    - name: Build with Gradle
+      run: ./gradlew clean build
+      working-directory: ${{ env.working-directory }}
+      
+      
+    # build한 후 프로젝트를 압축
+    - name: Make zip file
+      run: zip -r ./main-project.zip .
+      shell: bash
+    
+    
+    # AWS
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-2
+    
+    
+    # S3로 전송
+    - name: Upload to S3
+      run: aws s3 cp --region ap-northeast-2 ./main-project.zip s3://$S3_BUCKET_NAME/main-project.zip
+      
+      
+    # CodeDeploy 배포 명령
+    - name: Code Deploy
+      run: >
+        aws deploy create-deployment --application-name main-project
+        --deployment-config-name CodeDeployDefault.AllAtOnce
+        --deployment-group-name main-project-group
+        --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=main-project.zip
