@@ -6,6 +6,7 @@ import main.project.server.dto.MultiResponseDto;
 import main.project.server.dto.SingleResponseDto;
 import main.project.server.guesthouse.dto.GuestHouseDto;
 import main.project.server.guesthouse.dto.QueryStringDto;
+import main.project.server.guesthouse.dto.ReserveStatisticsDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.mapper.GuestHouseMapper;
 import main.project.server.guesthouse.service.GuestHouseService;
@@ -185,5 +186,17 @@ public class GuestHouseController {
         MultiResponseDto<GuestHouseDto.response> multiResponseDto = new MultiResponseDto<>("success",guestHouseResponseLit, guestHouseAll);
 
         return new ResponseEntity(multiResponseDto, HttpStatus.OK);
+    }
+
+    /** 게스트하우스별 특정달의 일별 예약신청(결제) 통계 **/
+    @GetMapping("/api/auth/chart/guesthouse/{guesthouse-id}/reserve-of-day")
+    public ResponseEntity getChartOfGuestHouse(@PathVariable("guesthouse-id") Long guestHouseId,
+                                               @RequestParam("yearmonth") String yearMonth) {
+
+
+        List<ReserveStatisticsDto> allReserveChartOfCreatedAt = guestHouseService.findAllReserveChartOfCreatedAt(guestHouseId, yearMonth);
+
+
+        return new ResponseEntity(allReserveChartOfCreatedAt, HttpStatus.OK);
     }
 }
