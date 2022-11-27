@@ -26,5 +26,5 @@ public class ReviewComment extends Auditable {
 
     @OneToOne
     @JoinColumn(name = "REVIEW_ID")
-    private Review review;
+    private Review review;  // 1:1 연관관계
 }

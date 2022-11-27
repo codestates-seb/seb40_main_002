@@ -31,7 +31,9 @@ public enum ExceptionCode {
 
     NICKNAME_DUPLICATED(400, "duplicated member nickname"),
 
-    NOT_A_REVIEW_WRITER(406, "You are not a writer");
+    NOT_A_REVIEW_WRITER(406, "You are not a review writer"),
+
+    NOT_A_REVIEW_COMMENT_WRITER(406, "You are not a review comment writer");
 
     @Getter
     int code;

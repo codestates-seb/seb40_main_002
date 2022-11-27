@@ -25,7 +25,7 @@ public class ReviewCommentController {
     private final ReviewCommentService reviewCommentService;
     private final ReviewCommentMapper reviewCommentMapper;
 
-    // 리뷰 생성
+    // 리뷰 comment 생성
     @PostMapping("/api/auth/guesthouse/review/{review-id}/comment")
     public ResponseEntity postReviewComment(@RequestBody ReviewCommentDto.Post post,
                                             @PathVariable("review-id") @Positive Long reviewId,
@@ -39,7 +39,7 @@ public class ReviewCommentController {
                         reviewCommentMapper.reviewCommentToResponseDto(reviewComment)), HttpStatus.CREATED);
     }
 
-    // 리뷰 수정
+    // 리뷰 comment 수정(put)
     @PutMapping("/api/auth/guesthouse/review/{review-id}/comment")
     public ResponseEntity patchReviewComment(@RequestBody ReviewCommentDto.Put put,
                                              @PathVariable("review-id") @Positive Long reviewId,
@@ -53,7 +53,7 @@ public class ReviewCommentController {
                         reviewCommentMapper.reviewCommentToResponseDto(reviewComment)), HttpStatus.OK);
     }
 
-    // 리뷰 조회
+    // 리뷰 comment 조회
     @GetMapping("/api/guesthouse/review/{review-id}/comment")
     public ResponseEntity getReviewComment(@PathVariable("review-id") @Positive Long reviewId) {
 
@@ -64,7 +64,7 @@ public class ReviewCommentController {
                         reviewCommentMapper.reviewCommentToResponseDto(reviewComment)), HttpStatus.OK);
     }
 
-    // 리뷰 삭제
+    // 리뷰 comment 삭제
     @DeleteMapping("/api/auth/guesthouse/review/{review-id}/comment")
     public ResponseEntity deleteReview(@PathVariable("review-id") @Positive Long reviewId,
                                        Principal principal) {
