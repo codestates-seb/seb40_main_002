@@ -29,7 +29,9 @@ public enum ExceptionCode {
 
     ROOM_IMAGE_COUNT_INCONSISTENCY(400, "room and image count not match"),
 
-    NICKNAME_DUPLICATED(400, "duplicated member nickname");
+    NICKNAME_DUPLICATED(400, "duplicated member nickname"),
+
+    NOT_A_REVIEW_WRITER(406, "You are not a writer");
 
     @Getter
     int code;
