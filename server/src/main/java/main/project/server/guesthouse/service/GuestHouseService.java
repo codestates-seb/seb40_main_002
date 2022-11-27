@@ -239,8 +239,16 @@ public class GuestHouseService {
         return guestHousePage;
     }
 
-    public List<ReserveStatisticsDto> findAllReserveChartOfCreatedAt(Long guestHouseId,
+    public List<ReserveStatisticsDto> findAllReserveChartOfCreatedAt(String memberId,
+                                                                     Long guestHouseId,
                                                                      String yearMonth) {
+
+        //기존 게스트하우스 데이터 가져오기
+        GuestHouse existsGuestHouse = verifyExistsGuestHouse(guestHouseId);
+
+        //수정할 수 있는 멤버가 맞는지 검증
+        verifyOwnGuestHouse(existsGuestHouse, memberId);
+
 
         String addedBarYearMonth = yearMonth+"-";
         List<Object[]> guestHouseReserveStatistics = repository.getGuestHouseReserveStatistics(
