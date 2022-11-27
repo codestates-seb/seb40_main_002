@@ -48,15 +48,18 @@ public class ReviewService {
     // 리뷰 수정(put)
     public Review putReview(Review putReview, Long reviewId, Principal principal) {
 
-        Review review = findVerifiedReview(reviewId);   // reviewId 정보로 review 조회
+        Review review = findVerifiedReview(reviewId);       // reviewId 정보로 review 조회
         Member member = memberService.findVerifiedMember(principal.getName());  // principal 정보로 Member 조회
-        GuestHouse guestHouse = review.getGuestHouse();     // 이전 review 정보 중 guesthouse 불러옴
-        verifyMemberConfirm(review, principal);     //  리뷰(수정 전)를 이전에 작성한 사람인지 확인
+        GuestHouse guestHouse = review.getGuestHouse();         // 이전 review 정보 중 guesthouse 불러옴
 
-        putReview.setReviewId(reviewId);    // reviewId(원래 저장된 정보, 변하지 않는 값) 저장
-        putReview.setMember(member);    // member(원래 저장된 정보, 변하지 않는 값) 저장
-        putReview.setGuestHouse(guestHouse);    // guesthouse(원래 저장된 정보, 변하지 않는 값) 저장
-        Review result = reviewRepository.save(review);  // 레포에 저장
+        verifyMemberConfirm(review, principal);         //  리뷰(수정 전)를 이전에 작성한 사람인지 확인
+
+        putReview.setReviewId(reviewId);        // reviewId(원래 저장된 정보, 변하지 않는 값) 저장
+        putReview.setMember(member);        // member(원래 저장된 정보, 변하지 않는 값) 저장
+        putReview.setGuestHouse(guestHouse);        // guesthouse(원래 저장된 정보, 변하지 않는 값) 저장
+        putReview.setCreatedAt(review.getCreatedAt());      // reviewComment 생성일 (원래 저장된 정보, 변하지 않는 값) 저장
+
+        Review result = reviewRepository.save(review);      // 레포에 저장
 
         guestHouse.setGuestHouseStar(averageStar(guestHouse.getGuestHouseId()));    // 리뷰 평점 평균 저장
 
