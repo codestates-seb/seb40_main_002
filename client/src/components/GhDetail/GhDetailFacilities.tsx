@@ -10,7 +10,7 @@ export default function GhDetailFacilities({
   const [icons, setIcons] = useState(FacilitiesArr());
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col w-[50%]">
       <p className="font-bold  mb-2.5">숙소 편의시설</p>
       <div className="flex flex-col w-full justify-around items-center flex-wrap p-2.5 md:flex-row ">
         {GhFacilities.map((x, i) => {

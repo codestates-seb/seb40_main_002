@@ -120,8 +120,8 @@ export interface RoomsProps {
     roomInfo: string;
     reservePossible: boolean;
   }[];
-  startDay: string;
-  endDay: string;
+  startDay: string | null;
+  endDay: string | null;
   dayCal: number;
   setStartDay: Dispatch<SetStateAction<string>>;
   setEndDay: Dispatch<SetStateAction<string>>;

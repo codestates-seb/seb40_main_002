@@ -9,21 +9,28 @@ import GhDetailFacilities from '../components/GhDetail/GhDetailFacilities';
 import { useEffect, useState } from 'react';
 import { getGhDetailData } from '../apis/getGhDetailData';
 import { ghDetailProps } from '../types/ghDetailData';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 const GuestHouseDetail = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [ghdata, setGhData] = useState<ghDetailProps>();
-  const [startDay, setStartDay] = useState<string>('2022.11.25');
-  const [endDay, setEndDay] = useState<string>('2022.11.24');
+  const [startDay, setStartDay] = useState(searchParams.get('start'));
+  const [endDay, setEndDay] = useState(searchParams.get('end'));
   const [dayCal, setDayCal] = useState<number>(0);
+  const { ghId } = useParams();
 
   useEffect(() => {
     const data = async () => {
-      const ghData = await getGhDetailData(`1?start=${startDay}&end=${endDay}`);
+      const ghData = await getGhDetailData(
+        `${ghId}?start=${startDay}&end=${endDay}`
+      );
       setGhData(ghData);
     };
-    data();
-    console.log(startDay, endDay);
-  }, [dayCal]);
+    if (endDay !== '' && startDay && endDay) {
+      setSearchParams({ start: startDay, end: endDay });
+      data();
+    } else return;
+  }, [endDay]);
 
   return (
     <div className="text-xl font-semibold w-[1120px] mb-[400px]">
@@ -55,7 +62,7 @@ const GuestHouseDetail = () => {
             ghLocation={ghdata.guestHouseLocation.split(',')}
             address={ghdata.guestHouseAddress}
           />
-          <div className="flex-row justify-between  md:flex mt-[20px]">
+          <div className="flex-row  md:flex mt-[20px]">
             <GhDetailFacilities
               GhFacilities={ghdata.guestHouseDetails}
             ></GhDetailFacilities>
