@@ -114,13 +114,20 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                 .toUri();
     }
 
-    private URI createAddInfoURI() {
+    private URI createAddInfoURI(String memberId, String memberEmail, String memberImageUrl) {
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("memberId", memberId);
+        params.add("memberEmail", memberEmail);
+        params.add("memberImageUrl", memberImageUrl);
+
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
                 .host("localhost")
                 .port(3000)
                 .path("/register")  // 배포 반영
+                .queryParams(params) //쿼리 파라미터 추가
                 .build()
                 .toUri();
     }
@@ -178,13 +185,19 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     }
 
     private void addInfoRedirect(HttpServletRequest request, HttpServletResponse response, CustomDefaultOAuth2User customDefaultOAuth2User) throws IOException{
-        String addInfoUri = createAddInfoURI().toString();
+
+
+        String addInfoUri = createAddInfoURI(
+                customDefaultOAuth2User.getOAuthAttributes().getMemberId(),
+                customDefaultOAuth2User.getOAuthAttributes().getMemberEmail(),
+                customDefaultOAuth2User.getOAuthAttributes().getMemberImageUrl()
+        ).toString();
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.PERMANENT_REDIRECT.value());
-        response.setHeader("memberId",customDefaultOAuth2User.getOAuthAttributes().getMemberId());
-        response.setHeader("memberEmail",customDefaultOAuth2User.getOAuthAttributes().getMemberEmail());
-        response.setHeader("memberImageUrl",customDefaultOAuth2User.getOAuthAttributes().getMemberImageUrl());
+//        response.setHeader("memberId",customDefaultOAuth2User.getOAuthAttributes().getMemberId());
+//        response.setHeader("memberEmail",customDefaultOAuth2User.getOAuthAttributes().getMemberEmail());
+//        response.setHeader("memberImageUrl",customDefaultOAuth2User.getOAuthAttributes().getMemberImageUrl());
 
         getRedirectStrategy().sendRedirect(request, response, addInfoUri);
     }
