@@ -6,7 +6,6 @@ interface Props {
 }
 
 const UserImg = ({ userImg, setUserImg }: Props) => {
-  // 유저가 첨부한 이미지로 setUserImg 해줘야함.
   return (
     <div className="flex flex-col justify-center items-center">
       <img
