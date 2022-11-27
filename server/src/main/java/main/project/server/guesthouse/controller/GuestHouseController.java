@@ -30,7 +30,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
 import java.security.Principal;
-import java.time.LocalDate;
 import java.util.List;
 
 @Validated
@@ -56,9 +55,7 @@ public class GuestHouseController {
                                          Principal principal
                                          ) throws IOException {
 
-//        String memberId = principal.getName();
-
-        String memberId = "업주";
+        String memberId = principal.getName();
 
         GuestHouse guestHouse = guestHouseMapper.guestHouseDtoPostToGuestHouse(guestHouseDto, memberId);
 
@@ -82,9 +79,7 @@ public class GuestHouseController {
                                         @PathVariable("guesthouse-id") Long guestHouseId
                                         ) throws IOException {
 
-//        String memberId = principal.getName();
-
-        String memberId = "업주";
+        String memberId = principal.getName();
 
         GuestHouse guestHouse = guestHouseMapper.guestHouseDtoPutToGuestHouse(guestHouseDto, memberId);
 
@@ -92,9 +87,7 @@ public class GuestHouseController {
 
         guestHouse.setGuestHouseId(guestHouseId);
 
-
         guestHouseService.modifyGuestHouse(guestHouse, guestHouseImage, memberId, rooms, roomImages, newRoomImages);
-
 
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("modified",null);
         return new ResponseEntity(singleResponseDto, HttpStatus.OK);
@@ -129,9 +122,7 @@ public class GuestHouseController {
     @DeleteMapping("/api/auth/guesthouse/{guesthouse-id}")
     public ResponseEntity deleteGuestHouse(Principal principal,
                                            @PathVariable("guesthouse-id") @Positive Long guestHouseId) {
-//        String memberId = principal.getName();
-
-        String memberId = "업주";
+        String memberId = principal.getName();
 
         guestHouseService.changeGuestHouseStatusAsClosed(guestHouseId, memberId);
 
@@ -145,7 +136,8 @@ public class GuestHouseController {
                                                @PathVariable("member-id") String memberId,
                                                @RequestParam(name = "page", defaultValue = "1") @Positive Integer page,
                                                @RequestParam(name = "size", defaultValue = "10") @Positive Integer size) {
-        String authMemberId = "업주";
+
+        String authMemberId = principal.getName();
 
         Page<GuestHouse> guestHousePage = guestHouseService.findGuestHouseByMember(authMemberId, page, size);
 
@@ -191,11 +183,12 @@ public class GuestHouseController {
     /** 게스트하우스별 특정달의 일별 예약신청(결제) 통계 **/
     @GetMapping("/api/auth/chart/guesthouse/{guesthouse-id}/reserve-of-day")
     public ResponseEntity getChartOfGuestHouse(@PathVariable("guesthouse-id") Long guestHouseId,
-                                               @RequestParam("yearmonth") String yearMonth) {
+                                               @RequestParam("yearmonth") String yearMonth,
+                                               Principal principal) {
 
+        String memberId = principal.getName();
 
-        List<ReserveStatisticsDto> allReserveChartOfCreatedAt = guestHouseService.findAllReserveChartOfCreatedAt(guestHouseId, yearMonth);
-
+        List<ReserveStatisticsDto> allReserveChartOfCreatedAt = guestHouseService.findAllReserveChartOfCreatedAt(memberId, guestHouseId, yearMonth);
 
         return new ResponseEntity(allReserveChartOfCreatedAt, HttpStatus.OK);
     }
