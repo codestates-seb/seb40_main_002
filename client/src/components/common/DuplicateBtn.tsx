@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import CommonBtn from './CommonBtn/CommonBtn';
 
 interface Props {
@@ -12,24 +12,35 @@ export default function DuplicateBtn({ nickname, setIsDup, isDup }: Props) {
   const formData = new FormData();
   formData.append('memberNickname', nickname);
 
+  // const stringDto = <T,>(formData: FormData, appendName: string, data: T) => {
+  //   const stringDto = JSON.stringify(data);
+  //   formData.append(
+  //     appendName,
+  //     new Blob([stringDto], { type: 'application/json' })
+  //   );
+  // };
+
+  // stringDto(formData, 'memberNickname', nickname);
+  const config = {
+    method: 'get',
+    url: 'http://3.37.58.81:8080/api/members/checkname',
+    params: {
+      memberNickname: nickname,
+    },
+  };
+
   const duplicateCheck = () => {
-    // console.log(nickname);
-    axios
-      .post('http://3.57.58.81:8008/api/members/checkname', formData)
-      .then((res) => {
-        console.log(res);
-        setIsDup(Boolean(res));
-      });
-    // console.log(isDup);
+    axios(config).then(function (res) {
+      setIsDup(res.data.data);
+    });
   };
   return (
-    <div>
+    <div className="flex flex-col">
       <CommonBtn
-        text="중복 확인"
+        text="중복 검사"
         btnHandler={duplicateCheck}
         btnSize="w-20 h-8"
       />
-      {isDup === false ? <span> 중복된 닉네임입니다.</span> : null}
     </div>
   );
 }
