@@ -54,6 +54,7 @@ public interface GuestHouseRepository extends JpaRepository<GuestHouse, Long> {
 
 
 
+    //해당 쿼리가 작동되려면, 필드1 - int (ai) PK, 필드2 - varchar 가 존재하는 테이블이 존재해야한다. (필드2의 값음 1 ~ 31)
     @Query(
             value = " select day_of_month.dt, ifnull(reserv_statistics.reserve_count,0) from" +
                     " (" +
