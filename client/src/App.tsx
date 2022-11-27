@@ -3,22 +3,30 @@ import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import { Route, Routes } from 'react-router-dom';
 import PaymentPage from './pages/PaymentPage';
-import GhEditpage from './pages/GhEditpage';
+import MyPage from './pages/MyPage';
+import Main from './pages/Main';
+import SearchResult from './pages/SearchResult';
+import Hostingpage from './pages/Hostingpage';
 import GuestHouseDetail from './pages/GusetHouseDetail';
-import Sample from './components/common/Comment/Sample';
-import Register from './pages/Register';
+
+import ReviewPage from './pages/ReviewPage';
+import GhEditPage2 from './pages/GhEditPage2';
 
 export default function App() {
   return (
     <div className="w-[100vw] h-[100vh]">
       <Navbar />
-      <div className="flex mx-auto pt-[80px] w-full min-h-[100%] pb-[60px]">
+      <div className="flex mx-auto pt-[80px] w-full min-h-[100%] pb-[60px] h-full max-w-[1120px]">
         <Routes>
-          <Route path="/paymentPage" element={<PaymentPage />} />
-          <Route path="/ghedit" element={<GhEditpage />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/ghedit" element={<Hostingpage />} />
+          <Route path="/ghedit/:id" element={<GhEditPage2 />} />
           <Route path="/ghdetail" element={<GuestHouseDetail />} />
-          <Route path="/sample" element={<Sample />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/review" element={<ReviewPage />} />
+          <Route path="/search" element={<SearchResult />} />
+          <Route path="/mypage/*" element={<MyPage />} />
+          <Route path="/paymentPage" element={<PaymentPage />} />
+          {/* 동적 라우팅 필요 */}
         </Routes>
       </div>
       <Footer />
@@ -26,6 +34,7 @@ export default function App() {
   );
 }
 
+// [감성,오션뷰].join('&=') '감성&=오션뷰'
 // import React from 'react';
 
 // export default function App() {

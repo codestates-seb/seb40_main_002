@@ -6,6 +6,7 @@ export interface Room {
   reEdit?: (room: Room) => void;
   roomPrice: number;
   roomImage?: string;
+  roomId?: number | null;
 }
 
 type Room = {
@@ -21,4 +22,15 @@ export interface GuestHouseShort {
   star: number;
   tags: Array<string>;
   id: number;
+}
+
+export interface MyReservation {
+  guestHouserName: string;
+  guestHouseRoomStart: string;
+  guestHouseRoomEnd: string;
+}
+
+export interface MyReview {
+  guestHouseName: string;
+  reviewContent: string;
 }
