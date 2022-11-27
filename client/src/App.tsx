@@ -6,10 +6,12 @@ import PaymentPage from './pages/PaymentPage';
 import MyPage from './pages/MyPage';
 import Main from './pages/Main';
 import SearchResult from './pages/SearchResult';
-import GhEditpage from './pages/GhEditpage';
 import GuestHouseDetail from './pages/GuestHouseDetail';
 import Sample from './components/common/Comment/Sample';
+import Hostingpage from './pages/Hostingpage';
+
 import ReviewPage from './pages/ReviewPage';
+import GhEditPage2 from './pages/GhEditPage2';
 
 export default function App() {
   return (
@@ -17,18 +19,25 @@ export default function App() {
       <Navbar />
       <div className="flex mx-auto pt-[80px] w-full min-h-[100%] pb-[60px] h-full max-w-[1120px]">
         <Routes>
-          <Route path="/paymentPage" element={<PaymentPage />} />
-          <Route path="/mypage/*" element={<MyPage />} />
           <Route path="/" element={<Main />} />
-          <Route path="/search" element={<SearchResult />} />
-          <Route path="/ghedit" element={<GhEditpage />} />
-          <Route path="/ghdetail" element={<GuestHouseDetail />} />
-          <Route path="/sample" element={<Sample />} />
-          {/* 동적 라우팅 필요 */}
+          <Route path="/ghedit" element={<Hostingpage />} />
+          <Route path="/ghedit/:id" element={<GhEditPage2 />} />
+          <Route path="/ghdetail/:ghId" element={<GuestHouseDetail />} />
           <Route path="/review" element={<ReviewPage />} />
+          <Route path="/search" element={<SearchResult />} />
+          <Route path="/mypage/*" element={<MyPage />} />
+          <Route path="/paymentPage" element={<PaymentPage />} />
+          {/* 동적 라우팅 필요 */}
         </Routes>
       </div>
       <Footer />
     </div>
   );
 }
+
+// [감성,오션뷰].join('&=') '감성&=오션뷰'
+// import React from 'react';
+
+// export default function App() {
+//   return <div className="text-3xl font-bold underline"></div>;
+// }

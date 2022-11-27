@@ -30,18 +30,19 @@ function RoomInfo({
   edit,
   idx,
   removeCard,
+  mode,
 }: {
   room: RoomsProps;
   reEdit?: (input: ReEditData) => void;
   removeCard?: (input: RemoveRoom) => void;
   edit?: boolean;
   idx?: number;
+  mode?: string;
 }) {
   const changeEditData = async (room: Room, idx?: number) => {
     if (room.roomImage && typeof room.roomImage === 'string') {
       const Files = await convertURLtoFile(room.roomImage);
       // 수정 버튼을 눌렀을 때 제작 모달이 켜지고 값이 입력되어야함
-
       if (reEdit && idx !== undefined) {
         reEdit({ ...room, roomImage: [Files], idx });
       }
@@ -76,16 +77,19 @@ function RoomInfo({
           </div>
         )}
       </div>
-      {edit && (
+      {mode && (
         <div className="  flex flex-row-reverse justify-between md:ml-auto md:flex-col md:justify-between">
           <BsPencilSquare
             className="cursor-pointer w-5 h-5"
             onClick={() => changeEditData(room, idx)}
           />
-          <BsFillTrashFill
-            className="cursor-pointer w-5 h-5"
-            onClick={() => remove(room)}
-          />
+
+          {mode === 'create' && (
+            <BsFillTrashFill
+              className="cursor-pointer w-5 h-5"
+              onClick={() => remove(room)}
+            />
+          )}
         </div>
       )}
     </div>

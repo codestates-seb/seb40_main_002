@@ -29,7 +29,7 @@ export default function DetailReview({ reviewComment, type }: Props) {
             </div>
             {type === 'reviewPage' &&
               reviewComment &&
-              reviewComment.admin === currentUser && (
+              reviewComment.reviewComment.user === currentUser && (
                 <div
                   className="text-sm text-font-color cursor-pointer"
                   onClick={() => {
@@ -61,9 +61,9 @@ export default function DetailReview({ reviewComment, type }: Props) {
                   {reviewComment && reviewComment.userName}
                 </p>
                 <p className="text-font-color text-sm mr-[5px]">
-                  {reviewComment && reviewComment.createBy}
+                  {reviewComment && reviewComment.createdAt}
                 </p>
-                {reviewComment && <RatedStar star={reviewComment.starScore} />}
+                {reviewComment && <RatedStar star={reviewComment.star} />}
               </div>
               <div>{reviewComment && reviewComment.comment}</div>
               {type === 'reviewPage' &&
