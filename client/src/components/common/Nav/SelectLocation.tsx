@@ -18,12 +18,12 @@ const SelectLocation = ({
 }: Props) => {
   const handleSelect = (idx: number) => {
     const newSelects = selects.slice();
-    if (onlyTrue.length > 2) {
+    if (onlyTrue.length > 0) {
       if (newSelects[idx]) {
         newSelects[idx] = !newSelects[idx];
         setSelects(newSelects);
       } else {
-        alert('3개 이하로 설정해주세요');
+        alert('1개만 선택 가능합니다.');
       }
     } else {
       newSelects[idx] = !newSelects[idx];

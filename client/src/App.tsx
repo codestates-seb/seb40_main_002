@@ -8,9 +8,10 @@ import Main from './pages/Main';
 import SearchResult from './pages/SearchResult';
 import Hostingpage from './pages/Hostingpage';
 import GuestHouseDetail from './pages/GusetHouseDetail';
-
 import ReviewPage from './pages/ReviewPage';
 import GhEditPage2 from './pages/GhEditPage2';
+import Register from './pages/Register';
+import UserData from './pages/UserData';
 
 export default function App() {
   return (
@@ -26,7 +27,8 @@ export default function App() {
           <Route path="/search" element={<SearchResult />} />
           <Route path="/mypage/*" element={<MyPage />} />
           <Route path="/paymentPage" element={<PaymentPage />} />
-          {/* 동적 라우팅 필요 */}
+          <Route path="/register" element={<Register />} />
+          <Route path="/userdata" element={<UserData />} />
         </Routes>
       </div>
       <Footer />
