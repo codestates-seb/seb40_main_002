@@ -37,25 +37,10 @@ const social: Social = {
 
 function LoginButton({ socialType }: { socialType: keyof Social }) {
   const nowSocial = social[socialType];
-  const handleLogin = async () => {
-    // login 호출
-    // await login();
-    // const API = 'http://3.37.58.81:8080';
-
-    window.location.href = 'http://3.37.58.81:8080/oauth2/authorization/naver';
-
-    // await axios
-    //   .post(`/oauth2/authorization/naver`)
-    //   // .post(`/oauth2/authorization/google`)
-    //   // .post(`/oauth2/authorization/kakao`)
-    //   .then((res: AxiosResponse) => {
-    //     const url = res.headers.Location;
-    //     // console.log('url: ', url);
-    //     if (url) window.location.href = url;
-    //   })
-    //   .catch((err: AxiosError) => {
-    //     console.log('err: ', err);
-    //   });
+  const handleLogin = () => {
+    return window.location.assign(
+      `http://3.37.58.81:8080/oauth2/authorization/${socialType}`
+    );
   };
   return (
     <button

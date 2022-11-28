@@ -10,6 +10,7 @@ type Room = {
   roomExplain: string;
   roomImage: File[];
   idx?: number;
+  roomId?: number | null;
 };
 
 type EditRoom = {
@@ -58,16 +59,27 @@ export default function RoomEditer({
     if (input.roomExplain.length <= 0) return alert('숙소설명을 등록해주세요');
     if (input.roomPrice <= 0) return alert('금액을 정확히 입력해주세요');
     // 수정 버튼을 누르면 idx가 존재한다.
+
     if (input.idx !== undefined) {
       const reEditRoom = rooms.map((room, x) => {
         if (x === input.idx) {
-          const newData = {
-            roomName: input.roomName,
-            roomPrice: input.roomPrice,
-            roomExplain: input.roomExplain,
-            roomImage: input.roomImage,
-          };
-          return { ...newData };
+          if (room.roomId) {
+            return {
+              roomName: input.roomName,
+              roomPrice: input.roomPrice,
+              roomExplain: input.roomExplain,
+              roomImage: input.roomImage,
+              roomId: input.roomId,
+            };
+          } else {
+            const newData = {
+              roomName: input.roomName,
+              roomPrice: input.roomPrice,
+              roomExplain: input.roomExplain,
+              roomImage: input.roomImage,
+            };
+            return { ...newData };
+          }
         } else {
           return room;
         }
