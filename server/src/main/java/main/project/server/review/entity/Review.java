@@ -17,7 +17,7 @@ public class Review extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reviewId;
+    private Long reviewId;  // 기준이 되는 ID
 
     @ManyToOne
     @JoinColumn(name = "GUEST_HOUSE_ID")
@@ -29,10 +29,10 @@ public class Review extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    private Float star;
+    private Float star;     // 평점
 
     @OneToOne(mappedBy = "review", cascade = CascadeType.REMOVE)
     @JoinColumn
-    private ReviewComment reviewComment;
+    private ReviewComment reviewComment;    // 1:1 연관관계
 
 }

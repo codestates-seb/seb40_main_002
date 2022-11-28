@@ -13,6 +13,6 @@ public interface ReviewMapper {
     Review reviewPutDtoToReview(ReviewDto.Put reviewPatchDto);
     ReviewDto.Response reviewToReviewResponseDto(Review review);
 
-    List<ReviewDto.Response> reviewToReviewResponseDto(List<Review> reviews);
+    List<ReviewDto.Response> reviewToReviewResponseDto(List<Review> reviews);   // 리뷰 조회(페이지)
     List<ReviewDto.ResponseMyPage> reviewToReviewResponseMyPageDto(List<Review> reviews);   // 마이페이지 리뷰 조회
 }

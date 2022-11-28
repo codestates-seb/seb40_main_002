@@ -34,8 +34,10 @@ public class ReviewController {
                                      @PathVariable("guesthouse-id") @Positive Long guestHouseId,
                                      Principal principal) {
 
+        // 리뷰 생성 요청을 service 넘겨 처리하고 결과값으로 review 객체를 받음
         Review review = reviewService.postReview(reviewMapper.reviewPostDtoToReview(post), guestHouseId, principal);
 
+        // 리뷰 생성 response
         return new ResponseEntity<>(
                 new SingleResponseDto<>("created", reviewMapper.reviewToReviewResponseDto(review)),
                 HttpStatus.CREATED);
@@ -46,9 +48,10 @@ public class ReviewController {
     public ResponseEntity patchReview(@RequestBody ReviewDto.Put put,
                                       @PathVariable("review-id") @Positive Long reviewId,
                                       Principal principal) {
-
+        // 리뷰 수정 요청을 service 넘겨 처리하고 결과값으로 review 객체를 받음
         Review review = reviewService.putReview(reviewMapper.reviewPutDtoToReview(put), reviewId, principal);
 
+        // 리뷰 수정 response
         return new ResponseEntity<>(
                 new SingleResponseDto<>("put ok", reviewMapper.reviewToReviewResponseDto(review)),
                 HttpStatus.OK);
@@ -59,8 +62,14 @@ public class ReviewController {
     public ResponseEntity getReview(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
                                     @RequestParam(name = "size", required = false, defaultValue = "4") int size,
                                     @PathVariable("guesthouse-id") @Positive Long guestHouseId){
+
+        // 리뷰 조회(페이지) 요청을 service 넘겨 처리하고 결과값으로 review로 구성된 Page를 받음
         Page<Review> reviewPage = reviewService.getReviewPage(page, size, guestHouseId);
+
+        // Page 정보(page, size, totalpage, totalElements) 생성
         PageInfo pageInfo = PageInfo.of(reviewPage);
+
+        // Page에서 .getContent()를 이용해 List 형태로 변환후 dto를 이용해 response 생성
         List<ReviewDto.Response> reviewResponseDto = reviewMapper.reviewToReviewResponseDto(reviewPage.getContent());
 
         return new ResponseEntity<>(
@@ -72,7 +81,7 @@ public class ReviewController {
     public ResponseEntity deleteReview(@PathVariable("review-id") @Positive Long reviewId,
                                        Principal principal) {
 
-        reviewService.deleteReview(reviewId, principal);
+        reviewService.deleteReview(reviewId, principal);    // 리뷰 삭제
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>("deleted", null), HttpStatus.OK);

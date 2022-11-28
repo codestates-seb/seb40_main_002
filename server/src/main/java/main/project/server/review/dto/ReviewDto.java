@@ -38,6 +38,7 @@ public class ReviewDto {
         private MemberDto.Response member;
     }
 
+    // 마이페이지 리뷰 조회시 responseDto
     @Setter
     @Getter
     @NoArgsConstructor

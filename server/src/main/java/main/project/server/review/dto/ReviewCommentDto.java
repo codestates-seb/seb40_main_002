@@ -14,8 +14,8 @@ public class ReviewCommentDto {
     @NoArgsConstructor
     public static class Post {
         private String reviewComment;
-
     }
+
 
     @Setter
     @Getter

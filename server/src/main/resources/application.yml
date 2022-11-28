@@ -7,7 +7,6 @@ spring:
       - application-rds.yml
       - application-jwt.yml
 
-
   # jpa
   jpa:
     database: mysql
@@ -18,19 +17,16 @@ spring:
       hibernate:
         format_sql: true
 
-
   #  # 파일 업로드 용량 제한
   #  servlet:
   #    multipart:
   #      max-file-size: 10MB
   #      max-request-size: 10MB
 
-
   # 404 페이지 처리, 404
   web:
     resources:
       add-mappings: false
-
 
   #spring security filter log
   logging:
@@ -52,3 +48,10 @@ images:
   member-profile : "images/memberprofile/"
   room-dir: "images/room/"
 
+
+log:
+  config:
+    level: TRACE
+    path: "/home/ec2-user/log"
+    log-filename: "main-project-log"
+    err-log-filename: "main-project-log-err"

@@ -150,7 +150,7 @@ public class MemberController {
 
     // 멤버 닉네임 중복 조회
     @GetMapping("/api/members/checkname")
-    public ResponseEntity getCheckName(@RequestPart(value = "memberNickname") String memberNickname) {
+    public ResponseEntity getCheckName(@RequestParam(name = "memberNickname") String memberNickname) {
 
         boolean result = memberService.checkNickName(memberNickname);
         String message;
