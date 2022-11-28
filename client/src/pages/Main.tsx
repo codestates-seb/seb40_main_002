@@ -16,10 +16,10 @@ function Main() {
     id: 1,
   };
   const guesthouses: Array<GuestHouseShort> = new Array(100).fill(testGh);
-  const [list, setSortType, ref] = useInfiniteScroll('');
+  const [list, setSortType, ref] = useInfiniteScroll('/api/all-guesthouse');
 
   return (
-    <div className="w-full p-[20px]">
+    <div className="w-full p-[20px] h-full">
       <GuesthouseList header={'추천'} guesthouses={guesthouses.slice(0, 8)} />
       <GuesthouseList
         header={'일반'}
@@ -27,7 +27,9 @@ function Main() {
         setSortType={setSortType}
         listLength={list.length}
       />
-      <div ref={ref}>...</div>
+      <div ref={ref} className="text-white">
+        ...
+      </div>
     </div>
   );
 }

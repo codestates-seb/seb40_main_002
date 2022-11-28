@@ -1,7 +1,9 @@
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { ReactElement } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { SiNaver } from 'react-icons/si';
+import { login } from '../../apis';
 
 type SocialView = {
   color: string;
