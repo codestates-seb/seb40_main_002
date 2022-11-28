@@ -10,7 +10,8 @@ export const getGuesthouseList = async (
   // page: number,
   // sortType: string
 ) => {
-  const data = await axios.get(`${API}${path}`).then((res: AxiosResponse) => {
+  // const data = await axios.get(`${API}${path}`).then((res: AxiosResponse) => {
+  const data = await axios.get(`${path}`).then((res: AxiosResponse) => {
     // console.log(res.data);
     setTotalCount(res.data.pageInfo.totalElements);
     const newGuesthouses: GuestHouseShort[] = res.data.data.map(
@@ -22,9 +23,9 @@ export const getGuesthouseList = async (
         guestHouseId: number;
       }) => {
         const guesthouse: GuestHouseShort = {
-          // imgSrc: `${API}${el.guestHouseImage}`,
-          imgSrc:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/PhodopusSungorus_2.jpg/640px-PhodopusSungorus_2.jpg',
+          imgSrc: `${API}${el.guestHouseImage}`,
+          // imgSrc:
+          // 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/PhodopusSungorus_2.jpg/640px-PhodopusSungorus_2.jpg',
           name: el.guestHouseName,
           price: 0,
           star: el.guestHouseStar,
