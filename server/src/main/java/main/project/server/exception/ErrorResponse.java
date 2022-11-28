@@ -75,7 +75,7 @@ public class ErrorResponse {
     @Builder
     public static class ConstraintViolationErrorResponse {
         private String propertyPath;
-        private String rejectedValue;
+        private Object rejectedValue;
         private String reason;
 
         public static List<ConstraintViolationErrorResponse> of(
@@ -84,7 +84,7 @@ public class ErrorResponse {
                     .map(constraintViolation ->
                             ConstraintViolationErrorResponse.builder()
                                     .propertyPath(constraintViolation.getPropertyPath().toString())
-                                    .rejectedValue(constraintViolation.getInvalidValue().toString())
+                                    .rejectedValue(constraintViolation.getInvalidValue()) //rejectedValue 자체가 null일 수 있기때문에
                                     .reason(constraintViolation.getMessage())
                                     .build())
                     .collect(Collectors.toList());
