@@ -26,7 +26,7 @@ const GhReservation = ({
   const ReservationData = () => {
     if (ghPrice === 0) {
       alert('객실을 선택해주세요');
-    } else if (dayCal === 0 || endDay.length < 6) {
+    } else if (dayCal === 0 || (endDay && endDay.length < 6)) {
       alert('예약 일정을 선택해주세요');
     } else console.log('asd');
   };

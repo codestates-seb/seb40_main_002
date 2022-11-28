@@ -15,7 +15,9 @@ const GhDetailComment = ({ reviewComment }: ReviewProps) => {
           <div className=" w-full text-base">작성된 후기가 없습니다</div>
         )}
         {reviewComment.map((el, i) => (
-          <DetailReview key={i} type={'roomDetail'} reviewComment={el} />
+          <div key={el.reviewId}>
+            <DetailReview type={'roomDetail'} reviewComment={el} />
+          </div>
         ))}
       </div>
       <div className="my-[20px]">
