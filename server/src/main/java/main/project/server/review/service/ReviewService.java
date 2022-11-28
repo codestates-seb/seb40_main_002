@@ -95,7 +95,7 @@ public class ReviewService {
 
         Optional<Review> optionalReview = reviewRepository.findById(reviewId);  // 존재하지 않을 수도 있는 review 조회
 
-        return optionalReview.orElseThrow(() -> new NoSuchElementException("No value present"));  // review null 일시 exception throw
+        return optionalReview.orElseThrow(() -> new BusinessException(ExceptionCode.REVIEW_NOT_FOUND));  // review null 일시 exception throw
     }
 
     // 사용자가 review 작성자인지 확인
