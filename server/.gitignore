@@ -41,13 +41,7 @@ out/
 
 .DS_Store
 
-### yml ###
-src/main/resources/application-dev.yml
-src/main/resources/application-google.yml
-src/main/resources/application-kakao.yml
-src/main/resources/application-naver.yml
-src/main/resources/application-rds.yml
-src/main/resources/application-jwt.yml
+
 
 ### images ###
 imagesdir
