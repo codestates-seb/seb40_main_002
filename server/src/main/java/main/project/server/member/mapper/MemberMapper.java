@@ -17,18 +17,4 @@ public interface MemberMapper {
     Member memberPatchDtoToMember(MemberDto.Patch memberPutDto);
 
     MemberDto.Response memberToMemberResponseDto(Member member);
-//    default MemberDto.Response memberToMemberResponseDto(Member member) {
-//        MemberDto.Response.builder()
-//                .memberId(member.getMemberId())
-//                .memberNickname(member.getMemberNickname())
-//                .memberEmail(member.getMemberEmail())
-//                .memberPhone(member.getMemberPhone())
-//                .memberBirth(member.getMemberBirth())
-//                .memberNationality(member.getMemberNationality())
-//                .memberRegisterKind(member.getMemberRegisterKind())
-//                .memberImageUrl(member.getMemberImageUrl())
-//                .memberRole(member.getMemberRoles())
-//                .memberTag(member.getMemberTags())
-//
-//    }
 }

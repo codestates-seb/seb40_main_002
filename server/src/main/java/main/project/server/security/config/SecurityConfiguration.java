@@ -1,7 +1,7 @@
 package main.project.server.security.config;
 
 import lombok.RequiredArgsConstructor;
-import main.project.server.jwt.JwtTokenizer;
+import main.project.server.jwt.service.JwtTokenizer;
 import main.project.server.oauth.handler.MemberAccessDeniedHandler;
 import main.project.server.oauth.handler.MemberAuthenticationEntryPoint;
 import main.project.server.security.filter.JwtVerificationFilter;

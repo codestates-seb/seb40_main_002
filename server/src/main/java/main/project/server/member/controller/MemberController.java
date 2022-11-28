@@ -77,7 +77,7 @@ public class MemberController {
     // 맴버 정보 조회
     @GetMapping("/api/auth/members")
     public ResponseEntity getMember(Principal principal){
-        Member member = memberService.findVerifiedMember("54342d32e44@kakao");
+        Member member = memberService.findVerifiedMember(principal.getName());
         MemberDto.Response response = memberMapper.memberToMemberResponseDto(member);
         response.setMemberTag(tagMapper.createSortedTagArray(member.getMemberTags()));
         return new ResponseEntity<>(new SingleResponseDto<>("get ok", response), HttpStatus.OK);

@@ -24,8 +24,8 @@ public class ChartService {
 
     public MonthlyReservationChartDto getMonthlyReservationChart(Long guestHouseId, int year, Principal principal) {
         // guestHouse 존재 여부, 해당 member의 guestHouse 소유 여부 검증
-//        GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(guestHouseId);
-//        guestHouseService.verifyOwnGuestHouse(guestHouse, principal.getName());
+        GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(guestHouseId);
+        guestHouseService.verifyOwnGuestHouse(guestHouse, principal.getName());
 
         // 통계 list 생성 후 month 순서로 정렬한 뒤, MonthlyReservationChartDto로 반환
         List<MonthlyReservationChartDto.MonthlyReservation> statistics = roomReservationRepository.findByYearGroupByMonth(guestHouseId, year);
