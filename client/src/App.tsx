@@ -10,6 +10,7 @@ import GhEditpage from './pages/GhEditpage';
 import GuestHouseDetail from './pages/GusetHouseDetail';
 import Sample from './components/common/Comment/Sample';
 import ReviewPage from './pages/ReviewPage';
+import ComponentTest from './pages/ComponentTest';
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/sample" element={<Sample />} />
           {/* 동적 라우팅 필요 */}
           <Route path="/review" element={<ReviewPage />} />
+          <Route path="/test" element={<ComponentTest />} />
         </Routes>
       </div>
       <Footer />

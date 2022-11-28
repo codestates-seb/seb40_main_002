@@ -1,7 +1,9 @@
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { ReactElement } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { SiNaver } from 'react-icons/si';
+import { login } from '../../apis';
 
 type SocialView = {
   color: string;
@@ -35,8 +37,25 @@ const social: Social = {
 
 function LoginButton({ socialType }: { socialType: keyof Social }) {
   const nowSocial = social[socialType];
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // login 호출
+    // await login();
+    // const API = 'http://3.37.58.81:8080';
+
+    window.location.href = 'http://3.37.58.81:8080/oauth2/authorization/naver';
+
+    // await axios
+    //   .post(`/oauth2/authorization/naver`)
+    //   // .post(`/oauth2/authorization/google`)
+    //   // .post(`/oauth2/authorization/kakao`)
+    //   .then((res: AxiosResponse) => {
+    //     const url = res.headers.Location;
+    //     // console.log('url: ', url);
+    //     if (url) window.location.href = url;
+    //   })
+    //   .catch((err: AxiosError) => {
+    //     console.log('err: ', err);
+    //   });
   };
   return (
     <button
