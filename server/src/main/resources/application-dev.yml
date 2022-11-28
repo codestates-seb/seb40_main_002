@@ -6,8 +6,8 @@ spring:
       - application-naver.yml
       - application-dev-rds.yml
       - application-dev-jwt.yml
-      -
-      # jpa
+
+  # jpa
   jpa:
     hibernate:
       ddl-auto: update
