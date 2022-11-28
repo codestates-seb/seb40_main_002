@@ -3,7 +3,7 @@ package main.project.server.oauth.handler;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import main.project.server.jwt.service.JwtTokenizer;
+import main.project.server.jwt.JwtTokenizer;
 import main.project.server.jwt.entity.RefreshToken;
 import main.project.server.jwt.repository.RefreshTokenRepository;
 import main.project.server.jwt.service.TokenService;

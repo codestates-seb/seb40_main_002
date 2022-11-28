@@ -1,4 +1,4 @@
-package main.project.server.jwt.service;
+package main.project.server.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;

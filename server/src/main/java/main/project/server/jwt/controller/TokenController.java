@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import main.project.server.dto.SingleResponseDto;
-import main.project.server.jwt.service.JwtTokenizer;
+import main.project.server.jwt.JwtTokenizer;
 import main.project.server.jwt.dto.TokenDto;
 import main.project.server.jwt.entity.RefreshToken;
 import main.project.server.jwt.mapper.TokenMapper;

@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
 import main.project.server.exception.BusinessException;
 import main.project.server.exception.ExceptionCode;
-import main.project.server.jwt.service.JwtTokenizer;
+import main.project.server.jwt.JwtTokenizer;
 import main.project.server.member.entity.Member;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberStatus;
