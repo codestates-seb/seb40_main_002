@@ -28,14 +28,18 @@ public class ReviewDto {
     @Setter
     @Getter
     @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     public static class Response {
         private Long reviewId;
         private String comment;
         private float star;
-        private ReviewCommentDto.Response reviewComment;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private MemberDto.Response member;
+        private String guestHouseName;
+        private String guestHouseMemberId;
+        private ReviewCommentDto.Response reviewComment;
     }
 
     // 마이페이지 리뷰 조회시 responseDto

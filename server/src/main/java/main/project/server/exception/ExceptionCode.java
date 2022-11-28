@@ -33,7 +33,14 @@ public enum ExceptionCode {
 
     NOT_A_REVIEW_WRITER(406, "You are not a review writer"),
 
-    NOT_A_REVIEW_COMMENT_WRITER(406, "You are not a review comment writer");
+    NOT_A_REVIEW_COMMENT_WRITER(406, "You are not a review_comment writer"),
+
+    REVIEW_NOT_FOUND(404, "review not found"),
+
+    REVIEW_COMMENT_NOT_FOUND(404, "review_comment not found"),
+
+    NOT_MATCH_REVIEW_AND_REVIEW_COMMENT(400, "reviews and review_comments don't match");
+
 
     @Getter
     int code;

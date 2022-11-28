@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -78,7 +77,7 @@ public class ReviewCommentService {
 
         Optional<ReviewComment> optionalReviewComment = reviewCommentRepository.findById(reviewCommentId);
 
-        return optionalReviewComment.orElseThrow(() -> new NoSuchElementException("No value present"));    // null일 경우 exception throw
+        return optionalReviewComment.orElseThrow(() -> new BusinessException(ExceptionCode.REVIEW_COMMENT_NOT_FOUND));      // null일 경우 exception throw
     }
 
     // reviewComment 조회(reviewId 기준, not null)
@@ -86,7 +85,7 @@ public class ReviewCommentService {
 
         Optional<ReviewComment> optionalReviewComment = reviewCommentRepository.findByReviewReviewId(reviewId);
 
-        return optionalReviewComment.orElseThrow(() -> new NoSuchElementException("No value present"));    // null일 경우 exception throw
+        return optionalReviewComment.orElseThrow(() -> new BusinessException(ExceptionCode.NOT_MATCH_REVIEW_AND_REVIEW_COMMENT));    // null일 경우 exception throw
     }
 
     // reviewCommnet 작성한 사용자가 맞는지 확인

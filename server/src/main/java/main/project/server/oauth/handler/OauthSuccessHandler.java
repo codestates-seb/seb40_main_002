@@ -108,7 +108,7 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                 .scheme("http")
                 .host("localhost")
                 .port(3000)
-                .path("/")  // 배포 반영
+                .path("/userdata")  // 배포 반영
                 .queryParams(queryParams)
                 .build()
                 .toUri();
