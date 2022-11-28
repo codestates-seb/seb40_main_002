@@ -8,12 +8,12 @@ export default function UserData() {
     const url = new URL(window.location.href);
     const userData = url.searchParams.get('memberId');
     if (userData) {
-      const userData = getuserParams(url, [
+      const user = getuserParams(url, [
         'memberId',
         'memberEmail',
         'memberImageUrl',
       ]);
-      sessionStorage.setItem('userData', JSON.stringify(userData));
+      sessionStorage.setItem('userData', JSON.stringify(user));
       navigate('/register');
     }
   }, []);

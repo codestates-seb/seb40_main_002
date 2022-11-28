@@ -8,4 +8,10 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    createProxyMiddleware('/dn', {
+      target: 'http://k.kakaocdn.net',
+      changeOrigin: true,
+    })
+  );
 };

@@ -3,10 +3,15 @@ import RightSide from '../components/Register/RightSide';
 import UserImg from '../components/Register/UserImg';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { convertURLtoFile } from '../libs/srcToFile';
+import axios from 'axios';
+
 type Social = {
   memberId: string;
   memberEmail: string;
-  memberImgUrl: string;
+  memberImgurl: string;
+  memberRegisterKind: string;
+  memberImage: File[];
 };
 
 export default function Register() {
@@ -19,10 +24,7 @@ export default function Register() {
     month: '01',
     day: '01',
   });
-  const [userImg, setUserImg] = useState(
-    // 소셜 로그인 유저 이미지
-    'https://a0.muscache.com/im/pictures/337660c5-939a-439b-976f-19219dbc80c7.jpg?im_w=720'
-  );
+  const [userImg, setUserImg] = useState<File[] | []>([]);
 
   const birth = `${form.year}-${form.month}-${form.day}`;
 
@@ -32,22 +34,29 @@ export default function Register() {
   };
 
   const navigate = useNavigate();
-  const submitHandler = () => {
-    if (!nicknameChecker()) {
-      alert('닉네임은 2글자 이상이어야 합니다.');
-    }
-    // axios 회원가입 요청
-    // navigate('/');
-    console.log(birth, phoneNum, nickname, guestHouseTag, userImg);
+  const submitHandler = async () => {
+    // if (!nicknameChecker()) {
+    //   alert('닉네임은 2글자 이상이어야 합니다.');
+    // }
+    // // axios 회원가입 요청
+    // // navigate('/');
+    // console.log(birth, phoneNum, nickname, guestHouseTag, userImg);
   };
+
   useEffect(() => {
     const userData = sessionStorage.getItem('userData');
+
     if (!userData && socialData) {
       navigate('/');
     } else if (userData) {
-      const data = JSON.parse(userData);
-      setSocialData(data);
-      sessionStorage.removeItem('userData');
+      const getImage = async () => {
+        const data = JSON.parse(userData);
+        const imgUrl = data.memberImgurl.split('/').slice(3).join('/');
+        const memberImage = await convertURLtoFile(imgUrl);
+        setSocialData({ ...data, memberImage: [memberImage] });
+        sessionStorage.removeItem('userData');
+      };
+      getImage();
     }
   }, []);
 
@@ -60,7 +69,7 @@ export default function Register() {
           </div>
           <div className="flex justify-evenly items-center w-[1120px] mb-8">
             <UserImg
-              userImg={socialData.memberImgUrl}
+              userImg={URL.createObjectURL(socialData.memberImage[0])}
               setUserImg={setUserImg}
             />
             <RightSide

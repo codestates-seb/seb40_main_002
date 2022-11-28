@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 interface Props {
   userImg: string;
-  setUserImg: Dispatch<SetStateAction<string>>;
+  setUserImg: Dispatch<SetStateAction<[] | File[]>>;
 }
 
 const UserImg = ({ userImg, setUserImg }: Props) => {
