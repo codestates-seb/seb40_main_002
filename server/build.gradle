@@ -70,7 +70,7 @@ dependencies {
 	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 
 	//	 aws parameter sotre
-	implementation 'com.coveo:spring-boot-parameter-store-integration:1.1.2'
+	implementation group: 'io.awspring.cloud', name: 'spring-cloud-starter-aws-parameter-store-config'
 }
 
 //tasks.named('test') {
@@ -102,3 +102,8 @@ bootRun {
 }
 
 
+dependencyManagement {
+	imports {
+		mavenBom "io.awspring.cloud:spring-cloud-aws-dependencies:2.3.3"
+	}
+}

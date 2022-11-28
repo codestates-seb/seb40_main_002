@@ -6,6 +6,7 @@ spring:
       - application-naver.yml
       - application-dev-rds.yml
       - application-dev-jwt.yml
+      - 'aws-parameterstore:'
 
   # jpa
   jpa:
@@ -30,6 +31,10 @@ spring:
       org:
         springframework:
           security: DEBUG
+
+#  aws parameter store
+  application:
+    name: kyh
 
 
 # redis, my properties
@@ -57,7 +62,6 @@ log:
     path: "/home/ubuntu/log"
     log-filename: "main-project-log"
     err-log-filename: "main-project-log-err"
-
 
 
 
