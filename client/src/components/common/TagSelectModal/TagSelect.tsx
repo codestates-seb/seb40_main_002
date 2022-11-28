@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import CommonBtn from '../CommonBtn/CommonBtn';
 import Tag from '../Tag';
 
 interface Props {
@@ -35,20 +36,24 @@ function TagSelect({ tags, openModalHandler, setTags }: Props) {
 
   return (
     <div
-      className="flex flex-col items-center p-[20px] w-[400px] rounded-[15px] bg-white"
+      className="flex flex-col items-center py-4 w-[400px] rounded-[15px] bg-white border border-border-color"
       onClick={(e) => e.stopPropagation()}
     >
       <div className="text-lg font-medium w-fit mb-[20px]">
         선호하는 태그를 선택해 주세요. (최대 3개)
       </div>
-      <div className="block mb-[20px] text-center">
+      <div className="block mb-4 text-center">
         {tags.map((name: string, idx) => (
           <button key={name} onClick={() => handleSelect(idx)}>
             <Tag name={name} isSelected={selects[idx]} />
           </button>
         ))}
       </div>
-      <button onClick={handleComplete}>선택 완료</button>
+      <CommonBtn
+        btnHandler={handleComplete}
+        text={'선택 완료'}
+        btnSize={'w-20 h-8'}
+      />
     </div>
   );
 }

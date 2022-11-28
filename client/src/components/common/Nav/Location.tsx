@@ -29,7 +29,7 @@ const Location = () => {
     <>
       <div className="relative flex" onClick={modalHandler}>
         {onlyTrue.length === 0 ? (
-          <div className="w-fit"> 지역을 선택해주세요 </div>
+          <button className="w-fit"> 지역을 선택해주세요 </button>
         ) : (
           selects.map(
             (type: boolean, idx) =>

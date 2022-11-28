@@ -1,9 +1,5 @@
 import { convertURLtoFile } from './srcToFile';
-type ParamsData = {
-  memberId: string;
-  memberEmail: string;
-  memberImage: File[];
-};
+
 const socialTypeCheck = (memberId: string) => {
   const socials = ['kakao', 'naver', 'google'];
   const socialsType = socials

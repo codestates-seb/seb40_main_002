@@ -27,8 +27,9 @@ export default function App() {
           <Route path="/search" element={<SearchResult />} />
           <Route path="/mypage/*" element={<MyPage />} />
           <Route path="/paymentPage" element={<PaymentPage />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/userdata" element={<UserData />} />
+          <Route path="/register" element={<Register />} />
+          {/* 동적 라우팅 필요 */}
         </Routes>
       </div>
       <Footer />

@@ -9,7 +9,8 @@ module.exports = function (app) {
     })
   );
   app.use(
-    createProxyMiddleware('/dn', {
+    '/dn',
+    createProxyMiddleware({
       target: 'http://k.kakaocdn.net',
       changeOrigin: true,
     })

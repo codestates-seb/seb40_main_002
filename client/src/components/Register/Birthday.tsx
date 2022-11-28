@@ -8,8 +8,6 @@ interface Props {
 }
 
 const Birthday = ({ form, setForm }: Props) => {
-  // 상태를 위로 올려줘야함
-
   const now = new Date();
 
   const years = [];

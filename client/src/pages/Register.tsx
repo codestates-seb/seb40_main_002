@@ -2,9 +2,9 @@ import CommonBtn from '../components/common/CommonBtn/CommonBtn';
 import RightSide from '../components/Register/RightSide';
 import UserImg from '../components/Register/UserImg';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { convertURLtoFile } from '../libs/srcToFile';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { convertURLtoFile } from '../libs/srcToFile';
 
 type Social = {
   memberId: string;
@@ -15,37 +15,76 @@ type Social = {
 };
 
 export default function Register() {
+  const navigate = useNavigate();
   const [guestHouseTag, setGuestHouseTag] = useState<string[]>([]);
   const [nickname, setNickname] = useState('');
+  const [isDup, setIsDup] = useState<boolean | string>('null');
   const [phoneNum, setPhoneNum] = useState('');
-  const [socialData, setSocialData] = useState<Social | null>(null);
+  const [isHost, setIsHost] = useState<string>('');
+  const [isLocal, setIsLocal] = useState('');
   const [form, setForm] = useState({
     year: new Date().getFullYear(),
     month: '01',
     day: '01',
   });
-  const [userImg, setUserImg] = useState<File[] | []>([]);
-
   const birth = `${form.year}-${form.month}-${form.day}`;
+  const [userImg, setUserImg] = useState<[] | File[]>([]);
+  const [socialData, setSocialData] = useState<Social | null>(null);
 
-  const nicknameChecker = () => {
-    if (nickname.length >= 2) return true;
-    else return false;
-  };
-
-  const navigate = useNavigate();
   const submitHandler = async () => {
-    // if (!nicknameChecker()) {
-    //   alert('닉네임은 2글자 이상이어야 합니다.');
-    // }
-    // // axios 회원가입 요청
-    // // navigate('/');
-    // console.log(birth, phoneNum, nickname, guestHouseTag, userImg);
+    if (isDup === 'null') {
+      alert('닉네임 중복 검사가 필요합니다.');
+      return;
+    }
+    const formData = new FormData();
+    const memberData = {
+      memberId: socialData?.memberId,
+      memberNickname: nickname,
+      memberEmail: socialData?.memberEmail,
+      memberPhone: phoneNum,
+      memberBirth: birth,
+      memberNationality: isLocal,
+      memberRegisterKind: socialData?.memberRegisterKind,
+      memberRoles: [isHost],
+      memberTags: guestHouseTag,
+    };
+    const memberDto = JSON.stringify(memberData);
+
+    if (socialData) {
+      const imgFile = socialData?.memberImage[0];
+      formData.append(
+        'member-dto',
+        new Blob([memberDto], { type: 'application/json' })
+      );
+      formData.append('memberImageFile', imgFile);
+    }
+    console.log(memberDto);
+    try {
+      const res = await axios.post('/api/members', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+
+    // const config = {
+    //   method: 'post',
+    //   url: 'http://3.37.58.81:8080/api/members',
+    //   data: memberData,
+    // };
+
+    // axios(config)
+    //   .then(function (res) {
+    //     console.log(JSON.stringify(res));
+    //   })
+    //   .catch(function (err) {
+    //     console.log(err);
+    //   });
   };
 
   useEffect(() => {
     const userData = sessionStorage.getItem('userData');
-
     if (!userData && socialData) {
       navigate('/');
     } else if (userData) {
@@ -59,7 +98,6 @@ export default function Register() {
       getImage();
     }
   }, []);
-
   return (
     <>
       {socialData && (
@@ -70,15 +108,21 @@ export default function Register() {
           <div className="flex justify-evenly items-center w-[1120px] mb-8">
             <UserImg
               userImg={URL.createObjectURL(socialData.memberImage[0])}
-              setUserImg={setUserImg}
+              // setUserImg={setUserImg}
             />
             <RightSide
+              nickname={nickname}
               setNickname={setNickname}
+              phoneNum={phoneNum}
               setPhoneNum={setPhoneNum}
               guestHouseTag={guestHouseTag}
               setGuestHouseTag={setGuestHouseTag}
               form={form}
               setForm={setForm}
+              setIsHost={setIsHost}
+              setIsLocal={setIsLocal}
+              isDup={isDup}
+              setIsDup={setIsDup}
             />
           </div>
           <CommonBtn
