@@ -18,12 +18,12 @@ const SelectLocation = ({
 }: Props) => {
   const handleSelect = (idx: number) => {
     const newSelects = selects.slice();
-    if (onlyTrue.length > 2) {
+    if (onlyTrue.length > 0) {
       if (newSelects[idx]) {
         newSelects[idx] = !newSelects[idx];
         setSelects(newSelects);
       } else {
-        alert('3개 이하로 설정해주세요');
+        alert('1개만 선택 가능합니다.');
       }
     } else {
       newSelects[idx] = !newSelects[idx];
@@ -38,7 +38,7 @@ const SelectLocation = ({
 
   return (
     <>
-      <div className="flex flex-wrap justify-center items-center w-[340px] h-fit border-solid border-2 border-borderline rounded-2xl py-2 absolute top-20">
+      <div className="flex flex-wrap justify-center items-center w-[340px] h-fit border-solid border-2 border-borderline rounded-2xl py-2 absolute top-20 bg-white">
         <div className="text-lg font-medium w-fit mb-[20px]">
           장소를 선택해 주세요.
         </div>
