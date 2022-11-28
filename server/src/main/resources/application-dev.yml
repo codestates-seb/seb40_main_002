@@ -39,7 +39,7 @@ redis:
     port: 6379
 
 images:
-  upload-path: "/home/ec2-user/images/guesthouse/"
+  upload-path: "/home/ubuntu/images/guesthouse/"
   member-profile : "images/memberprofile/"
   room-dir: "images/room/"
 
@@ -54,7 +54,7 @@ logging:
 log:
   config:
     level: TRACE
-    path: "/home/ec2-user/log"
+    path: "/home/ubuntu/log"
     log-filename: "main-project-log"
     err-log-filename: "main-project-log-err"
 
