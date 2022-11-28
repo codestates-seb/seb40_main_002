@@ -1,4 +1,11 @@
 spring:
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${RDS_USERNAME}
+    password: ${RDS_SECRET}
+    url: jdbc:mysql://main-project-rds.cbavrlzuwalf.ap-northeast-2.rds.amazonaws.com:3306/main-project-rds?serverTimezone=UTC&characterEncoding=UTF-8
+
   config:
     import:
       - application-google.yml
