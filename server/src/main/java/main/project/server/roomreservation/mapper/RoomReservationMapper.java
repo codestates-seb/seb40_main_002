@@ -23,6 +23,7 @@ public interface RoomReservationMapper {
         Room room = roomService.findVerifiedRoom(roomReservation.getRoom().getRoomId());
 
         RoomReservationDto.Response response = RoomReservationDto.Response.builder()
+                .guestHouseId(guestHouse.getGuestHouseId())
                 .guestHouseName(guestHouse.getGuestHouseName())
                 .roomName(room.getRoomName())
                 .roomImageUrl(room.getRoomImageUrl())
@@ -41,6 +42,7 @@ public interface RoomReservationMapper {
                     .stream()
                     .map(reservation -> RoomReservationDto.Response
                             .builder()
+                            .guestHouseId(reservation.getGuestHouse().getGuestHouseId())
                             .guestHouseName(guestHouseService.findGuestHouse(reservation.getGuestHouse().getGuestHouseId()).getGuestHouseName())
                             .roomName(roomService.findVerifiedRoom(reservation.getRoom().getRoomId()).getRoomName())
                             .roomImageUrl(reservation.getRoom().getRoomImageUrl())

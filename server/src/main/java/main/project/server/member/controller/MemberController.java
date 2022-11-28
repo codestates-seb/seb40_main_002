@@ -67,6 +67,7 @@ public class MemberController {
 
         Member creatingMember = memberMapper.memberPostDtoToMember(memberPostDto);
         creatingMember.setMemberTags(tagMapper.createSortedTagString(memberPostDto.getMemberTag()));
+        creatingMember.setMemberRoles(memberPostDto.getMemberRole());
 
         Member member = memberService.createMember(creatingMember, memberImageFile);
         return new ResponseEntity<>(new SingleResponseDto<>("created", memberMapper.memberToMemberResponseDto(member)), HttpStatus.CREATED);
@@ -76,7 +77,7 @@ public class MemberController {
     // 맴버 정보 조회
     @GetMapping("/api/auth/members")
     public ResponseEntity getMember(Principal principal){
-        Member member = memberService.findVerifiedMember(principal.getName());
+        Member member = memberService.findVerifiedMember("54342d32e44@kakao");
         MemberDto.Response response = memberMapper.memberToMemberResponseDto(member);
         response.setMemberTag(tagMapper.createSortedTagArray(member.getMemberTags()));
         return new ResponseEntity<>(new SingleResponseDto<>("get ok", response), HttpStatus.OK);
@@ -117,7 +118,7 @@ public class MemberController {
         List<RoomReservationDto.Response> responses =
                 reservationMapper.reservationsToReservationResponses(reservationPage.getContent(), guestHouseService, roomService);
         return new ResponseEntity<>(
-                new MultiResponseDto<>("get member'", responses, pageInfo), HttpStatus.OK);
+                new MultiResponseDto<>("get member reservations", responses, pageInfo), HttpStatus.OK);
 
     }
 

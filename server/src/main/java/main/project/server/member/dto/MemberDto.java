@@ -3,10 +3,12 @@ package main.project.server.member.dto;
 import lombok.*;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberRegisterKind;
+import main.project.server.validation.ValidRole;
 
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 public class MemberDto {
     // Dto 항목 고려 필요
@@ -34,8 +36,8 @@ public class MemberDto {
         private MemberNationality memberNationality;
 
         private MemberRegisterKind memberRegisterKind; //가입 경로, ex) GOOGLE, NAVER, KAKAO....
-
-//        private String[] memberRole; //멤버 역할, ex) USER, ADMIN ...
+        @ValidRole
+        private List<String> memberRole; //멤버 역할, ex) USER, ADMIN ...
 
         private String[] memberTag;
 
@@ -79,6 +81,8 @@ public class MemberDto {
         private MemberRegisterKind memberRegisterKind;
 
         private String memberImageUrl;
+
+        private List<String> memberRoles;
 
         private String[] memberTag;
     }

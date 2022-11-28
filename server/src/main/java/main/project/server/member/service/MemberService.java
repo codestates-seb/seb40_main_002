@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
 import main.project.server.exception.BusinessException;
 import main.project.server.exception.ExceptionCode;
-import main.project.server.jwt.JwtTokenizer;
+import main.project.server.jwt.service.JwtTokenizer;
 import main.project.server.member.entity.Member;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberStatus;
@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;

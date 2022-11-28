@@ -32,6 +32,8 @@ public class RoomReservationDto {
     @Builder
     public static class Response {
 
+        private Long guestHouseId;
+
         private String guestHouseName;
 
         private String roomName;

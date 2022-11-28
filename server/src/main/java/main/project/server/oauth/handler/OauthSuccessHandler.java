@@ -102,6 +102,7 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", accessToken);
         queryParams.add("refresh_token", refreshToken);
+        log.info("accessToken = {}", accessToken);
 
         return UriComponentsBuilder
                 .newInstance()
