@@ -1,7 +1,11 @@
 package main.project.server.chart.service;
 
 import lombok.RequiredArgsConstructor;
-import main.project.server.chart.dto.ChartDto;
+import main.project.server.chart.condition.SearchCondition;
+import main.project.server.chart.dto.AgeChartDto;
+import main.project.server.chart.dto.MonthlyReservationChartDto;
+import main.project.server.guesthouse.entity.GuestHouse;
+import main.project.server.guesthouse.service.GuestHouseService;
 import main.project.server.roomreservation.repository.RoomReservationRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,22 +20,38 @@ public class ChartService {
 
     private final RoomReservationRepository roomReservationRepository;
 
-    public ChartDto monthlyReservationChart(Long guestHouseId, int year, Principal principal) {
-        // 해당 멤버 소유 숙소 맞는지 검증할 것
+    private final GuestHouseService guestHouseService;
 
-        List<ChartDto.MonthlyReservation> statistics = roomReservationRepository.findByYearGroupByMonth(guestHouseId, year);
+    public MonthlyReservationChartDto getMonthlyReservationChart(Long guestHouseId, int year, Principal principal) {
+        // guestHouse 존재 여부, 해당 member의 guestHouse 소유 여부 검증
+        GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(guestHouseId);
+        guestHouseService.verifyOwnGuestHouse(guestHouse, principal.getName());
+
+        // 통계 list 생성 후 month 순서로 정렬한 뒤, MonthlyReservationChartDto로 반환
+        List<MonthlyReservationChartDto.MonthlyReservation> statistics = roomReservationRepository.findByYearGroupByMonth(guestHouseId, year);
         Collections.sort(statistics, new MonthComparator());
-
-        return  ChartDto.builder()
-                .totalCount(statistics.stream().mapToLong(ChartDto.MonthlyReservation::getReservationCount).sum())
+        return  MonthlyReservationChartDto.builder()
+                .totalCount(statistics.stream().mapToLong(MonthlyReservationChartDto.MonthlyReservation::getReservationCount).sum())
                 .monthlyReservationList(statistics)
                 .build();
     }
 
-    class MonthComparator implements Comparator<ChartDto.MonthlyReservation> {
+    public AgeChartDto getAgeChart(Long guestHouseId, SearchCondition condition, Principal principal) {
+        // guestHouse 존재 여부, 해당 member의 guestHouse 소유 여부 검증
+//        GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(guestHouseId);
+//        guestHouseService.verifyOwnGuestHouse(guestHouse, principal.getName());
 
+        // 통계 list 생성 후, AgeChartDto로 반환
+        List<AgeChartDto.AgeGroupReservation> statistics = roomReservationRepository.findGroupByAge(guestHouseId, condition);
+        return AgeChartDto.builder()
+                .totalCount(statistics.stream().mapToLong(AgeChartDto.AgeGroupReservation::getCount).sum())
+                .ageGroupReservationList(statistics)
+                .build();
+    }
+
+    class MonthComparator implements Comparator<MonthlyReservationChartDto.MonthlyReservation> {
         @Override
-        public int compare(ChartDto.MonthlyReservation o1, ChartDto.MonthlyReservation o2) {
+        public int compare(MonthlyReservationChartDto.MonthlyReservation o1, MonthlyReservationChartDto.MonthlyReservation o2) {
             if (o1.getMonth() > o2.getMonth()) {
                 return 1;
             } else if (o1.getMonth() < o2.getMonth()) {

@@ -4,6 +4,7 @@ import lombok.*;
 import main.project.server.member.entity.Member;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @NoArgsConstructor

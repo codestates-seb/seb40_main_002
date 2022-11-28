@@ -67,6 +67,7 @@ public class MemberController {
 
         Member creatingMember = memberMapper.memberPostDtoToMember(memberPostDto);
         creatingMember.setMemberTags(tagMapper.createSortedTagString(memberPostDto.getMemberTag()));
+        creatingMember.setMemberRoles(memberPostDto.getMemberRole());
 
         Member member = memberService.createMember(creatingMember, memberImageFile);
         return new ResponseEntity<>(new SingleResponseDto<>("created", memberMapper.memberToMemberResponseDto(member)), HttpStatus.CREATED);
@@ -117,7 +118,7 @@ public class MemberController {
         List<RoomReservationDto.Response> responses =
                 reservationMapper.reservationsToReservationResponses(reservationPage.getContent(), guestHouseService, roomService);
         return new ResponseEntity<>(
-                new MultiResponseDto<>("get member'", responses, pageInfo), HttpStatus.OK);
+                new MultiResponseDto<>("get member reservations", responses, pageInfo), HttpStatus.OK);
 
     }
 

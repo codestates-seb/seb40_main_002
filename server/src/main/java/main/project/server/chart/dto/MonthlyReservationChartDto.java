@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChartDto {
+public class MonthlyReservationChartDto {
 
     private Long totalCount;
     private List<MonthlyReservation> monthlyReservationList = new ArrayList<>();

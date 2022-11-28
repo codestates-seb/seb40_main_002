@@ -218,7 +218,7 @@ public class GuestHouseService {
     }
 
     /** 게스트 하우스의 소유 멤버와 처리 요청한 멤버가 동일한지 검증  **/
-    private void verifyOwnGuestHouse(GuestHouse guestHouse, String memberId) {
+    public void verifyOwnGuestHouse(GuestHouse guestHouse, String memberId) {
 
         if (!guestHouse.getMember().getMemberId().equals(memberId)) {
 

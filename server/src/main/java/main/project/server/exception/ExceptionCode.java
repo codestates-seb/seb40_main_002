@@ -15,6 +15,8 @@ public enum ExceptionCode {
 
     INVALID_TOKEN(400, "invalid token"),
 
+    REFRESH_TOKEN_NOT_FOUND(404, "refresh token not found"),
+
     ALREADY_LOGOUT_TOKEN(400, "already logout token"),
 
     NOT_AVAILABLE_RESERVATION(400,"not available reservation"),

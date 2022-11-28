@@ -118,7 +118,7 @@ public class JwtTokenizer {
             return memberId;
         } catch (ExpiredJwtException ee) {
             throw new BusinessException(ExceptionCode.EXPIRED_REFRESH_TOKEN);
-        } catch (SignatureException e) {
+        } catch (Exception e) {
             throw new BusinessException(ExceptionCode.INVALID_TOKEN);
         }
     }

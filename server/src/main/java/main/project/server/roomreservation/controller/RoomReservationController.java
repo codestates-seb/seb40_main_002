@@ -54,8 +54,6 @@ public class RoomReservationController {
         RoomReservationDto.Response response =
                 mapper.reservationToReservationResponse(createdReservation, guestHouseService, roomService);
 
-        // 방 사진 말고 숙소 대표사진을 보내줘야하는지?
-
         return new ResponseEntity<>(new SingleResponseDto<>("created", response), HttpStatus.CREATED);
     }
 
