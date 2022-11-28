@@ -36,7 +36,9 @@ const social: Social = {
 function LoginButton({ socialType }: { socialType: keyof Social }) {
   const nowSocial = social[socialType];
   const handleLogin = () => {
-    // login 호출
+    return window.location.assign(
+      `http://3.37.58.81:8080/oauth2/authorization/${socialType}`
+    );
   };
   return (
     <button
