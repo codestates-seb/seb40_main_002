@@ -25,6 +25,7 @@ import main.project.server.roomreservation.dto.RoomReservationDto;
 import main.project.server.roomreservation.entity.RoomReservation;
 import main.project.server.roomreservation.mapper.RoomReservationMapper;
 import main.project.server.roomreservation.service.RoomReservationService;
+import main.project.server.tag.mapper.TagMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,11 +58,17 @@ public class MemberController {
 
     private final TokenService tokenService;
 
+    private final TagMapper tagMapper;
+
     // 맴버 생성
     @PostMapping("/api/members")
     public ResponseEntity postMember(@RequestPart(value = "member-dto") @Valid MemberDto.Post memberPostDto,
                                      @RequestPart(required = false) MultipartFile memberImageFile){
-        Member member = memberService.createMember(memberMapper.memberPostDtoToMember(memberPostDto), memberImageFile);
+
+        Member creatingMember = memberMapper.memberPostDtoToMember(memberPostDto);
+        creatingMember.setMemberTags(tagMapper.createSortedTagString(memberPostDto.getMemberTag()));
+
+        Member member = memberService.createMember(creatingMember, memberImageFile);
         return new ResponseEntity<>(new SingleResponseDto<>("created", memberMapper.memberToMemberResponseDto(member)), HttpStatus.CREATED);
     }
 
@@ -70,7 +77,9 @@ public class MemberController {
     @GetMapping("/api/auth/members")
     public ResponseEntity getMember(Principal principal){
         Member member = memberService.findVerifiedMember(principal.getName());
-        return new ResponseEntity<>(new SingleResponseDto<>("get ok", memberMapper.memberToMemberResponseDto(member)), HttpStatus.OK);
+        MemberDto.Response response = memberMapper.memberToMemberResponseDto(member);
+        response.setMemberTag(tagMapper.createSortedTagArray(member.getMemberTags()));
+        return new ResponseEntity<>(new SingleResponseDto<>("get ok", response), HttpStatus.OK);
     }
 
 
@@ -81,7 +90,10 @@ public class MemberController {
                                       Principal principal){
 
         memberPatchDto.setMemberId(principal.getName());
-        Member member = memberService.patchMember(memberMapper.memberPatchDtoToMember(memberPatchDto), memberImageFile);
+        Member modifyingMember = memberMapper.memberPatchDtoToMember(memberPatchDto);
+        modifyingMember.setMemberTags(tagMapper.createSortedTagString(memberPatchDto.getMemberTag()));
+
+        Member member = memberService.patchMember(modifyingMember, memberImageFile);
         return new ResponseEntity<>(new SingleResponseDto<>("modified",memberMapper.memberToMemberResponseDto(member)) , HttpStatus.OK);
     }
 
