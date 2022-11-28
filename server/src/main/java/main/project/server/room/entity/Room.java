@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @Builder
 @Entity
-public class Room extends Auditable {
+public class Room extends Auditable implements Comparable<Room>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roomId;
@@ -52,4 +52,8 @@ public class Room extends Auditable {
         }
     }
 
+    @Override
+    public int compareTo(Room o) {
+        return this.roomPrice < o.roomPrice ? -1 : (this.roomPrice == o.roomPrice ? 0 : 1);
+    }
 }
