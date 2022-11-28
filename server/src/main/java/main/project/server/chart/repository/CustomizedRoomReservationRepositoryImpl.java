@@ -22,7 +22,7 @@ public class CustomizedRoomReservationRepositoryImpl implements CustomizedRoomRe
 
     private final JPAQueryFactory jpaQueryFactory;
 
-
+    /** 특정 게스트하우스의 해당연도 월별 예약 건수 통계 쿼리 메서드 */
     @Override
     public List<MonthlyReservationChartDto.MonthlyReservation> findByYearGroupByMonth(Long guestHouseId, int year) {
         return jpaQueryFactory.select(
@@ -38,6 +38,10 @@ public class CustomizedRoomReservationRepositoryImpl implements CustomizedRoomRe
                 .fetch();
     }
 
+    /**
+     * 특정 게스트하우스의 연령별 예약건수 통계 쿼리 메서드
+     * @param condition 검색 조건 동적 선택 - year, month
+     */
     @Override
     public List<AgeChartDto.AgeGroupReservation> findGroupByAge(Long guestHouseId, SearchCondition condition) {
         // 멤버 출생년도를 통해 예약일 당시 나이 계산

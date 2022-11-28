@@ -7,7 +7,7 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import main.project.server.exception.AuthException;
 import main.project.server.exception.ExceptionCode;
-import main.project.server.jwt.JwtTokenizer;
+import main.project.server.jwt.service.JwtTokenizer;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
