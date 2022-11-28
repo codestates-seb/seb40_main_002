@@ -2,6 +2,7 @@ package main.project.server.guesthouse.mapper;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 import main.project.server.city.entity.City;
 import main.project.server.guesthouse.dto.GuestHouseDto;
@@ -12,15 +13,14 @@ import main.project.server.guesthousedetails.entity.GuestHouseDetails;
 
 import main.project.server.member.entity.Member;
 import main.project.server.review.dto.ReviewDto;
+import main.project.server.room.mapper.RoomMapper;
 import main.project.server.room.service.RoomService;
 
 import main.project.server.tag.mapper.TagMapper;
 import org.mapstruct.Mapper;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -98,10 +98,11 @@ public interface GuestHouseMapper {
 
     default List<GuestHouseDto.response> guestHouseListToGuestHouseResponse(
             List<GuestHouse> guestHouseList,
-            TagMapper tagMapper) {
+            TagMapper tagMapper, RoomMapper roomMapper) {
+
 
         return guestHouseList.stream().map(guestHouse -> {
-
+            Collections.sort(guestHouse.getRooms()); //Room 을 Price 기준으로 오름차순 정렬
             return GuestHouseDto.response.builder()
                     .guestHouseId(guestHouse.getGuestHouseId())
                     .guestHouseName(guestHouse.getGuestHouseName())
@@ -119,6 +120,7 @@ public interface GuestHouseMapper {
                     .guestHouseImage(guestHouse.guestHouseImageListToUrlList())
                     .guestHouseInfo(guestHouse.getGuestHouseInfo())
                     .guestHouseReviewCount(guestHouse.getGuestHouseReviewCount())
+                    .rooms(roomMapper.roomsToRoomResponses(guestHouse.getRooms())) //Room 데이터 추가
                     .createdAt(guestHouse.getCreatedAt().toString())
                     .modifiedAt(guestHouse.getModifiedAt().toString())
                     .build();
