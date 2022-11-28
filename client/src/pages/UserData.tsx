@@ -7,6 +7,9 @@ export default function UserData() {
   useEffect(() => {
     const url = new URL(window.location.href);
     const userData = url.searchParams.get('memberId');
+    const accessToken = url.searchParams.get('access_token');
+    const refreshToken = url.searchParams.get('refresh_token');
+
     if (userData) {
       const user = getuserParams(url, [
         'memberId',
@@ -15,6 +18,11 @@ export default function UserData() {
       ]);
       sessionStorage.setItem('userData', JSON.stringify(user));
       navigate('/register');
+    }
+    if (accessToken && refreshToken) {
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
+      navigate('/');
     }
   }, []);
   return <></>;

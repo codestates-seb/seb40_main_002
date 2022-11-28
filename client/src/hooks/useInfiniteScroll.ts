@@ -39,29 +39,6 @@ function useInfiniteScroll(
     tags: tags ? tags : [],
   });
 
-  // 왜 안 돼
-  // useEffect(() => {
-  //   if (list.length > 0) {
-  //     console.log(url.get('start'), url.get('end'), url.get('tag'));
-  //     const start = url.get('start');
-  //     const end = url.get('end');
-  //     const tag = url.get('tag');
-
-  //     const tags = tag?.split('-');
-
-  //     setOption({
-  //       cityId: 1, // 변경해야 함
-  //       start: start ? start : getTodayToTomorrow().today,
-  //       end: end ? end : getTodayToTomorrow().tomorrow,
-  //       tags: tags ? tags : [],
-  //     });
-
-  //     setPage(1);
-  //     setList([]);
-  //     getList();
-  //   }
-  // }, [url.get('start'), url.get('end'), url.get('tag')]);
-
   // 숙소 리스트 가져오기
   const getList = useCallback(async () => {
     setLoading(true);
@@ -97,22 +74,6 @@ function useInfiniteScroll(
       // console.log('sortType: ', sortType);
     }
   }, [sortType]);
-
-  // 왜 안 돼 2
-  // useEffect(() => {
-  //   if (list.length > 0) {
-  //     setPage(1);
-  //     setList([]);
-  //     getList();
-  //     // console.log('option: ', option);
-  //   }
-  // }, [
-  //   option?.start,
-  //   option?.end,
-  //   option?.tags[0],
-  //   option?.tags[1],
-  //   option?.tags[2],
-  // ]);
 
   // 페이지 설정
   useEffect(() => {

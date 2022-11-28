@@ -16,14 +16,14 @@ export const getGuesthouseList = async (
     setTotalCount(res.data.pageInfo.totalElements);
     const newGuesthouses: GuestHouseShort[] = res.data.data.map(
       (el: {
-        guestHouseImage: string;
+        guestHouseImage: string[];
         guestHouseName: string;
         guestHouseStar: number;
         guestHouseTag: string[];
         guestHouseId: number;
       }) => {
         const guesthouse: GuestHouseShort = {
-          imgSrc: `${API}${el.guestHouseImage}`,
+          imgSrc: `${API}${el.guestHouseImage[0]}`,
           // imgSrc:
           // 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/PhodopusSungorus_2.jpg/640px-PhodopusSungorus_2.jpg',
           name: el.guestHouseName,
