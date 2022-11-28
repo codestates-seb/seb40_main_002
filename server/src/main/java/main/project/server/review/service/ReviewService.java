@@ -9,6 +9,8 @@ import main.project.server.member.entity.Member;
 import main.project.server.member.service.MemberService;
 import main.project.server.review.entity.Review;
 import main.project.server.review.repository.ReviewRepository;
+import main.project.server.roomreservation.entity.RoomReservation;
+import main.project.server.roomreservation.service.RoomReservationService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,18 +28,21 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final MemberService memberService;
     private final GuestHouseService guestHouseService;
+    private final RoomReservationService reservationService;
 
     // 리뷰 등록
-    public Review postReview(Review review, Long guestHouseId, Principal principal) {
+    public Review postReview(Review review, Principal principal, Long reservationId) {
 
         Member member = memberService.findVerifiedMember(principal.getName());  // principal 정보로 Member 조회
-        GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(guestHouseId); // guesthouseId 정보로 guesthouse 조회
+        RoomReservation reservation = reservationService.findVerifiedRoomReservation(reservationId);
+        GuestHouse guestHouse = guestHouseService.verifyExistsGuestHouse(reservation.getGuestHouse().getGuestHouseId()); // guesthouseId 정보로 guesthouse 조회
 
         review.setMember(member);   // member 저장
         review.setGuestHouse(guestHouse);   // guesthouse 저장
+        review.setRoomReservation(reservation);     // reservation 저장
         Review result = reviewRepository.save(review);  // 레포에 review 저장
 
-        guestHouse.setGuestHouseStar(averageStar(guestHouseId));    // 리뷰 평점 평균 저장
+        guestHouse.setGuestHouseStar(averageStar(guestHouse.getGuestHouseId()));    // 리뷰 평점 평균 저장
 
         //게스트 하우스의 리뷰를 등록 했을 경우에 현재 리뷰 갯수에서 + 1
         guestHouse.setGuestHouseReviewCount(guestHouse.getGuestHouseReviewCount() + 1);
@@ -58,6 +63,7 @@ public class ReviewService {
         putReview.setMember(member);        // member(원래 저장된 정보, 변하지 않는 값) 저장
         putReview.setGuestHouse(guestHouse);        // guesthouse(원래 저장된 정보, 변하지 않는 값) 저장
         putReview.setCreatedAt(review.getCreatedAt());      // reviewComment 생성일 (원래 저장된 정보, 변하지 않는 값) 저장
+        putReview.setRoomReservation(review.getRoomReservation());      // 예약 (원래 저장된 정보, 변하지 않는 값) 저장
 
         Review result = reviewRepository.save(review);      // 레포에 저장
 

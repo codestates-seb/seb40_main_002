@@ -29,13 +29,13 @@ public class ReviewController {
     private final ReviewMapper reviewMapper;
 
     // 리뷰 생성
-    @PostMapping("/api/auth/guesthouse/{guesthouse-id}/review")
+    @PostMapping("/api/auth/guesthouse/{reservation-id}/review")
     public ResponseEntity postReview(@RequestBody ReviewDto.Post post,
-                                     @PathVariable("guesthouse-id") @Positive Long guestHouseId,
+                                     @PathVariable("reservation-id") @Positive Long reservationId,
                                      Principal principal) {
 
         // 리뷰 생성 요청을 service 넘겨 처리하고 결과값으로 review 객체를 받음
-        Review review = reviewService.postReview(reviewMapper.reviewPostDtoToReview(post), guestHouseId, principal);
+        Review review = reviewService.postReview(reviewMapper.reviewPostDtoToReview(post), principal, reservationId);
 
         // 리뷰 생성 response
         return new ResponseEntity<>(

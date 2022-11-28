@@ -1,6 +1,8 @@
 package main.project.server.roomreservation.dto;
 
 import lombok.*;
+import main.project.server.room.dto.RoomDto;
+import main.project.server.room.entity.Room;
 import main.project.server.roomreservation.entity.enums.RoomReservationStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -47,4 +49,16 @@ public class RoomReservationDto {
 
     }
 
+    @Setter
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class ResponseSimple {
+        private RoomDto.Response room;
+        @DateTimeFormat(pattern = "yyyy-mm-dd")
+        private LocalDate roomReservationStart;
+        @DateTimeFormat(pattern = "yyyy-mm-dd")
+        private LocalDate roomReservationEnd;
+    }
 }

@@ -3,6 +3,7 @@ package main.project.server.review.dto;
 import lombok.*;
 import main.project.server.guesthouse.dto.GuestHouseDto;
 import main.project.server.member.dto.MemberDto;
+import main.project.server.roomreservation.dto.RoomReservationDto;
 
 import java.time.LocalDateTime;
 
@@ -42,13 +43,15 @@ public class ReviewDto {
         private ReviewCommentDto.Response reviewComment;
     }
 
+
     // 마이페이지 리뷰 조회시 responseDto
     @Setter
     @Getter
     @NoArgsConstructor
     public static class ResponseMyPage {
         private Long reviewId;
-        private GuestHouseDto.responseSimple guestHouse;
+        private GuestHouseDto.ResponseSimple guestHouse;
+        private RoomReservationDto.ResponseSimple roomReservation;
         private String comment;
         private float star;
         private LocalDateTime createdAt;
