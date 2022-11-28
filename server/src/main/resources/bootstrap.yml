@@ -1,0 +1,6 @@
+aws:
+  paramstore:
+    enabled: true
+    prefix: /main-project-server
+    name: kyh
+    profileSeparator: _
