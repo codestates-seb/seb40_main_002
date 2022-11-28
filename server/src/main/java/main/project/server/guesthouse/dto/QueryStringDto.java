@@ -28,6 +28,7 @@ public class QueryStringDto {
         @NotBlank
         private String end;
 
+        @NotNull
         private String[] tag;
 
         @NotBlank

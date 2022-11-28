@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
 import java.security.Principal;
@@ -52,7 +53,7 @@ public class GuestHouseController {
                                          @RequestPart(required = false) MultipartFile[] guestHouseImage,
                                          @RequestPart(value = "room-dto") MultiRoomDto<RoomDto.Post> roomPostDtos,
                                          @RequestPart (value = "room-image", required = false) MultipartFile[] roomImages,
-                                         Principal principal
+                                         @NotNull Principal principal
                                          ) throws IOException {
 
         String memberId = principal.getName();
@@ -75,7 +76,7 @@ public class GuestHouseController {
                                         @RequestPart(value = "room-dto") MultiRoomDto<RoomDto.Put> roomPutDtos,
                                         @RequestPart (value = "room-image", required = false) MultipartFile[] roomImages,
                                         @RequestPart(value = "new-room-image", required = false) MultipartFile[] newRoomImages,
-                                        Principal principal,
+                                        @NotNull Principal principal,
                                         @PathVariable("guesthouse-id") Long guestHouseId
                                         ) throws IOException {
 
@@ -120,7 +121,7 @@ public class GuestHouseController {
     /** 업주가 자신의 게스트하우스를 삭제(Close) 처리하는 api **/
     //게스트 하우스의 상태만 바꿈.
     @DeleteMapping("/api/auth/guesthouse/{guesthouse-id}")
-    public ResponseEntity deleteGuestHouse(Principal principal,
+    public ResponseEntity deleteGuestHouse(@NotNull Principal principal,
                                            @PathVariable("guesthouse-id") @Positive Long guestHouseId) {
         String memberId = principal.getName();
 
@@ -132,7 +133,7 @@ public class GuestHouseController {
 
     /** 업주가 자신이 등록한 게스트하우스를 조회하는 게스트하우스의 페이지네이션 **/
     @GetMapping("/api/auth/members/{member-id}/guesthouse")
-    public ResponseEntity getGuestHouseOfAdmin(Principal principal,
+    public ResponseEntity getGuestHouseOfAdmin(@NotNull Principal principal,
                                                @PathVariable("member-id") String memberId,
                                                @RequestParam(name = "page", defaultValue = "1") @Positive Integer page,
                                                @RequestParam(name = "size", defaultValue = "10") @Positive Integer size) {
@@ -151,7 +152,7 @@ public class GuestHouseController {
 
 
     @GetMapping("/api/guesthouse")
-    public ResponseEntity getGuestHouseMainFilter(Principal principal,
+    public ResponseEntity getGuestHouseMainFilter(@NotNull Principal principal,
                                                   @QueryStringArgResolver @Valid QueryStringDto.MainFilterDto mainFilterDto) {
 
         Page<GuestHouse> guestHousePageByMainFilter = guestHouseService.findGuestHouseByMainFilter(mainFilterDto);
@@ -184,7 +185,7 @@ public class GuestHouseController {
     @GetMapping("/api/auth/chart/guesthouse/{guesthouse-id}/reserve-of-day")
     public ResponseEntity getChartOfGuestHouse(@PathVariable("guesthouse-id") Long guestHouseId,
                                                @RequestParam("yearmonth") String yearMonth,
-                                               Principal principal) {
+                                               @NotNull Principal principal) {
 
         String memberId = principal.getName();
 
