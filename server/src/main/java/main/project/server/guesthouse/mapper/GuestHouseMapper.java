@@ -45,8 +45,6 @@ public interface GuestHouseMapper {
                 .guestHouseDetails(booleanArrayToGuestHouseDetails(dto.getGuestHouseDetails()))
                 .guestHouseTag(tagMapper.createSortedTagString(dto.getGuestHouseTag()))
                 .guestHouseInfo(dto.getGuestHouseInfo())
-                .guestHouseReviewCount(0L) //최초 등록시 초기화
-                .guestHouseStar(0f) //최초 등록시 초기화
                 .build();
 
         guestHouse.getGuestHouseDetails().setGuestHouse(guestHouse);

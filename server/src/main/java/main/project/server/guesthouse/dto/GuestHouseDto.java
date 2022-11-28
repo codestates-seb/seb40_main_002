@@ -60,8 +60,6 @@ public class GuestHouseDto {
         @NotBlank(message = "게스트하우스 이름은 빈값일 수 없습니다")
         private String guestHouseName;
 
-        //업주 멤버 아이디는 Principal에서 꺼내서 사용
-
         @NotNull
         private Long cityId;
 
