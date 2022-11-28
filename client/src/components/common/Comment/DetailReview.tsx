@@ -58,7 +58,7 @@ export default function DetailReview({ reviewComment, type }: Props) {
             <>
               <div className="flex items-center mb-15px ">
                 <p className="mr-[10px] text-base font-bold">
-                  {reviewComment && reviewComment.userName}
+                  {reviewComment && reviewComment.reviewComment.user}
                 </p>
                 <p className="text-font-color text-sm mr-[5px]">
                   {reviewComment && reviewComment.createdAt}
