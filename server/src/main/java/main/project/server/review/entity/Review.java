@@ -4,6 +4,7 @@ import lombok.*;
 import main.project.server.audit.Auditable;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.member.entity.Member;
+import main.project.server.roomreservation.entity.RoomReservation;
 
 import javax.persistence.*;
 
@@ -35,4 +36,7 @@ public class Review extends Auditable {
     @JoinColumn
     private ReviewComment reviewComment;    // 1:1 연관관계
 
+    @OneToOne
+    @JoinColumn(name = "ROOM_RESERVATION_ID")
+    private RoomReservation roomReservation;
 }
