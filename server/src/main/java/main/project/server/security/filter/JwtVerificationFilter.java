@@ -5,6 +5,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import main.project.server.exception.AuthException;
 import main.project.server.exception.ExceptionCode;
 import main.project.server.jwt.JwtTokenizer;
@@ -22,10 +23,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtVerificationFilter extends OncePerRequestFilter {
 
@@ -35,7 +38,18 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
+
+            log.info("=======start =================");
+
+            log.info("-------- " + request.getRequestURI());
+
+
             String jws = request.getHeader("Authorization");
+
+
+            log.info("------jws-----=-- " + jws);
+
+
             Map<String, Object> claims = verifyJws(jws);
             verifyLogoutToken(jws);
 
@@ -56,7 +70,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
-
+        log.info("========end ================");
     }
 
     private void verifyLogoutToken(String jws) {
@@ -73,7 +87,17 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+
+        log.info("-----------JwtVerificationFilter.shouldNotFilter");
+
+        log.info("---------request.getRequestURI() " + request.getRequestURI());
+
+
         String authorization = request.getHeader("Authorization");
+
+
+        log.info("---------authorization " + authorization);
+
 
         if(authorization == null){
             return true;
