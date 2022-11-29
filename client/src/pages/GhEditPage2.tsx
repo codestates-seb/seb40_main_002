@@ -13,6 +13,7 @@ import { ghDataCheck, EditGhData } from '../libs/ghDatafunc';
 import { useParams } from 'react-router-dom';
 import { ghEditForm } from '../libs/ghEditCreateForm';
 import useEditPage from '../hooks/useEditPage';
+import Api from '../api';
 
 // 편집 페이지
 export default function GhEditPage2() {
@@ -102,7 +103,10 @@ export default function GhEditPage2() {
         `/api/auth/guesthouse/${id}`,
         formData,
         {
-          headers: { 'Content-Type': 'multipart/form-data' },
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `${localStorage.getItem('accessToken')}`,
+          },
         }
       );
       console.log(postSurvey);
