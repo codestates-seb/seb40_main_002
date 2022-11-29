@@ -75,7 +75,7 @@ aws:
   paramstore:
     enabled: true
     prefix: /config
-    name: kyh
+    name: main-project-server
     profileSeparator: _
 
 
