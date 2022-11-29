@@ -39,7 +39,7 @@ public class TokenController {
 
     // refreshToken을 이용해 새로운 accessToken 발급 요청
     @PostMapping("/api/token")
-    public ResponseEntity getAccessToken(HttpServletResponse response, @RequestBody @Valid TokenDto tokenDto) {
+    public ResponseEntity getAccessToken(@RequestBody @Valid TokenDto tokenDto) {
 
 
         RefreshToken refreshToken = tokenMapper.tokenPostToRefreshToken(tokenDto);
@@ -49,12 +49,11 @@ public class TokenController {
         // refresh 토큰 검사, memberId 추출
         String memberIdFromToken = jwtTokenizer.getMemberIdFromToken(refreshToken.getRefreshToken(), encodedBase64SecretKey);
 
-        // Header에 새로 발급한 accessToken 실어서 응답
         String accessToken = oauthSuccessHandler.delegateAccessToken(Member.Member(memberIdFromToken));
-        response.addHeader("Authorization", accessToken);
+        TokenDto.Response response = TokenDto.Response.builder().accessToken(accessToken).build();
         log.info("accessToken = {}", accessToken);
 
-        return new ResponseEntity(new SingleResponseDto<>("AccessToken delegated", null), HttpStatus.OK);
+        return new ResponseEntity(new SingleResponseDto<>("New accessToken delegated", response), HttpStatus.OK);
     }
 
 }
