@@ -38,18 +38,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            log.info("##들어옴");
-            log.info("=======start =================");
-
-            log.info("-------- " + request.getRequestURI());
-
 
             String jws = request.getHeader("Authorization");
-
-
-            log.info("------jws-----=-- " + jws);
-//            if(jws.equals("1"))
-//                throw new SignatureException("dd");
 
             Map<String, Object> claims = verifyJws(jws);
             verifyLogoutToken(jws);
@@ -57,30 +47,27 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             setAuthenticationToContext(claims);
 
 
-
         } catch (SignatureException se) {
             request.setAttribute("exception", se);
-            log.info("##걸림1");
+
         } catch (ExpiredJwtException ee) {
             request.setAttribute("exception", ee);
-            log.info("##걸림2");
+
         } catch (MalformedJwtException me) {
             request.setAttribute("exception", me);
-            log.info("##걸림3");
+
         } catch (UnsupportedJwtException ue) {
             request.setAttribute("exception", ue);
-            log.info("##걸림4");
+
         } catch (IllegalArgumentException ie) {
             request.setAttribute("exception", ie);
-            log.info("##걸림5");
+
         } catch (Exception e) {
             request.setAttribute("exception", e);
-            log.info("##걸림6");
+
         }
 
-        log.info("##지남");
         filterChain.doFilter(request, response);
-        log.info("========end ================");
     }
 
     private void verifyLogoutToken(String jws) {
@@ -94,20 +81,10 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
 
 
-
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
 
-        log.info("-----------JwtVerificationFilter.shouldNotFilter");
-
-        log.info("---------request.getRequestURI() " + request.getRequestURI());
-
-
         String authorization = request.getHeader("Authorization");
-
-
-        log.info("---------authorization " + authorization);
-
 
         if(authorization == null){
             return true;
