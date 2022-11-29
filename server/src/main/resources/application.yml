@@ -6,7 +6,7 @@ spring:
       - application-naver.yml
       - application-dev-rds.yml
       - application-dev-jwt.yml
-      - 'aws-parameterstore:'
+#      - 'aws-parameterstore:'
 
   # jpa
   jpa:
@@ -60,10 +60,10 @@ log:
     log-filename: "main-project-log"
     err-log-filename: "main-project-log-err"
 
-aws:
-  paramstore:
-    enabled: true
-    prefix: /config
-    profile-separator: _
-    name: main-project-server
+#aws:
+#  paramstore:
+#    enabled: true
+#    prefix: /config
+#    profile-separator: _
+#    name: main-project-server
 
