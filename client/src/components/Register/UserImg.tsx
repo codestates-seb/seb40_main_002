@@ -23,8 +23,7 @@ const UserImg = ({ userImg, setUserImg }: Props) => {
       const reader = new FileReader();
       reader.readAsDataURL(uploadfiles);
       reader.onload = () => {
-        const fileURL = reader.result as string;
-        setUserImg(fileURL);
+        if (typeof reader.result === 'string') setUserImg(reader.result);
       };
     }
   };
