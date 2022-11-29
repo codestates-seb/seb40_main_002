@@ -35,7 +35,10 @@ export default function EditReply({ type, id }: Props) {
         try {
           const starCount = star.filter((x) => x === true).length;
           if (starCount === 0) return alert('별점을 눌러주세요');
-          await axios.post(`${commentId}`, {});
+          await axios.post(`/api/auth/guesthouse/${commentId}/review`, {
+            comment: reply,
+            star: starCount,
+          });
           setStar([...new Array(5).fill(false)]); // 유저가 별점 남긴후에 별점 초기화
           setReply('');
         } catch (e) {
@@ -46,7 +49,9 @@ export default function EditReply({ type, id }: Props) {
         console.log(type);
         console.log(message);
         try {
-          await axios.post(`${commentId}`, {});
+          await axios.post(`api/auth/guesthouse/review/${commentId}/comment`, {
+            reviewComment: reply,
+          });
           setReply('');
         } catch (e) {
           console.log(e);

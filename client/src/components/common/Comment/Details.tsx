@@ -2,19 +2,17 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import DetailReview from './DetailReview';
 
-type Props = {
+interface Props {
   houseName: string;
   room: string;
   reviewLink?: string | null;
   type: string;
   reviewComment?: {
-    userName: string;
-    createBy: string;
     comment: string;
-    ProfileImg: string;
-    starScore: number;
+    createdAt: string;
+    star: number;
   };
-};
+}
 
 export default function Details({
   houseName,
@@ -32,7 +30,7 @@ export default function Details({
         <div>{room}</div>
       </div>
 
-      {reviewLink ? (
+      {reviewLink && (
         <div
           className="cursor-pointer text-font-color"
           onClick={() => {
@@ -41,11 +39,6 @@ export default function Details({
         >
           리뷰 작성
         </div>
-      ) : (
-        <DetailReview
-          reviewComment={reviewComment && reviewComment}
-          type={type}
-        />
       )}
     </div>
   );

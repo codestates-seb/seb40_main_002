@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import RatedStar from '../RatedStar';
 import { BiMessage } from 'react-icons/bi';
 import EditReply from './EditReply';
+<<<<<<< HEAD
 import { ReviewPropsDetail } from '../../../types/ghDetailData';
 type Props = {
   reviewComment?: ReviewPropsDetail;
@@ -11,10 +12,46 @@ type Reply = {
   replyComment: string;
   createBy: string;
 };
+=======
+interface reviewComment {
+  createdAt: string;
+  modifiedAt: string;
+  reviewComment: string;
+  reviewCommentId: number;
+}
+
+interface Member {
+  memberBirth: string;
+  memberEmail: string;
+  memberId: string;
+  memberImageUrl: string;
+  memberNationality: string;
+  memberNickname: string;
+  memberPhone: string;
+  memberRegisterKind: string;
+  memberTag: string[] | null;
+}
+
+interface Props {
+  reviewComment: {
+    comment: string;
+    createdAt: string;
+    guestHouseMemberId: string;
+    guestHouseName: string;
+    member: Member;
+    modifiedAt: string;
+    reviewComment: reviewComment;
+    reviewId: number;
+    star: number; // 해당 댓글 고유 아이디
+  };
+
+  type: string;
+}
+>>>>>>> frontend
 
 export default function DetailReview({ reviewComment, type }: Props) {
   // 전역 변수 로그인된 사용자(관리자)
-  const currentUser = 'mk';
+  const currentUser = '업주';
   const [openComment, setOpenComment] = useState<boolean>(false);
   return (
     <>
@@ -29,7 +66,11 @@ export default function DetailReview({ reviewComment, type }: Props) {
             </div>
             {type === 'reviewPage' &&
               reviewComment &&
+<<<<<<< HEAD
               reviewComment.reviewComment.user === currentUser && (
+=======
+              reviewComment.guestHouseMemberId === currentUser && (
+>>>>>>> frontend
                 <div
                   className="text-sm text-font-color cursor-pointer"
                   onClick={() => {
@@ -51,14 +92,22 @@ export default function DetailReview({ reviewComment, type }: Props) {
                 {reviewComment && <RatedStar star={reviewComment.star} />}
               </div>
               <p className="text-font-color text-sm">
+<<<<<<< HEAD
                 {reviewComment && reviewComment.reviewComment.createdAt}
+=======
+                {reviewComment && reviewComment.createdAt}
+>>>>>>> frontend
               </p>
             </div>
           ) : (
             <>
               <div className="flex items-center mb-15px ">
                 <p className="mr-[10px] text-base font-bold">
+<<<<<<< HEAD
                   {reviewComment && reviewComment.reviewComment.user}
+=======
+                  {reviewComment && reviewComment.member.memberNickname}
+>>>>>>> frontend
                 </p>
                 <p className="text-font-color text-sm mr-[5px]">
                   {reviewComment && reviewComment.createdAt}
@@ -68,23 +117,19 @@ export default function DetailReview({ reviewComment, type }: Props) {
               <div>{reviewComment && reviewComment.comment}</div>
               {type === 'reviewPage' &&
                 reviewComment &&
-                reviewComment.adminComment &&
-                reviewComment.adminComment.length > 0 && (
+                reviewComment.reviewComment && (
                   <ul className="mt-[20px] flex flex-col">
                     <ul className="flex items-center">
                       <BiMessage className="mr-[10px]" />
                       <p className="font-bold mb-[5px]">사장님 댓글</p>
                     </ul>
 
-                    {reviewComment.adminComment.map((reply, idx) => (
-                      <div
-                        key={idx}
-                        className="flex flex-row ml-[26px] items-center"
-                      >
-                        <li>{reply.replyComment}</li>
-                        <li className="ml-[14px] text-sm">{reply.createBy}</li>
-                      </div>
-                    ))}
+                    <div className="flex flex-row ml-[26px] items-center">
+                      <li>{reviewComment.reviewComment.reviewComment}</li>
+                      <li className="ml-[14px] text-sm">
+                        {reviewComment.reviewComment.createdAt}
+                      </li>
+                    </div>
                   </ul>
                 )}
             </>
@@ -92,8 +137,8 @@ export default function DetailReview({ reviewComment, type }: Props) {
         </div>
       </div>
       <div>
-        {openComment && reviewComment && reviewComment.id && (
-          <EditReply type="admin" id={reviewComment.id} />
+        {openComment && reviewComment && reviewComment.reviewId && (
+          <EditReply type="admin" id={reviewComment.reviewId} />
         )}
       </div>
       {type && type === 'roomDetail' && (
