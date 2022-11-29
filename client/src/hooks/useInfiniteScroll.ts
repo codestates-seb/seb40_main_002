@@ -1,61 +1,85 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { useLocation } from 'react-router-dom';
+import { getGuesthouseList } from '../apis/guesthouse';
 import { GuestHouseShort } from '../types/guesthouse';
+import { SearchOption } from '../types/search';
+import getTodayToTomorrow from '../utils/getTodayToTomorrow';
 
-const testGh: GuestHouseShort = {
-  imgSrc:
-    'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1674&q=80',
-  name: '정우네 게스트 하우스',
-  price: 105000,
-  star: 4.5,
-  tags: ['오션뷰', '대리석', '시골'],
-  id: 1,
-};
-const guesthouses: Array<GuestHouseShort> = new Array(100).fill(testGh);
-
-function useInfiniteScroll(path: string): [
-  //   inView: boolean
+function useInfiniteScroll(
+  path: string
+  // option?: SearchOption
+): [
   GuestHouseShort[],
   React.Dispatch<React.SetStateAction<string>>,
   (node?: Element | null | undefined) => void,
   number
 ] {
-  const [totalCount, setTotalCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(11);
 
-  const [sortType, setSortType] = useState('');
+  const [sortType, setSortType] = useState('default');
   const [list, setList] = useState<GuestHouseShort[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [ref, inView] = useInView();
 
-  // 숙소 리스트 가져오기 (임시)
+  const location = useLocation();
+  const url = new URLSearchParams(location.search);
+  const start = url.get('start');
+  const end = url.get('end');
+  const tag = url.get('tag');
+
+  const tags = tag?.split('-');
+
+  const startEnd = getTodayToTomorrow();
+  const [option, setOption] = useState<SearchOption>({
+    cityId: 1, // 변경해야 함
+    start: start ? start : startEnd.today,
+    end: end ? end : startEnd.tomorrow,
+    tags: tags ? tags : [],
+  });
+
+  // 숙소 리스트 가져오기
   const getList = useCallback(async () => {
     setLoading(true);
-    // await axios.get(`${Your Server Url}/page=${page}`).then((res) => {
-    //   setList(prevState => [...prevState, ...res])
-    // })
-    setList([
-      ...list,
-      ...guesthouses.slice((page - 1) * 8, (page - 1) * 8 + 8), // 임시
-    ]);
-    setTotalCount(guesthouses.length); // 임시
+    let optionApi, tagApi;
+    if (option) {
+      optionApi = `&cityId=${option.cityId}&start=${option.start}&end=${option.end}`;
+      tagApi = option.tags.join('&tag=');
+      // console.log(optionApi, tagApi);
+    }
+    if (totalCount > list.length) {
+      const newGuesthouses = await getGuesthouseList(
+        `${path}?page=${page}&size=10&sort=${sortType}&tag=${
+          tagApi ? tagApi : ''
+        }${optionApi ? optionApi : ''}`, // option 있을 경우 추가
+        setTotalCount
+      );
+      setList([...list, ...newGuesthouses]);
+    }
     setLoading(false);
-    // console.log(page);
   }, [page]);
 
-  // sortType, page에 따라 다르게 api 요청하기
+  // page에 따라 다르게 api 요청하기
   useEffect(() => {
-    // setPage(1);
     getList();
-  }, [sortType, page]);
+  }, [page]);
+
+  // sortType에 따라 다르게 api 요청하기
+  useEffect(() => {
+    if (list.length > 0) {
+      setPage(1);
+      setList([]);
+      getList();
+      // console.log('sortType: ', sortType);
+    }
+  }, [sortType]);
 
   // 페이지 설정
   useEffect(() => {
     // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면
-    // console.log(inView, loading);
     if (inView && !loading) {
       setPage((page) => page + 1);
-      // console.log(page);
     }
   }, [inView, loading]);
 
