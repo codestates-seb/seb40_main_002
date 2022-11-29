@@ -28,8 +28,9 @@ export default function Register() {
     day: '01',
   });
   const birth = `${form.year}-${form.month}-${form.day}`;
-  const [userImg, setUserImg] = useState<[] | File[]>([]);
+  const [userImg, setUserImg] = useState<string | File[]>('');
   const [socialData, setSocialData] = useState<Social | null>(null);
+  console.log(userImg);
 
   const submitHandler = async () => {
     if (isDup === 'null') {
@@ -56,31 +57,17 @@ export default function Register() {
         'member-dto',
         new Blob([memberDto], { type: 'application/json' })
       );
+      console.log(socialData.memberImage[0]);
       formData.append('memberImageFile', imgFile);
     }
-    console.log(memberDto);
-    try {
-      const res = await axios.post('/api/members', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
-
-    // const config = {
-    //   method: 'post',
-    //   url: 'http://3.37.58.81:8080/api/members',
-    //   data: memberData,
-    // };
-
-    // axios(config)
-    //   .then(function (res) {
-    //     console.log(JSON.stringify(res));
-    //   })
-    //   .catch(function (err) {
-    //     console.log(err);
+    // try {
+    //   const res = await axios.post('/api/members', formData, {
+    //     headers: { 'Content-Type': 'multipart/form-data' },
     //   });
+    //   console.log(res);
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   useEffect(() => {
@@ -91,6 +78,7 @@ export default function Register() {
       const getImage = async () => {
         const data = JSON.parse(userData);
         const imgUrl = data.memberImgurl.split('/').slice(3).join('/');
+        setUserImg(imgUrl);
         const memberImage = await convertURLtoFile(imgUrl);
         setSocialData({ ...data, memberImage: [memberImage] });
         sessionStorage.removeItem('userData');
@@ -107,8 +95,8 @@ export default function Register() {
           </div>
           <div className="flex justify-evenly items-center w-[1120px] mb-8">
             <UserImg
-              userImg={URL.createObjectURL(socialData.memberImage[0])}
-              // setUserImg={setUserImg}
+              userImg={socialData.memberImgurl}
+              setUserImg={setUserImg}
             />
             <RightSide
               nickname={nickname}
