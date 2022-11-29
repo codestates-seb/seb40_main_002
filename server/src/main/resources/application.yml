@@ -39,9 +39,6 @@ spring:
         springframework:
           security: DEBUG
 
-#  aws parameter store
-  application:
-    name: kyh
 
 
 # redis, my properties
@@ -69,14 +66,6 @@ log:
     path: "/home/ubuntu/log"
     log-filename: "main-project-log"
     err-log-filename: "main-project-log-err"
-
-# aws
-aws:
-  paramstore:
-    enabled: true
-    prefix: /config
-    name: main-project-server
-    profileSeparator: _
 
 
 
