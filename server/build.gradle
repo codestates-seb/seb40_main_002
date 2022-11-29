@@ -70,7 +70,7 @@ dependencies {
 	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 
 	//	 aws parameter sotre
-	implementation 'org.springframework.cloud:spring-cloud-starter-aws-parameter-store-config'
+	implementation group: 'io.awspring.cloud', name: 'spring-cloud-starter-aws-parameter-store-config'
 }
 
 //tasks.named('test') {

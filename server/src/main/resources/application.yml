@@ -67,5 +67,10 @@ log:
     log-filename: "main-project-log"
     err-log-filename: "main-project-log-err"
 
-
+aws:
+  paramstore:
+    enabled: true
+    prefix: /config
+    profile-separator: _
+    name: main-project-server
 
