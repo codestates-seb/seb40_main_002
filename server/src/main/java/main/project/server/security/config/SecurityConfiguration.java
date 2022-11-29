@@ -39,12 +39,10 @@ public class SecurityConfiguration {
         httpSecurity
                 .headers().frameOptions().sameOrigin() // for H2
                 .and()
-
                 .csrf().disable()
                 .cors(withDefaults())
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
-
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
 
