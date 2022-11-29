@@ -10,7 +10,8 @@ import { useEffect, useState } from 'react';
 import { getGhDetailData } from '../apis/getGhDetailData';
 import { ghDetailProps } from '../types/ghDetailData';
 import { useParams, useSearchParams } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 const GuestHouseDetail = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [ghdata, setGhData] = useState<ghDetailProps>();
@@ -18,6 +19,7 @@ const GuestHouseDetail = () => {
   const [endDay, setEndDay] = useState(searchParams.get('end'));
   const [dayCal, setDayCal] = useState<number>(0);
   const { ghId } = useParams();
+  const mainUser = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     const data = async () => {
@@ -42,9 +44,11 @@ const GuestHouseDetail = () => {
             ghInfo={ghdata.guestHouseInfo}
             ghImage={ghdata.guestHouseImage}
             ghNickname={ghdata.memberNickname}
+            userNickname={mainUser.memberNickname}
           />
           <RoomsDetail rooms={ghdata.rooms} />
           <GhReservation
+            memberRoles={mainUser.memberRoles}
             rooms={ghdata.rooms}
             startDay={startDay}
             endDay={endDay}
@@ -52,6 +56,7 @@ const GuestHouseDetail = () => {
             setEndDay={setEndDay}
             setDayCal={setDayCal}
             dayCal={dayCal}
+            guestHouseId={ghdata.guestHouseId}
           />
           <div className="flex gap-[10px] my-[20px] items-center">
             <RatedStar star={ghdata.guestHouseStar} />

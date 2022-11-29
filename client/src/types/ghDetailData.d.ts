@@ -26,29 +26,30 @@ export interface ghDetailProps {
   ];
   reviews: [
     {
-      reviewId: number;
       comment: string;
-      star: number;
+      createdAt: string;
+      guestHouseMemberId: string;
+      guestHouseName: string;
+      member: {
+        memberBirth: string;
+        memberEmail: string;
+        memberId: string;
+        memberImageUrl: string;
+        memberNationality: string;
+        memberNickname: string;
+        memberPhone: string;
+        memberRegisterKind: string;
+        memberTag: string[] | null;
+      };
+      modifiedAt: string;
       reviewComment: {
-        reviewCommentId: number;
-        reviewComment: string;
         createdAt: string;
         modifiedAt: string;
-        user?: string;
+        reviewComment: string;
+        reviewCommentId: number;
       };
-      createdAt: string;
-      modifiedAt: string;
-      member: {
-        memberId: string;
-        memberNickname: string;
-        memberEmail: string;
-        memberPhone: string;
-        memberBirth: string;
-        memberNationality: string;
-        memberRegisterKind: string;
-        memberImageUrl: string;
-        memberTag?: string[];
-      };
+      reviewId: number;
+      star: number;
     }
   ];
   guestHouseReviewCount: number;
@@ -121,6 +122,8 @@ export interface RoomsProps {
     roomInfo: string;
     reservePossible: boolean;
   }[];
+  memberRoles: string[] | undefined;
+  guestHouseId: number;
   startDay: any;
   endDay: any;
   dayCal: number;

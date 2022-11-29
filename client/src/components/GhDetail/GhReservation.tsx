@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReservationPiker from './ReservationPiker';
 import CommonBtn from '../common/CommonBtn/CommonBtn';
 import { RoomsProps } from '../../types/ghDetailData';
+import { useNavigate } from 'react-router-dom';
 
 const GhReservation = ({
   rooms,
@@ -11,16 +12,26 @@ const GhReservation = ({
   setStartDay,
   dayCal,
   setDayCal,
+  memberRoles,
+  guestHouseId,
 }: RoomsProps) => {
   const [participate, setParticipate] = useState<boolean>(false);
   const [ghPrice, setGhPrice] = useState<number>(0);
+  const [roomid, setRoomId] = useState<number>(0);
+  const navigate = useNavigate();
 
   //파티 참석 여부
   const handleParticipate = () => {
     setParticipate(!participate);
   };
   const handleGhPrice = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setGhPrice(Number(e.target.value));
+    setRoomId(Number(e.target.value));
+    if (e.target.value == '0') return;
+    else {
+      setGhPrice(
+        rooms.filter((el) => el.roomId == Number(e.target.value))[0].roomPrice
+      );
+    }
   };
   //예약데이터 리덕스로 관리??
   const ReservationData = () => {
@@ -28,7 +39,11 @@ const GhReservation = ({
       alert('객실을 선택해주세요');
     } else if (dayCal === 0 || (endDay && endDay.length < 6)) {
       alert('예약 일정을 선택해주세요');
-    } else console.log('asd');
+    } else if (memberRoles && memberRoles[0] === 'USER') {
+      navigate(
+        `/reservation?start=${startDay}&end=${endDay}&room=${roomid}&gh=${guestHouseId}`
+      );
+    }
   };
 
   return (
@@ -54,11 +69,13 @@ const GhReservation = ({
               <option value={0}>객실 선택</option>
               {rooms
                 .filter((el) => el.reservePossible)
-                .map((el: any, i: number) => (
-                  <option value={el.roomPrice} key={i}>
-                    {el.roomName}
-                  </option>
-                ))}
+                .map((el: any, i: number) => {
+                  return (
+                    <option value={el.roomId} key={i}>
+                      {el.roomName}
+                    </option>
+                  );
+                })}
             </select>
           </form>
           <div className="flex justify-center	items-center mt-[20px] px-[10px] ">

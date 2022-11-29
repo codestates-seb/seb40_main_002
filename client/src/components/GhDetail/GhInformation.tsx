@@ -9,6 +9,7 @@ type TagProps = {
   ghNickname: string;
   tags: string[];
   ghImage: string[];
+  userNickname: string;
 };
 const GhInformation = ({
   tags,
@@ -16,6 +17,7 @@ const GhInformation = ({
   ghName,
   ghImage,
   ghNickname,
+  userNickname,
 }: TagProps) => {
   const editHandler = () => {
     console.log('수정페이지 이동');
@@ -23,9 +25,9 @@ const GhInformation = ({
   const commentHandler = () => {
     console.log('후기페이지 이동');
   };
-  //관리자 확인 임시
-  //숙소관리자 아이디===로그인 된 유저 아이디 비교해서 숙소관리자면 수정,후기 관리 버튼 유저면 하트 컴포넌트
-  const user = true;
+
+  const admin = ghNickname === userNickname;
+
   return (
     <>
       <div className="font-bold">{ghName}</div>
@@ -39,9 +41,7 @@ const GhInformation = ({
           </div>
         </div>
         <div>
-          {user ? (
-            <Heart id={3} />
-          ) : (
+          {admin ? (
             <div className="text-lg flex gap-[20px] ">
               <div onClick={editHandler} className="cursor-pointer">
                 수정하기
@@ -50,6 +50,8 @@ const GhInformation = ({
                 후기 관리
               </div>
             </div>
+          ) : (
+            <Heart id={3} />
           )}
         </div>
       </div>
