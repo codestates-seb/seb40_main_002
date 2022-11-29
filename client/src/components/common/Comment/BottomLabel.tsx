@@ -9,11 +9,9 @@ type Props = {
   reviewLink?: string | null;
   type: string;
   reviewComment?: {
-    userName: string;
-    createBy: string;
     comment: string;
-    ProfileImg: string;
-    starScore: number;
+    createdAt: string;
+    star: number;
   };
 };
 
