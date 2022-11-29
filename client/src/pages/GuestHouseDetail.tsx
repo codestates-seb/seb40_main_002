@@ -44,6 +44,7 @@ const GuestHouseDetail = () => {
             ghInfo={ghdata.guestHouseInfo}
             ghImage={ghdata.guestHouseImage}
             ghNickname={ghdata.memberNickname}
+            guestHouseId={ghdata.guestHouseId}
             userNickname={mainUser.memberNickname}
           />
           <RoomsDetail rooms={ghdata.rooms} />

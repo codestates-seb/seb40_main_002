@@ -33,13 +33,16 @@ const GhReservation = ({
       );
     }
   };
-  //예약데이터 리덕스로 관리??
+
   const ReservationData = () => {
     if (ghPrice === 0) {
       alert('객실을 선택해주세요');
     } else if (dayCal === 0 || (endDay && endDay.length < 6)) {
       alert('예약 일정을 선택해주세요');
+    } else if (memberRoles && memberRoles[0] !== 'USER') {
+      alert('로그인이 필요한 기능입니다');
     } else if (memberRoles && memberRoles[0] === 'USER') {
+      console.log('s');
       navigate(
         `/reservation?start=${startDay}&end=${endDay}&room=${roomid}&gh=${guestHouseId}`
       );

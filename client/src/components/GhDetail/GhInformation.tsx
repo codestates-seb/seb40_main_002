@@ -3,6 +3,7 @@ import RatedStar from '../common/RatedStar';
 import Tag from '../common/Tag';
 import Heart from '../common/Heart';
 import Carousel from '../common/Carousel/Carousel';
+import { useNavigate } from 'react-router-dom';
 type TagProps = {
   ghName: string;
   ghInfo: string;
@@ -10,6 +11,7 @@ type TagProps = {
   tags: string[];
   ghImage: string[];
   userNickname: string;
+  guestHouseId: number;
 };
 const GhInformation = ({
   tags,
@@ -18,15 +20,16 @@ const GhInformation = ({
   ghImage,
   ghNickname,
   userNickname,
+  guestHouseId,
 }: TagProps) => {
+  const navigate = useNavigate();
+  const admin = ghNickname === userNickname;
   const editHandler = () => {
-    console.log('수정페이지 이동');
+    navigate(`/ghedit/${guestHouseId}`);
   };
   const commentHandler = () => {
     console.log('후기페이지 이동');
   };
-
-  const admin = ghNickname === userNickname;
 
   return (
     <>
