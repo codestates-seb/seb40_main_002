@@ -1,4 +1,6 @@
-package main.project.server.validation;
+package main.project.server.validation.role;
+
+import main.project.server.validation.role.RoleValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
