@@ -70,8 +70,13 @@ log:
     log-filename: "main-project-log"
     err-log-filename: "main-project-log-err"
 
-
-
+# aws
+aws:
+  paramstore:
+    enabled: true
+    prefix: /config
+    name: kyh
+    profileSeparator: _
 
 
 
