@@ -8,13 +8,13 @@ interface Props {
 // 일단 이렇게 해놨는데 백에서 주는 api 명세 보고 key 이름 바꿀 것
 
 type SortTypeKR = {
-  standard: string;
+  default: string;
   star: string;
   review: string;
 };
 
 const sortTypeKR: SortTypeKR = {
-  standard: '기본',
+  default: '기본',
   star: '별점 순',
   review: '리뷰 순',
 };
