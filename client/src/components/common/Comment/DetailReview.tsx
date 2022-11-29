@@ -2,17 +2,6 @@ import React, { useState } from 'react';
 import RatedStar from '../RatedStar';
 import { BiMessage } from 'react-icons/bi';
 import EditReply from './EditReply';
-<<<<<<< HEAD
-import { ReviewPropsDetail } from '../../../types/ghDetailData';
-type Props = {
-  reviewComment?: ReviewPropsDetail;
-  type?: string;
-};
-type Reply = {
-  replyComment: string;
-  createBy: string;
-};
-=======
 interface reviewComment {
   createdAt: string;
   modifiedAt: string;
@@ -47,7 +36,6 @@ interface Props {
 
   type: string;
 }
->>>>>>> frontend
 
 export default function DetailReview({ reviewComment, type }: Props) {
   // 전역 변수 로그인된 사용자(관리자)
@@ -66,11 +54,7 @@ export default function DetailReview({ reviewComment, type }: Props) {
             </div>
             {type === 'reviewPage' &&
               reviewComment &&
-<<<<<<< HEAD
-              reviewComment.reviewComment.user === currentUser && (
-=======
               reviewComment.guestHouseMemberId === currentUser && (
->>>>>>> frontend
                 <div
                   className="text-sm text-font-color cursor-pointer"
                   onClick={() => {
@@ -92,22 +76,14 @@ export default function DetailReview({ reviewComment, type }: Props) {
                 {reviewComment && <RatedStar star={reviewComment.star} />}
               </div>
               <p className="text-font-color text-sm">
-<<<<<<< HEAD
-                {reviewComment && reviewComment.reviewComment.createdAt}
-=======
                 {reviewComment && reviewComment.createdAt}
->>>>>>> frontend
               </p>
             </div>
           ) : (
             <>
               <div className="flex items-center mb-15px ">
                 <p className="mr-[10px] text-base font-bold">
-<<<<<<< HEAD
-                  {reviewComment && reviewComment.reviewComment.user}
-=======
                   {reviewComment && reviewComment.member.memberNickname}
->>>>>>> frontend
                 </p>
                 <p className="text-font-color text-sm mr-[5px]">
                   {reviewComment && reviewComment.createdAt}
