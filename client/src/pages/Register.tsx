@@ -28,7 +28,7 @@ export default function Register() {
     day: '01',
   });
   const birth = `${form.year}-${form.month}-${form.day}`;
-  const [userImg, setUserImg] = useState<string | File[]>('');
+  const [userImg, setUserImg] = useState<string>('');
   const [socialData, setSocialData] = useState<Social | null>(null);
   console.log(userImg);
 
@@ -51,23 +51,23 @@ export default function Register() {
     };
     const memberDto = JSON.stringify(memberData);
 
+    const imgFile = await convertURLtoFile(userImg);
+
     if (socialData) {
-      const imgFile = socialData?.memberImage[0];
       formData.append(
         'member-dto',
         new Blob([memberDto], { type: 'application/json' })
       );
-      console.log(socialData.memberImage[0]);
       formData.append('memberImageFile', imgFile);
     }
-    // try {
-    //   const res = await axios.post('/api/members', formData, {
-    //     headers: { 'Content-Type': 'multipart/form-data' },
-    //   });
-    //   console.log(res);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    try {
+      const res = await axios.post('/api/members', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -77,10 +77,8 @@ export default function Register() {
     } else if (userData) {
       const getImage = async () => {
         const data = JSON.parse(userData);
-        const imgUrl = data.memberImgurl.split('/').slice(3).join('/');
-        setUserImg(imgUrl);
-        const memberImage = await convertURLtoFile(imgUrl);
-        setSocialData({ ...data, memberImage: [memberImage] });
+        setUserImg(data.memberImgurl);
+        setSocialData({ ...data });
         sessionStorage.removeItem('userData');
       };
       getImage();
@@ -94,10 +92,7 @@ export default function Register() {
             회원님의 정보를 입력해주세요
           </div>
           <div className="flex justify-evenly items-center w-[1120px] mb-8">
-            <UserImg
-              userImg={socialData.memberImgurl}
-              setUserImg={setUserImg}
-            />
+            <UserImg userImg={userImg} setUserImg={setUserImg} />
             <RightSide
               nickname={nickname}
               setNickname={setNickname}
