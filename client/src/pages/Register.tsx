@@ -45,8 +45,8 @@ export default function Register() {
       memberBirth: birth,
       memberNationality: isLocal,
       memberRegisterKind: socialData?.memberRegisterKind,
-      memberRoles: [isHost],
-      memberTags: guestHouseTag,
+      memberRole: [isHost],
+      memberTag: guestHouseTag,
     };
     const memberDto = JSON.stringify(memberData);
 
