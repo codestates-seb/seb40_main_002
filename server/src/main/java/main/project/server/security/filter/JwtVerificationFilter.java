@@ -38,7 +38,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-
+            log.info("##들어옴");
             log.info("=======start =================");
 
             log.info("-------- " + request.getRequestURI());
@@ -48,27 +48,37 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
 
             log.info("------jws-----=-- " + jws);
-
+            if(jws.equals("1"))
+                throw new SignatureException("dd");
 
             Map<String, Object> claims = verifyJws(jws);
             verifyLogoutToken(jws);
 
             setAuthenticationToContext(claims);
 
+
+
         } catch (SignatureException se) {
             request.setAttribute("exception", se);
+            log.info("##걸림1");
         } catch (ExpiredJwtException ee) {
             request.setAttribute("exception", ee);
+            log.info("##걸림2");
         } catch (MalformedJwtException me) {
             request.setAttribute("exception", me);
+            log.info("##걸림3");
         } catch (UnsupportedJwtException ue) {
             request.setAttribute("exception", ue);
+            log.info("##걸림4");
         } catch (IllegalArgumentException ie) {
             request.setAttribute("exception", ie);
+            log.info("##걸림5");
         } catch (Exception e) {
             request.setAttribute("exception", e);
+            log.info("##걸림6");
         }
 
+        log.info("##지남");
         filterChain.doFilter(request, response);
         log.info("========end ================");
     }
