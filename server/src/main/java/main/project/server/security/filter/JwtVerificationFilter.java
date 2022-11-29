@@ -48,8 +48,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
 
 
             log.info("------jws-----=-- " + jws);
-            if(jws.equals("1"))
-                throw new SignatureException("dd");
+//            if(jws.equals("1"))
+//                throw new SignatureException("dd");
 
             Map<String, Object> claims = verifyJws(jws);
             verifyLogoutToken(jws);
