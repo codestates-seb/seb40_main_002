@@ -10,7 +10,8 @@ export interface MyPageUser {
   memberTag: string[];
   memberReservation: MyReservation[];
   memberReview: MyReview[];
-  memberComunity: MyCommunity[];
+  memberComunity?: MyCommunity[];
+  memberRoles?: string[];
 }
 
 export interface User extends MyPageUser {

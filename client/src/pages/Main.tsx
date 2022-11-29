@@ -1,10 +1,14 @@
 // import React, { useCallback, useEffect, useState } from 'react';
 // import { useInView } from 'react-intersection-observer';
+import { useEffect } from 'react';
 import GuesthouseList from '../components/Main/GuesthouseList';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
 import { GuestHouseShort } from '../types/guesthouse';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 function Main() {
+  const mainUser = useSelector((state: RootState) => state.user);
   // 임시 데이터
   const testGh: GuestHouseShort = {
     imgSrc:
@@ -17,6 +21,10 @@ function Main() {
   };
   const guesthouses: Array<GuestHouseShort> = new Array(100).fill(testGh);
   const [list, setSortType, ref] = useInfiniteScroll('/api/all-guesthouse');
+  useEffect(() => {
+    // console.log('Main User: ', mainUser);
+    // 추천 게스트하우스 지정
+  }, [mainUser]);
 
   return (
     <div className="w-full p-[20px] h-full">

@@ -13,7 +13,9 @@ export const getGuesthouseList = async (
   // const data = await axios.get(`${API}${path}`).then((res: AxiosResponse) => {
   const data = await axios.get(`${path}`).then((res: AxiosResponse) => {
     // console.log(res.data);
-    setTotalCount(res.data.pageInfo.totalElements);
+    const totalCount = res.data.pageInfo.totalElements;
+    if (totalCount) setTotalCount(totalCount);
+    else setTotalCount(0);
     const newGuesthouses: GuestHouseShort[] = res.data.data.map(
       (el: {
         guestHouseImage: string[];
