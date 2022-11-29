@@ -14,6 +14,7 @@ import ReviewPage from './pages/ReviewPage';
 import GhEditPage2 from './pages/GhEditPage2';
 import Register from './pages/Register';
 import UserData from './pages/UserData';
+import GhAdminPage from './pages/GhAdminPage';
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/paymentPage" element={<PaymentPage />} />
           <Route path="/userdata" element={<UserData />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/ghadmin" element={<GhAdminPage />} />
           {/* 동적 라우팅 필요 */}
         </Routes>
       </div>

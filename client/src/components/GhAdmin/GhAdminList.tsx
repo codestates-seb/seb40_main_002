@@ -2,16 +2,17 @@ import { BsPlusLg } from 'react-icons/bs';
 import GuesthouseCard from '../common/GuesthouseCard';
 
 interface Props {
-  testGh: {
-    imgSrc: string;
-    name: string;
-    price: number;
-    star: number;
-    tags: Array<string>;
-    id: number;
+  ghAdminData: {
+    memberNickname: string;
+    guestHouseImage: string[];
+    guestHouseName: string;
+    guestHouseStar: number;
+    guestHouseTag: Array<string>;
+    guestHouseId: number;
+    rooms: { roomPrice: number }[];
   }[];
 }
-const GhAdminList = ({ testGh }: Props) => {
+const GhAdminList = ({ ghAdminData }: Props) => {
   const addGhHandler = () => {
     //useNavigate 사용 예정
     console.log('숙소 등록창으로 이동 ');
@@ -19,7 +20,7 @@ const GhAdminList = ({ testGh }: Props) => {
   return (
     <div>
       <div className="text-center text-xl m-[20px]">
-        <span className=" font-bold">{testGh[0].id}</span>
+        <span className=" font-bold">{ghAdminData[0].memberNickname}</span>
         님의 숙소 리스트
       </div>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[20px] w-full h-full">
@@ -36,11 +37,21 @@ const GhAdminList = ({ testGh }: Props) => {
             숙소를 추가해 주세요
           </div>
         </div>
-        {testGh.map((el, i) => (
-          <div key={i}>
-            <GuesthouseCard guesthouse={el} />
-          </div>
-        ))}
+        {ghAdminData.map((el, i) => {
+          const data = {
+            imgSrc: el.guestHouseImage[0],
+            name: el.guestHouseName,
+            price: el.rooms[0].roomPrice,
+            star: el.guestHouseStar,
+            tags: el.guestHouseTag,
+            id: el.guestHouseId,
+          };
+          return (
+            <div key={i}>
+              <GuesthouseCard guesthouse={data} />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
