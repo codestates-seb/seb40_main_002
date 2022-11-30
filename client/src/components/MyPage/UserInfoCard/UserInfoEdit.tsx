@@ -7,6 +7,7 @@ import { MdOutlineModeEditOutline } from 'react-icons/md';
 import { imgDto, stringDto } from '../../../libs/ghEditCreateForm';
 import Api from '../../../api';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function UserInfoEdit({
   handleEdit,
@@ -17,6 +18,7 @@ function UserInfoEdit({
   user: User1;
   setUser: React.Dispatch<React.SetStateAction<User1>>;
 }) {
+  const navigate = useNavigate();
   const [nickname, setNickname] = useState(user.memberNickname);
   const [tags, setTags] = useState(user.memberTag);
   const [imgFile, setImgFile] = useState<File[]>(user.memberImageFile);
@@ -41,6 +43,8 @@ function UserInfoEdit({
           Authorization: `${localStorage.getItem('accessToken')}`,
         },
       });
+      navigate('/ghadmin');
+      window.location.reload();
     } catch (e) {
       console.log(e);
     }
