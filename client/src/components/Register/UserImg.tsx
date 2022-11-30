@@ -2,10 +2,11 @@ import { Dispatch, SetStateAction, useRef } from 'react';
 
 interface Props {
   userImg: string;
-  // setUserImg: Dispatch<SetStateAction<[] | File[]>>;
+  setUserImg: Dispatch<SetStateAction<string>>;
+  setImgFile: Dispatch<SetStateAction<File | string>>;
 }
 
-const UserImg = ({ userImg }: Props) => {
+const UserImg = ({ userImg, setUserImg, setImgFile }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
   const imgRefClick = () => {
     if (imgRef.current) {
@@ -15,10 +16,12 @@ const UserImg = ({ userImg }: Props) => {
 
   const selectImg = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedfiles = e.target.files;
+
     if (selectedfiles) {
-      const uploadfiles = Array.from(selectedfiles);
+      const uploadfiles = selectedfiles[0];
+      setUserImg(window.URL.createObjectURL(uploadfiles));
+      setImgFile(uploadfiles);
     }
-    // setUserImg(selectedfiles);
   };
 
   return (
