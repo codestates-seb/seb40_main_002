@@ -11,6 +11,7 @@ import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberStatus;
 import main.project.server.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,9 @@ public class MemberService {
     private final JwtTokenizer jwtTokenizer;
     @Value("${images.member-profile}")
     private String uploadPath;
+    @Value("${images.upload-ec2}")
+    private String uploadEc2;
+//    private final ApplicationEventPublisher publisher;
 
 
     public Optional<Member> findMember(String memberId) {
@@ -63,7 +67,11 @@ public class MemberService {
             throw new BusinessException(ExceptionCode.NICKNAME_DUPLICATED);
         }
 
-        return memberRepository.save(member);
+        Member savedMember = memberRepository.save(member);
+
+//        publisher.publishEvent(new MemberRegistrationApplicationEvent(this, savedMember));
+
+        return savedMember;
     }
 
 
@@ -125,9 +133,9 @@ public class MemberService {
         String fileName = originalName.substring(originalName.lastIndexOf("."));
         String folderPath = makeFolder(memberId);
         String saveName = File.separator + uploadPath + folderPath + File.separator + memberId + fileName;
-
+        String savePath = uploadEc2 + saveName;
         // 경로 정의
-        Path path = Paths.get(saveName).toAbsolutePath();
+        Path path = Paths.get(savePath).toAbsolutePath();
         try {
             memberImageFile.transferTo(path);
         } catch (IOException e) {
