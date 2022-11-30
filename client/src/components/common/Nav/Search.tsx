@@ -21,7 +21,7 @@ const Search = () => {
     // cityId, start, end, tag
     if (dateRange[0] && dateRange[1]) {
       navigate(
-        `/search?cityId=${1}&start=${getPrettyDate(
+        `/search?cityId=${cityId}&start=${getPrettyDate(
           dateRange[0]
         )}&end=${getPrettyDate(dateRange[1])}&tag=${tags.join('-')}`
       );
@@ -32,7 +32,7 @@ const Search = () => {
   return (
     <>
       <div className="flex justify-between px-3 items-center text-base w-[700px] font-semibold h-[50px] border-solid border-4 border-point-color rounded-[30px]">
-        <Location />
+        <Location setCityId={setCityId} />
         <DatePicker1
           dateRange={
             {

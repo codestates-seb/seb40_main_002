@@ -3,24 +3,37 @@ import SelectLocation from './SelectLocation';
 import Tag from '../Tag';
 import axios from 'axios';
 
-const Location = () => {
+const Location = ({
+  setCityId,
+}: {
+  setCityId: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [locations, setLocations] = useState([]);
-  const [selects, setSelects] = useState([false]);
+  const [locationsId, setLocationsId] = useState([]);
+  const [selects, setSelects] = useState<boolean[]>([]);
   useEffect(() => {
     axios
       .get(`/api/city`)
       .then((res) => {
-        // console.log(res);
+        setLocationsId(res.data.map((el: { cityId: number }) => el.cityId));
         setLocations(res.data.map((el: { cityName: string }) => el.cityName));
       })
       .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
-    // console.log('selects:', selects);
     setSelects(new Array(locations.length).fill(false));
   }, [locations]);
+
+  useEffect(() => {
+    for (let i = 0; i < selects.length; i++) {
+      if (selects[i]) {
+        setCityId(locationsId[i]);
+        break;
+      }
+    }
+  }, [selects]);
 
   const modalHandler = () => {
     setIsLocationOpen(!isLocationOpen);
