@@ -8,7 +8,9 @@ import main.project.server.jwt.JwtTokenizer;
 import main.project.server.jwt.dto.TokenDto;
 import main.project.server.jwt.entity.RefreshToken;
 import main.project.server.jwt.mapper.TokenMapper;
+import main.project.server.jwt.service.TokenService;
 import main.project.server.member.entity.Member;
+import main.project.server.member.service.MemberService;
 import main.project.server.oauth.handler.OauthSuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @RestController
@@ -35,7 +36,12 @@ public class TokenController {
 
     private final OauthSuccessHandler oauthSuccessHandler;
 
+    private final MemberService memberService;
+
     private final TokenMapper tokenMapper;
+
+    private final TokenService tokenService;
+
 
     // refreshToken을 이용해 새로운 accessToken 발급 요청
     @PostMapping("/api/token")
@@ -48,8 +54,10 @@ public class TokenController {
 
         // refresh 토큰 검사, memberId 추출
         String memberIdFromToken = jwtTokenizer.getMemberIdFromToken(refreshToken.getRefreshToken(), encodedBase64SecretKey);
+        Member member = memberService.findVerifiedMember(memberIdFromToken);
+        String accessToken = oauthSuccessHandler.delegateAccessToken(member);
 
-        String accessToken = oauthSuccessHandler.delegateAccessToken(Member.Member(memberIdFromToken));
+        tokenService.reSetAuthToContext(accessToken);
         TokenDto.Response response = TokenDto.Response.builder().accessToken(accessToken).build();
         log.info("accessToken = {}", accessToken);
 

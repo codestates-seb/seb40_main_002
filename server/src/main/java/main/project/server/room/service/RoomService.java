@@ -30,6 +30,9 @@ public class RoomService {
     @Value("${images.room-dir}")
     private String roomImageDir;
 
+    @Value("${images.upload-ec2}")
+    private String uploadEc2;
+
     private final RoomRepository roomRepository;
 
     private final RoomMapper roomMapper;
@@ -128,8 +131,10 @@ public class RoomService {
 
         String uploadDir = roomImageDir + roomId;
 
+        String path = uploadEc2 + "/" + uploadDir;
+
         String fileName = StringUtils.cleanPath(image.getOriginalFilename());
-        FileUtil.saveFile(uploadDir, fileName, image);
+        FileUtil.saveFile(path, fileName, image);
 
         String totalUrl = "/" + uploadDir + "/" + fileName;
         String imageUrl = totalUrl;
