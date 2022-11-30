@@ -26,7 +26,8 @@ Api.interceptors.response.use(
   },
   async function (err) {
     const originConfig = err.confing;
-    if (err.response && err.response.status === 400) {
+    console.log(err);
+    if (err.response && err.response.status >= 400) {
       const accessToken = originConfig.headers['Authorization'];
       const refreshToken = originConfig.headers['refreshToken'];
       try {

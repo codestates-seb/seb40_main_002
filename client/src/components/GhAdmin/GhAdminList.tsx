@@ -39,7 +39,7 @@ const GhAdminList = ({ ghAdminData }: Props) => {
         </div>
         {ghAdminData.map((el, i) => {
           const data = {
-            imgSrc: el.guestHouseImage[0],
+            imgSrc: process.env.REACT_APP_SERVER_URL + el.guestHouseImage[0],
             name: el.guestHouseName,
             price: el.rooms[0].roomPrice,
             star: el.guestHouseStar,

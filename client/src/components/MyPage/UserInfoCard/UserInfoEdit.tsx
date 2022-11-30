@@ -1,8 +1,12 @@
-import React, { useRef, useState } from 'react';
-import { MyPageUser } from '../../../types/user';
+import React, { useEffect, useRef, useState } from 'react';
+import { User1 } from '../../../types/user';
 import Tag from '../../common/Tag';
 import { TagSelectButton } from '../../common/TagSelectModal/TagSelectButton';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
+
+import { imgDto, stringDto } from '../../../libs/ghEditCreateForm';
+import Api from '../../../api';
+import axios from 'axios';
 
 function UserInfoEdit({
   handleEdit,
@@ -10,40 +14,46 @@ function UserInfoEdit({
   setUser,
 }: {
   handleEdit: () => void;
-  user: MyPageUser;
-  setUser: React.Dispatch<React.SetStateAction<MyPageUser>>;
+  user: User1;
+  setUser: React.Dispatch<React.SetStateAction<User1>>;
 }) {
   const [nickname, setNickname] = useState(user.memberNickname);
   const [tags, setTags] = useState(user.memberTag);
-  const handleSubmit = () => {
-    const newUser: MyPageUser = {
+  const [imgFile, setImgFile] = useState<File[]>(user.memberImageFile);
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    if (imgFile) {
+      formData.append('memberImageFile', imgFile[0]);
+    }
+
+    const settingUser = {
       memberId: user.memberId,
       memberNickname: nickname,
-      memberEmail: user.memberEmail,
-      memberPhone: user.memberPhone,
-      memberImageUrl: user.memberImageUrl,
       memberTag: tags,
-      memberReservation: user.memberReservation,
-      memberReview: user.memberReview,
-      memberComunity: user.memberComunity,
     };
-    setUser(newUser);
-    handleEdit();
+
+    try {
+      stringDto(formData, 'member-dto', settingUser);
+      const sendData = await axios.patch('/api/auth/members', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `${localStorage.getItem('accessToken')}`,
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  const [imgFile, setImgFile] = useState<string>('');
   const imgRef = useRef<HTMLInputElement>(null);
   // 이미지 업로드 input의 onChange
   const saveImgFile = () => {
     if (imgRef.current && imgRef.current.files) {
-      const file = imgRef.current.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        if (typeof reader.result === 'string') setImgFile(reader.result);
-      };
+      setImgFile([imgRef.current.files[0]]);
     }
   };
+
   return (
     <div>
       <div className="flex justify-end">
@@ -54,7 +64,7 @@ function UserInfoEdit({
       <div className="flex flex-col items-center justify-center">
         <div className="flex flex-col items-center justify-center p-[20px] relative">
           <img
-            src={imgFile ? imgFile : user.memberImageUrl}
+            src={URL.createObjectURL(imgFile[0])}
             className="w-[120px] h-[120px] object-cover rounded-full"
           />
           <button
@@ -85,9 +95,7 @@ function UserInfoEdit({
           선호하는 숙소 스타일
         </div>
         <div className="flex mb-[12px]">
-          {tags.map((el) => (
-            <Tag key={el} name={el} />
-          ))}
+          {tags && tags.map((el) => <Tag key={el} name={el} />)}
         </div>
         <TagSelectButton setTags={setTags} />
       </div>
