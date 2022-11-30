@@ -19,7 +19,7 @@ function Main() {
     const path = `/api/all-guesthouse?page=1&size=10&tag=${myTags}&sort=default`;
     // const path = `/api/all-guesthouse?page=1&size=10&tag=${'오션뷰'}&sort=default`;
 
-    console.log(path);
+    // console.log(path);
     const recommended = await getGuesthouseList(path);
     setMyRecommended(recommended);
   }, [mainUser.memberTag]);
