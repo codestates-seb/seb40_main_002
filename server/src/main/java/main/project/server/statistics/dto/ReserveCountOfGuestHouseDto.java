@@ -1,4 +1,4 @@
-package main.project.server.chart.dto;
+package main.project.server.statistics.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,11 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class AlotReserveGuestHouseDto {
+public class ReserveCountOfGuestHouseDto {
 
     Long guestHouseId;
     String guestHouseName;
-//    String guestHouseImageUrl;
     Long totalCount;
 
 }
