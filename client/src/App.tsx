@@ -6,13 +6,15 @@ import PaymentPage from './pages/PaymentPage';
 import MyPage from './pages/MyPage';
 import Main from './pages/Main';
 import SearchResult from './pages/SearchResult';
+import GuestHouseDetail from './pages/GuestHouseDetail';
+import Sample from './components/common/Comment/Sample';
 import Hostingpage from './pages/Hostingpage';
-import GuestHouseDetail from './pages/GusetHouseDetail';
 
 import ReviewPage from './pages/ReviewPage';
 import GhEditPage2 from './pages/GhEditPage2';
 import Register from './pages/Register';
 import UserData from './pages/UserData';
+import GhAdminPage from './pages/GhAdminPage';
 
 export default function App() {
   return (
@@ -23,13 +25,14 @@ export default function App() {
           <Route path="/" element={<Main />} />
           <Route path="/ghedit" element={<Hostingpage />} />
           <Route path="/ghedit/:id" element={<GhEditPage2 />} />
-          <Route path="/ghdetail" element={<GuestHouseDetail />} />
+          <Route path="/ghdetail/:ghId" element={<GuestHouseDetail />} />
           <Route path="/review" element={<ReviewPage />} />
           <Route path="/search" element={<SearchResult />} />
           <Route path="/mypage/*" element={<MyPage />} />
           <Route path="/paymentPage" element={<PaymentPage />} />
           <Route path="/userdata" element={<UserData />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/ghadmin" element={<GhAdminPage />} />
           {/* 동적 라우팅 필요 */}
         </Routes>
       </div>

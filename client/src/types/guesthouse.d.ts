@@ -7,6 +7,7 @@ export interface Room {
   roomPrice: number;
   roomImage?: string;
   roomId?: number | null;
+  reservePossible?: boolean;
 }
 
 type Room = {
