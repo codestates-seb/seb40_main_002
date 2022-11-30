@@ -17,14 +17,12 @@ function GuesthouseCard({
   const navigate = useNavigate();
   const handleToGuesthouse = () => {
     // 해당 게스트하우스 링크로 이동
-    // let start, end;
     if (start === undefined && end === undefined) {
       const startEnd = getTodayToTomorrow();
       start = startEnd.today;
       end = startEnd.tomorrow;
     }
     navigate(`/ghdetail/${guesthouse.id}?start=${start}&end=${end}`); // start, end 지정 필요
-    console.log('gonna move to', guesthouse.id);
   };
   return (
     <div className="w-full h-full">
