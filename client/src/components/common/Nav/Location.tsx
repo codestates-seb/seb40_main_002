@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SelectLocation from './SelectLocation';
 import Tag from '../Tag';
-
-const locations = [
-  '제주',
-  '애월',
-  '성산',
-  '장소1',
-  '장소2',
-  '장소3',
-  '장소4',
-  '장소5',
-  '장소6',
-  '장소7',
-];
+import axios from 'axios';
 
 const Location = () => {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
-  const [selects, setSelects] = useState(
-    new Array(locations.length).fill(false)
-  );
+  const [locations, setLocations] = useState([]);
+  const [selects, setSelects] = useState([false]);
+  useEffect(() => {
+    axios
+      .get(`/api/city`)
+      .then((res) => {
+        // console.log(res);
+        setLocations(res.data.map((el: { cityName: string }) => el.cityName));
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    // console.log('selects:', selects);
+    setSelects(new Array(locations.length).fill(false));
+  }, [locations]);
+
   const modalHandler = () => {
     setIsLocationOpen(!isLocationOpen);
   };
