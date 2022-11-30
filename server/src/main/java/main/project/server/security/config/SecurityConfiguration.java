@@ -1,26 +1,33 @@
 package main.project.server.security.config;
 
+import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import main.project.server.exception.AuthException;
 import main.project.server.jwt.JwtTokenizer;
 import main.project.server.oauth.handler.MemberAccessDeniedHandler;
 import main.project.server.oauth.handler.MemberAuthenticationEntryPoint;
+import main.project.server.security.filter.AuthExceptionHandlerFilter;
 import main.project.server.security.filter.JwtVerificationFilter;
 import main.project.server.oauth.handler.OauthSuccessHandler;
 import main.project.server.oauth.service.OauthService;
+import main.project.server.security.handler.AuthExceptionResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfiguration {
@@ -33,6 +40,8 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
 
     private final RedisTemplate redisTemplate;
+
+    private final Gson gson;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -71,8 +80,10 @@ public class SecurityConfiguration {
     public class AuthFilterConfigurer extends AbstractHttpConfigurer<AuthFilterConfigurer, HttpSecurity> {
         @Override
         public void configure(HttpSecurity builder) throws Exception {
-            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, redisTemplate);
 
+            AuthExceptionHandlerFilter authExceptionHandlerFilter = new AuthExceptionHandlerFilter(new AuthExceptionResolver(gson));
+            builder.addFilterBefore(authExceptionHandlerFilter, LogoutFilter.class);
+            JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, redisTemplate);
             builder.addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class);
         }
     }
