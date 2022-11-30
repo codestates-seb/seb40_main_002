@@ -43,9 +43,9 @@ const GuestHouseDetail = () => {
             ghName={ghdata.guestHouseName}
             ghInfo={ghdata.guestHouseInfo}
             ghImage={ghdata.guestHouseImage}
-            ghNickname={ghdata.memberNickname}
+            ghMemberId={ghdata.memberId}
             guestHouseId={ghdata.guestHouseId}
-            userNickname={mainUser.memberNickname}
+            userMemberId={mainUser.memberId}
           />
           <RoomsDetail rooms={ghdata.rooms} />
           <GhReservation
