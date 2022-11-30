@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import main.project.server.chart.condition.SearchCondition;
 import main.project.server.chart.dto.AgeChartDto;
 import main.project.server.chart.dto.MonthlyReservationChartDto;
+import main.project.server.member.entity.Member;
+import main.project.server.roomreservation.entity.RoomReservation;
 import main.project.server.roomreservation.entity.enums.RoomReservationStatus;
 
 import java.util.List;
@@ -72,6 +74,15 @@ public class CustomizedRoomReservationRepositoryImpl implements CustomizedRoomRe
                 .fetch();
     }
 
+    @Override
+    public List<RoomReservation> findMyReservationByGuestHouse(Member member, SearchCondition condition) {
+        return jpaQueryFactory.selectFrom(roomReservation)
+                .where(roomReservation.member.eq(member)
+                        .and(guestHouseIdEq(condition.getGuestHouseId())))
+                .fetch();
+
+    }
+
 
     private BooleanExpression yearEq(Integer year) {
         return year != null ? roomReservation.roomReservationStart.year().eq(year) : null;
@@ -79,5 +90,9 @@ public class CustomizedRoomReservationRepositoryImpl implements CustomizedRoomRe
 
     private BooleanExpression monthEq(Integer month) {
         return month != null ? roomReservation.roomReservationStart.month().eq(month) : null;
+    }
+
+    private BooleanExpression guestHouseIdEq(Long guestHouseId) {
+        return guestHouseId != null ? roomReservation.guestHouse.guestHouseId.eq(guestHouseId) : null;
     }
 }

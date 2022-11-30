@@ -1,6 +1,7 @@
 package main.project.server.roomreservation.service;
 
 import lombok.RequiredArgsConstructor;
+import main.project.server.chart.condition.SearchCondition;
 import main.project.server.exception.BusinessException;
 import main.project.server.exception.ExceptionCode;
 import main.project.server.guesthouse.entity.GuestHouse;
@@ -15,6 +16,7 @@ import main.project.server.roomreservation.entity.RoomReservation;
 import main.project.server.roomreservation.entity.enums.RoomReservationStatus;
 import main.project.server.roomreservation.repository.RoomReservationRepository;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -91,11 +93,16 @@ public class RoomReservationService {
         roomReservationRepository.save(findRoomReservation);
     }
 
-    public Page<RoomReservation> findMyReservation(Principal principal, Integer page, Integer size) {
+    public Page<RoomReservation> findMyReservation(Principal principal, SearchCondition condition, Integer page, Integer size) {
         Member tempMember = memberService.findVerifiedMember(principal.getName());
 
-        return roomReservationRepository.findByMember(tempMember, PageRequest.of(page, size,
-                Sort.by("roomReservationId").descending()));
+        List<RoomReservation> reservationList = roomReservationRepository.findMyReservationByGuestHouse(tempMember, condition);
+
+        PageRequest pageRequest = PageRequest.of(page, size);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), reservationList.size());
+        Page<RoomReservation> reservationPage = new PageImpl<>(reservationList.subList(start, end), pageRequest, reservationList.size());
+        return reservationPage;
     }
 
     public RoomReservation findVerifiedRoomReservation(Long roomReservationId) {
