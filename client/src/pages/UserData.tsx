@@ -26,7 +26,7 @@ export default function UserData() {
       navigate('/register');
     }
     if (accessToken && refreshToken) {
-      console.log(accessToken);
+      // console.log(accessToken);
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       axios
