@@ -3,9 +3,10 @@ import { Dispatch, SetStateAction, useRef } from 'react';
 interface Props {
   userImg: string;
   setUserImg: Dispatch<SetStateAction<string>>;
+  setImgFile: Dispatch<SetStateAction<File | string>>;
 }
 
-const UserImg = ({ userImg, setUserImg }: Props) => {
+const UserImg = ({ userImg, setUserImg, setImgFile }: Props) => {
   const imgRef = useRef<HTMLInputElement>(null);
   const imgRefClick = () => {
     if (imgRef.current) {
@@ -19,6 +20,7 @@ const UserImg = ({ userImg, setUserImg }: Props) => {
     if (selectedfiles) {
       const uploadfiles = selectedfiles[0];
       setUserImg(window.URL.createObjectURL(uploadfiles));
+      setImgFile(uploadfiles);
     }
   };
 

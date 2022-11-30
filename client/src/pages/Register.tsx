@@ -29,8 +29,8 @@ export default function Register() {
   });
   const birth = `${form.year}-${form.month}-${form.day}`;
   const [userImg, setUserImg] = useState<string>('');
+  const [imgFile, setImgFile] = useState<File | string>('');
   const [socialData, setSocialData] = useState<Social | null>(null);
-  console.log(userImg);
 
   const submitHandler = async () => {
     if (isDup === 'null') {
@@ -46,19 +46,34 @@ export default function Register() {
       memberBirth: birth,
       memberNationality: isLocal,
       memberRegisterKind: socialData?.memberRegisterKind,
-      memberRoles: [isHost],
-      memberTags: guestHouseTag,
+      memberRole: [isHost],
+      memberTag: guestHouseTag,
     };
     const memberDto = JSON.stringify(memberData);
-
-    const imgFile = await convertURLtoFile(userImg);
 
     if (socialData) {
       formData.append(
         'member-dto',
         new Blob([memberDto], { type: 'application/json' })
       );
-      formData.append('memberImageFile', imgFile);
+
+      if (memberData.memberRegisterKind === 'KAKAO') {
+        if (userImg.slice(0, 21) !== 'http://k.kakaocdn.net') {
+          formData.append('memberImageFile', imgFile);
+        } else if (userImg.slice(0, 21) === 'http://k.kakaocdn.net') {
+          const convertFile = await convertURLtoFile(userImg.slice(21));
+          formData.append('memberImageFile', convertFile);
+        }
+      }
+
+      if (memberData.memberRegisterKind === 'NAVER') {
+        if (userImg.slice(0, 21) !== 'NAVER') {
+          formData.append('memberImageFile', imgFile);
+        } else if (userImg.slice(-5) === 'NAVER') {
+          const convertFile = await convertURLtoFile(userImg.slice(23));
+          formData.append('memberImageFile', convertFile);
+        }
+      }
     }
     try {
       const res = await axios.post('/api/members', formData, {
@@ -92,7 +107,11 @@ export default function Register() {
             회원님의 정보를 입력해주세요
           </div>
           <div className="flex justify-evenly items-center w-[1120px] mb-8">
-            <UserImg userImg={userImg} setUserImg={setUserImg} />
+            <UserImg
+              userImg={userImg}
+              setUserImg={setUserImg}
+              setImgFile={setImgFile}
+            />
             <RightSide
               nickname={nickname}
               setNickname={setNickname}
