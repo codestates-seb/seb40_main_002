@@ -15,6 +15,15 @@ type Room = {
   roomExplain: string;
 };
 
+export interface RoomShort {
+  reservePossible: boolean;
+  roomId: number;
+  roomImageUrl: string;
+  roomInfo: string;
+  roomName: string;
+  roomPrice: number;
+}
+
 export interface GuestHouseShort {
   imgSrc: string;
   name: string;
@@ -22,6 +31,7 @@ export interface GuestHouseShort {
   star: number;
   tags: Array<string>;
   id: number;
+  rooms: RoomShort[];
 }
 
 export interface MyReservation {
