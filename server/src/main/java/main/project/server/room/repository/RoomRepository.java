@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -24,5 +25,9 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
                     "or ( rr.room_reservation_start <= :end and rr.room_reservation_end >= :end ))",
             nativeQuery = true
     )
-    List<Room> findAllAvailableReservation(Long guestHouseId, String start, String end, String roomStatus);
+    List<Room> findAllAvailableReservation(
+            @Param("guestHouseId")Long guestHouseId,
+            @Param("start")String start,
+            @Param("end")String end,
+            @Param("roomStatus")String roomStatus);
 }
