@@ -28,6 +28,8 @@ public enum ExceptionCode {
     REVIEW_COMMENT_NOT_FOUND(404, "review_comment not found"),
     NOT_MATCH_REVIEW_AND_REVIEW_COMMENT(400, "reviews and review_comments don't match"),
 
+    MEMBER_NOT_FOUND(404, "member not found"),
+
 
     NOT_VALID_SIGNATURE(401, "not valid signature"),
 
