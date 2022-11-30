@@ -1,19 +1,8 @@
 import useModal from '../../../hooks/useModal';
 import Tag from '../Tag';
 import TagSelect from '../TagSelectModal/TagSelect';
-const testTags = [
-  '오션뷰',
-  '노을',
-  '대리석',
-  '숲',
-  '태그1',
-  '태그2',
-  '태그3',
-  '태그4',
-  '태그5',
-  '태그6',
-  '태그7',
-];
+import { TAGS } from '../../../assets/tags/tags';
+
 function TagSearch({
   tags,
   setTags,
@@ -30,7 +19,7 @@ function TagSearch({
       {isOpen && (
         <div className="fixed top-20 right-80">
           <TagSelect
-            tags={testTags}
+            tags={TAGS}
             setTags={setTags}
             openModalHandler={openModalHandler}
           />
