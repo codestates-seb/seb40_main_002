@@ -14,4 +14,6 @@ public class SearchCondition {
     private Integer year;
 
     private Integer month;
+
+    private Long guestHouseId;
 }

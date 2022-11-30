@@ -2,6 +2,7 @@ package main.project.server.member.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import main.project.server.chart.condition.SearchCondition;
 import main.project.server.dto.MultiResponseDto;
 import main.project.server.dto.PageInfo;
 import main.project.server.dto.SingleResponseDto;
@@ -12,7 +13,6 @@ import main.project.server.heart.entity.Heart;
 import main.project.server.heart.mapper.HeartMapper;
 import main.project.server.heart.service.HeartService;
 import main.project.server.member.dto.MemberDto;
-import main.project.server.jwt.dto.TokenDto;
 import main.project.server.member.entity.Member;
 import main.project.server.member.mapper.MemberMapper;
 import main.project.server.member.service.MemberService;
@@ -110,9 +110,10 @@ public class MemberController {
     @GetMapping("/api/auth/members/reservations")
     public ResponseEntity getMemberReservation(@Positive @RequestParam Integer page,
                                                @Positive @RequestParam Integer size,
+                                               @ModelAttribute SearchCondition condition,
                                                Principal principal) {
 
-        Page<RoomReservation> reservationPage = reservationService.findMyReservation(principal, page - 1, size);
+        Page<RoomReservation> reservationPage = reservationService.findMyReservation(principal, condition,page - 1, size);
         PageInfo pageInfo = PageInfo.of(reservationPage);
 
         List<RoomReservationDto.Response> responses =
