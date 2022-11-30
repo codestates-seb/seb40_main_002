@@ -40,10 +40,10 @@ export default function UserData() {
           // console.log(res);
           // user 정보 저장하기
           dispatch(setUser(res.data.data as User));
+          navigate('/');
+          // location.reload(); // 임시
         })
         .catch((err) => console.log(err));
-      navigate('/');
-      location.reload(); // 임시
     }
   }, []);
   return <></>;
