@@ -67,14 +67,15 @@ export default function Register() {
       }
 
       if (memberData.memberRegisterKind === 'NAVER') {
-        if (userImg.slice(0, 21) !== 'NAVER') {
+        if (userImg.slice(0, 23) !== 'https://ssl.pstatic.net') {
           formData.append('memberImageFile', imgFile);
-        } else if (userImg.slice(-5) === 'NAVER') {
+        } else if (userImg.slice(0, 23) === 'https://ssl.pstatic.net') {
           const convertFile = await convertURLtoFile(userImg.slice(23));
           formData.append('memberImageFile', convertFile);
         }
       }
     }
+
     try {
       const res = await axios.post('/api/members', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
