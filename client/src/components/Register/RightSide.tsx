@@ -52,11 +52,16 @@ const RightSide = ({
         <p className="text-lg"> 닉네임을 입력해주세요.</p>
         <div className="flex">
           <div className="flex flex-col">
-            <Input funcProp={setNickname} data={nickname} what={'nickname'} />
+            <Input
+              funcProp={setNickname}
+              funcProp2={setIsDup}
+              data={nickname}
+              what={'nickname'}
+            />
             {isDup === false && nickname.length > 2 ? (
               <span className="text-red-600"> 중복된 닉네임입니다.</span>
             ) : null}
-            {isDup === false && nickname.length > 2 ? (
+            {isDup === true && nickname.length > 2 ? (
               <span className="text-blue-500"> 사용가능한 닉네임입니다.</span>
             ) : null}
           </div>
@@ -84,7 +89,12 @@ const RightSide = ({
       </div>
       <div>
         <p className="text-lg"> 전화번호를 입력해 주세요.</p>
-        <Input funcProp={setPhoneNum} data={phoneNum} what={'phoneNum'} />
+        <Input
+          funcProp={setPhoneNum}
+          funcProp2={setIsDup}
+          data={phoneNum}
+          what={'phoneNum'}
+        />
       </div>
       <div>
         <p className="text-lg">
