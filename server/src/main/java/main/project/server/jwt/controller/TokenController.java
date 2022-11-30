@@ -40,8 +40,6 @@ public class TokenController {
 
     private final TokenMapper tokenMapper;
 
-    private final TokenService tokenService;
-
 
     // refreshToken을 이용해 새로운 accessToken 발급 요청
     @PostMapping("/api/token")
@@ -57,7 +55,6 @@ public class TokenController {
         Member member = memberService.findVerifiedMember(memberIdFromToken);
         String accessToken = oauthSuccessHandler.delegateAccessToken(member);
 
-        tokenService.reSetAuthToContext(accessToken);
         TokenDto.Response response = TokenDto.Response.builder().accessToken(accessToken).build();
         log.info("accessToken = {}", accessToken);
 

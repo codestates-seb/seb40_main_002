@@ -11,14 +11,6 @@ public enum ExceptionCode {
 
     NOT_OWN_GUESTHOUSE(400, "not own guesthouse"),
 
-    EXPIRED_REFRESH_TOKEN(401, "expired refresh token"),
-
-    INVALID_TOKEN(400, "invalid token"),
-
-    REFRESH_TOKEN_NOT_FOUND(404, "refresh token not found"),
-
-    ALREADY_LOGOUT_TOKEN(400, "already logout token"),
-
     NOT_AVAILABLE_RESERVATION(400,"not available reservation"),
 
     RESERVATION_NOT_FOUND(404,"reservation not found"),
@@ -35,13 +27,22 @@ public enum ExceptionCode {
     REVIEW_NOT_FOUND(404, "review not found"),
     REVIEW_COMMENT_NOT_FOUND(404, "review_comment not found"),
     NOT_MATCH_REVIEW_AND_REVIEW_COMMENT(400, "reviews and review_comments don't match"),
-    NOT_VALID_SIGNATURE(400, "not valid signature"),
 
-    EXPIRED_JWT_TOKEN(400, "expired jwt token"),
 
-    MALFORMED_JWT_EXCEPTION(400, "malformed jwt exception"),
+    NOT_VALID_SIGNATURE(401, "not valid signature"),
 
-    UNSUPPORTED_JWT_EXCEPTION(400, "unsupported jwt exception"),
+    EXPIRED_JWT_TOKEN(401, "expired jwt token"),
+
+    MALFORMED_JWT_EXCEPTION(401, "malformed jwt exception"),
+
+    UNSUPPORTED_JWT_EXCEPTION(401, "unsupported jwt exception"),
+    EXPIRED_REFRESH_TOKEN(401, "expired refresh token"),
+
+    INVALID_TOKEN(400, "invalid token"),
+
+    REFRESH_TOKEN_NOT_FOUND(404, "refresh token not found"),
+
+    ALREADY_LOGOUT_TOKEN(400, "already logout token"),
 
     OTHER_AUTH_EXCEPTION(400, "other auth exception");
 
