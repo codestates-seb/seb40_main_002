@@ -61,7 +61,10 @@ export default function Hostingpage() {
 
     try {
       const postSurvey = await axios.post(`/api/auth/guesthouse`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `${localStorage.getItem('accessToken')}`,
+        },
       });
       console.log(postSurvey);
     } catch (e) {

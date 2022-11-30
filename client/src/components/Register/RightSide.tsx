@@ -77,7 +77,7 @@ const RightSide = ({
         <RadioBtn
           comment="예"
           type="foreigner"
-          value="Foreigner"
+          value="FOREIGN"
           funcProps={setIsLocal}
         />
         <RadioBtn
