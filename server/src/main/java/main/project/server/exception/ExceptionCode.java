@@ -28,21 +28,22 @@ public enum ExceptionCode {
     NOT_MATCH_ROOM(400, "room not match with guest house"),
 
     ROOM_NOT_FOUND(404, "room not found"),
-
     ROOM_IMAGE_COUNT_INCONSISTENCY(400, "room and image count not match"),
-
     NICKNAME_DUPLICATED(400, "duplicated member nickname"),
-
     NOT_A_REVIEW_WRITER(406, "You are not a review writer"),
-
     NOT_A_REVIEW_COMMENT_WRITER(406, "You are not a review_comment writer"),
-
     REVIEW_NOT_FOUND(404, "review not found"),
-
     REVIEW_COMMENT_NOT_FOUND(404, "review_comment not found"),
+    NOT_MATCH_REVIEW_AND_REVIEW_COMMENT(400, "reviews and review_comments don't match"),
+    NOT_VALID_SIGNATURE(400, "not valid signature"),
 
-    NOT_MATCH_REVIEW_AND_REVIEW_COMMENT(400, "reviews and review_comments don't match");
+    EXPIRED_JWT_TOKEN(400, "expired jwt token"),
 
+    MALFORMED_JWT_EXCEPTION(400, "malformed jwt exception"),
+
+    UNSUPPORTED_JWT_EXCEPTION(400, "unsupported jwt exception"),
+
+    OTHER_AUTH_EXCEPTION(400, "other auth exception");
 
     @Getter
     int code;
