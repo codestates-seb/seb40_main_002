@@ -24,6 +24,7 @@ public interface RoomReservationMapper {
 
         RoomReservationDto.Response response = RoomReservationDto.Response.builder()
                 .guestHouseId(guestHouse.getGuestHouseId())
+                .roomReservationId(roomReservation.getRoomReservationId())
                 .guestHouseName(guestHouse.getGuestHouseName())
                 .roomName(room.getRoomName())
                 .roomImageUrl(room.getRoomImageUrl())
