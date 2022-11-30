@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
@@ -155,7 +156,7 @@ public class MemberService {
         String folderPath = String.valueOf(memberId);
 
         //make folder, File newFile= new File(dir,"파일명");
-        File uploadPathFolder = new File(uploadPath, folderPath);
+        File uploadPathFolder = new File( uploadEc2 + File.separator + uploadPath, folderPath);
 
         //만약 uploadPathFolder가 존재하지않는다면 makeDirectory
         if(uploadPathFolder.exists() == false){
@@ -169,16 +170,10 @@ public class MemberService {
     }
 
     // 파일 삭제
-    public void deleteFile(String pathName){
-
+    public void deleteFile(String fileName){
+        String pathName = uploadEc2 + fileName;
         File file = new File(pathName);
-        boolean result = file.delete();
-//        if(result == false)
-//        try {
-//            Files.delete(Paths.get(pathName));
-//        } catch (IOException e) {
-//            throw
-//        }
+        file.delete();
     }
 
     // 멤버 닉네임 중복 체크
