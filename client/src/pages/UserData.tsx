@@ -33,16 +33,17 @@ export default function UserData() {
         .get(`/api/auth/members`, {
           headers: {
             Authorization: accessToken,
-            'ngrok-skip-browser-warning': 'any',
+            // 'ngrok-skip-browser-warning': 'any',
           },
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           // user 정보 저장하기
           dispatch(setUser(res.data.data as User));
         })
         .catch((err) => console.log(err));
       navigate('/');
+      location.reload(); // 임시
     }
   }, []);
   return <></>;
