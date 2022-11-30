@@ -45,13 +45,17 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             setAuthenticationToContext(claims);
 
         } catch (SignatureException se) {
+            log.error("SignatureException");
             throw new AuthException(ExceptionCode.NOT_VALID_SIGNATURE);
         } catch (ExpiredJwtException ee) {
-            throw new AuthException(ExceptionCode.NOT_VALID_SIGNATURE);
+            log.error("ExpiredJwtException");
+            throw new AuthException(ExceptionCode.EXPIRED_JWT_TOKEN);
         } catch (MalformedJwtException me) {
-            throw new AuthException(ExceptionCode.NOT_VALID_SIGNATURE);
+            log.error("MalformedJwtException");
+            throw new AuthException(ExceptionCode.MALFORMED_JWT_EXCEPTION);
         } catch (UnsupportedJwtException ue) {
-            throw new AuthException(ExceptionCode.NOT_VALID_SIGNATURE);
+            log.error("UnsupportedJwtException");
+            throw new AuthException(ExceptionCode.UNSUPPORTED_JWT_EXCEPTION);
         } catch (RuntimeException e) {
             throw new AuthException(e.getMessage());
         }

@@ -105,7 +105,7 @@ public class MemberService {
     public Member findVerifiedMember(String memberId) {
         Optional<Member> optionalMember = memberRepository.findById(memberId);
         Member findMember =
-                optionalMember.orElseThrow(() -> new NoSuchElementException("No value present"));
+                optionalMember.orElseThrow(() -> new BusinessException(ExceptionCode.MEMBER_NOT_FOUND));
         return findMember;
     }
 

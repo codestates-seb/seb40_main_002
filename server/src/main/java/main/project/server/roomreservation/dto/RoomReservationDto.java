@@ -36,6 +36,8 @@ public class RoomReservationDto {
 
         private Long guestHouseId;
 
+        private Long roomReservationId;
+
         private String guestHouseName;
 
         private String roomName;
