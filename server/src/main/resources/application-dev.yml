@@ -1,9 +1,9 @@
 spring:
   config:
     import:
-      - application-google.yml
-      - application-kakao.yml
-      - application-naver.yml
+      - application-dev-google.yml
+      - application-dev-kakao.yml
+      - application-dev-naver.yml
       - application-dev-rds.yml
       - application-dev-jwt.yml
 

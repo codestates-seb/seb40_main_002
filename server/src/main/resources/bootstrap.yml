@@ -1,7 +1,7 @@
-## aws
-#aws:
-#  paramstore:
-#    enabled: true
-#    prefix: /config
-#    name: main-project-server
-#    profileSeparator: _
+# aws
+aws:
+  paramstore:
+    enabled: true
+    prefix: /config
+    name: main-project-server
+    profileSeparator: _
