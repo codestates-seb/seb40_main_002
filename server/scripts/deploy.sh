@@ -25,4 +25,4 @@ fi
 
 DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
 echo "> DEPLOY_JAR 배포"    >> /home/ec2-user/deploy/server/deploy.log
-sudo nohup java -jar $DEPLOY_JAR >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy/server/deploy_err.log &
+sudo nohup java -jar -Dspring.profiles.active=dev $DEPLOY_JAR >> /home/ec2-user/deploy.log 2>/home/ec2-user/deploy/server/deploy_err.log &
