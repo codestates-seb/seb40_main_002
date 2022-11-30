@@ -56,13 +56,13 @@ public class GuestHouse extends Auditable {
     @Enumerated(EnumType.STRING)
     private GuestHouseStatus guestHouseStatus;//게스트 하우스 상태
 
-    private Float guestHouseStar = 0f; //평점, 멤버필드 선언시 바로 초기화 하는것은 빌더패턴으로 해당 객체를 만들때에는 적용되지 않음..... 생성자로 인해 객체를 생성할때만 적용됨
+    private float guestHouseStar = 0f; //평점, 멤버필드 선언시 바로 초기화 하는것은 빌더패턴으로 해당 객체를 만들때에는 적용되지 않음..... 생성자로 인해 객체를 생성할때만 적용됨
 
     private String guestHouseTag; //태그 문자열
 
     private String guestHouseInfo;
 
-    private Long guestHouseReviewCount = 0L; //리뷰갯수, 멤버필드 선언시 바로 초기화 하는것은 빌더패턴으로 해당 객체를 만들때에는 적용되지 않음..... 생성자로 인해 객체를 생성할때만 적용됨
+    private long guestHouseReviewCount = 0L; //리뷰갯수, 멤버필드 선언시 바로 초기화 하는것은 빌더패턴으로 해당 객체를 만들때에는 적용되지 않음..... 생성자로 인해 객체를 생성할때만 적용됨
 
 
     @OneToMany(mappedBy = "guestHouse", cascade = CascadeType.ALL)
@@ -84,7 +84,7 @@ public class GuestHouse extends Auditable {
     private List<Heart> heart = new ArrayList<>();
 
     @Column
-    private Integer hearts = 0;
+    private int hearts = 0;
 
     public static GuestHouse GuestHouse(Long guestHouseId) {
         GuestHouse guestHouse = new GuestHouse();

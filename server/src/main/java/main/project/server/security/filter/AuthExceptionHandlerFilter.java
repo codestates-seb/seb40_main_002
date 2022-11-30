@@ -23,9 +23,7 @@ public class AuthExceptionHandlerFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (RuntimeException e) {
-//            e.printStackTrace();
             authExceptionResolver.handleException(e, response);
-            throw e;
         }
     }
 
