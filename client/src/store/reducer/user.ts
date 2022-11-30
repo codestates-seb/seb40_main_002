@@ -39,9 +39,26 @@ export const user = createSlice({
       // 업데이트 되는 State 를 return 해준다.
       return myUser;
     },
+    clearUser(state, action: PayloadAction) {
+      const userClear: User = {
+        memberId: '',
+        memberNickname: '',
+        memberEmail: '',
+        memberPhone: '',
+        memberImageUrl: '',
+        memberTag: [],
+        memberReservation: [],
+        memberReview: [],
+        memberRoles: [],
+        memberBirth: '',
+        memberNationality: '',
+        memberRegisterKind: '',
+      };
+      return userClear;
+    },
   },
 });
 
 // 액션과 리듀서를 export 해준다. 이건 그냥 따라하면 된다.
-export const { setUser } = user.actions;
+export const { setUser, clearUser } = user.actions;
 export default user.reducer;
