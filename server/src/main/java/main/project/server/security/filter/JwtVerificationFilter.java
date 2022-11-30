@@ -38,33 +38,22 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-
             String jws = request.getHeader("Authorization");
 
             Map<String, Object> claims = verifyJws(jws);
             verifyLogoutToken(jws);
-
             setAuthenticationToContext(claims);
 
-
         } catch (SignatureException se) {
-            request.setAttribute("exception", se);
-
+            throw new AuthException(ExceptionCode.NOT_VALID_SIGNATURE);
         } catch (ExpiredJwtException ee) {
-            request.setAttribute("exception", ee);
-
+            throw new AuthException(ExceptionCode.NOT_VALID_SIGNATURE);
         } catch (MalformedJwtException me) {
-            request.setAttribute("exception", me);
-
+            throw new AuthException(ExceptionCode.NOT_VALID_SIGNATURE);
         } catch (UnsupportedJwtException ue) {
-            request.setAttribute("exception", ue);
-
-        } catch (IllegalArgumentException ie) {
-            request.setAttribute("exception", ie);
-
-        } catch (Exception e) {
-            request.setAttribute("exception", e);
-
+            throw new AuthException(ExceptionCode.NOT_VALID_SIGNATURE);
+        } catch (RuntimeException e) {
+            throw new AuthException(e.getMessage());
         }
 
         filterChain.doFilter(request, response);
