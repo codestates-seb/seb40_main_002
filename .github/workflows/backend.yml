@@ -36,6 +36,15 @@ jobs:
         
         
     # secret    
+    
+    - name: occupy-dev
+      env:
+        OCCUPY_DEV: ${{ secrets.OCCUPY_DEV }}
+        OCCUPY_DEV_DIR: server/src/main/resources
+        OCCUPY_DEV_TEST_DIR: server/src/test/resources
+        OCCUPY_DEV_DIR_FILE_NAME: application-dev.yml
+      run: echo $OCCUPY_DEV | base64 --decode > $OCCUPY_DEV_DIR/$OCCUPY_DEV_DIR_FILE_NAME
+      
     - name: occupy-google
       env:
         OCCUPY_GOOGLE: ${{ secrets.OCCUPY_GOOGLE }}
