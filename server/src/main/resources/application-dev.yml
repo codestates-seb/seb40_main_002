@@ -6,7 +6,7 @@ spring:
       - application-dev-naver.yml
       - application-dev-rds.yml
       - application-dev-jwt.yml
-
+      - 'aws-parameterstore:'
   # jpa
   jpa:
     hibernate:
