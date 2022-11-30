@@ -32,7 +32,7 @@ export interface GuestHouseShort {
   star: number;
   tags: Array<string>;
   id: number;
-  rooms: RoomShort[];
+  rooms?: RoomShort[];
 }
 
 export interface MyReservation {
