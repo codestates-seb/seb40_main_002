@@ -44,7 +44,7 @@ const GhReservation = ({
     } else if (memberRoles && memberRoles[0] === 'USER') {
       console.log('s');
       navigate(
-        `/reservation?start=${startDay}&end=${endDay}&room=${roomid}&gh=${guestHouseId}`
+        `/paymentpage?start=${startDay}&end=${endDay}&room=${roomid}&gh=${guestHouseId}`
       );
     }
   };
@@ -123,11 +123,13 @@ const GhReservation = ({
             </div>
           </div>
           <div className="my-[10px] px-[10px]">
-            <CommonBtn
-              text="예약 하기"
-              btnSize={'w-full h-[40px]'}
-              btnHandler={ReservationData}
-            />
+            {memberRoles && memberRoles[0] !== 'ADMIN' && (
+              <CommonBtn
+                text="예약 하기"
+                btnSize={'w-full h-[40px]'}
+                btnHandler={ReservationData}
+              />
+            )}
           </div>
         </div>
       </div>

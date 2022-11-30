@@ -21,6 +21,12 @@ export function getuserParams(url: URL, paramsname: string[]) {
     memberRegisterKind,
   };
 }
+
+export function getPaymentParams(url: URL, paramsname: string[]) {
+  const getParams = paramsname.map((x) => url.searchParams.get(x)) as string[];
+
+  return getParams;
+}
 // const imgUrl = memberImgurl.split('/').slice(3).join('/');
 // const memberImage = await convertURLtoFile(imgUrl);
 // memberImage: [memberImage],
