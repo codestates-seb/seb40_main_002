@@ -109,8 +109,8 @@ export default function GhEditPage2() {
           },
         }
       );
+      navigate('/ghadmin');
       window.location.reload();
-      navigate('/mypage');
     } catch (e) {
       console.log(e);
     }

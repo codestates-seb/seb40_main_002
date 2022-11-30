@@ -67,8 +67,8 @@ export default function Hostingpage() {
           Authorization: `${localStorage.getItem('accessToken')}`,
         },
       });
+      navigate('/ghadmin');
       window.location.reload();
-      navigate('/mypage');
     } catch (e) {
       console.log(e);
     }
