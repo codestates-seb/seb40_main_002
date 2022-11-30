@@ -9,23 +9,27 @@ const UserIconModal = () => {
   const navigate = useNavigate();
   const [loginModal, setLoginModal] = useModal();
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('persist:root'); //
-    // axios
-    //   .post('/api/auth/members/logout', {
-    //     headers: {
-    //       Authorization: localStorage.getItem('accessToken'),
-    //     },
-    //   })
-    //   .then((res) => {
-    //     console.log('logout:', res);
-    //     localStorage.removeItem('accessToken');
-    //     localStorage.removeItem('refreshToken');
-    //     localStorage.removeItem('persist:root'); //
-    //     navigate('/');
-    //   })
-    //   .catch((err) => console.log('logoutErr:', err));
+    const accessToken = localStorage.getItem('accessToken');
+    console.log(accessToken);
+    axios
+      .post(
+        `/api/auth/members/logout`,
+        {},
+        {
+          headers: {
+            Authorization: accessToken,
+            'Content-Type': '',
+          },
+        }
+      )
+      .then((res) => {
+        // console.log('logout:', res);
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('persist:root'); //
+        navigate('/');
+      })
+      .catch((err) => console.log('logoutErr:', err));
   };
   return (
     <section className="flex flex-col w-36 h-40 rounded-[15px] absolute top-[80px] right-10 p-4 text-lg font-semibold items-center justify-around border-solid border-2 border-borderline">
