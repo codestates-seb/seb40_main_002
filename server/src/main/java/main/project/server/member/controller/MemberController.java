@@ -152,9 +152,11 @@ public class MemberController {
     public ResponseEntity getHeart(@RequestParam(name = "page", required = false, defaultValue = "1") int page,
                                    @RequestParam(name = "size", required = false, defaultValue = "4") int size,
                                    Principal principal) {
-
+        // 사용자 기준 찜 페이지 조회
         Page<Heart> heartPage = heartService.getHeartPageByMember(page, size, principal.getName());
-        PageInfo pageInfo = PageInfo.of(heartPage);
+        PageInfo pageInfo = PageInfo.of(heartPage);     // 페이지 정보 생성
+
+        // 페이지 -> 리스트(Response) 형태로 dto 변환
         List<HeartDto.ResponseMyPage> responses = heartMapper.reviewToReviewResponseMyPageDto(heartPage.getContent());
 
         return new ResponseEntity<>(
