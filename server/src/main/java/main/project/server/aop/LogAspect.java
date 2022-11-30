@@ -103,12 +103,13 @@ public class LogAspect {
         String queryString = request.getQueryString();
         String handlerMethodName = joinPoint.getSignature().getName();
 
+
         log.info(String.format(
                 "\n ------- JoinPoint 시작 ------- " +
-                "\n ==== [호출된 uri] : [%s] ==== " +
+                "\n ==== [%s] [호출된 uri] : [%s] ==== " +
                 "\n ==== [쿼리스트링] : [%s]  ==== " +
                 "\n ==== [작동된 핸들러 메소드 명] : [%s] " +
-                "\n ==== [리퀘스트 바디] : [%s] ", requestURI, queryString, handlerMethodName, requestBody.toString())
+                "\n ==== [리퀘스트 바디] : [%s] ", request.getMethod(), requestURI, queryString, handlerMethodName, requestBody.toString())
 
         );
 
