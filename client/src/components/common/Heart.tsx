@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { IoMdHeart, IoMdHeartEmpty } from 'react-icons/io';
-import Api from '../../api';
+import Api from '../../api2';
 import { isLogin } from '../../utils/isLogin';
 interface Props {
   isFavorite?: boolean;

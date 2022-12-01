@@ -4,7 +4,7 @@ import MyPageTabs from '../components/MyPage/MyPageTabs/MyPageTabs';
 import UserInfoCard from '../components/MyPage/UserInfoCard/UserInfoCard';
 import { User1, User2 } from '../types/user';
 
-import { getUser } from '../api/member';
+import { getUser } from '../api2/member';
 import { convertURLtoFile } from '../libs/srcToFile';
 
 function MyPage() {

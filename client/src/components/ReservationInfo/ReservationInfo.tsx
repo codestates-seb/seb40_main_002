@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CommonBtn from '../common/CommonBtn/CommonBtn';
 import axios from 'axios';
 import { getPaymentParams } from '../../libs/getuserParams';
-import { getGhData } from '../../api/ghdata';
+import { getGhData } from '../../api2/ghdata';
 import dateCheck from '../../libs/dateCheck';
 import { useNavigate } from 'react-router-dom';
 type ReservationType = {

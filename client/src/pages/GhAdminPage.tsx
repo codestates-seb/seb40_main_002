@@ -2,8 +2,8 @@ import GhAdminList from '../components/GhAdmin/GhAdminList';
 import { User2, User1 } from '../types/user';
 import UserInfoCard from '../components/MyPage/UserInfoCard/UserInfoCard';
 import { useEffect, useState } from 'react';
-import Api from '../api';
-import { getUser as settingUser } from '../api/member';
+import Api from '../api2';
+import { getUser as settingUser } from '../api2/member';
 import { convertURLtoFile } from '../libs/srcToFile';
 
 interface GhData {
