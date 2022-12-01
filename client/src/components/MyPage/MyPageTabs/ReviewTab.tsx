@@ -3,6 +3,7 @@ import { getReviewData } from '../../../apis/getReviewData';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
+import MyPagePagination from './MyPagePagination';
 type Reviews = {
   data: [
     {
@@ -79,22 +80,13 @@ function ReviewTab() {
           <div className="text-center">작성한 후기가 없습니다</div>
         )}
         <div className="text-center">
-          {reviewData && reviewData.data.length > 0
-            ? Array(reviewData?.pageInfo.totalPages)
-                .fill(0)
-                .map((el, i) => (
-                  <button
-                    className={`${
-                      page == i + 1 ? 'border-b-[2px] border-black' : null
-                    } ml-[10px] py-[2px] px-[12px] mb-[20px] pointer-events-auto`}
-                    key={i}
-                    onClick={() => setPage(i + 1)}
-                    value={i + 1}
-                  >
-                    {i + 1}
-                  </button>
-                ))
-            : null}
+          {reviewData && reviewData.data.length > 0 ? (
+            <MyPagePagination
+              totalPages={reviewData.pageInfo.totalPages}
+              page={page}
+              setPage={setPage}
+            />
+          ) : null}
         </div>
       </div>
     </div>
