@@ -9,9 +9,11 @@ type Props = {
   reviewLink?: string | null;
   type: string;
   reviewComment?: {
+    userName: string;
+    createBy: string;
     comment: string;
-    createdAt: string;
-    star: number;
+    ProfileImg: string;
+    starScore: number;
   };
 };
 
@@ -25,7 +27,10 @@ export default function BottomLabel({
 }: Props) {
   return (
     <div className="p-[22px] flex text-base">
-      <img src={`${imgsrc}`} className="rounded-ImgRadius w-[90px] h-[90px]" />
+      <img
+        src={`http://3.37.58.81:8080${imgsrc}`}
+        className="rounded-ImgRadius w-[90px] h-[90px]"
+      />
       <div className="flex justify-between w-[100%] items-center">
         <Details
           houseName={houseName}
