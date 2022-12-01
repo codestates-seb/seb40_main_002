@@ -39,6 +39,7 @@ export default function ReviewPage() {
       const userInfo = await getUserInfo(localStorage.getItem('accessToken'));
       const ghInfo = await getGhInfo(ghId);
       console.log(userInfo, ghInfo);
+      console.log(localStorage.getItem('accessToken'));
       setGhInfo(ghInfo);
       setUser(userInfo);
       adminChecker(userInfo.memberId, ghInfo.memberId);
