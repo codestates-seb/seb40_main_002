@@ -1,17 +1,13 @@
 package main.project.server.review.mapper;
 
-import main.project.server.guesthouse.dto.GuestHouseDto;
-import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.mapper.GuestHouseMapper;
-import main.project.server.heart.dto.HeartDto;
-import main.project.server.heart.entity.Heart;
 import main.project.server.member.dto.MemberDto;
 import main.project.server.member.entity.Member;
 import main.project.server.review.dto.ReviewCommentDto;
 import main.project.server.review.dto.ReviewDto;
 import main.project.server.review.entity.Review;
 import main.project.server.review.entity.ReviewComment;
-import main.project.server.room.mapper.RoomMapper;
+import main.project.server.guesthouse.room.mapper.RoomMapper;
 import main.project.server.roomreservation.dto.RoomReservationDto;
 import main.project.server.tag.mapper.TagMapper;
 import org.mapstruct.Mapper;
@@ -23,8 +19,8 @@ import java.util.List;
 public interface ReviewMapper {
 
     Review reviewPostDtoToReview(ReviewDto.Post reviewPostDto);
+
     Review reviewPutDtoToReview(ReviewDto.Put reviewPatchDto);
-//    ReviewDto.Response reviewToReviewResponseDto(Review review);
 
     List<ReviewDto.Response> reviewToReviewResponseDto(List<Review> reviews);   // 리뷰 조회(페이지)
     default List<ReviewDto.ResponseMyPage> reviewToReviewResponseMyPageDto(List<Review> reviews,

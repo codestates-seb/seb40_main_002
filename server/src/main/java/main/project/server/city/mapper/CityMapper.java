@@ -11,6 +11,5 @@ import java.util.List;
 public interface CityMapper {
 
     CityDto.Response cityToCityDtoResponse(City city);
-
     List<CityDto.Response> cityListToCityDtoResponseList(List<City> cityList);
 }

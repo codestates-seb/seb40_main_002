@@ -24,9 +24,7 @@ public class CityController {
     public ResponseEntity getCity() {
 
         List<City> cities = cityService.findCities();
-
         List<CityDto.Response> responses = cityMapper.cityListToCityDtoResponseList(cities);
-
         return new ResponseEntity(responses, HttpStatus.OK);
 
     }

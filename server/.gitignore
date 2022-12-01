@@ -47,6 +47,7 @@ out/
 imagesdir
 images/
 room/
+!src/main/java/main/project/server/guesthouse/room/
 
 ### log ###
 main-project/

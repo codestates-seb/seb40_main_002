@@ -2,13 +2,12 @@ package main.project.server.member.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import main.project.server.chart.condition.SearchCondition;
 import main.project.server.dto.MultiResponseDto;
 import main.project.server.dto.PageInfo;
 import main.project.server.dto.SingleResponseDto;
 import main.project.server.guesthouse.mapper.GuestHouseMapper;
 import main.project.server.guesthouse.service.GuestHouseService;
-import main.project.server.jwt.service.TokenService;
+import main.project.server.security.jwt.service.TokenService;
 import main.project.server.heart.dto.HeartDto;
 import main.project.server.heart.entity.Heart;
 import main.project.server.heart.mapper.HeartMapper;
@@ -21,12 +20,13 @@ import main.project.server.review.dto.ReviewDto;
 import main.project.server.review.entity.Review;
 import main.project.server.review.mapper.ReviewMapper;
 import main.project.server.review.service.ReviewService;
-import main.project.server.room.mapper.RoomMapper;
-import main.project.server.room.service.RoomService;
+import main.project.server.guesthouse.room.mapper.RoomMapper;
+import main.project.server.guesthouse.room.service.RoomService;
 import main.project.server.roomreservation.dto.RoomReservationDto;
 import main.project.server.roomreservation.entity.RoomReservation;
 import main.project.server.roomreservation.mapper.RoomReservationMapper;
 import main.project.server.roomreservation.service.RoomReservationService;
+import main.project.server.statistics.condition.SearchCondition;
 import main.project.server.tag.mapper.TagMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.security.Principal;
@@ -47,6 +46,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class MemberController {
+
     private final MemberService memberService;
     private final MemberMapper memberMapper;
     private final RoomReservationService reservationService;
@@ -57,13 +57,9 @@ public class MemberController {
     private final ReviewService reviewService;
     private final HeartService heartService;
     private final HeartMapper heartMapper;
-
     private final TokenService tokenService;
-
     private final TagMapper tagMapper;
-
     private final GuestHouseMapper guestHouseMapper;
-
     private final RoomMapper roomMapper;
 
     // 맴버 생성

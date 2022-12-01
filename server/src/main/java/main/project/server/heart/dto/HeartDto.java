@@ -14,9 +14,13 @@ public class HeartDto {
     @Getter
     @NoArgsConstructor
     public static class ResponseMyPage {
+
         private Long heartId;
+
         private GuestHouseDto.ResponseSimple guestHouse;
+
         private LocalDateTime createdAt;
+
         private LocalDateTime modifiedAt;
     }
 }

@@ -8,27 +8,13 @@ public enum MemberNationality {
     LOCAL,
     FOREIGN;
 
-    //    LOCAL("local"),
-//    FOREIGN("foreign");
-
-//    private final String value;
-
-//    MemberNationality(String value) {
-//        this.value = value;
-//    }
-
-//    @JsonCreator
-//    public static MemberNationality from(String value) {
-//        for (MemberNationality status : MemberNationality.values()) {
-//            if (status.getValue().equals(value)) {
-//                return status;
-//            }
-//        }
-//        return null;
-//    }
-
-//    @JsonValue
-//    public String getValue() {
-//        return value;
-//    }
+    @JsonCreator
+    public static MemberNationality from(String value) {
+        for (MemberNationality nationality : MemberNationality.values()) {
+            if (nationality.name().equals(value)) {
+                return nationality;
+            }
+        }
+        return null;
+    }
 }

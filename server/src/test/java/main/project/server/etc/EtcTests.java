@@ -2,8 +2,10 @@ package main.project.server.etc;
 
 import org.junit.jupiter.api.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class EtcTests {
 
@@ -24,6 +26,26 @@ public class EtcTests {
 
         System.out.println(stringBuilder);
         System.out.println("성공");
+    }
+
+    @Test
+    void dateValidate() {
+
+        String date = "20220124";
+
+        String format = "yyyy-MM-dd";
+
+
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+
+        sdf.setLenient(false);
+        try {
+            Date parse = sdf.parse(date);
+            System.out.println(parse);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

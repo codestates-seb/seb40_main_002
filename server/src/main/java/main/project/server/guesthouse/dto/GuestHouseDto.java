@@ -1,13 +1,17 @@
 package main.project.server.guesthouse.dto;
 
 import lombok.*;
+import main.project.server.annotation.validation.filed.GuestHouseDetails;
+import main.project.server.annotation.validation.filed.ValidAddress;
+import main.project.server.annotation.validation.filed.ValidTag;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
-import main.project.server.guesthouseimage.dto.GuestHouseImageDto;
 import main.project.server.review.dto.ReviewDto;
-import main.project.server.room.dto.RoomDto;
+import main.project.server.guesthouse.room.dto.RoomDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 public class GuestHouseDto {
@@ -19,34 +23,32 @@ public class GuestHouseDto {
     @Builder
     public static class Post{ //숙소 등록시 사용하는 Post
 
+        @Pattern(regexp = "^[a-zA-Z가-힣]*$")
         @NotBlank(message = "게스트하우스 이름은 빈값일 수 없습니다")
         private String guestHouseName;
 
-        //업주 멤버 아이디는 Principal에서 꺼내서 사용
-
+        @Positive
         @NotNull
         private Long cityId;
 
         @NotBlank
         private String guestHouseLocation;
 
-        @NotNull
+        @ValidAddress
         private String[] guestHouseAddress;
 
-        //정규식 추가 필요
+        @Pattern(regexp = "!/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/")
         @NotBlank
         private String guestHousePhone;
 
-        //애노테이션 만들어서 검증 필요
-        @NotNull
+        @GuestHouseDetails
         private Boolean[] guestHouseDetails;
 
-        @NotNull
+        @ValidTag
         private String[] guestHouseTag;
 
         @NotBlank
         private String guestHouseInfo;
-
     }
 
     @Setter
@@ -57,11 +59,10 @@ public class GuestHouseDto {
     public static class Put{ //숙소 수정시 사용하는 Put
 
         //게스트 하우스는 패스 파라미터에서 꺼내서 사용
-
+        @Pattern(regexp = "^[a-zA-Z가-힣]*$")
         @NotBlank(message = "게스트하우스 이름은 빈값일 수 없습니다")
         private String guestHouseName;
 
-        //업주 멤버 아이디는 Principal에서 꺼내서 사용
 
         @NotNull
         private Long cityId;
@@ -69,18 +70,17 @@ public class GuestHouseDto {
         @NotBlank
         private String guestHouseLocation;
 
-        @NotNull
+        @ValidAddress
         private String[] guestHouseAddress;
 
-        //정규식 추가 필요
+        @Pattern(regexp = "!/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/")
         @NotBlank
         private String guestHousePhone;
 
-        //애노테이션 만들어서 검증 필요
-        @NotNull
+        @GuestHouseDetails
         private Boolean[] guestHouseDetails;
 
-        @NotNull
+        @ValidTag
         private String[] guestHouseTag;
 
         @NotBlank

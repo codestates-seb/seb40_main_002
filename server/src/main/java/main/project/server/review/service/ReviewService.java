@@ -25,6 +25,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Transactional
 public class ReviewService {
+
     private final ReviewRepository reviewRepository;
     private final MemberService memberService;
     private final GuestHouseService guestHouseService;

@@ -24,12 +24,14 @@ public class Review extends Auditable {
     @JoinColumn(name = "GUEST_HOUSE_ID")
     private GuestHouse guestHouse;
 
+    @Column(columnDefinition = "TEXT")
     private String comment;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @Column
     private Float star;     // 평점
 
     @OneToOne(mappedBy = "review", cascade = CascadeType.REMOVE)

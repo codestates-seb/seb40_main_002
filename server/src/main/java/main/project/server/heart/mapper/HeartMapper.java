@@ -5,12 +5,10 @@ import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.mapper.GuestHouseMapper;
 import main.project.server.heart.dto.HeartDto;
 import main.project.server.heart.entity.Heart;
-import main.project.server.room.entity.Room;
 import main.project.server.tag.mapper.TagMapper;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Mapper(componentModel = "spring")

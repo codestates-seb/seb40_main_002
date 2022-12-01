@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.security.Principal;
 
@@ -21,7 +22,7 @@ public class HeartController {
 
     // 찜하기
     @PostMapping("/api/auth/guesthouse/{guesthouse-id}/heart")
-    public ResponseEntity postHeartOn(@PathVariable("guesthouse-id") @Positive Long guestHouseId, Principal principal){
+    public ResponseEntity postHeartOn(@PathVariable("guesthouse-id") @Positive Long guestHouseId, @NotNull Principal principal){
 
         String memberId = principal.getName();
         String response = heartService.clickHeart(memberId, guestHouseId);
@@ -32,7 +33,7 @@ public class HeartController {
 
     // 찜하기 상태
     @GetMapping("/api/auth/guesthouse/{guesthouse-id}/heart")
-    public ResponseEntity getHeart(@PathVariable("guesthouse-id") @Positive Long guestHouseId, Principal principal) {
+    public ResponseEntity getHeart(@PathVariable("guesthouse-id") @Positive Long guestHouseId, @NotNull Principal principal) {
 
         String memberId = principal.getName();
         Boolean heartStatus = heartService.heartStatus(memberId, guestHouseId);
