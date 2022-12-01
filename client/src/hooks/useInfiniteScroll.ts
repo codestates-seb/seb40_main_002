@@ -70,7 +70,7 @@ function useInfiniteScroll(
   const getList = useCallback(async () => {
     setLoading(true);
     let optionApi, tagApi;
-    if (option) {
+    if (option && option.cityId !== 0) {
       optionApi = `&cityId=${option.cityId}&start=${option.start}&end=${option.end}`;
       tagApi = option.tags.join('&tag=');
     }
@@ -86,10 +86,15 @@ function useInfiniteScroll(
     setLoading(false);
   }, [page]);
 
+  let isCalled = false;
+
   // page에 따라 다르게 api 요청하기
   useEffect(() => {
     // if (page > 1)
-    getList();
+    if (!isCalled) {
+      isCalled = true;
+      getList();
+    }
   }, [page]);
 
   // sortType에 따라 다르게 api 요청하기
