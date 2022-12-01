@@ -72,24 +72,23 @@ export default function ReviewPage() {
               </div>
             )}
 
-            {user &&
-              review.map((ele, i) => {
-                if (user?.memberId) {
-                  return (
-                    <div key={i} className="mb-2 p-2">
-                      <DetailReview
-                        type={'reviewPage'}
-                        reviewComment={ele}
-                        userId={user.memberId}
-                      />
-                    </div>
-                  );
-                } else {
+            {review.map((ele, i) => {
+              if (user?.memberId) {
+                return (
                   <div key={i} className="mb-2 p-2">
-                    <DetailReview type={'reviewPage'} reviewComment={ele} />
-                  </div>;
-                }
-              })}
+                    <DetailReview
+                      type={'reviewPage'}
+                      reviewComment={ele}
+                      userId={user.memberId}
+                    />
+                  </div>
+                );
+              } else {
+                <div key={i} className="mb-2 p-2">
+                  <DetailReview type={'reviewPage'} reviewComment={ele} />
+                </div>;
+              }
+            })}
           </div>
         </div>
       )}
