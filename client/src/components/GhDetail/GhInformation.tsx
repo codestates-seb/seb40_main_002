@@ -12,6 +12,7 @@ type TagProps = {
   ghImage: string[];
   userMemberId: string;
   guestHouseId: number;
+  guestHouseStar: number;
 };
 const GhInformation = ({
   tags,
@@ -21,6 +22,7 @@ const GhInformation = ({
   ghMemberId,
   userMemberId,
   guestHouseId,
+  guestHouseStar,
 }: TagProps) => {
   const navigate = useNavigate();
   const admin = ghMemberId === userMemberId;
@@ -36,7 +38,7 @@ const GhInformation = ({
       <div className="font-bold">{ghName}</div>
       <div className=" flex my-[10px] h-[30px] gap-[4px] justify-between text-font-color">
         <div className="flex">
-          <RatedStar star={3} />
+          <RatedStar star={guestHouseStar} />
           <div className="ml-[20px] flex">
             {tags.map((el: string, i: number) => (
               <Tag name={el} key={i} />
@@ -54,7 +56,7 @@ const GhInformation = ({
               </div>
             </div>
           ) : (
-            <Heart id={3} />
+            <Heart id={guestHouseId} />
           )}
         </div>
       </div>
