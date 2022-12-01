@@ -151,5 +151,6 @@ public class GuestHouseDto {
         private String mainImageUrl;
         private String[] guestHouseTag;
         private Integer minRoomPrice;
+        private Float guestHouseStar;
     }
 }

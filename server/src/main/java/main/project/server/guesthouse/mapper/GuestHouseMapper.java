@@ -280,6 +280,7 @@ public interface GuestHouseMapper {
         }
 
         responseSimple.setMinRoomPrice(minRoomPrice);
+        responseSimple.setGuestHouseStar(guestHouse.getGuestHouseStar());
 
         return responseSimple;
     }
