@@ -1,9 +1,8 @@
 package main.project.server.querydsl;
 
 
-import main.project.server.chart.dto.AlotReserveGuestHouseDto;
-import main.project.server.guesthouse.entity.GuestHouse;
-import main.project.server.guesthouse.repository.CustomizedGuestHouseRepositoryImpl;
+import main.project.server.statistics.dto.ReserveCountOfGuestHouseDto;
+import main.project.server.statistics.repository.StatisticsRepositoryImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,11 +17,11 @@ import java.util.List;
 public class QueryDslTests {
 
     @Autowired
-    CustomizedGuestHouseRepositoryImpl customizedGuestHouseRepository;
+    StatisticsRepositoryImpl customizedGuestHouseRepository;
 
     @Test
     void tests(){
-        List<AlotReserveGuestHouseDto> chartOfGuestHouseForReserveCountInPeriod = customizedGuestHouseRepository.getChartOfGuestHouseForReserveCountInPeriod(new Short[]{1, 0, 0});
+        List<ReserveCountOfGuestHouseDto> chartOfGuestHouseForReserveCountInPeriod = customizedGuestHouseRepository.getChartOfGuestHouseForReserveCountInPeriod(new Integer[]{1, 0, 0},10);
         System.out.println();
     }
 }

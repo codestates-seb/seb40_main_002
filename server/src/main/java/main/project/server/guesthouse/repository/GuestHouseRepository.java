@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,7 +41,12 @@ public interface GuestHouseRepository extends JpaRepository<GuestHouse, Long> {
                     "(ghrr.room_reservation_start <= :end AND ghrr.room_reservation_end >= :end )) GROUP BY gh.guest_house_id",
             nativeQuery = true
     )
-    Page<GuestHouse> findGuestHouseByFilter(Integer cityId, String like, String start, String end, Pageable pageable);
+    Page<GuestHouse> findGuestHouseByFilter(
+            @Param("cityId")Integer cityId,
+            @Param("like")String like,
+            @Param("start")String start,
+            @Param("end")String end,
+            Pageable pageable);
 
 
 
@@ -49,7 +55,9 @@ public interface GuestHouseRepository extends JpaRepository<GuestHouse, Long> {
             countQuery = " select count(*) from guest_house as gh where gh.guest_house_tag like :tags",
             nativeQuery = true
     )
-    Page<GuestHouse> findAllGuestHouseOnlyAsTag(String tags, Pageable pageable);
+    Page<GuestHouse> findAllGuestHouseOnlyAsTag(
+            @Param("tags")String tags,
+            Pageable pageable);
 
 
 
@@ -70,5 +78,7 @@ public interface GuestHouseRepository extends JpaRepository<GuestHouse, Long> {
                     ,
             nativeQuery = true
     )
-    List<Object[]> getGuestHouseReserveStatistics(Long guestHouseId, String yearMonth);
+    List<Object[]> getGuestHouseReserveStatistics(
+            @Param("guestHouseId")Long guestHouseId,
+            @Param("yearMonth")String yearMonth);
 }
