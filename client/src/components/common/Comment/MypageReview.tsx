@@ -34,7 +34,7 @@ export default function MypageReview({
       </div>
       <div className="p-[22px] flex text-base">
         <img
-          src={`http://3.37.58.81:8080${roomImageUrl}`}
+          src={`${process.env.REACT_APP_SERVER_URL}${roomImageUrl}`}
           className="rounded-ImgRadius w-[90px] h-[90px]"
         />
         <div className="flex flex-col justify-between w-[100%] ml-3">
