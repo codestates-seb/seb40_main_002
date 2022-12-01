@@ -51,7 +51,7 @@ export default function ReviewPage() {
   console.log(user, 'userInfo');
   return (
     <>
-      {isLoading && (
+      {isLoading && user && ghInfo && (
         <div className="mt-8 p-3 w-full flex justify-center md:mt-20">
           <div className="mb-[10px] mt-[10px] ml-[10px] w-[60%]">
             <div className="border-b-2 border-border-color mb-8">
@@ -65,7 +65,7 @@ export default function ReviewPage() {
               <EditReply type={isHost} id={123} />
             </div>
 
-            {review && user && ghInfo && (
+            {review && (
               <div className="mb-4">
                 <span className="font-bold text-lg">
                   후기 {review.length}개
