@@ -55,7 +55,6 @@ function ReviewTab() {
       <div>
         {reviewData && reviewData.data.length > 0 ? (
           reviewData.data.map((el) => {
-            console.log(el);
             return (
               <div key={el.reviewId} className="mb-[10px]">
                 <Comment
