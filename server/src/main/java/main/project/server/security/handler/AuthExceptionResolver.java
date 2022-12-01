@@ -24,7 +24,7 @@ public class AuthExceptionResolver {
         }
         else
         {
-            response.getWriter().write(exception.getMessage());
+            throw exception;
         }
 
     }

@@ -2,6 +2,7 @@ package main.project.server.guesthouse.dto;
 
 import lombok.*;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
+import main.project.server.guesthouseimage.dto.GuestHouseImageDto;
 import main.project.server.review.dto.ReviewDto;
 import main.project.server.room.dto.RoomDto;
 
@@ -147,5 +148,8 @@ public class GuestHouseDto {
     public static class ResponseSimple {
         private Long guestHouseId;
         private String guestHouseName;
+        private String mainImageUrl;
+        private String[] guestHouseTag;
+        private Integer minRoomPrice;
     }
 }

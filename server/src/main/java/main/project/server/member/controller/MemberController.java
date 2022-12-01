@@ -6,6 +6,7 @@ import main.project.server.chart.condition.SearchCondition;
 import main.project.server.dto.MultiResponseDto;
 import main.project.server.dto.PageInfo;
 import main.project.server.dto.SingleResponseDto;
+import main.project.server.guesthouse.mapper.GuestHouseMapper;
 import main.project.server.guesthouse.service.GuestHouseService;
 import main.project.server.jwt.service.TokenService;
 import main.project.server.heart.dto.HeartDto;
@@ -20,6 +21,7 @@ import main.project.server.review.dto.ReviewDto;
 import main.project.server.review.entity.Review;
 import main.project.server.review.mapper.ReviewMapper;
 import main.project.server.review.service.ReviewService;
+import main.project.server.room.mapper.RoomMapper;
 import main.project.server.room.service.RoomService;
 import main.project.server.roomreservation.dto.RoomReservationDto;
 import main.project.server.roomreservation.entity.RoomReservation;
@@ -59,6 +61,10 @@ public class MemberController {
     private final TokenService tokenService;
 
     private final TagMapper tagMapper;
+
+    private final GuestHouseMapper guestHouseMapper;
+
+    private final RoomMapper roomMapper;
 
     // 맴버 생성
     @PostMapping("/api/members")
@@ -142,7 +148,7 @@ public class MemberController {
 
         Page<Review> reviewPage = reviewService.getReviewPageByMember(page, size, principal.getName());
         PageInfo pageInfo = PageInfo.of(reviewPage);
-        List<ReviewDto.ResponseMyPage> responses = reviewMapper.reviewToReviewResponseMyPageDto(reviewPage.getContent());
+        List<ReviewDto.ResponseMyPage> responses = reviewMapper. reviewToReviewResponseMyPageDto(reviewPage.getContent(), guestHouseMapper, roomMapper, tagMapper);
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>("get ok", responses, pageInfo), HttpStatus.OK);
@@ -158,7 +164,9 @@ public class MemberController {
         PageInfo pageInfo = PageInfo.of(heartPage);     // 페이지 정보 생성
 
         // 페이지 -> 리스트(Response) 형태로 dto 변환
-        List<HeartDto.ResponseMyPage> responses = heartMapper.reviewToReviewResponseMyPageDto(heartPage.getContent());
+        List<HeartDto.ResponseMyPage> responses = heartMapper.reviewToReviewResponseMyPageDto(heartPage.getContent(), tagMapper, guestHouseMapper);
+
+
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>("get ok", responses, pageInfo), HttpStatus.OK);
