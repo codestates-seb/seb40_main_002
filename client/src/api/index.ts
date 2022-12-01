@@ -1,11 +1,9 @@
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
+
 const baseUrl = process.env.REACT_APP_SERVER_URL;
 const Api = axios.create({
   baseURL: baseUrl,
-  headers: {
-    'content-type': 'application/json;charset=UTF-8',
-  },
-  withCredentials: true,
 });
 
 Api.interceptors.request.use(function (config: any) {
@@ -29,27 +27,33 @@ Api.interceptors.response.use(
     return response;
   },
   async function (err) {
-    const originConfig = err.confing;
-    if (err.response && err.response.status === 403) {
+    const originConfig = err.config;
+
+    if (err.response && err.response.status === 401) {
       const accessToken = originConfig.headers['Authorization'];
       const refreshToken = originConfig.headers['refreshToken'];
+
       try {
         const data = await axios({
-          url: `${baseUrl}/members/refresh`,
+          url: `${baseUrl}/api/token`,
           method: 'post',
           data: {
             refreshToken: refreshToken,
           },
         });
+
         if (data) {
           localStorage.setItem(
             'accessToken',
-            JSON.stringify(data.headers.authorization)
+            JSON.stringify(data.data.data.accessToken)
           );
         }
         return await Api.request(originConfig);
       } catch (err) {
-        console.log('토큰 갱신 에러');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('persist:root'); //
+        window.location.reload();
       }
       return Promise.reject(err);
     }

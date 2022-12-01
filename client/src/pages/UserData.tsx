@@ -26,23 +26,24 @@ export default function UserData() {
       navigate('/register');
     }
     if (accessToken && refreshToken) {
-      console.log(accessToken);
+      // console.log(accessToken);
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
       axios
         .get(`/api/auth/members`, {
           headers: {
             Authorization: accessToken,
-            'ngrok-skip-browser-warning': 'any',
+            // 'ngrok-skip-browser-warning': 'any',
           },
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           // user 정보 저장하기
           dispatch(setUser(res.data.data as User));
+          navigate('/');
+          // location.reload(); // 임시
         })
         .catch((err) => console.log(err));
-      navigate('/');
     }
   }, []);
   return <></>;

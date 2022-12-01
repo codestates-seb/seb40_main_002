@@ -30,7 +30,7 @@ const SelectLocation = ({
       newSelects[idx] = !newSelects[idx];
       setSelects(newSelects);
     }
-    console.log(onlyTrue);
+    // console.log(onlyTrue);
   };
 
   const handleComplete = () => {

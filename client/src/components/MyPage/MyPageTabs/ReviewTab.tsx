@@ -1,26 +1,94 @@
 import Comment from '../../common/Comment/Comment';
-
+import { getReviewData } from '../../../apis/getReviewData';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import MyPagePagination from './MyPagePagination';
+type Reviews = {
+  data: [
+    {
+      reviewId: number;
+      guestHouse: {
+        guestHouseId: number;
+        guestHouseName: string;
+      };
+      roomReservation: {
+        room: {
+          roomId: number;
+          roomName: string;
+          roomPrice: number;
+          roomImageUrl: string;
+          roomInfo: string;
+          reservePossible: boolean;
+        };
+        roomReservationStart: string;
+        roomReservationEnd: string;
+      };
+      comment: string;
+      star: number;
+      createdAt: string;
+      modifiedAt: string;
+    }
+  ];
+  pageInfo: {
+    page: number;
+    size: number;
+    totalElements: number;
+    totalPages: number;
+  };
+};
 function ReviewTab() {
-  const id = '해당객실주소';
   // const detailReviewPage = '유동적으로 설정';
+  const [page, setPage] = useState<number | null>(1);
+  const [reviewData, setReviewData] = useState<Reviews>();
+  const mainUser = useSelector((state: RootState) => state.user);
+  useEffect(() => {
+    const data = async () => {
+      const userData = await getReviewData(`?page=${page}&size=4`);
+      setReviewData(userData);
+    };
+    data();
+  }, [page]);
+
   return (
-    <div>
-      <Comment
-        // type 종류 : myPage, roomDetail, review
-        houseName={'정우네 게스트하우스'}
-        date={'2022-11-16~2022-11-18'}
-        imgsrc={'http://gravatar.com/avatar/1'}
-        room={'도미토리 4인실'}
-        roomLink={`/room/${id}`}
-        type="myReview"
-        reviewComment={{
-          userName: '정우허',
-          createBy: '2022년 6월',
-          comment: '정말 즐거웠어요',
-          ProfileImg: 'http://gravatar.com/avatar/5',
-          starScore: 5,
-        }}
-      />
+    <div className="mb-[100px]">
+      <div>
+        {reviewData && reviewData.data.length > 0 ? (
+          reviewData.data.map((el) => {
+            return (
+              <div key={el.reviewId} className="mb-[10px]">
+                <Comment
+                  // type 종류 : myPage, roomDetail, review
+                  houseName={el.guestHouse.guestHouseName}
+                  date={`${el.roomReservation.roomReservationStart}~${el.roomReservation.roomReservationEnd}`}
+                  imgsrc={el.roomReservation.room.roomImageUrl}
+                  room={el.roomReservation.room.roomName}
+                  roomLink={`/ghdetail/${el.guestHouse.guestHouseId}?start=${el.roomReservation.roomReservationStart}&end=${el.roomReservation.roomReservationEnd}`}
+                  type="review"
+                  reviewComment={{
+                    userName: mainUser.memberNickname,
+                    createBy: 'el.createdAt',
+                    comment: el.comment,
+                    ProfileImg: mainUser.memberImageUrl,
+                    starScore: el.star,
+                  }}
+                />
+              </div>
+            );
+          })
+        ) : (
+          <div className="text-center">작성한 후기가 없습니다</div>
+        )}
+        <div className="text-center">
+          {reviewData && reviewData.data.length > 0 ? (
+            <MyPagePagination
+              totalPages={reviewData.pageInfo.totalPages}
+              page={page}
+              setPage={setPage}
+            />
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 }

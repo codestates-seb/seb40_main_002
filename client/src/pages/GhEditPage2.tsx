@@ -10,7 +10,7 @@ import RoomEdit from '../components/ghEdit/RoomEdit';
 import TagContainer from '../components/ghEdit/TagContainer';
 import { ghEditDatafilter } from '../apis/ghEditDatafilter';
 import { ghDataCheck, EditGhData } from '../libs/ghDatafunc';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ghEditForm } from '../libs/ghEditCreateForm';
 import useEditPage from '../hooks/useEditPage';
 import Api from '../api';
@@ -20,7 +20,7 @@ export default function GhEditPage2() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   // 게스트하우스 이름
-
+  const navigate = useNavigate();
   const {
     guestHouseName,
     setGuestHouseName,
@@ -109,7 +109,8 @@ export default function GhEditPage2() {
           },
         }
       );
-      console.log(postSurvey);
+      navigate('/ghadmin');
+      window.location.reload();
     } catch (e) {
       console.log(e);
     }

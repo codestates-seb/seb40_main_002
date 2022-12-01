@@ -1,92 +1,140 @@
 import GhAdminList from '../components/GhAdmin/GhAdminList';
-import { MyPageUser } from '../types/user';
+import { User2, User1 } from '../types/user';
 import UserInfoCard from '../components/MyPage/UserInfoCard/UserInfoCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Api from '../api';
+import { getUser as settingUser } from '../api/member';
+import { convertURLtoFile } from '../libs/srcToFile';
 
-const testUser: MyPageUser = {
-  memberImageUrl:
-    'https://cdn.pixabay.com/photo/2015/11/16/14/43/cat-1045782_1280.jpg',
-  memberTag: ['오션뷰', '한적한', '나무'],
-  memberId: '45423243244@kakao',
-  memberNickname: '찰나의지루함',
-  memberEmail: 'wotddd@naver.com',
-  memberPhone: '010-2222-5555',
-  memberReservation: [
-    {
-      guestHouserName: '숙소명1',
-      guestHouseRoomStart: '2022-11-01',
-      guestHouseRoomEnd: '2022-11-05',
-    },
-    {
-      guestHouserName: '숙소명2',
-      guestHouseRoomStart: '2022-11-07',
-      guestHouseRoomEnd: '2022-11-09',
-    },
-  ],
-  memberReview: [
-    {
-      guestHouseName: '숙소명1',
-      reviewContent: '리뷰내용1',
-    },
-    {
-      guestHouseName: '숙소명2',
-      reviewContent: '리뷰내용2',
-    },
-  ],
-  memberComunity: [
-    {
-      postTitle: '게시글 제목1',
-    },
-    {
-      postTitle: '게시글 제목2',
-    },
-  ],
-};
+interface GhData {
+  ghAdminData: {
+    memberNickname: string;
+    guestHouseImage: string[];
+    guestHouseName: string;
+    guestHouseStar: number;
+    guestHouseTag: Array<string>;
+    guestHouseId: number;
+    rooms: { roomPrice: number }[];
+  }[];
+}
+
+interface PageInfo {
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+}
+
+interface GhList {
+  guestHouseId: number;
+  guestHouseName: string;
+  memberId: string;
+  memberNickname: string;
+  memberPhone: string;
+  memberImageUrl: string;
+  guestHouseLocation: string;
+  guestHouseAddress: string[];
+  guestHousePhone: string;
+  guestHouseStatus: string;
+  guestHouseDetails: boolean[];
+  guestHouseStar: number;
+  guestHouseTag: string[];
+  guestHouseImage: string[];
+  guestHouseInfo: string;
+  rooms: object[];
+  reviews: object[] | null;
+  guestHouseReviewCount: number;
+  createdAt: string;
+  modifiedAt: string;
+}
+
 const GhAdminPage = () => {
-  const ghAdminData = [
-    {
-      guestHouseId: 143,
-      guestHouseName: '게스트하우스의이름',
-      memberId: '업주',
-      memberNickname: '테스터닉네임',
-      memberPhone: '010-2222-3333',
-      memberImageUrl: null,
-      guestHouseLocation: '22.33333 , 43.2223',
-      guestHouseAddress: ['제주시', '성북구', '을왕리 31'],
-      guestHousePhone: '010-7777-1111',
-      guestHouseStatus: 'OPEN',
-      guestHouseDetails: [
-        true,
-        true,
-        false,
-        true,
-        false,
-        true,
-        false,
-        true,
-        false,
-      ],
-      guestHouseStar: 4.5,
-      guestHouseTag: ['오션뷰', '일출'],
-      guestHouseImage: [
-        'http://3.37.58.81:8080/images/guesthouse/143/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%20-%2022%20-2%202%20-2%20.jpg',
-      ],
-      guestHouseInfo: '이곳은 아무나 올 수 있는 게스트 하우스가 아닙니다.',
-      rooms: [{ roomPrice: 1000 }],
-      reviews: null,
-      guestHouseReviewCount: 11111,
-      createdAt: '2022-11-23T08:29:43',
-      modifiedAt: '2022-11-24T20:30:20.039736',
-    },
-  ];
-  const [user, setUser] = useState(testUser);
+  const [user, setUser] = useState<User1>({
+    memberId: '',
+    memberBirth: '',
+    memberEmail: '',
+    memberImageFile: [],
+    memberNationality: '',
+    memberNickname: '',
+    memberPhone: '',
+    memberRegisterKind: '',
+    memberRoles: [],
+    memberTag: [],
+  });
+  const [ghList, setGhList] = useState<GhData | null>(null);
+  const [pagenation, setPagenation] = useState<PageInfo | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [currentpageNum, setCurrentPageNum] = useState(1);
+  useEffect(() => {
+    const getGhdata = async () => {
+      // 유저 정보 가져 오기
+      const userGet = (await settingUser()) as User2;
+      // 해당 호스트가 가지고 있는 데이터 가져오기
+      const data = await Api.get(
+        `/api/auth/members/${userGet.memberId}/guesthouse?page=${currentpageNum}&size=7`
+      );
+      setPagenation({ ...data.data.pageInfo });
+      const ghData = data.data.data.map((x: GhList) => {
+        return {
+          memberNickname: x.memberNickname,
+          guestHouseImage: x.guestHouseImage,
+          guestHouseName: x.guestHouseName,
+          guestHouseStar: x.guestHouseStar,
+          guestHouseTag: x.guestHouseTag,
+          guestHouseId: x.guestHouseId,
+          rooms: x.rooms.map((x: any) => {
+            return { roomPrice: x.roomPrice };
+          }),
+        };
+      });
+      const FileData = await convertURLtoFile(
+        `${process.env.REACT_APP_SERVER_URL}${userGet.memberImageUrl}`
+      );
+      // 유저 정보
+      setUser({
+        ...userGet,
+        memberImageFile: [FileData],
+      });
+
+      // 게하 정보 갱신
+      setGhList({
+        ghAdminData: [...ghData],
+      });
+      setLoading(true);
+    };
+    getGhdata();
+  }, [currentpageNum]);
 
   return (
     <div className="flex justify-between w-full h-full py-[20px]">
-      <UserInfoCard user={user} setUser={setUser} />
-      <div className="mx-[20px]">
-        <GhAdminList ghAdminData={ghAdminData} />
-      </div>
+      {loading && ghList && user && (
+        <div className="flex flex-col">
+          <div className="flex">
+            <UserInfoCard user={user} setUser={setUser} />
+            <div className="mx-[20px]">
+              <GhAdminList ghAdminData={ghList.ghAdminData} />
+            </div>
+          </div>
+          <div className="text-right ">
+            {pagenation &&
+              new Array(pagenation.totalPages).fill(0).map((x, idx) => (
+                <button
+                  className={`${
+                    currentpageNum === idx + 1
+                      ? 'border-b-[2px] border-black border-b-2'
+                      : ''
+                  } ml-[10px] py-[2px] px-[12px] mb-[20px] pointer-events-auto}`}
+                  key={idx}
+                  onClick={() => {
+                    setCurrentPageNum(idx + 1);
+                  }}
+                >
+                  {idx + 1}
+                </button>
+              ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
