@@ -1,25 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SelectLocation from './SelectLocation';
 import Tag from '../Tag';
+import axios from 'axios';
 
-const locations = [
-  '제주',
-  '애월',
-  '성산',
-  '장소1',
-  '장소2',
-  '장소3',
-  '장소4',
-  '장소5',
-  '장소6',
-  '장소7',
-];
-
-const Location = () => {
+const Location = ({
+  setCityId,
+}: {
+  setCityId: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
-  const [selects, setSelects] = useState(
-    new Array(locations.length).fill(false)
-  );
+  const [locations, setLocations] = useState([]);
+  const [locationsId, setLocationsId] = useState([]);
+  const [selects, setSelects] = useState<boolean[]>([]);
+  useEffect(() => {
+    axios
+      .get(`/api/city`)
+      .then((res) => {
+        setLocationsId(res.data.map((el: { cityId: number }) => el.cityId));
+        setLocations(res.data.map((el: { cityName: string }) => el.cityName));
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    setSelects(new Array(locations.length).fill(false));
+  }, [locations]);
+
+  useEffect(() => {
+    for (let i = 0; i < selects.length; i++) {
+      if (selects[i]) {
+        setCityId(locationsId[i]);
+        break;
+      }
+    }
+  }, [selects]);
+
   const modalHandler = () => {
     setIsLocationOpen(!isLocationOpen);
   };

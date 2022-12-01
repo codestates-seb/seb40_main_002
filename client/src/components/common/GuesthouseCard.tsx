@@ -5,15 +5,24 @@ import Heart from './Heart';
 import RatedStar from './RatedStar';
 import Tag from './Tag';
 
-function GuesthouseCard({ guesthouse }: { guesthouse: GuestHouseShort }) {
+function GuesthouseCard({
+  guesthouse,
+  start,
+  end,
+}: {
+  guesthouse: GuestHouseShort;
+  start?: string;
+  end?: string;
+}) {
   const navigate = useNavigate();
   const handleToGuesthouse = () => {
     // 해당 게스트하우스 링크로 이동
-    const startEnd = getTodayToTomorrow();
-    navigate(
-      `/ghdetail/${guesthouse.id}?start=${startEnd.today}&end=${startEnd.tomorrow}`
-    ); // start, end 지정 필요
-    console.log('gonna move to', guesthouse.id);
+    if (start === undefined && end === undefined) {
+      const startEnd = getTodayToTomorrow();
+      start = startEnd.today;
+      end = startEnd.tomorrow;
+    }
+    navigate(`/ghdetail/${guesthouse.id}?start=${start}&end=${end}`); // start, end 지정 필요
   };
   return (
     <div className="w-full h-full">

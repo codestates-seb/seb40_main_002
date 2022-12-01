@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { getGuesthouseList } from '../apis/guesthouse';
 import { GuestHouseShort } from '../types/guesthouse';
 import { SearchOption } from '../types/search';
@@ -23,21 +23,39 @@ function useInfiniteScroll(
   const [loading, setLoading] = useState(false);
   const [ref, inView] = useInView();
 
+  // const [searchParams] = useSearchParams();
+
   const location = useLocation();
   const url = new URLSearchParams(location.search);
+  const cityId = url.get('cityId');
   const start = url.get('start');
   const end = url.get('end');
   const tag = url.get('tag');
 
   const tags = tag?.split('-');
-
   const startEnd = getTodayToTomorrow();
   const [option, setOption] = useState<SearchOption>({
-    cityId: 1, // 변경해야 함
+    cityId: Number(cityId),
     start: start ? start : startEnd.today,
     end: end ? end : startEnd.tomorrow,
     tags: tags ? tags : [],
   });
+
+  // useEffect(() => {
+  //   const paramCityId = searchParams.get('cityId');
+  //   const paramStart = searchParams.get('start');
+  //   const paramEnd = searchParams.get('end');
+  //   const paramTag = searchParams.get('tag');
+
+  //   if (paramCityId && paramStart && paramEnd && paramTag) {
+  //     setOption({
+  //       cityId: Number(paramCityId),
+  //       start: paramStart,
+  //       end: paramEnd,
+  //       tags: paramTag.split('-'),
+  //     });
+  //   }
+  // }, [searchParams]);
 
   // 숙소 리스트 가져오기
   const getList = useCallback(async () => {
@@ -46,7 +64,6 @@ function useInfiniteScroll(
     if (option) {
       optionApi = `&cityId=${option.cityId}&start=${option.start}&end=${option.end}`;
       tagApi = option.tags.join('&tag=');
-      // console.log(optionApi, tagApi);
     }
     if (totalCount > list.length) {
       const newGuesthouses = await getGuesthouseList(
@@ -71,9 +88,15 @@ function useInfiniteScroll(
       setPage(1);
       setList([]);
       getList();
-      // console.log('sortType: ', sortType);
     }
   }, [sortType]);
+
+  // useEffect(() => {
+  //   console.log('changed!');
+  //   setPage(1);
+  //   setList([]);
+  //   getList();
+  // }, [option]);
 
   // 페이지 설정
   useEffect(() => {
