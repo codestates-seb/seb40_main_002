@@ -84,6 +84,14 @@ jobs:
         OCCUPY_JWT_TEST_DIR: server/src/test/resources
         OCCUPY_JWT_DIR_FILE_NAME: application-jwt.yml
       run: echo $OCCUPY_JWT | base64 --decode > $OCCUPY_JWT_DIR/$OCCUPY_JWT_DIR_FILE_NAME  
+      
+    - name: occupy-mail
+      env:
+        OCCUPY_MAIL: ${{ secrets.OCCUPY_MAIL }}
+        OCCUPY_MAIL_DIR: server/src/main/resources
+        OCCUPY_MAIL_TEST_DIR: server/src/test/resources
+        OCCUPY_MAIL_DIR_FILE_NAME: application-mail.yml
+      run: echo $OCCUPY_MAIL | base64 --decode > $OCCUPY_MAIL_DIR/$OCCUPY_MAIL_DIR_FILE_NAME
 
 
     # 빌드
