@@ -1,4 +1,6 @@
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
+
 const baseUrl = process.env.REACT_APP_SERVER_URL;
 const Api = axios.create({
   baseURL: baseUrl,
@@ -25,11 +27,12 @@ Api.interceptors.response.use(
     return response;
   },
   async function (err) {
-    const originConfig = err.confing;
-    console.log(err);
-    if (err.response && err.response.status >= 400) {
+    const originConfig = err.config;
+
+    if (err.response && err.response.status === 401) {
       const accessToken = originConfig.headers['Authorization'];
       const refreshToken = originConfig.headers['refreshToken'];
+
       try {
         const data = await axios({
           url: `${baseUrl}/api/token`,
@@ -38,6 +41,7 @@ Api.interceptors.response.use(
             refreshToken: refreshToken,
           },
         });
+
         if (data) {
           localStorage.setItem(
             'accessToken',
@@ -46,7 +50,10 @@ Api.interceptors.response.use(
         }
         return await Api.request(originConfig);
       } catch (err) {
-        console.log('토큰 갱신 에러');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('persist:root'); //
+        window.location.reload();
       }
       return Promise.reject(err);
     }
