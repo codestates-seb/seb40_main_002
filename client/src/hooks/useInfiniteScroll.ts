@@ -23,8 +23,6 @@ function useInfiniteScroll(
   const [loading, setLoading] = useState(false);
   const [ref, inView] = useInView();
 
-  // const [searchParams] = useSearchParams();
-
   const location = useLocation();
   const url = new URLSearchParams(location.search);
   const cityId = url.get('cityId');
@@ -41,6 +39,8 @@ function useInfiniteScroll(
     tags: tags ? tags : [],
   });
 
+  // const [searchParams] = useSearchParams();
+
   // useEffect(() => {
   //   const paramCityId = searchParams.get('cityId');
   //   const paramStart = searchParams.get('start');
@@ -56,6 +56,13 @@ function useInfiniteScroll(
   //     });
   //   }
   // }, [searchParams]);
+
+  // useEffect(() => {
+  //   console.log('changed!');
+  //   setPage(1);
+  //   setList([]);
+  //   getList();
+  // }, [option]);
 
   // 숙소 리스트 가져오기
   const getList = useCallback(async () => {
@@ -90,13 +97,6 @@ function useInfiniteScroll(
       getList();
     }
   }, [sortType]);
-
-  // useEffect(() => {
-  //   console.log('changed!');
-  //   setPage(1);
-  //   setList([]);
-  //   getList();
-  // }, [option]);
 
   // 페이지 설정
   useEffect(() => {
