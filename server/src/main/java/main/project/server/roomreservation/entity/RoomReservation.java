@@ -38,8 +38,10 @@ public class RoomReservation extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
+    @Column(nullable = false)
     private LocalDate roomReservationStart;
 
+    @Column(nullable = false)
     private LocalDate roomReservationEnd;
 
     @Enumerated(EnumType.STRING)

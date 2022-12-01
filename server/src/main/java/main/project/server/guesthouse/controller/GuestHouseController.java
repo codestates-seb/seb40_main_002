@@ -51,7 +51,7 @@ public class GuestHouseController {
     @PostMapping(value = "/api/auth/guesthouse", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity postGuestHouse(@RequestPart(value = "guest-house-dto", required = false) @Valid GuestHouseDto.Post guestHouseDto,
                                          @RequestPart(required = false) MultipartFile[] guestHouseImage,
-                                         @RequestPart(value = "room-dto") MultiRoomDto<RoomDto.Post> roomPostDtos,
+                                         @RequestPart(value = "room-dto") @Valid MultiRoomDto<RoomDto.Post> roomPostDtos,
                                          @RequestPart (value = "room-image", required = false) MultipartFile[] roomImages,
                                          @NotNull Principal principal
                                          ) throws IOException {
@@ -73,7 +73,7 @@ public class GuestHouseController {
     @PutMapping(value = "/api/auth/guesthouse/{guesthouse-id}")
     public ResponseEntity putGuestHouse(@RequestPart(value = "guest-house-dto", required = false) @Valid GuestHouseDto.Put guestHouseDto,
                                         @RequestPart(required = false) MultipartFile[] guestHouseImage,
-                                        @RequestPart(value = "room-dto") MultiRoomDto<RoomDto.Put> roomPutDtos,
+                                        @RequestPart(value = "room-dto") @Valid MultiRoomDto<RoomDto.Put> roomPutDtos,
                                         @RequestPart (value = "room-image", required = false) MultipartFile[] roomImages,
                                         @RequestPart(value = "new-room-image", required = false) MultipartFile[] newRoomImages,
                                         @NotNull Principal principal,
