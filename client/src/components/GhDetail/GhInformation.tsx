@@ -7,10 +7,10 @@ import { useNavigate } from 'react-router-dom';
 type TagProps = {
   ghName: string;
   ghInfo: string;
-  ghNickname: string;
+  ghMemberId: string;
   tags: string[];
   ghImage: string[];
-  userNickname: string;
+  userMemberId: string;
   guestHouseId: number;
 };
 const GhInformation = ({
@@ -18,12 +18,12 @@ const GhInformation = ({
   ghInfo,
   ghName,
   ghImage,
-  ghNickname,
-  userNickname,
+  ghMemberId,
+  userMemberId,
   guestHouseId,
 }: TagProps) => {
   const navigate = useNavigate();
-  const admin = ghNickname === userNickname;
+  const admin = ghMemberId === userMemberId;
   const editHandler = () => {
     navigate(`/ghedit/${guestHouseId}`);
   };

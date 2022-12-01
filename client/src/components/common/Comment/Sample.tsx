@@ -48,7 +48,7 @@ export default function Sample() {
   const reservationData = {
     guestHouseName: '숙소1',
     roomName: '방이름',
-    roomImageUrl: 'http://localhost:8080/images/IMG_8753.JPG',
+    roomImageUrl: `${process.env.REACT_APP_SERVER_URL}/images/IMG_8753.JPG`,
     roomReservationStart: '2022-11-11',
     roomReservationEnd: '2022-11-16',
   };
