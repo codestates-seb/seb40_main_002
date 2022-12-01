@@ -64,16 +64,16 @@ const GhAdminPage = () => {
   const [ghList, setGhList] = useState<GhData | null>(null);
   const [pagenation, setPagenation] = useState<PageInfo | null>(null);
   const [loading, setLoading] = useState(false);
-
+  const [currentpageNum, setCurrentPageNum] = useState(1);
   useEffect(() => {
     const getGhdata = async () => {
       // 유저 정보 가져 오기
       const userGet = (await settingUser()) as User2;
       // 해당 호스트가 가지고 있는 데이터 가져오기
       const data = await Api.get(
-        `/api/auth/members/${userGet.memberId}/guesthouse?page=1&size=10`
+        `/api/auth/members/${userGet.memberId}/guesthouse?page=${currentpageNum}&size=7`
       );
-
+      setPagenation({ ...data.data.pageInfo });
       const ghData = data.data.data.map((x: GhList) => {
         return {
           memberNickname: x.memberNickname,
@@ -103,17 +103,37 @@ const GhAdminPage = () => {
       setLoading(true);
     };
     getGhdata();
-  }, []);
-  console.log(user);
+  }, [currentpageNum]);
+
   return (
     <div className="flex justify-between w-full h-full py-[20px]">
       {loading && ghList && user && (
-        <>
-          <UserInfoCard user={user} setUser={setUser} />
-          <div className="mx-[20px]">
-            <GhAdminList ghAdminData={ghList.ghAdminData} />
+        <div className="flex flex-col">
+          <div className="flex">
+            <UserInfoCard user={user} setUser={setUser} />
+            <div className="mx-[20px]">
+              <GhAdminList ghAdminData={ghList.ghAdminData} />
+            </div>
           </div>
-        </>
+          <div className="text-right ">
+            {pagenation &&
+              new Array(pagenation.totalPages).fill(0).map((x, idx) => (
+                <button
+                  className={`${
+                    currentpageNum === idx + 1
+                      ? 'border-b-[2px] border-black border-b-2'
+                      : ''
+                  } ml-[10px] py-[2px] px-[12px] mb-[20px] pointer-events-auto}`}
+                  key={idx}
+                  onClick={() => {
+                    setCurrentPageNum(idx + 1);
+                  }}
+                >
+                  {idx + 1}
+                </button>
+              ))}
+          </div>
+        </div>
       )}
     </div>
   );

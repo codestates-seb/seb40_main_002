@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { IoMdHeart, IoMdHeartEmpty } from 'react-icons/io';
+import Api from '../../api';
 import { isLogin } from '../../utils/isLogin';
 interface Props {
   isFavorite?: boolean;
@@ -10,12 +11,11 @@ interface Props {
 function Heart({ isFavorite = false, id }: Props) {
   const [isRed, setIsRed] = useState(isFavorite);
   const getHeart = useCallback(async () => {
-    await axios
-      .get(`/api/auth/guesthouse/${id}/heart`, {
-        headers: {
-          Authorization: localStorage.getItem('accessToken'),
-        },
-      })
+    await Api.get(`/api/auth/guesthouse/${id}/heart`, {
+      headers: {
+        Authorization: localStorage.getItem('accessToken'),
+      },
+    })
       .then((res) => {
         // console.log(res);
         setIsRed(res.data.data);
