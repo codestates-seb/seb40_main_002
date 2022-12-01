@@ -41,7 +41,7 @@ redis:
 
 
 images:
-  upload-ec2: "/home/ec2-user"
+  upload-ec2: "/home/ubuntu"
   upload-path: "/home/ubuntu/images/guesthouse/"
   member-profile : "images/memberprofile/"
   room-dir: "images/room/"
