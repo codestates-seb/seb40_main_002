@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.security.Principal;
 import java.util.List;
@@ -47,7 +48,7 @@ public class ReviewController {
     @PutMapping("/api/auth/guesthouse/review/{review-id}")
     public ResponseEntity patchReview(@RequestBody ReviewDto.Put put,
                                       @PathVariable("review-id") @Positive Long reviewId,
-                                      Principal principal) {
+                                      @NotNull Principal principal) {
         // 리뷰 수정 요청을 service 넘겨 처리하고 결과값으로 review 객체를 받음
         Review review = reviewService.putReview(reviewMapper.reviewPutDtoToReview(put), reviewId, principal);
 
@@ -79,7 +80,7 @@ public class ReviewController {
     // 리뷰 삭제
     @DeleteMapping("/api/auth/guesthouse/review/{review-id}")
     public ResponseEntity deleteReview(@PathVariable("review-id") @Positive Long reviewId,
-                                       Principal principal) {
+                                       @NotNull Principal principal) {
 
         reviewService.deleteReview(reviewId, principal);    // 리뷰 삭제
 

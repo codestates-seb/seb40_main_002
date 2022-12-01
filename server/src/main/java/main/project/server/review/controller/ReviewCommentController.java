@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.security.Principal;
 
@@ -29,7 +30,7 @@ public class ReviewCommentController {
     @PostMapping("/api/auth/guesthouse/review/{review-id}/comment")
     public ResponseEntity postReviewComment(@RequestBody ReviewCommentDto.Post post,
                                             @PathVariable("review-id") @Positive Long reviewId,
-                                            Principal principal) {
+                                            @NotNull Principal principal) {
 
         ReviewComment reviewComment = reviewCommentService
                 .postReviewComment(reviewCommentMapper.PostDtoToReviewComment(post), reviewId, principal);
@@ -43,7 +44,7 @@ public class ReviewCommentController {
     @PutMapping("/api/auth/guesthouse/review/{review-id}/comment")
     public ResponseEntity patchReviewComment(@RequestBody ReviewCommentDto.Put put,
                                              @PathVariable("review-id") @Positive Long reviewId,
-                                             Principal principal) {
+                                             @NotNull Principal principal) {
 
         ReviewComment reviewComment = reviewCommentService
                 .putReviewComment(reviewCommentMapper.PutDtoToReviewComment(put), reviewId, principal);
@@ -67,7 +68,7 @@ public class ReviewCommentController {
     // 리뷰 comment 삭제
     @DeleteMapping("/api/auth/guesthouse/review/{review-id}/comment")
     public ResponseEntity deleteReview(@PathVariable("review-id") @Positive Long reviewId,
-                                       Principal principal) {
+                                       @NotNull Principal principal) {
 
         reviewCommentService.deleteReviewComment(reviewId, principal);
 

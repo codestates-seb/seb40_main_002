@@ -1,6 +1,8 @@
 package main.project.server.member.dto;
 
 import lombok.*;
+import main.project.server.annotation.validation.enumvalid.ValidEnum;
+import main.project.server.annotation.validation.filed.ValidTag;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberRegisterKind;
 import main.project.server.validation.role.ValidRole;
@@ -37,12 +39,14 @@ public class MemberDto {
                 message = "생년월일은 유효한 'yyyy-mm-dd' 형식이어야 합니다.")
         private String memberBirth;
 
+        @ValidEnum(enumClass = MemberNationality.class)
         private MemberNationality memberNationality;
 
+        @ValidEnum(enumClass = MemberRegisterKind.class)
         private MemberRegisterKind memberRegisterKind; //가입 경로, ex) GOOGLE, NAVER, KAKAO....
         @ValidRole
         private List<String> memberRole; //멤버 역할, ex) USER, ADMIN ...
-
+        @ValidTag
         private String[] memberTag;
 
     }
