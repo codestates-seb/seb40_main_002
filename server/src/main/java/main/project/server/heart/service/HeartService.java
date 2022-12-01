@@ -16,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -100,7 +99,7 @@ public class HeartService {
 
         Pageable pageable = PageRequest.of(page-1, size, Sort.by("heartId").descending());
 
-        return heartRepository.findByMemberMemberId(memberId, pageable);
+        return heartRepository.findByMemberMemberIdAndHeartStatusIs(memberId, true, pageable);
     }
 }
 
