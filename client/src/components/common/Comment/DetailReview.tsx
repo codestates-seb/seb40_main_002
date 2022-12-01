@@ -33,14 +33,15 @@ interface Props {
     reviewId: number;
     star: number; // 해당 댓글 고유 아이디
   };
+  userId?: string;
 
   type: string;
 }
 
-export default function DetailReview({ reviewComment, type }: Props) {
+export default function DetailReview({ reviewComment, type, userId }: Props) {
   // 전역 변수 로그인된 사용자(관리자)
-  const currentUser = '업주';
   const [openComment, setOpenComment] = useState<boolean>(false);
+
   return (
     <>
       <div className="flex flex-row">
@@ -48,13 +49,16 @@ export default function DetailReview({ reviewComment, type }: Props) {
           <div className="flex flex-col justify-between">
             <div className="w-[40px] mr-[10px]">
               <img
-                src={reviewComment && reviewComment.member.memberImageUrl}
+                src={
+                  reviewComment &&
+                  `${process.env.REACT_APP_SERVER_URL}${reviewComment.member.memberImageUrl}`
+                }
                 className="rounded-full w-[40px] mr-[10px] mb-[10px]"
               />
             </div>
             {type === 'reviewPage' &&
               reviewComment &&
-              reviewComment.guestHouseMemberId === currentUser && (
+              reviewComment.guestHouseMemberId === userId && (
                 <div
                   className="text-sm text-font-color cursor-pointer"
                   onClick={() => {

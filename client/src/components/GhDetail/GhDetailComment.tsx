@@ -1,11 +1,14 @@
 import React from 'react';
 import CommonBtn from '../common/CommonBtn/CommonBtn';
 import DetailReview from '../common/Comment/DetailReview';
+import { useNavigate } from 'react-router-dom';
 import { ReviewProps } from '../../types/ghDetailData';
 
-const GhDetailComment = ({ reviewComment }: ReviewProps) => {
+const GhDetailComment = ({ reviewComment, ghId }: ReviewProps) => {
+  const navigate = useNavigate();
   const commentHandler = () => {
     console.log('모든후기');
+    navigate(`/review/${ghId}`);
   };
 
   return (
