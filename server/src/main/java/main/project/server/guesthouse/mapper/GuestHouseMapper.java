@@ -13,6 +13,7 @@ import main.project.server.guesthousedetails.entity.GuestHouseDetails;
 
 import main.project.server.member.entity.Member;
 import main.project.server.review.dto.ReviewDto;
+import main.project.server.room.entity.Room;
 import main.project.server.room.mapper.RoomMapper;
 import main.project.server.room.service.RoomService;
 
@@ -256,6 +257,32 @@ public interface GuestHouseMapper {
         return likeStringBuilder.toString();
     }
 
+
+    default GuestHouseDto.ResponseSimple guestHouseToResponseSimple(GuestHouse guestHouse, TagMapper tagMapper) {
+
+        GuestHouseDto.ResponseSimple responseSimple = new GuestHouseDto.ResponseSimple();
+        responseSimple.setGuestHouseId(guestHouse.getGuestHouseId());
+        responseSimple.setGuestHouseName(guestHouse.getGuestHouseName());
+
+        String url = guestHouse.guestHouseImageListToUrlList() != null && guestHouse.guestHouseImageListToUrlList().size() != 0 ?
+                guestHouse.guestHouseImageListToUrlList().get(0) : null;
+
+        responseSimple.setMainImageUrl(url);
+        responseSimple.setGuestHouseTag(tagMapper.createSortedTagArray(guestHouse.getGuestHouseTag()));
+
+        List<Room> rooms = guestHouse.getRooms();
+        Collections.sort(rooms);
+
+        int minRoomPrice = 0;
+        if(rooms != null && rooms.size() != 0)
+        {
+            minRoomPrice = rooms.get(0).getRoomPrice();
+        }
+
+        responseSimple.setMinRoomPrice(minRoomPrice);
+
+        return responseSimple;
+    }
 
 
 

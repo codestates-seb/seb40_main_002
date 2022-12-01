@@ -60,4 +60,6 @@ public interface RoomMapper {
     }
 
     List<RoomDto.Response> roomsToRoomResponses(List<Room> rooms);
+
+    RoomDto.Response roomToRoomDtoResponse(Room room);
 }

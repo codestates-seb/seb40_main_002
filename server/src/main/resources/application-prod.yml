@@ -1,21 +1,22 @@
 spring:
   config:
     import:
-      - application-dev-google.yml
-      - application-dev-kakao.yml
-      - application-dev-naver.yml
-      - application-dev-rds.yml
-      - application-dev-jwt.yml
-      - 'aws-parameterstore:' # aws parameter store 적용
+      - application-prod-google.yml
+      - application-prod-kakao.yml
+      - application-prod-naver.yml
+      - application-prod-rds.yml
+      - application-prod-jwt.yml
+#      - 'aws-parameterstore:' # aws parameter store 적용
+
   # jpa
   jpa:
+    show-sql: true
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
         format_sql: true
         highlight_sql: true
-    show-sql: true
 
 
   # 404 페이지 처리, 404
@@ -38,18 +39,13 @@ redis:
     host: localhost
     port: 6379
 
+
 images:
+  upload-ec2: "/home/ec2-user"
   upload-path: "/home/ubuntu/images/guesthouse/"
   member-profile : "images/memberprofile/"
   room-dir: "images/room/"
 
-logging:
-  org:
-    hibernate:
-      SQL: debug
-      type:
-        descriptor:
-          sql: trace
 
 log:
   config:
