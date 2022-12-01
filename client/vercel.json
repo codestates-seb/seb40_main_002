@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "http://3.37.58.81:8080/api/:path*"
+      "destination": "https://2error.ga/api/:path*"
     },
     {
       "source": "/dn/:path*",
-      "destination": "http://k.kakaocdn.net/dn/:path*"
+      "destination": "https://k.kakaocdn.net/dn/:path*"
     }
   ]
 }
