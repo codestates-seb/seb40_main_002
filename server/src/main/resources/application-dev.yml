@@ -6,7 +6,7 @@ spring:
       - application-dev-naver.yml
       - application-dev-rds.yml
       - application-dev-jwt.yml
-      - 'aws-parameterstore:'
+      - 'aws-parameterstore:' # aws parameter store 적용
   # jpa
   jpa:
     hibernate:
@@ -59,7 +59,7 @@ log:
     err-log-filename: "main-project-log-err"
 
 
-
+# aws parameter store 적용
 aws:
   paramstore:
     enabled: true
