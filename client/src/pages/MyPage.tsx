@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import MyPageTabs from '../components/MyPage/MyPageTabs/MyPageTabs';
 import UserInfoCard from '../components/MyPage/UserInfoCard/UserInfoCard';
 import { MyPageUser } from '../types/user';
-
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 const testUser: MyPageUser = {
   memberImageUrl:
     'https://cdn.pixabay.com/photo/2015/11/16/14/43/cat-1045782_1280.jpg',
@@ -45,6 +46,7 @@ const testUser: MyPageUser = {
 
 function MyPage() {
   const [user, setUser] = useState(testUser);
+  const mainUser = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     // 회원 정보 요청

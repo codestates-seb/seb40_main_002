@@ -1,16 +1,19 @@
 import axios from 'axios';
 
-export const getReservationData = async (url: string) => {
+export const getReviewData = async (url: string) => {
   const accessToken = localStorage.getItem('accessToken');
 
   try {
-    const response = await axios.get(`/api/auth/members/reservations${url}`, {
+    const response = await axios.get(`/api/auth/members/review${url}`, {
       headers: {
         Authorization: accessToken,
       },
     });
 
-    return response.data;
+    const data = await response.data;
+    console.log(data);
+
+    return data;
   } catch (err) {
     console.log('Error >>', err);
   }

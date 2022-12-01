@@ -17,42 +17,60 @@ type ReservationType = {
     totalPages: number;
   };
 };
+
 function ReservationTab() {
-  const id = '해당객실주소';
-  const detailReviewPage = '유동적으로 설정';
-  const [reservationData, setReservationData] = useState<any>();
+  const [reservationData, setReservationData] = useState<ReservationType>();
+  const [page, setPage] = useState<number | null>(1);
   useEffect(() => {
     const data = async () => {
-      const userData = await getReservationData(`?page=1&size=4`);
+      const userData = await getReservationData(`?page=${page}&size=4`);
       setReservationData(userData);
     };
     data();
-  }, []);
-  console.log(reservationData);
+  }, [page]);
 
   return (
-    <>
+    <div className="mb-[100px]">
       <div>
-        {reservationData.data.length > 0 ? (
-          reservationData.data.map((el: any) => {
-            <Comment
-              key={el.guestHouseId}
-              // type 종류 : myPage, roomDetail, reviewPage
-              houseName={el.guestHouseName}
-              date={`${el.roomReservationStart}~${el.roomReservationEnd}`}
-              imgsrc={el.roomImageUrl}
-              room={el.roomName}
-              roomLink={`/ghdetail/${el.guestHouseId}?start=${el.roomReservationStart}end=${el.roomReservationEnd}`}
-              // 이동되는 라우터를 적어주시면 됩니다. 해당 게스트하우스 페이지로 이동됩니다.
-              // reviewLink={`${detailReviewPage}`}
-              type="myPage"
-            />;
+        {reservationData && reservationData.data.length > 0 ? (
+          reservationData.data.map((el, i) => {
+            return (
+              <div key={i} className="mb-[10px]">
+                <Comment
+                  houseName={el.guestHouseName}
+                  date={`${el.roomReservationStart}~${el.roomReservationEnd}`}
+                  imgsrc={el.roomImageUrl}
+                  room={el.roomName}
+                  roomLink={`/ghdetail/${el.guestHouseId}?start=${el.roomReservationStart}&end=${el.roomReservationEnd}`}
+                  reviewLink={'/review'}
+                  type="myPage"
+                />
+              </div>
+            );
           })
         ) : (
-          <div>asdasd</div>
+          <div className="text-center">예약 내역이 없습니다</div>
         )}
       </div>
-    </>
+      <div className="text-center">
+        {reservationData && reservationData.data.length > 0
+          ? Array(reservationData?.pageInfo.totalPages)
+              .fill(0)
+              .map((el, i) => (
+                <button
+                  className={`${
+                    page == i + 1 ? 'border-b-[2px] border-black' : null
+                  } ml-[10px] py-[2px] px-[12px] mb-[20px] pointer-events-auto`}
+                  key={i}
+                  onClick={() => setPage(i + 1)}
+                  value={i + 1}
+                >
+                  {i + 1}
+                </button>
+              ))
+          : null}
+      </div>
+    </div>
   );
 }
 export default ReservationTab;
