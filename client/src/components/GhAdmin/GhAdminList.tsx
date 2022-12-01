@@ -1,4 +1,5 @@
 import { BsPlusLg } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 import GuesthouseCard from '../common/GuesthouseCard';
 
 interface Props {
@@ -13,13 +14,14 @@ interface Props {
   }[];
 }
 const GhAdminList = ({ ghAdminData }: Props) => {
+  const navigate = useNavigate();
   const addGhHandler = () => {
     //useNavigate 사용 예정
-    console.log('숙소 등록창으로 이동 ');
+    navigate('/ghedit');
   };
   return (
-    <div>
-      <div className="text-center text-xl m-[20px]">
+    <div className="h-full overflow-auto">
+      <div className="text-center text-xl m-[20px] ">
         <span className=" font-bold">{ghAdminData[0].memberNickname}</span>
         님의 숙소 리스트
       </div>
@@ -27,7 +29,7 @@ const GhAdminList = ({ ghAdminData }: Props) => {
         <div className="w-full h-full">
           <div
             onClick={addGhHandler}
-            className="aspect-[27/25] relative  bg-zinc-300 rounded-[15px]"
+            className="aspect-[27/25] relative  bg-zinc-300 rounded-[15px] cursor-pointer"
           >
             <div className=" absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
               <BsPlusLg color="black" size={'45px'} />
