@@ -9,10 +9,7 @@ export const getReviewData = async (url: string) => {
         Authorization: accessToken,
       },
     });
-
     const data = await response.data;
-    console.log(data);
-
     return data;
   } catch (err) {
     console.log('Error >>', err);
