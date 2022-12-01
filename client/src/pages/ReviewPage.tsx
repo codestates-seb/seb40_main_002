@@ -36,9 +36,7 @@ export default function ReviewPage() {
   useEffect(() => {
     const test = async () => {
       await getGhReviewData(ghId).then((res) => setReview(res));
-      const userInfo = await getUserInfo(
-        window.localStorage.getItem('accessToken')
-      );
+      const userInfo = await getUserInfo(localStorage.getItem('accessToken'));
       const ghInfo = await getGhInfo(ghId);
       console.log(userInfo, ghInfo);
       setGhInfo(ghInfo);
