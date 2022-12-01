@@ -48,6 +48,7 @@ imagesdir
 images/
 room/
 !src/main/java/main/project/server/guesthouse/room/
+!/src/main/resources/templates/images/
 
 ### log ###
 main-project/
@@ -59,3 +60,9 @@ src/main/resources/application-dev-jwt.yml
 src/main/resources/application-dev-kakao.yml
 src/main/resources/application-dev-naver.yml
 src/main/resources/application-dev-rds.yml
+src/main/resources/application-google.yml
+src/main/resources/application-jwt.yml
+src/main/resources/application-kakao.yml
+src/main/resources/application-naver.yml
+src/main/resources/application-rds.yml
+src/main/resources/application-mail.yml

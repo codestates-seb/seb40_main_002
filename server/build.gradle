@@ -71,6 +71,12 @@ dependencies {
 
 	//	 aws parameter sotre
 	implementation group: 'io.awspring.cloud', name: 'spring-cloud-starter-aws-parameter-store-config'
+
+	// email
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 //tasks.named('test') {
