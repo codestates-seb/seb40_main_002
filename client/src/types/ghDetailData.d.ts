@@ -86,6 +86,7 @@ export interface ReviewProps {
       star: number;
     }
   ];
+  ghId: string | undefined;
 }
 export interface ReviewPropsDetail {
   reviewId: number;
