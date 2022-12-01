@@ -38,8 +38,7 @@ export default function ReviewPage() {
       await getGhReviewData(ghId).then((res) => setReview(res));
       const userInfo = await getUserInfo(localStorage.getItem('accessToken'));
       const ghInfo = await getGhInfo(ghId);
-      console.log(userInfo, ghInfo);
-      console.log(localStorage.getItem('accessToken'));
+      console.log(userInfo);
       setGhInfo(ghInfo);
       setUser(userInfo);
       adminChecker(userInfo.memberId, ghInfo.memberId);
