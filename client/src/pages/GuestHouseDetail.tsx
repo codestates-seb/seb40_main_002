@@ -64,7 +64,7 @@ const GuestHouseDetail = () => {
             <RatedStar star={ghdata.guestHouseStar} />
             <div className="text-xl ">후기 {ghdata.reviews.length} 개</div>
           </div>
-          <GhDetailComment reviewComment={ghdata.reviews} />
+          <GhDetailComment reviewComment={ghdata.reviews} ghId={ghId} />
           <GhLocation
             ghLocation={ghdata.guestHouseLocation.split(',')}
             address={ghdata.guestHouseAddress}

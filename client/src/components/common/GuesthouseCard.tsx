@@ -38,7 +38,7 @@ function GuesthouseCard({
         </div>
         <div className="px-1">
           <div className="flex justify-between ">
-            <div className="block whitespace-nowrap overflow-hidden text-lg font-bold text-start mr-[2px] my-[2px] text-ellipsis">
+            <div className="block whitespace-wrap overflow-hidden text-lg font-bold text-start mr-[2px] my-[2px] text-ellipsis">
               {guesthouse.name}
             </div>
             <RatedStar star={guesthouse.star} />

@@ -43,7 +43,7 @@ function UserInfoEdit({
           Authorization: `${localStorage.getItem('accessToken')}`,
         },
       });
-      navigate('/ghadmin');
+
       window.location.reload();
     } catch (e) {
       console.log(e);
