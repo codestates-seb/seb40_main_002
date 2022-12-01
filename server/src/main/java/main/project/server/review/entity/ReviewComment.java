@@ -18,6 +18,7 @@ public class ReviewComment extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewCommentId;
 
+    @Column(columnDefinition = "TEXT")
     private String reviewComment;
 
     @ManyToOne

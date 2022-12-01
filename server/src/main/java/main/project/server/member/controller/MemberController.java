@@ -2,7 +2,6 @@ package main.project.server.member.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import main.project.server.chart.condition.SearchCondition;
 import main.project.server.dto.MultiResponseDto;
 import main.project.server.dto.PageInfo;
 import main.project.server.dto.SingleResponseDto;
@@ -27,6 +26,7 @@ import main.project.server.roomreservation.dto.RoomReservationDto;
 import main.project.server.roomreservation.entity.RoomReservation;
 import main.project.server.roomreservation.mapper.RoomReservationMapper;
 import main.project.server.roomreservation.service.RoomReservationService;
+import main.project.server.statistics.condition.SearchCondition;
 import main.project.server.tag.mapper.TagMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -47,6 +47,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class MemberController {
+
     private final MemberService memberService;
     private final MemberMapper memberMapper;
     private final RoomReservationService reservationService;
@@ -57,13 +58,9 @@ public class MemberController {
     private final ReviewService reviewService;
     private final HeartService heartService;
     private final HeartMapper heartMapper;
-
     private final TokenService tokenService;
-
     private final TagMapper tagMapper;
-
     private final GuestHouseMapper guestHouseMapper;
-
     private final RoomMapper roomMapper;
 
     // 맴버 생성

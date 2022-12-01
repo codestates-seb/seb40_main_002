@@ -5,6 +5,8 @@ import main.project.server.guesthouse.dto.GuestHouseDto;
 import main.project.server.member.dto.MemberDto;
 import main.project.server.roomreservation.dto.RoomReservationDto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class ReviewDto {
@@ -13,7 +15,11 @@ public class ReviewDto {
     @Getter
     @NoArgsConstructor
     public static class Post {
+
+        @NotBlank
         private String comment;
+
+        @NotNull
         private float star;
     }
 
@@ -21,7 +27,11 @@ public class ReviewDto {
     @Getter
     @NoArgsConstructor
     public static class Put {
+
+        @NotBlank
         private String comment;
+
+        @NotNull
         private float star;
     }
 
@@ -32,14 +42,23 @@ public class ReviewDto {
     @AllArgsConstructor
     @Builder
     public static class Response {
+
         private Long reviewId;
+
         private String comment;
+
         private float star;
+
         private LocalDateTime createdAt;
+
         private LocalDateTime modifiedAt;
+
         private MemberDto.Response member;
+
         private String guestHouseName;
+
         private String guestHouseMemberId;
+
         private ReviewCommentDto.Response reviewComment;
     }
 
@@ -49,12 +68,19 @@ public class ReviewDto {
     @Getter
     @NoArgsConstructor
     public static class ResponseMyPage {
+
         private Long reviewId;
+
         private GuestHouseDto.ResponseSimple guestHouse;
+
         private RoomReservationDto.ResponseSimple roomReservation;
+
         private String comment;
+
         private float star;
+
         private LocalDateTime createdAt;
+
         private LocalDateTime modifiedAt;
     }
 }

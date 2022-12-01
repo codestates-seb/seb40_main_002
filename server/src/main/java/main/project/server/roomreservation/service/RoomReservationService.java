@@ -1,7 +1,6 @@
 package main.project.server.roomreservation.service;
 
 import lombok.RequiredArgsConstructor;
-import main.project.server.chart.condition.SearchCondition;
 import main.project.server.exception.BusinessException;
 import main.project.server.exception.ExceptionCode;
 import main.project.server.guesthouse.entity.GuestHouse;
@@ -15,6 +14,7 @@ import main.project.server.room.service.RoomService;
 import main.project.server.roomreservation.entity.RoomReservation;
 import main.project.server.roomreservation.entity.enums.RoomReservationStatus;
 import main.project.server.roomreservation.repository.RoomReservationRepository;
+import main.project.server.statistics.condition.SearchCondition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;

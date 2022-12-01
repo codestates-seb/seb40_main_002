@@ -79,16 +79,15 @@ public class MemberService {
     public Member patchMember(Member member, MultipartFile memberImageFile) {
         Member patchMember = findVerifiedMember(member.getMemberId());
 
-//        // patch 항목 고려 필요(Dto)
         if(member.getMemberNickname() != null) patchMember.setMemberNickname(member.getMemberNickname());
-//        if(member.getMemberEmail() != null) patchMember.setMemberEmail(member.getMemberEmail());
-//        if(member.getMemberPhone() != null) patchMember.setMemberPhone(member.getMemberPhone());
+
         if(!(memberImageFile.isEmpty())) {
             if(!(patchMember.getMemberImageUrl().isEmpty())) {
                 deleteFile(patchMember.getMemberImageUrl());
             }
             patchMember.setMemberImageUrl(saveFile(memberImageFile, member.getMemberId()));
         }
+        
         if(member.getMemberTags() != null) patchMember.setMemberTags(member.getMemberTags());
 
 

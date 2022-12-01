@@ -23,8 +23,8 @@ import java.util.List;
 public interface ReviewMapper {
 
     Review reviewPostDtoToReview(ReviewDto.Post reviewPostDto);
+
     Review reviewPutDtoToReview(ReviewDto.Put reviewPatchDto);
-//    ReviewDto.Response reviewToReviewResponseDto(Review review);
 
     List<ReviewDto.Response> reviewToReviewResponseDto(List<Review> reviews);   // 리뷰 조회(페이지)
     default List<ReviewDto.ResponseMyPage> reviewToReviewResponseMyPageDto(List<Review> reviews,

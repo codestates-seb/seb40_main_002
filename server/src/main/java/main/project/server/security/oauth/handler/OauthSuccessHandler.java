@@ -106,10 +106,9 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
-                .path("/userdata")  // 배포 반영
+                .scheme("https")
+                .host("seb40-main-002.vercel.app")
+                .path("/userdata")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
@@ -124,10 +123,9 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
-                .path("/userdata")  // 배포 반영
+                .scheme("https")
+                .host("seb40-main-002.vercel.app")
+                .path("/userdata")
                 .queryParams(params) //쿼리 파라미터 추가
                 .build()
                 .toUri();
@@ -196,9 +194,6 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.PERMANENT_REDIRECT.value());
-//        response.setHeader("memberId",customDefaultOAuth2User.getOAuthAttributes().getMemberId());
-//        response.setHeader("memberEmail",customDefaultOAuth2User.getOAuthAttributes().getMemberEmail());
-//        response.setHeader("memberImageUrl",customDefaultOAuth2User.getOAuthAttributes().getMemberImageUrl());
 
         getRedirectStrategy().sendRedirect(request, response, addInfoUri);
     }
