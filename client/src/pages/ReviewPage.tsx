@@ -32,6 +32,8 @@ export default function ReviewPage() {
       setIsHost('USER');
     }
   }
+  console.log(user);
+  console.log(review);
 
   useEffect(() => {
     const test = async () => {
@@ -47,7 +49,7 @@ export default function ReviewPage() {
     };
     test();
   }, []);
-  console.log(review);
+
   return (
     <>
       {isLoading && (
@@ -73,7 +75,7 @@ export default function ReviewPage() {
             )}
 
             {review.map((ele, i) => {
-              if (user?.memberId) {
+              if (user) {
                 return (
                   <div key={i} className="mb-2 p-2">
                     <DetailReview
