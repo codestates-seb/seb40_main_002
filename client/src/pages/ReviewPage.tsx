@@ -40,7 +40,9 @@ export default function ReviewPage() {
       const ghInfo = await getGhInfo(ghId);
       setGhInfo(ghInfo);
       setUser(userInfo);
-      adminChecker(userInfo.memberId, ghInfo.memberId);
+      if (userInfo) {
+        adminChecker(userInfo.memberId, ghInfo.memberId);
+      }
       setIsLoading(true);
     };
     test();
