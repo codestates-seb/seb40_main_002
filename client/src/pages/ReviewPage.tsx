@@ -47,7 +47,8 @@ export default function ReviewPage() {
     };
     test();
   }, []);
-
+  console.log(ghInfo, 'ghInfo');
+  console.log(user, 'userInfo');
   return (
     <>
       {isLoading && (
@@ -64,7 +65,7 @@ export default function ReviewPage() {
               <EditReply type={isHost} id={123} />
             </div>
 
-            {review && (
+            {review && user && ghInfo && (
               <div className="mb-4">
                 <span className="font-bold text-lg">
                   후기 {review.length}개
@@ -73,7 +74,6 @@ export default function ReviewPage() {
             )}
 
             {user &&
-              user.memberId &&
               review.map((ele, i) => {
                 console.log(ele);
                 return (
