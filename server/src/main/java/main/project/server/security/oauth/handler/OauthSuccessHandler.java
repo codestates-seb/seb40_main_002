@@ -1,15 +1,14 @@
-package main.project.server.oauth.handler;
+package main.project.server.security.oauth.handler;
 
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import main.project.server.jwt.JwtTokenizer;
-import main.project.server.jwt.entity.RefreshToken;
-import main.project.server.jwt.repository.RefreshTokenRepository;
-import main.project.server.jwt.service.TokenService;
+import main.project.server.security.jwt.service.JwtTokenizer;
+import main.project.server.security.jwt.entity.RefreshToken;
+import main.project.server.security.jwt.repository.RefreshTokenRepository;
+import main.project.server.security.jwt.service.TokenService;
 import main.project.server.member.entity.Member;
 import main.project.server.member.service.MemberService;
-import main.project.server.oauth.wrapper.CustomDefaultOAuth2User;
+import main.project.server.security.oauth.wrapper.CustomDefaultOAuth2User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -29,15 +28,9 @@ import java.util.*;
 @RequiredArgsConstructor
 @Component
 public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-
     private final MemberService memberService;
-
-    private final Gson gson;
-
     private final JwtTokenizer jwtTokenizer;
-
     private final RefreshTokenRepository refreshTokenRepository;
-
     private final TokenService tokenService;
 
     @Override
@@ -130,43 +123,6 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                 .build()
                 .toUri();
     }
-
-//    private void mainRedirect(HttpServletRequest request, HttpServletResponse response, Member member) throws IOException{
-//        String accessToken = delegateAccessToken(member);
-//        String mainUri = createMainPageURI(accessToken).toString();
-//
-//        String mainJson = gson.toJson(MemberDto.Response.builder()
-//                .memberId(member.getMemberId())
-//                .memberNickname(member.getMemberNickname())
-//                .memberEmail(member.getMemberEmail())
-//                .memberPhone(member.getMemberPhone())
-//                .memberStatus(member.getMemberStatus())
-////                .memberBirth(member.getMemberBirth())
-//                .memberNationality(member.getMemberNationality())
-//                .memberRegisterKind(member.getMemberRegisterKind())
-//                .memberImageUrl(member.getMemberImageUrl())
-//                .memberTags(member.getMemberTags())
-//                .build());
-//        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//        response.setStatus(HttpStatus.PERMANENT_REDIRECT.value());
-//        response.getWriter().write(mainJson);
-//
-//        getRedirectStrategy().sendRedirect(request, response, mainUri);
-//    }
-
-//    private void addInfoRedirect(HttpServletRequest request, HttpServletResponse response, CustomDefaultOAuth2User customDefaultOAuth2User) throws IOException{
-//        String addInfoUri = createAddInfoURI().toString();
-//        String addInfoJson = gson.toJson(MemberDto.Response.builder()
-//                .memberId(customDefaultOAuth2User.getOAuthAttributes().getMemberId())
-//                .memberEmail(customDefaultOAuth2User.getOAuthAttributes().getMemberEmail())
-//                .memberImageUrl(customDefaultOAuth2User.getOAuthAttributes().getMemberImageUrl())
-//                .build());
-//        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//        response.setStatus(HttpStatus.PERMANENT_REDIRECT.value());
-//        response.getWriter().write(addInfoJson);
-//        getRedirectStrategy().sendRedirect(request, response, addInfoUri);
-//    }
-
 
     private void mainRedirect(HttpServletRequest request, HttpServletResponse response, Member member) throws IOException{
         String accessToken = delegateAccessToken(member);

@@ -2,8 +2,8 @@ package main.project.server.roomreservation.mapper;
 
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.service.GuestHouseService;
-import main.project.server.room.entity.Room;
-import main.project.server.room.service.RoomService;
+import main.project.server.guesthouse.room.entity.Room;
+import main.project.server.guesthouse.room.service.RoomService;
 import main.project.server.roomreservation.dto.RoomReservationDto;
 import main.project.server.roomreservation.entity.RoomReservation;
 import org.mapstruct.Mapper;

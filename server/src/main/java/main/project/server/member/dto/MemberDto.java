@@ -5,7 +5,7 @@ import main.project.server.annotation.validation.enumvalid.ValidEnum;
 import main.project.server.annotation.validation.filed.ValidTag;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberRegisterKind;
-import main.project.server.validation.role.ValidRole;
+import main.project.server.annotation.validation.role.ValidRole;
 
 import javax.persistence.Id;
 import javax.validation.constraints.Email;

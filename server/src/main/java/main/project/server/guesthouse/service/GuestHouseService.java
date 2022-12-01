@@ -8,13 +8,12 @@ import main.project.server.guesthouse.dto.ReserveStatisticsDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 import main.project.server.guesthouse.mapper.GuestHouseMapper;
-import main.project.server.guesthousedetails.repository.GuestHouseDetailsRepository;
-import main.project.server.guesthouseimage.entity.GuestHouseImage;
+import main.project.server.guesthouse.guesthouseimage.entity.GuestHouseImage;
 import main.project.server.guesthouse.repository.GuestHouseRepository;
-import main.project.server.guesthouseimage.repository.GuestHouseImageRepository;
+import main.project.server.guesthouse.guesthouseimage.repository.GuestHouseImageRepository;
 import main.project.server.member.entity.Member;
-import main.project.server.room.entity.Room;
-import main.project.server.room.service.RoomService;
+import main.project.server.guesthouse.room.entity.Room;
+import main.project.server.guesthouse.room.service.RoomService;
 import main.project.server.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -39,9 +38,6 @@ public class GuestHouseService {
     private String guestHouseImagePath;
 
     private final GuestHouseRepository repository;
-
-    private final GuestHouseDetailsRepository guestHouseDetailsRepository;
-
     private final GuestHouseImageRepository guestHouseImageRepository;
 
     private final RoomService roomService;

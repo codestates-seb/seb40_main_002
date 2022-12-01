@@ -2,7 +2,7 @@ package main.project.server.member.entity;
 
 import lombok.*;
 import main.project.server.audit.Auditable;
-import main.project.server.jwt.entity.RefreshToken;
+import main.project.server.security.jwt.entity.RefreshToken;
 import main.project.server.heart.entity.Heart;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberRegisterKind;

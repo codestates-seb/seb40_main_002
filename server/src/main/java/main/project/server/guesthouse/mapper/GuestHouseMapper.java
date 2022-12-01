@@ -1,21 +1,18 @@
 package main.project.server.guesthouse.mapper;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.RequiredArgsConstructor;
 import main.project.server.city.entity.City;
 import main.project.server.guesthouse.dto.GuestHouseDto;
 import main.project.server.guesthouse.dto.ReserveStatisticsDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
-import main.project.server.guesthousedetails.entity.GuestHouseDetails;
+import main.project.server.guesthouse.guesthousedetails.entity.GuestHouseDetails;
 
 import main.project.server.member.entity.Member;
 import main.project.server.review.dto.ReviewDto;
-import main.project.server.room.entity.Room;
-import main.project.server.room.mapper.RoomMapper;
-import main.project.server.room.service.RoomService;
+import main.project.server.guesthouse.room.entity.Room;
+import main.project.server.guesthouse.room.mapper.RoomMapper;
+import main.project.server.guesthouse.room.service.RoomService;
 
 import main.project.server.tag.mapper.TagMapper;
 import org.mapstruct.Mapper;

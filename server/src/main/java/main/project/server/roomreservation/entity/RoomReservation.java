@@ -5,15 +5,11 @@ import main.project.server.audit.Auditable;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.member.entity.Member;
 import main.project.server.review.entity.Review;
-import main.project.server.room.entity.Room;
+import main.project.server.guesthouse.room.entity.Room;
 import main.project.server.roomreservation.entity.enums.RoomReservationStatus;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

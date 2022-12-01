@@ -1,8 +1,7 @@
 package main.project.server.security.filter;
 
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import lombok.RequiredArgsConstructor;
-import main.project.server.security.handler.AuthExceptionResolver;
+import main.project.server.exception.auth.handler.AuthExceptionResolver;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;

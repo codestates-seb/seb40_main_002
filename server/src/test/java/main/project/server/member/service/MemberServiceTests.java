@@ -1,6 +1,6 @@
 package main.project.server.member.service;
 
-import main.project.server.jwt.JwtTokenizer;
+import main.project.server.security.jwt.service.JwtTokenizer;
 import main.project.server.member.entity.Member;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

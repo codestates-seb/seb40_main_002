@@ -5,13 +5,12 @@ import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
 import main.project.server.exception.BusinessException;
 import main.project.server.exception.ExceptionCode;
-import main.project.server.jwt.JwtTokenizer;
+import main.project.server.security.jwt.service.JwtTokenizer;
 import main.project.server.member.entity.Member;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberStatus;
 import main.project.server.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
@@ -20,12 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor

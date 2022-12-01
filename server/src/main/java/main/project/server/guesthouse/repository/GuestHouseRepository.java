@@ -1,10 +1,8 @@
 package main.project.server.guesthouse.repository;
 
 
-import main.project.server.guesthouse.dto.ReserveStatisticsDto;
 import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.member.entity.Member;
-import main.project.server.room.entity.Room;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface GuestHouseRepository extends JpaRepository<GuestHouse, Long> {
     Page<GuestHouse> findGuestHouseByMember(Member member, PageRequest pageRequest);

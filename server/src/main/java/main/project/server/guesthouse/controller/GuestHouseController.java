@@ -1,7 +1,7 @@
 package main.project.server.guesthouse.controller;
 
 import lombok.RequiredArgsConstructor;
-import main.project.server.annotation.QueryStringArgResolver;
+import main.project.server.annotation.dto.QueryStringArgResolver;
 import main.project.server.dto.MultiResponseDto;
 import main.project.server.dto.SingleResponseDto;
 import main.project.server.guesthouse.dto.GuestHouseDto;
@@ -13,13 +13,13 @@ import main.project.server.guesthouse.service.GuestHouseService;
 import main.project.server.review.dto.ReviewDto;
 import main.project.server.review.mapper.ReviewMapper;
 import main.project.server.review.service.ReviewService;
-import main.project.server.room.dto.MultiRoomDto;
-import main.project.server.room.dto.RoomDto;
-import main.project.server.room.entity.Room;
-import main.project.server.room.mapper.RoomMapper;
+import main.project.server.guesthouse.room.dto.MultiRoomDto;
+import main.project.server.guesthouse.room.dto.RoomDto;
+import main.project.server.guesthouse.room.entity.Room;
+import main.project.server.guesthouse.room.mapper.RoomMapper;
 import main.project.server.tag.mapper.TagMapper;
 import org.springframework.data.domain.Page;
-import main.project.server.room.service.RoomService;
+import main.project.server.guesthouse.room.service.RoomService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -53,8 +53,7 @@ public class GuestHouseController {
                                          @RequestPart(required = false) MultipartFile[] guestHouseImage,
                                          @RequestPart(value = "room-dto") @Valid MultiRoomDto<RoomDto.Post> roomPostDtos,
                                          @RequestPart (value = "room-image", required = false) MultipartFile[] roomImages,
-                                         @NotNull Principal principal
-                                         ) throws IOException {
+                                         @NotNull Principal principal) throws IOException {
 
         String memberId = principal.getName();
 
@@ -62,7 +61,7 @@ public class GuestHouseController {
 
         List<Room> rooms = roomMapper.roomPostsToRooms(roomPostDtos);
 
-        GuestHouse createdGuestHouse = guestHouseService.createGuestHouse(guestHouse, guestHouseImage, rooms, roomImages);
+        guestHouseService.createGuestHouse(guestHouse, guestHouseImage, rooms, roomImages);
 
         SingleResponseDto<GuestHouseDto.response> singleResponseDto = new SingleResponseDto<>("created",null);
         return new ResponseEntity(singleResponseDto, HttpStatus.CREATED);
@@ -76,9 +75,8 @@ public class GuestHouseController {
                                         @RequestPart(value = "room-dto") @Valid MultiRoomDto<RoomDto.Put> roomPutDtos,
                                         @RequestPart (value = "room-image", required = false) MultipartFile[] roomImages,
                                         @RequestPart(value = "new-room-image", required = false) MultipartFile[] newRoomImages,
-                                        @NotNull Principal principal,
-                                        @PathVariable("guesthouse-id") Long guestHouseId
-                                        ) throws IOException {
+                                        @PathVariable("guesthouse-id") Long guestHouseId,
+                                        @NotNull Principal principal) throws IOException {
 
         String memberId = principal.getName();
 
@@ -97,12 +95,10 @@ public class GuestHouseController {
 
     /** 업주, 일반 회원이 볼 수 있는 게스트하우스의 상세내용 호출 api **/
     @GetMapping("/api/guesthouse/{guesthouse-id}")
-    public ResponseEntity getGuestHouse(
-            @PathVariable("guesthouse-id") @Positive Long guestHouseId,
-            String start,
-            String end)
+    public ResponseEntity getGuestHouse(@PathVariable("guesthouse-id") @Positive Long guestHouseId,
+                                        String start,
+                                        String end)
     {
-
         GuestHouse guestHouse = guestHouseService.findGuestHouse(guestHouseId);
 
         // 호출 될 때 기본적으로 보여지는 리뷰(size=4)
