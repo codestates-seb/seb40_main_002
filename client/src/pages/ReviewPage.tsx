@@ -73,6 +73,7 @@ export default function ReviewPage() {
             )}
 
             {user &&
+              user.memberId &&
               review.map((ele, i) => {
                 console.log(ele);
                 return (
