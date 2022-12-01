@@ -26,7 +26,7 @@ export default function App() {
           <Route path="/ghedit" element={<Hostingpage />} />
           <Route path="/ghedit/:id" element={<GhEditPage2 />} />
           <Route path="/ghdetail/:ghId" element={<GuestHouseDetail />} />
-          <Route path="/review" element={<ReviewPage />} />
+          <Route path="/review/:ghId" element={<ReviewPage />} />
           <Route path="/search" element={<SearchResult />} />
           <Route path="/mypage/*" element={<MyPage />} />
           <Route path="/paymentPage" element={<PaymentPage />} />
