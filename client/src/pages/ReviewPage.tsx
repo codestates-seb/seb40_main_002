@@ -40,6 +40,7 @@ export default function ReviewPage() {
         window.localStorage.getItem('accessToken')
       );
       const ghInfo = await getGhInfo(ghId);
+      console.log(userInfo, ghInfo);
       setGhInfo(ghInfo);
       setUser(userInfo);
       adminChecker(userInfo.memberId, ghInfo.memberId);
@@ -47,11 +48,10 @@ export default function ReviewPage() {
     };
     test();
   }, []);
-  console.log(ghInfo, 'ghInfo');
-  console.log(user, 'userInfo');
+
   return (
     <>
-      {isLoading && user && ghInfo && (
+      {isLoading && (
         <div className="mt-8 p-3 w-full flex justify-center md:mt-20">
           <div className="mb-[10px] mt-[10px] ml-[10px] w-[60%]">
             <div className="border-b-2 border-border-color mb-8">
@@ -81,7 +81,7 @@ export default function ReviewPage() {
                     <DetailReview
                       type={'reviewPage'}
                       reviewComment={ele}
-                      userId={user.memberId}
+                      userId={user.memberId && user.memberId}
                     />
                   </div>
                 );
