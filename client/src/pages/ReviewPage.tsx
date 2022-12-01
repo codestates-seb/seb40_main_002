@@ -47,7 +47,7 @@ export default function ReviewPage() {
     };
     test();
   }, []);
-
+  console.log(review);
   return (
     <>
       {isLoading && (
