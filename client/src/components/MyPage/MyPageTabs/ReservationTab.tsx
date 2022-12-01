@@ -1,6 +1,7 @@
 import Comment from '../../common/Comment/Comment';
 import { useEffect, useState } from 'react';
 import { getReservationData } from '../../../apis/getReservationData';
+import MyPagePagination from './MyPagePagination';
 type ReservationType = {
   data: {
     guestHouseId: number;
@@ -42,7 +43,7 @@ function ReservationTab() {
                   imgsrc={el.roomImageUrl}
                   room={el.roomName}
                   roomLink={`/ghdetail/${el.guestHouseId}?start=${el.roomReservationStart}&end=${el.roomReservationEnd}`}
-                  reviewLink={'/review'}
+                  reviewLink={`/review/${el.guestHouseId}`}
                   type="myPage"
                 />
               </div>
@@ -53,22 +54,13 @@ function ReservationTab() {
         )}
       </div>
       <div className="text-center">
-        {reservationData && reservationData.data.length > 0
-          ? Array(reservationData?.pageInfo.totalPages)
-              .fill(0)
-              .map((el, i) => (
-                <button
-                  className={`${
-                    page == i + 1 ? 'border-b-[2px] border-black' : null
-                  } ml-[10px] py-[2px] px-[12px] mb-[20px] pointer-events-auto`}
-                  key={i}
-                  onClick={() => setPage(i + 1)}
-                  value={i + 1}
-                >
-                  {i + 1}
-                </button>
-              ))
-          : null}
+        {reservationData && reservationData.data.length > 0 ? (
+          <MyPagePagination
+            totalPages={reservationData.pageInfo.totalPages}
+            page={page}
+            setPage={setPage}
+          />
+        ) : null}
       </div>
     </div>
   );

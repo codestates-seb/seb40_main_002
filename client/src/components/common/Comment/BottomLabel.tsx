@@ -28,7 +28,7 @@ export default function BottomLabel({
   return (
     <div className="p-[22px] flex text-base">
       <img
-        src={`http://3.37.58.81:8080/${imgsrc}`}
+        src={`http://3.37.58.81:8080${imgsrc}`}
         className="rounded-ImgRadius w-[90px] h-[90px]"
       />
       <div className="flex justify-between w-[100%] items-center">
