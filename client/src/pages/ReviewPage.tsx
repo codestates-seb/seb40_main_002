@@ -38,7 +38,6 @@ export default function ReviewPage() {
       await getGhReviewData(ghId).then((res) => setReview(res));
       const userInfo = await getUserInfo(localStorage.getItem('accessToken'));
       const ghInfo = await getGhInfo(ghId);
-      console.log(userInfo);
       setGhInfo(ghInfo);
       setUser(userInfo);
       adminChecker(userInfo.memberId, ghInfo.memberId);
@@ -73,16 +72,21 @@ export default function ReviewPage() {
 
             {user &&
               review.map((ele, i) => {
-                console.log(ele);
-                return (
+                if (user?.memberId) {
+                  return (
+                    <div key={i} className="mb-2 p-2">
+                      <DetailReview
+                        type={'reviewPage'}
+                        reviewComment={ele}
+                        userId={user.memberId}
+                      />
+                    </div>
+                  );
+                } else {
                   <div key={i} className="mb-2 p-2">
-                    <DetailReview
-                      type={'reviewPage'}
-                      reviewComment={ele}
-                      userId={user.memberId && user.memberId}
-                    />
-                  </div>
-                );
+                    <DetailReview type={'reviewPage'} reviewComment={ele} />
+                  </div>;
+                }
               })}
           </div>
         </div>
