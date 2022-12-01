@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getReviewData } from '../apis/getReviewData';
+import { getGhReviewData } from '../apis/getGhReviewData';
 import { getUserInfo } from '../apis/getUserInfo';
 import { getGhInfo } from '../apis/getGhInfo';
 import DetailReview from '../components/common/Comment/DetailReview';
@@ -35,7 +35,7 @@ export default function ReviewPage() {
 
   useEffect(() => {
     const test = async () => {
-      await getReviewData(ghId).then((res) => setReview(res));
+      await getGhReviewData(ghId).then((res) => setReview(res));
       const userInfo = await getUserInfo(
         window.localStorage.getItem('accessToken')
       );
