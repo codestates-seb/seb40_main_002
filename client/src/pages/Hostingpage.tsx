@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import CommonBtn from '../components/common/CommonBtn/CommonBtn';
 import AddressContainer from '../components/ghEdit/AddressContainer';
 import FacilitiesContainer from '../components/ghEdit/FacilitiesContainer';
@@ -29,7 +30,7 @@ export default function Hostingpage() {
     icons,
     setIcons,
   } = useEditPage();
-
+  const navigate = useNavigate();
   const sendData = async () => {
     const flag = ghDataCheck({
       guestHouseName,
@@ -66,7 +67,8 @@ export default function Hostingpage() {
           Authorization: `${localStorage.getItem('accessToken')}`,
         },
       });
-      console.log(postSurvey);
+      navigate('/ghadmin');
+      window.location.reload();
     } catch (e) {
       console.log(e);
     }

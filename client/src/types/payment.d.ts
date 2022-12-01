@@ -7,6 +7,7 @@ type Props = {
   ratedScore: number | null;
   filterDate: (string | number)[];
   totalMoney: number | null;
+  ghRoomname: string | null;
 };
 
 type PropsMix = {

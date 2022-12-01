@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MyPageUser } from '../../../types/user';
+import { User1 } from '../../../types/user';
 import UserInfo from './UserInfo';
 import UserInfoEdit from './UserInfoEdit';
 
@@ -7,8 +7,8 @@ function UserInfoCard({
   user,
   setUser,
 }: {
-  user: MyPageUser;
-  setUser: React.Dispatch<React.SetStateAction<MyPageUser>>;
+  user: User1;
+  setUser: React.Dispatch<React.SetStateAction<User1>>;
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const handleEdit = () => {

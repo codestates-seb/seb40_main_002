@@ -36,7 +36,11 @@ type editDtoProps = {
   newRoomImage: File[];
 };
 
-const stringDto = <T,>(formData: FormData, appendName: string, data: T) => {
+export const stringDto = <T,>(
+  formData: FormData,
+  appendName: string,
+  data: T
+) => {
   const stringDto = JSON.stringify(data);
   formData.append(
     appendName,
@@ -44,7 +48,11 @@ const stringDto = <T,>(formData: FormData, appendName: string, data: T) => {
   );
 };
 
-const imgDto = (formData: FormData, appendName: string, data: File[]) => {
+export const imgDto = (
+  formData: FormData,
+  appendName: string,
+  data: File[]
+) => {
   data.forEach((el) => {
     formData.append(appendName, el);
   });

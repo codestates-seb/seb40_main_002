@@ -1,12 +1,12 @@
-import { MyPageUser } from '../../../types/user';
+import { User1 } from '../../../types/user';
 import Tag from '../../common/Tag';
 
-function UserInfo({ user }: { user: MyPageUser }) {
+function UserInfo({ user }: { user: User1 }) {
   return (
     <div className="flex flex-col items-center">
       <div className="p-[20px]">
         <img
-          src={user.memberImageUrl}
+          src={URL.createObjectURL(user.memberImageFile[0])}
           className="w-[120px] h-[120px] object-cover rounded-full"
         />
       </div>
