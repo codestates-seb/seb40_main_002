@@ -34,8 +34,10 @@ function useInfiniteScroll(
   const startEnd = getTodayToTomorrow();
   const [option, setOption] = useState<SearchOption>({
     cityId: Number(cityId),
-    start: start ? start : startEnd.today,
-    end: end ? end : startEnd.tomorrow,
+    // start: start ? start : startEnd.today,
+    // end: end ? end : startEnd.tomorrow,
+    start: start ? start : '',
+    end: end ? end : '',
     tags: tags ? tags : [],
   });
 
@@ -86,6 +88,7 @@ function useInfiniteScroll(
 
   // page에 따라 다르게 api 요청하기
   useEffect(() => {
+    // if (page > 1)
     getList();
   }, [page]);
 
