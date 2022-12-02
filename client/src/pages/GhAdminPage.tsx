@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Api from '../api2';
 import { getUser as settingUser } from '../api2/member';
 import { convertURLtoFile } from '../libs/srcToFile';
+import { useNavigate } from 'react-router-dom';
 
 interface GhData {
   ghAdminData: {
@@ -65,44 +66,56 @@ const GhAdminPage = () => {
   const [pagenation, setPagenation] = useState<PageInfo | null>(null);
   const [loading, setLoading] = useState(false);
   const [currentpageNum, setCurrentPageNum] = useState(1);
+  const navigate = useNavigate();
   useEffect(() => {
     const getGhdata = async () => {
       // 유저 정보 가져 오기
-      const userGet = (await settingUser()) as User2;
+      try {
+        const userGet = (await settingUser()) as User2;
+        if (userGet.memberRoles[0] !== 'ADMIN') {
+          return navigate('/');
+        }
+        // 해당 호스트가 가지고 있는 데이터 가져오기
+        const data = await Api.get(
+          `/api/auth/members/${userGet.memberId}/guesthouse?page=${currentpageNum}&size=7`
+        );
+        setPagenation({ ...data.data.pageInfo });
+        const ghData = data.data.data.map((x: GhList) => {
+          return {
+            memberNickname: x.memberNickname,
+            guestHouseImage: x.guestHouseImage,
+            guestHouseName: x.guestHouseName,
+            guestHouseStar: x.guestHouseStar,
+            guestHouseTag: x.guestHouseTag,
+            guestHouseId: x.guestHouseId,
+            rooms: x.rooms.map((x: any) => {
+              return { roomPrice: x.roomPrice };
+            }),
+          };
+        });
+        const FileData = await convertURLtoFile(
+          `${process.env.REACT_APP_SERVER_URL}${userGet.memberImageUrl}`
+        );
 
-      // 해당 호스트가 가지고 있는 데이터 가져오기
-      const data = await Api.get(
-        `/api/auth/members/${userGet.memberId}/guesthouse?page=${currentpageNum}&size=7`
-      );
-      setPagenation({ ...data.data.pageInfo });
-      const ghData = data.data.data.map((x: GhList) => {
-        return {
-          memberNickname: x.memberNickname,
-          guestHouseImage: x.guestHouseImage,
-          guestHouseName: x.guestHouseName,
-          guestHouseStar: x.guestHouseStar,
-          guestHouseTag: x.guestHouseTag,
-          guestHouseId: x.guestHouseId,
-          rooms: x.rooms.map((x: any) => {
-            return { roomPrice: x.roomPrice };
-          }),
-        };
-      });
-      const FileData = await convertURLtoFile(
-        `${process.env.REACT_APP_SERVER_URL}${userGet.memberImageUrl}`
-      );
+        // 유저 정보
+        setUser({
+          ...userGet,
+          memberImageFile: [FileData],
+        });
 
-      // 유저 정보
-      setUser({
-        ...userGet,
-        memberImageFile: [FileData],
-      });
-
-      // 게하 정보 갱신
-      setGhList({
-        ghAdminData: [...ghData],
-      });
-      setLoading(true);
+        // 게하 정보 갱신
+        setGhList({
+          ghAdminData: [...ghData],
+        });
+        setLoading(true);
+      } catch (e) {
+        alert('login을 다시 해주세요.');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('persist:root');
+        navigate('/');
+        window.location.reload();
+      }
     };
     getGhdata();
   }, [currentpageNum]);

@@ -6,6 +6,7 @@ import { User1, User2 } from '../types/user';
 
 import { getUser } from '../api2/member';
 import { convertURLtoFile } from '../libs/srcToFile';
+import { useNavigate } from 'react-router-dom';
 
 function MyPage() {
   const [user, setUser] = useState<User1>({
@@ -21,11 +22,15 @@ function MyPage() {
     memberTag: [],
   });
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
     const getGhdata = async () => {
       // 유저 정보 가져 오기
       try {
         const userGet = (await getUser()) as User2;
+        if (userGet.memberRoles[0] !== 'USER') {
+          return navigate('/');
+        }
         const FileData = await convertURLtoFile(
           `${process.env.REACT_APP_SERVER_URL}${userGet.memberImageUrl}`
         );
@@ -39,6 +44,7 @@ function MyPage() {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('persist:root');
+        navigate('/');
         window.location.reload();
       }
     };

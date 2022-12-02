@@ -35,13 +35,14 @@ const UserIconModal = () => {
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('persist:root'); //
         dispatch(clearUser());
-        window.location.reload();
         navigate('/');
+        window.location.reload();
       })
       .catch((err) => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('persist:root'); //
+        navigate('/');
         window.location.reload();
       });
   };
