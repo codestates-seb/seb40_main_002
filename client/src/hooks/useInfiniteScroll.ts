@@ -4,11 +4,9 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import { getGuesthouseList } from '../apis/guesthouse';
 import { GuestHouseShort } from '../types/guesthouse';
 import { SearchOption } from '../types/search';
-import getTodayToTomorrow from '../utils/getTodayToTomorrow';
 
 function useInfiniteScroll(
   path: string
-  // option?: SearchOption
 ): [
   GuestHouseShort[],
   React.Dispatch<React.SetStateAction<string>>,
@@ -31,11 +29,8 @@ function useInfiniteScroll(
   const tag = url.get('tag');
 
   const tags = tag?.split('-');
-  const startEnd = getTodayToTomorrow();
   const [option, setOption] = useState<SearchOption>({
     cityId: Number(cityId),
-    // start: start ? start : startEnd.today,
-    // end: end ? end : startEnd.tomorrow,
     start: start ? start : '',
     end: end ? end : '',
     tags: tags ? tags : [],
@@ -75,22 +70,23 @@ function useInfiniteScroll(
       tagApi = option.tags.join('&tag=');
     }
     if (totalCount > list.length) {
+      console.log('getList:', sortType);
       const newGuesthouses = await getGuesthouseList(
         `${path}?page=${page}&size=10&sort=${sortType}&tag=${
           tagApi ? tagApi : ''
         }${optionApi ? optionApi : ''}`, // option 있을 경우 추가
         setTotalCount
       );
-      setList([...list, ...newGuesthouses]);
+      if (page > 1) setList([...list, ...newGuesthouses]);
+      else setList([...newGuesthouses]);
     }
     setLoading(false);
-  }, [page]);
+  }, [page, sortType]);
 
   let isCalled = false;
 
   // page에 따라 다르게 api 요청하기
   useEffect(() => {
-    // if (page > 1)
     if (!isCalled) {
       isCalled = true;
       getList();
@@ -101,7 +97,6 @@ function useInfiniteScroll(
   useEffect(() => {
     if (list.length > 0) {
       setPage(1);
-      setList([]);
       getList();
     }
   }, [sortType]);
