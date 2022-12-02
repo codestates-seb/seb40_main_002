@@ -37,10 +37,10 @@ public class StatisticsRepositoryImpl implements StatisticsRepository {
                                 ))
                 .from(guestHouse)
                 .leftJoin(guestHouse.roomReservations, roomReservation)
-//                .where(
-//                        roomReservation.createdAt.between(fromLocalDateTime, toLocalDateTime),
-//                        roomReservation.roomReservationStatus.eq(RoomReservationStatus.RESERVATION_COMPLETE)
-//                )
+                .where(
+                        roomReservation.createdAt.between(fromLocalDateTime, toLocalDateTime),
+                        roomReservation.roomReservationStatus.eq(RoomReservationStatus.RESERVATION_COMPLETE)
+                )
                 .groupBy(guestHouse.guestHouseId)
                 .orderBy(guestHouse.guestHouseId.count().desc())
                 .offset(0)

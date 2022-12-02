@@ -3,7 +3,6 @@ package main.project.server.guesthouse.dto;
 import lombok.*;
 import main.project.server.annotation.validation.filed.GuestHouseDetails;
 import main.project.server.annotation.validation.filed.ValidAddress;
-import main.project.server.annotation.validation.filed.ValidTag;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 import main.project.server.review.dto.ReviewDto;
 import main.project.server.guesthouse.room.dto.RoomDto;
@@ -44,7 +43,6 @@ public class GuestHouseDto {
         @GuestHouseDetails
         private Boolean[] guestHouseDetails;
 
-        @ValidTag
         private String[] guestHouseTag;
 
         @NotBlank
@@ -80,7 +78,6 @@ public class GuestHouseDto {
         @GuestHouseDetails
         private Boolean[] guestHouseDetails;
 
-        @ValidTag
         private String[] guestHouseTag;
 
         @NotBlank

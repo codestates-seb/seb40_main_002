@@ -2,7 +2,6 @@ package main.project.server.member.dto;
 
 import lombok.*;
 import main.project.server.annotation.validation.enumvalid.ValidEnum;
-import main.project.server.annotation.validation.filed.ValidTag;
 import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberRegisterKind;
 import main.project.server.annotation.validation.role.ValidRole;
@@ -10,6 +9,7 @@ import main.project.server.annotation.validation.role.ValidRole;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class MemberDto {
 
         @ValidRole
         private List<String> memberRole; //멤버 역할, ex) USER, ADMIN ...
-        @ValidTag
+        @NotNull
         private String[] memberTag;
 
     }
