@@ -91,7 +91,8 @@ export default function Register() {
       const res = await axios.post('/api/members', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      console.log(res);
+      navigate('/');
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
