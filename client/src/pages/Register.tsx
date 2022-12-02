@@ -84,7 +84,8 @@ export default function Register() {
           userImg.slice(0, 33) === 'https://lh3.googleusercontent.com'
         ) {
           const convertFile = (await convertURLtoFileGoogle(userImg)) as File;
-
+          const convertFile2 = await convertURLtoFile(userImg);
+          console.log(convertFile, convertFile2);
           formData.append('memberImageFile', convertFile);
         }
       }
