@@ -74,13 +74,25 @@ export default function Register() {
           formData.append('memberImageFile', convertFile);
         }
       }
+
+      if (memberData.memberRegisterKind === 'GOOGLE') {
+        if (userImg.slice(0, 33) !== 'https://lh3.googleusercontent.com') {
+          formData.append('memberImageFile', imgFile);
+        } else if (
+          userImg.slice(0, 33) === 'https://lh3.googleusercontent.com'
+        ) {
+          const convertFile = await convertURLtoFile(userImg.slice(33));
+          formData.append('memberImageFile', convertFile);
+        }
+      }
     }
 
     try {
       const res = await axios.post('/api/members', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      console.log(res);
+      navigate('/');
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }

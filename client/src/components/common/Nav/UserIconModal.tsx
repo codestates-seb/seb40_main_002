@@ -7,6 +7,7 @@ import Login from '../../../pages/Login';
 import { isLogin } from '../../../utils/isLogin';
 import { RootState } from '../../../store/store';
 import { clearUser } from '../../../store/reducer/user';
+import Api from '../../../api2';
 
 const UserIconModal = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const UserIconModal = () => {
 
   const handleLogout = () => {
     const accessToken = localStorage.getItem('accessToken');
-    console.log(accessToken);
+
     axios
       .post(
         `/api/auth/members/logout`,
@@ -30,14 +31,19 @@ const UserIconModal = () => {
       )
       .then((res) => {
         // console.log('logout:', res);
-
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('persist:root'); //
         dispatch(clearUser());
+        window.location.reload();
         navigate('/');
       })
-      .catch((err) => console.log('logoutErr:', err));
+      .catch((err) => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('persist:root'); //
+        window.location.reload();
+      });
   };
   const myPageEvent = () => {
     // 유저가 로그인 된 상태

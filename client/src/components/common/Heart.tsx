@@ -11,11 +11,12 @@ interface Props {
 function Heart({ isFavorite = false, id }: Props) {
   const [isRed, setIsRed] = useState(isFavorite);
   const getHeart = useCallback(async () => {
-    await Api.get(`/api/auth/guesthouse/${id}/heart`, {
-      headers: {
-        Authorization: localStorage.getItem('accessToken'),
-      },
-    })
+    await axios
+      .get(`/api/auth/guesthouse/${id}/heart`, {
+        headers: {
+          Authorization: localStorage.getItem('accessToken'),
+        },
+      })
       .then((res) => {
         // console.log(res);
         setIsRed(res.data.data);
