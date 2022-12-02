@@ -137,8 +137,8 @@ export default function GhEditPage2() {
           },
         }
       );
-
-      window.location.reload();
+      console.log(postSurvey);
+      // window.location.reload();
     } catch (e) {
       console.log(e);
     }
