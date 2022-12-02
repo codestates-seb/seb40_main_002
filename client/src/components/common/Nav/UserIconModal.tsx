@@ -35,6 +35,7 @@ const UserIconModal = () => {
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('persist:root'); //
         dispatch(clearUser());
+        window.location.reload();
         navigate('/');
       })
       .catch((err) => {
