@@ -4,7 +4,7 @@ import UserImg from '../components/Register/UserImg';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { convertURLtoFile } from '../libs/srcToFile';
+import { convertURLtoFile, convertURLtoFileGoogle } from '../libs/srcToFile';
 
 type Social = {
   memberId: string;
@@ -83,9 +83,8 @@ export default function Register() {
         } else if (
           userImg.slice(0, 33) === 'https://lh3.googleusercontent.com'
         ) {
-          const convertFile = await convertURLtoFile(userImg);
+          const convertFile = (await convertURLtoFileGoogle(userImg)) as File;
           console.log(convertFile);
-
           formData.append('memberImageFile', convertFile);
         }
       }
