@@ -104,7 +104,7 @@ const GhAdminPage = () => {
     };
     getGhdata();
   }, [currentpageNum]);
-
+  console.log(ghList);
   return (
     <div className="flex justify-between w-full h-full py-[20px]">
       {loading && ghList && user && (
