@@ -24,16 +24,23 @@ function MyPage() {
   useEffect(() => {
     const getGhdata = async () => {
       // 유저 정보 가져 오기
-      const userGet = (await getUser()) as User2;
-      const FileData = await convertURLtoFile(
-        `${process.env.REACT_APP_SERVER_URL}${userGet.memberImageUrl}`
-      );
-
-      setUser({
-        ...userGet,
-        memberImageFile: [FileData],
-      });
-      setLoading(true);
+      try {
+        const userGet = (await getUser()) as User2;
+        const FileData = await convertURLtoFile(
+          `${process.env.REACT_APP_SERVER_URL}${userGet.memberImageUrl}`
+        );
+        setUser({
+          ...userGet,
+          memberImageFile: [FileData],
+        });
+        setLoading(true);
+      } catch (e) {
+        alert('login을 다시 해주세요.');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('persist:root');
+        window.location.reload();
+      }
     };
     getGhdata();
   }, []);

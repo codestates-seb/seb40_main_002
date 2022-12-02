@@ -69,6 +69,7 @@ const GhAdminPage = () => {
     const getGhdata = async () => {
       // 유저 정보 가져 오기
       const userGet = (await settingUser()) as User2;
+
       // 해당 호스트가 가지고 있는 데이터 가져오기
       const data = await Api.get(
         `/api/auth/members/${userGet.memberId}/guesthouse?page=${currentpageNum}&size=7`
@@ -90,6 +91,7 @@ const GhAdminPage = () => {
       const FileData = await convertURLtoFile(
         `${process.env.REACT_APP_SERVER_URL}${userGet.memberImageUrl}`
       );
+
       // 유저 정보
       setUser({
         ...userGet,
@@ -112,7 +114,10 @@ const GhAdminPage = () => {
           <div className="flex">
             <UserInfoCard user={user} setUser={setUser} />
             <div className="mx-[20px]">
-              <GhAdminList ghAdminData={ghList.ghAdminData} />
+              <GhAdminList
+                ghAdminData={ghList.ghAdminData}
+                AdminName={user.memberNickname}
+              />
             </div>
           </div>
           <div className="text-right ">
