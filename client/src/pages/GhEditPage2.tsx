@@ -16,11 +16,13 @@ import useEditPage from '../hooks/useEditPage';
 import Api from '../api2';
 import { getUser } from '../api2/member';
 import { User2 } from '../types/user';
-
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 // 편집 페이지
 export default function GhEditPage2() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
+  const mainUser = useSelector((state: RootState) => state.user);
   // 게스트하우스 이름
   const navigate = useNavigate();
   const {
@@ -104,7 +106,7 @@ export default function GhEditPage2() {
     });
 
     if (flag) return;
-
+    const userPhone = mainUser.memberPhone;
     const { guest_house_dto, roomDto, roomImg, newRoomImage } = EditGhData({
       guestHouseName,
       address,
@@ -113,6 +115,7 @@ export default function GhEditPage2() {
       guestHouseInfo,
       rooms,
       icons,
+      userPhone,
     });
 
     const formData = ghEditForm({

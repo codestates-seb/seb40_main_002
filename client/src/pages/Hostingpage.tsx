@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getUser } from '../api2/member';
 import CommonBtn from '../components/common/CommonBtn/CommonBtn';
@@ -14,6 +15,7 @@ import useEditPage from '../hooks/useEditPage';
 import { ghDataCheck, makeGhData } from '../libs/ghDatafunc';
 import { ghCreateForm } from '../libs/ghEditCreateForm';
 import { User2 } from '../types/user';
+import { RootState } from '../store/store';
 export default function Hostingpage() {
   const {
     guestHouseName,
@@ -32,6 +34,8 @@ export default function Hostingpage() {
     setIcons,
   } = useEditPage();
   const navigate = useNavigate();
+  const mainUser = useSelector((state: RootState) => state.user);
+
   const sendData = async () => {
     const flag = ghDataCheck({
       guestHouseName,
@@ -43,7 +47,7 @@ export default function Hostingpage() {
     });
 
     if (flag) return;
-
+    const userPhone = mainUser.memberPhone;
     const { guest_house_dto, roomImg, roomDto } = makeGhData({
       guestHouseName,
       address,
@@ -52,6 +56,7 @@ export default function Hostingpage() {
       guestHouseInfo,
       rooms,
       icons,
+      userPhone,
     });
 
     const formData = ghCreateForm({

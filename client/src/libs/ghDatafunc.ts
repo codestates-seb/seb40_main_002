@@ -34,6 +34,7 @@ interface FormData {
   guestHouseInfo: string;
   rooms: Room[];
   icons: Obj[];
+  userPhone: string;
 }
 
 const checkLength = <T>(lengthCheck: T, alertList: string) => {
@@ -166,6 +167,7 @@ const makeGhData = ({
   guestHouseInfo,
   rooms,
   icons,
+  userPhone,
 }: FormData) => {
   const guestHouseDetails = icons.map((icon) => icon.checked);
   const cityId = findCityId(address.guestHouseAddress);
@@ -178,7 +180,7 @@ const makeGhData = ({
       address.guestHouseAddress,
       address.detailAddress,
     ],
-    guestHousePhone: '010-1234-1234',
+    guestHousePhone: userPhone,
     guestHouseTag,
     guestHouseInfo,
     guestHouseDetails,
@@ -210,6 +212,7 @@ const EditGhData = ({
   guestHouseInfo,
   rooms,
   icons,
+  userPhone,
 }: FormData) => {
   const guestHouseDetails = icons.map((icon) => icon.checked);
   const cityId = findCityId(address.guestHouseAddress);
@@ -222,7 +225,7 @@ const EditGhData = ({
       address.guestHouseAddress,
       address.detailAddress,
     ],
-    guestHousePhone: '010-1234-1234',
+    guestHousePhone: userPhone,
     guestHouseTag,
     guestHouseInfo,
     guestHouseDetails,
