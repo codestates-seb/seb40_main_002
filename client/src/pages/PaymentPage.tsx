@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Api from '../api';
-import { getGhData } from '../api/ghdata';
+import Api from '../api2';
+import { getGhData } from '../api2/ghdata';
 import { ghEditDatafilter } from '../apis/ghEditDatafilter';
 import CommonBtn from '../components/common/CommonBtn/CommonBtn';
 

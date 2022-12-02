@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Api from '../api';
+import Api from '../api2';
 
 import { convertURLtoFile } from '../libs/srcToFile';
 
