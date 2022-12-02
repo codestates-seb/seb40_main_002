@@ -62,6 +62,7 @@ public class MemberController {
     private final GuestHouseMapper guestHouseMapper;
     private final RoomMapper roomMapper;
 
+
     // 맴버 생성
     @PostMapping("/api/members")
     public ResponseEntity postMember(@RequestPart(value = "member-dto") @Valid MemberDto.Post memberPostDto,
@@ -72,7 +73,9 @@ public class MemberController {
         creatingMember.setMemberRoles(memberPostDto.getMemberRole());
 
         Member member = memberService.createMember(creatingMember, memberImageFile);
-        return new ResponseEntity<>(new SingleResponseDto<>("created", memberMapper.memberToMemberResponseDto(member)), HttpStatus.CREATED);
+        MemberDto.Response response = memberMapper.memberToMemberResponseDto(member);
+        response.setMemberTag(tagMapper.createSortedTagArray(member.getMemberTags()));
+        return new ResponseEntity<>(new SingleResponseDto<>("created", response), HttpStatus.CREATED);
     }
 
 
