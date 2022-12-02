@@ -68,6 +68,7 @@ export default function Hostingpage() {
           'Content-Type': 'multipart/form-data',
           Authorization: `${accessToken}`,
         },
+        transformRequest: (formData) => formData,
       });
       navigate('/ghadmin');
       window.location.reload();
