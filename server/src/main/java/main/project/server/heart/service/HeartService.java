@@ -89,7 +89,7 @@ public class HeartService {
 
         Heart heart = heartRepository.findByMemberMemberIdAndGuestHouseGuestHouseId(memberId, guestHouseId).orElse(null);
 
-        if(heart == null) return false;
+        if(heart == null) return false;     // 찜하기가 없다면 -> 사용자가 찜하기 사용 경험이 없는 경우
 
         else return heart.getHeartStatus();
     }
@@ -99,6 +99,7 @@ public class HeartService {
 
         Pageable pageable = PageRequest.of(page-1, size, Sort.by("heartId").descending());
 
+        // 마이페이지에서 사용자가 찜한 목록만 볼 수 있도록 HeartStatusIs 조건 추가
         return heartRepository.findByMemberMemberIdAndHeartStatusIs(memberId, true, pageable);
     }
 }

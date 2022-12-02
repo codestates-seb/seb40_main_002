@@ -3,6 +3,7 @@ package main.project.server.member.service;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
+import main.project.server.email.event.MemberRegistrationApplicationEvent;
 import main.project.server.exception.BusinessException;
 import main.project.server.exception.ExceptionCode;
 import main.project.server.security.jwt.service.JwtTokenizer;
@@ -11,6 +12,7 @@ import main.project.server.member.entity.enums.MemberNationality;
 import main.project.server.member.entity.enums.MemberStatus;
 import main.project.server.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,7 @@ public class MemberService {
     private String uploadPath;
     @Value("${images.upload-ec2}")
     private String uploadEc2;
-//    private final ApplicationEventPublisher publisher;
+    private final ApplicationEventPublisher publisher;
 
 
     public Optional<Member> findMember(String memberId) {
@@ -53,7 +55,6 @@ public class MemberService {
         // member save
         if(member.getMemberNationality().equals("LOCAL")) member.setMemberNationality(MemberNationality.LOCAL);
         else if(member.getMemberNationality().equals("FOREIGN")) member.setMemberNationality(MemberNationality.FOREIGN);
-//        else throw
 
         member.setMemberStatus(MemberStatus.MEMBER_ENABLE);
 
@@ -67,7 +68,7 @@ public class MemberService {
 
         Member savedMember = memberRepository.save(member);
 
-//        publisher.publishEvent(new MemberRegistrationApplicationEvent(this, savedMember));
+        publisher.publishEvent(new MemberRegistrationApplicationEvent(this, savedMember));
 
         return savedMember;
     }
@@ -84,7 +85,7 @@ public class MemberService {
             }
             patchMember.setMemberImageUrl(saveFile(memberImageFile, member.getMemberId()));
         }
-        
+
         if(member.getMemberTags() != null) patchMember.setMemberTags(member.getMemberTags());
 
 
@@ -136,7 +137,7 @@ public class MemberService {
         try {
             memberImageFile.transferTo(path);
         } catch (IOException e) {
-            // throw
+            throw new BusinessException(ExceptionCode.FILE_NOT_SAVED);
         }
 
         return saveName;

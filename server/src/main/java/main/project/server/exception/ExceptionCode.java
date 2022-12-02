@@ -46,7 +46,9 @@ public enum ExceptionCode {
 
     ALREADY_LOGOUT_TOKEN(400, "already logout token"),
 
-    OTHER_AUTH_EXCEPTION(400, "other auth exception");
+    OTHER_AUTH_EXCEPTION(400, "other auth exception"),
+
+    FILE_NOT_SAVED(400, "file not saved, check file path");
 
     @Getter
     int code;

@@ -6,6 +6,7 @@
 #      - application-naver.yml
 #      - application-rds.yml
 #      - application-jwt.yml
+#      - application-mail.yml
 #
 #  # jpa
 #  jpa:
@@ -45,6 +46,7 @@
 #
 #images:
 #  upload-path: "/home/ec2-user/images/guesthouse/"
+#  upload-ec2: "/home/ec2-user"
 #  member-profile : "images/memberprofile/"
 #  room-dir: "images/room/"
 #
