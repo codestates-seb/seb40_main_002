@@ -137,11 +137,8 @@ export default function GhEditPage2() {
           },
         }
       );
-      if (postSurvey) {
-        console.log(postSurvey);
-        navigate('/ghadmin');
-        window.location.reload();
-      }
+
+      window.location.reload();
     } catch (e) {
       console.log(e);
     }
