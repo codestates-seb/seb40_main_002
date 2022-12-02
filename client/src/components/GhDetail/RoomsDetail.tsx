@@ -24,15 +24,11 @@ const RoomsDetail = ({ rooms }: RoomsProps) => {
         };
         return (
           <div className="relative" key={i}>
-            <div
-              className={`${
-                el.reservePossible
-                  ? null
-                  : 'flex justify-center items-center absolute	rounded-[15px] top-0 left-0 right-0 bottom-0 bg-black/50 z-[100]'
-              } z-50`}
-            >
-              예약이 완료 된 객실 입니다
-            </div>
+            {!el.reservePossible && (
+              <div className="flex justify-center items-center absolute	rounded-[15px] top-0 left-0 right-0 bottom-0 bg-black/50 z-[100]">
+                에약이 완료 된 객실입니다
+              </div>
+            )}
             <RoomInfo room={data} />
           </div>
         );
