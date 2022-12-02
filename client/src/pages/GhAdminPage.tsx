@@ -69,7 +69,7 @@ const GhAdminPage = () => {
     const getGhdata = async () => {
       // 유저 정보 가져 오기
       const userGet = (await settingUser()) as User2;
-      console.log(userGet);
+
       // 해당 호스트가 가지고 있는 데이터 가져오기
       const data = await Api.get(
         `/api/auth/members/${userGet.memberId}/guesthouse?page=${currentpageNum}&size=7`
@@ -77,7 +77,7 @@ const GhAdminPage = () => {
       setPagenation({ ...data.data.pageInfo });
       const ghData = data.data.data.map((x: GhList) => {
         return {
-          memberNickname: x.memberNickname,
+          memberNickname: userGet.memberNickname,
           guestHouseImage: x.guestHouseImage,
           guestHouseName: x.guestHouseName,
           guestHouseStar: x.guestHouseStar,
