@@ -13,8 +13,8 @@
       "destination": "https://lh3.googleusercontent.com/a/:path*"
     },
     {
-      "source": "/static/:path*",
-      "destination": "https://ssl.pstatic.net/static/:path*"
+      "source": "/pwe/:path*",
+      "destination": "https://ssl.pstatic.net/static/pwe/:path*"
     }
   ]
 }
