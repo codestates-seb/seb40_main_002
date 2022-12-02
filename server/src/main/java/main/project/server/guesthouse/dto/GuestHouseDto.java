@@ -43,6 +43,7 @@ public class GuestHouseDto {
         @GuestHouseDetails
         private Boolean[] guestHouseDetails;
 
+        @NotNull
         private String[] guestHouseTag;
 
         @NotBlank
@@ -78,6 +79,7 @@ public class GuestHouseDto {
         @GuestHouseDetails
         private Boolean[] guestHouseDetails;
 
+        @NotNull
         private String[] guestHouseTag;
 
         @NotBlank
