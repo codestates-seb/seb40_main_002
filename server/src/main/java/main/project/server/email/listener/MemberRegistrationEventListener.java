@@ -1,7 +1,8 @@
-package main.project.server.email.event;
+package main.project.server.email.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import main.project.server.email.EmailSender;
+import main.project.server.email.event.MemberRegistrationApplicationEvent;
 import main.project.server.member.entity.Member;
 import main.project.server.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +37,7 @@ public class MemberRegistrationEventListener {
     public void listen(MemberRegistrationApplicationEvent event) throws Exception {
         try {
             String[] to = new String[]{event.getMember().getMemberEmail()};
-            String message = event.getMember().getMemberNickname() + "님, 회원 가입이 성공적으로 완료되었습니다.";
+            String message = event.getMember().getMemberNickname();
             emailSender.sendEmail(to, subject, message, templateName);
         } catch (MailSendException e) {
             e.printStackTrace();
