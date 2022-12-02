@@ -85,20 +85,19 @@ export default function Hostingpage() {
           userGet.memberRoles.length > 0
         ) {
           if (userGet.memberRoles[0] !== 'ADMIN') {
-            await alert('호스트가 아닙니다.');
+            alert('호스트가 아닙니다.');
             navigate('/');
-            return;
           }
         } else {
-          await alert('호스트가 아닙니다');
+          alert('호스트가 아닙니다');
           navigate('/');
-          return;
         }
       } catch (e) {
         alert('login을 다시 해주세요.');
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('persist:root');
+        navigate('/');
         window.location.reload();
       }
     };
