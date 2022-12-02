@@ -24,7 +24,7 @@ const GhAdminList = ({ ghAdminData, AdminName }: Props) => {
   return (
     <div className="h-full overflow-auto">
       <div className="text-center text-xl m-[20px] ">
-        <span className=" font-bold">{ghAdminData[0]?.memberNickname}</span>
+        <span className=" font-bold">{AdminName}</span>
         님의 숙소 리스트
       </div>
       <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[20px] w-full h-full">
