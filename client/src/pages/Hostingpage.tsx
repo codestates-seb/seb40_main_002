@@ -75,8 +75,10 @@ export default function Hostingpage() {
         },
         transformRequest: (formData) => formData,
       });
-      navigate('/ghadmin');
-      window.location.reload();
+      if (postSurvey) {
+        navigate('/ghadmin');
+        window.location.reload();
+      }
     } catch (e) {
       console.log(e);
     }
