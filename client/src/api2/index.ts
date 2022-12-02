@@ -56,6 +56,7 @@ Api.interceptors.response.use(
       }
       return Promise.reject(err);
     } else {
+      console.log('에러에러');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('persist:root'); //
