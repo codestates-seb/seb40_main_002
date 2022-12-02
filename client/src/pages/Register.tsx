@@ -84,9 +84,8 @@ export default function Register() {
           userImg.slice(0, 33) === 'https://lh3.googleusercontent.com'
         ) {
           const convertFile = await convertURLtoFile(userImg);
-          console.log('구글 url', userImg);
-          const a = new Blob([convertFile], { type: 'image/png' });
-          console.log('구글 파일', a);
+          console.log('구글 url', convertFile.type);
+
           formData.append('memberImageFile', convertFile);
         }
       }
