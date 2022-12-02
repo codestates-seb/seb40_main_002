@@ -34,7 +34,6 @@ interface Props {
     star: number; // 해당 댓글 고유 아이디
   };
   userId?: string;
-
   type: string;
 }
 

@@ -36,7 +36,7 @@ function ReviewTab() {
                   type="review"
                   reviewComment={{
                     userName: mainUser.memberNickname,
-                    createBy: 'el.createdAt',
+                    createBy: el.createdAt,
                     comment: el.comment,
                     ProfileImg: mainUser.memberImageUrl,
                     starScore: el.star,
