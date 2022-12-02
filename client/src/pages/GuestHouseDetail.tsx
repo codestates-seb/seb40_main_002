@@ -25,8 +25,10 @@ const GuestHouseDetail = () => {
   const [mainUser, setMainUser] = useState<User2>();
   useEffect(() => {
     const data = async () => {
-      const userGet = (await settingUser()) as User2;
-      setMainUser(userGet);
+      if (localStorage.getItem('accessToken')) {
+        const userGet = (await settingUser()) as User2;
+        setMainUser(userGet);
+      }
       const ghData = await getGhDetailData(
         `${ghId}?start=${startDay}&end=${endDay}`
       );

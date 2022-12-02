@@ -65,8 +65,10 @@ const UserIconModal = () => {
   };
   useEffect(() => {
     const checkLogin = async () => {
-      const userGet = (await settingUser()) as User2;
-      setUser(userGet);
+      if (localStorage.getItem('accessToken')) {
+        const userGet = (await settingUser()) as User2;
+        setUser(userGet);
+      }
     };
     checkLogin();
   }, []);
