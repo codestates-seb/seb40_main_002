@@ -85,12 +85,14 @@ export default function Hostingpage() {
           userGet.memberRoles.length > 0
         ) {
           if (userGet.memberRoles[0] !== 'ADMIN') {
-            alert('호스트가 아닙니다.');
-            return navigate('/');
+            await alert('호스트가 아닙니다.');
+            navigate('/');
+            return;
           }
         } else {
-          alert('호스트가 아닙니다');
-          return navigate('/');
+          await alert('호스트가 아닙니다');
+          navigate('/');
+          return;
         }
       } catch (e) {
         alert('login을 다시 해주세요.');

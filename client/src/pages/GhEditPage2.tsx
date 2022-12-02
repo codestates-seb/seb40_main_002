@@ -50,11 +50,13 @@ export default function GhEditPage2() {
         ) {
           if (userGet.memberRoles[0] !== 'ADMIN') {
             alert('호스트가 아닙니다.');
-            return navigate('/');
+            navigate('/');
+            return;
           }
         } else {
           alert('호스트가 아닙니다');
-          return navigate('/');
+          navigate('/');
+          return;
         }
 
         const {
