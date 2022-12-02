@@ -33,14 +33,14 @@ public class GuestHouseDto {
         @NotBlank
         private String guestHouseLocation;
 
-        @ValidAddress
+
         private String[] guestHouseAddress;
 
-        @Pattern(regexp = "!/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/")
+
         @NotBlank
         private String guestHousePhone;
 
-        @GuestHouseDetails
+
         private Boolean[] guestHouseDetails;
 
         @NotNull
@@ -69,14 +69,14 @@ public class GuestHouseDto {
         @NotBlank
         private String guestHouseLocation;
 
-        @ValidAddress
+
         private String[] guestHouseAddress;
 
-        @Pattern(regexp = "!/^[0-9]{3}-[0-9]{3,4}-[0-9]{4}/")
+
         @NotBlank
         private String guestHousePhone;
 
-        @GuestHouseDetails
+
         private Boolean[] guestHouseDetails;
 
         @NotNull

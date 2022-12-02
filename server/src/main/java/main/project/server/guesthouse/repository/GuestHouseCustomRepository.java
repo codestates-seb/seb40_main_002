@@ -10,4 +10,5 @@ public interface GuestHouseCustomRepository {
             Integer cityId, String like, String start, String end, Pageable pageable);
 
 
+
 }
