@@ -70,7 +70,7 @@ export default function Register() {
         if (userImg.slice(0, 23) !== 'https://ssl.pstatic.net') {
           formData.append('memberImageFile', imgFile);
         } else if (userImg.slice(0, 23) === 'https://ssl.pstatic.net') {
-          const convertFile = await convertURLtoFile(userImg.slice(23));
+          const convertFile = await convertURLtoFile(userImg);
           formData.append('memberImageFile', convertFile);
         }
       }
@@ -81,7 +81,7 @@ export default function Register() {
         } else if (
           userImg.slice(0, 33) === 'https://lh3.googleusercontent.com'
         ) {
-          const convertFile = await convertURLtoFile(userImg.slice(33));
+          const convertFile = await convertURLtoFile(userImg);
           formData.append('memberImageFile', convertFile);
         }
       }
