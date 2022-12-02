@@ -1,6 +1,7 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getUser } from '../api2/member';
 import CommonBtn from '../components/common/CommonBtn/CommonBtn';
 import AddressContainer from '../components/ghEdit/AddressContainer';
 import FacilitiesContainer from '../components/ghEdit/FacilitiesContainer';
@@ -12,7 +13,7 @@ import TagContainer from '../components/ghEdit/TagContainer';
 import useEditPage from '../hooks/useEditPage';
 import { ghDataCheck, makeGhData } from '../libs/ghDatafunc';
 import { ghCreateForm } from '../libs/ghEditCreateForm';
-
+import { User2 } from '../types/user';
 export default function Hostingpage() {
   const {
     guestHouseName,
@@ -61,10 +62,11 @@ export default function Hostingpage() {
     });
 
     try {
+      const accessToken = localStorage.getItem('accessToken');
       const postSurvey = await axios.post(`/api/auth/guesthouse`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `${localStorage.getItem('accessToken')}`,
+          Authorization: `${accessToken}`,
         },
       });
       navigate('/ghadmin');
@@ -73,6 +75,33 @@ export default function Hostingpage() {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    const userCheck = async () => {
+      try {
+        const userGet = (await getUser()) as User2;
+        if (
+          userGet.memberRoles !== undefined &&
+          userGet.memberRoles.length > 0
+        ) {
+          if (userGet.memberRoles[0] !== 'ADMIN') {
+            alert('호스트가 아닙니다.');
+            return navigate('/');
+          }
+        } else {
+          alert('호스트가 아닙니다');
+          return navigate('/');
+        }
+      } catch (e) {
+        alert('login을 다시 해주세요.');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('persist:root');
+        window.location.reload();
+      }
+    };
+    userCheck();
+  }, []);
 
   return (
     <div className="w-full p-5">

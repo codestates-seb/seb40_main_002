@@ -14,6 +14,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ghEditForm } from '../libs/ghEditCreateForm';
 import useEditPage from '../hooks/useEditPage';
 import Api from '../api2';
+import { getUser } from '../api2/member';
+import { User2 } from '../types/user';
 
 // 편집 페이지
 export default function GhEditPage2() {
@@ -40,30 +42,48 @@ export default function GhEditPage2() {
 
   useEffect(() => {
     const asynData = async () => {
-      const {
-        guestHouseName,
-        guestHouseTag,
-        guestHouseImage,
-        guestHouseInfo,
-        guestHouseDetails,
-        rooms,
-        guestHouseAddress,
-      } = await ghEditDatafilter(
-        `/api/guesthouse/${id}?start=2022-11-22&end=2022-11-28`
-      );
-      setAddress({ ...guestHouseAddress });
-      setGuestHouseName(guestHouseName);
-      setGuestHouseTag(guestHouseTag);
-      setGuestHouseInfo(guestHouseInfo);
-      setImgFiles(guestHouseImage);
-      setIcons((prev) => {
-        const detailSetting = prev.map((facility, idx) => {
-          return { ...facility, checked: guestHouseDetails[idx] };
+      try {
+        const userGet = (await getUser()) as User2;
+        if (
+          userGet.memberRoles !== undefined &&
+          userGet.memberRoles.length > 0
+        ) {
+          if (userGet.memberRoles[0] !== 'ADMIN') {
+            alert('호스트가 아닙니다.');
+            return navigate('/');
+          }
+        } else {
+          alert('호스트가 아닙니다');
+          return navigate('/');
+        }
+
+        const {
+          guestHouseName,
+          guestHouseTag,
+          guestHouseImage,
+          guestHouseInfo,
+          guestHouseDetails,
+          rooms,
+          guestHouseAddress,
+        } = await ghEditDatafilter(
+          `/api/guesthouse/${id}?start=2022-11-22&end=2022-11-28`
+        );
+        setAddress({ ...guestHouseAddress });
+        setGuestHouseName(guestHouseName);
+        setGuestHouseTag(guestHouseTag);
+        setGuestHouseInfo(guestHouseInfo);
+        setImgFiles(guestHouseImage);
+        setIcons((prev) => {
+          const detailSetting = prev.map((facility, idx) => {
+            return { ...facility, checked: guestHouseDetails[idx] };
+          });
+          return [...detailSetting];
         });
-        return [...detailSetting];
-      });
-      setRooms([...rooms]);
-      setIsLoading(true);
+        setRooms([...rooms]);
+        setIsLoading(true);
+      } catch (e) {
+        console.log(e);
+      }
     };
     asynData();
   }, [id]);
