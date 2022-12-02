@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import { Route, Routes } from 'react-router-dom';
@@ -7,7 +7,7 @@ import MyPage from './pages/MyPage';
 import Main from './pages/Main';
 import SearchResult from './pages/SearchResult';
 import GuestHouseDetail from './pages/GuestHouseDetail';
-import Sample from './components/common/Comment/Sample';
+
 import Hostingpage from './pages/Hostingpage';
 
 import ReviewPage from './pages/ReviewPage';
@@ -16,8 +16,27 @@ import Register from './pages/Register';
 import UserData from './pages/UserData';
 import GhAdminPage from './pages/GhAdminPage';
 import Reservation from './pages/Reservation';
-
+import Api from './api2';
+import { setUser } from './store/reducer/user';
+import { useDispatch } from 'react-redux';
+import { User } from './types/user';
 export default function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const getUser = async () => {
+      if (localStorage.getItem('accessToken')) {
+        Api.get(`/api/auth/members`).then((res) => {
+          // console.log(res);
+          // user 정보 저장하기
+          dispatch(setUser(res.data.data as User));
+        });
+      } else {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('persist:root');
+      }
+    };
+  }, []);
   return (
     <div className="w-[100vw] h-[100vh]">
       <Navbar />
