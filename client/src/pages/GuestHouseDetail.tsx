@@ -10,8 +10,10 @@ import { useEffect, useState } from 'react';
 import { getGhDetailData } from '../apis/getGhDetailData';
 import { ghDetailProps } from '../types/ghDetailData';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/store';
+// import { useSelector } from 'react-redux';
+// import { RootState } from '../store/store';
+import { User2 } from '../types/user';
+import { getUser as settingUser } from '../api2/member';
 const GuestHouseDetail = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [ghdata, setGhData] = useState<ghDetailProps>();
@@ -19,10 +21,12 @@ const GuestHouseDetail = () => {
   const [endDay, setEndDay] = useState(searchParams.get('end'));
   const [dayCal, setDayCal] = useState<number>(0);
   const { ghId } = useParams();
-  const mainUser = useSelector((state: RootState) => state.user);
-
+  // const mainUser = useState((state: RootState) => state.user);
+  const [mainUser, setMainUser] = useState<User2>();
   useEffect(() => {
     const data = async () => {
+      const userGet = (await settingUser()) as User2;
+      setMainUser(userGet);
       const ghData = await getGhDetailData(
         `${ghId}?start=${startDay}&end=${endDay}`
       );
@@ -45,12 +49,12 @@ const GuestHouseDetail = () => {
             ghImage={ghdata.guestHouseImage}
             ghMemberId={ghdata.memberId}
             guestHouseId={ghdata.guestHouseId}
-            userMemberId={mainUser.memberId}
+            userMemberId={mainUser?.memberId}
             guestHouseStar={ghdata.guestHouseStar}
           />
           <RoomsDetail rooms={ghdata.rooms} />
           <GhReservation
-            memberRoles={mainUser.memberRoles}
+            memberRoles={mainUser?.memberRoles}
             rooms={ghdata.rooms}
             startDay={startDay}
             endDay={endDay}
