@@ -50,8 +50,8 @@ const UserIconModal = () => {
   };
   const myPageEvent = () => {
     // 유저가 로그인 된 상태
-    if (mainUser.memberRoles !== undefined && mainUser.memberRoles.length > 0) {
-      return userRoleCheck(mainUser.memberRoles[0]);
+    if (user && user.memberRoles !== undefined && user.memberRoles.length > 0) {
+      return userRoleCheck(user.memberRoles[0]);
     } else {
       return alert('로그인을 해주세요.');
     }
