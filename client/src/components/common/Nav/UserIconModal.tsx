@@ -37,7 +37,12 @@ const UserIconModal = () => {
         dispatch(clearUser());
         navigate('/');
       })
-      .catch((err) => console.log('logoutErr:', err));
+      .catch((err) => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('persist:root'); //
+        window.location.reload();
+      });
   };
   const myPageEvent = () => {
     // 유저가 로그인 된 상태
