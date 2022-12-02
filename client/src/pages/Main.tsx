@@ -17,13 +17,10 @@ function Main() {
   const [openDoor, setOpenDoor] = useState(true);
 
   useEffect(() => {
-    // const doorOpened = localStorage.getItem('doorOpened') === 'true';
-
     console.log(doorOpened);
     if (doorOpened) setOpenDoor(false);
     else {
       setTimeout(() => {
-        // localStorage.setItem('doorOpened', 'true');
         dispatch(visited());
         setOpenDoor(!openDoor);
       }, 5000);
@@ -34,14 +31,12 @@ function Main() {
   const [myRecommended, setMyRecommended] = useState<GuestHouseShort[]>([]);
 
   const getRecommended = useCallback(async () => {
-    // const getRecommended = async () => {
     const myTags = mainUser.memberTag.join('&tag=');
     const path = `/api/all-guesthouse?page=1&size=10&tag=${myTags}&sort=default`;
 
     const recommended = await getGuesthouseList(path);
     setMyRecommended(recommended);
   }, [mainUser.memberTag]);
-  // };
 
   let isRecommended = false;
 
