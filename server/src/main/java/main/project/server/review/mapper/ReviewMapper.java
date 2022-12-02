@@ -47,7 +47,7 @@ public interface ReviewMapper {
             responseSimple.setRoomReservationEnd(review.getRoomReservation().getRoomReservationEnd());
 
             responseMyPage.setRoomReservation(responseSimple);
-            responseMyPage.setComment(responseMyPage.getComment());
+            responseMyPage.setComment(review.getComment());
             responseMyPage.setStar(review.getStar());
             responseMyPage.setCreatedAt(review.getCreatedAt());
             responseMyPage.setModifiedAt(review.getModifiedAt());
