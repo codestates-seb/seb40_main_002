@@ -71,6 +71,8 @@ export default function Register() {
           formData.append('memberImageFile', imgFile);
         } else if (userImg.slice(0, 23) === 'https://ssl.pstatic.net') {
           const convertFile = await convertURLtoFile(userImg);
+          console.log('네이버 url', userImg);
+          console.log('네이버 파일', convertFile);
           formData.append('memberImageFile', convertFile);
         }
       }
@@ -82,20 +84,22 @@ export default function Register() {
           userImg.slice(0, 33) === 'https://lh3.googleusercontent.com'
         ) {
           const convertFile = await convertURLtoFile(userImg);
+          console.log('구글 url', userImg);
+          console.log('구글 파일', convertFile);
           formData.append('memberImageFile', convertFile);
         }
       }
     }
 
-    try {
-      const res = await axios.post('/api/members', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      navigate('/');
-      window.location.reload();
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   const res = await axios.post('/api/members', formData, {
+    //     headers: { 'Content-Type': 'multipart/form-data' },
+    //   });
+    //   navigate('/');
+    //   window.location.reload();
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   useEffect(() => {
