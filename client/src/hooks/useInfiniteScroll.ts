@@ -23,8 +23,6 @@ function useInfiniteScroll(
   const [loading, setLoading] = useState(false);
   const [ref, inView] = useInView();
 
-  // const [searchParams] = useSearchParams();
-
   const location = useLocation();
   const url = new URLSearchParams(location.search);
   const cityId = url.get('cityId');
@@ -36,10 +34,14 @@ function useInfiniteScroll(
   const startEnd = getTodayToTomorrow();
   const [option, setOption] = useState<SearchOption>({
     cityId: Number(cityId),
-    start: start ? start : startEnd.today,
-    end: end ? end : startEnd.tomorrow,
+    // start: start ? start : startEnd.today,
+    // end: end ? end : startEnd.tomorrow,
+    start: start ? start : '',
+    end: end ? end : '',
     tags: tags ? tags : [],
   });
+
+  // const [searchParams] = useSearchParams();
 
   // useEffect(() => {
   //   const paramCityId = searchParams.get('cityId');
@@ -57,11 +59,18 @@ function useInfiniteScroll(
   //   }
   // }, [searchParams]);
 
+  // useEffect(() => {
+  //   console.log('changed!');
+  //   setPage(1);
+  //   setList([]);
+  //   getList();
+  // }, [option]);
+
   // 숙소 리스트 가져오기
   const getList = useCallback(async () => {
     setLoading(true);
     let optionApi, tagApi;
-    if (option) {
+    if (option && option.cityId !== 0) {
       optionApi = `&cityId=${option.cityId}&start=${option.start}&end=${option.end}`;
       tagApi = option.tags.join('&tag=');
     }
@@ -77,9 +86,15 @@ function useInfiniteScroll(
     setLoading(false);
   }, [page]);
 
+  let isCalled = false;
+
   // page에 따라 다르게 api 요청하기
   useEffect(() => {
-    getList();
+    // if (page > 1)
+    if (!isCalled) {
+      isCalled = true;
+      getList();
+    }
   }, [page]);
 
   // sortType에 따라 다르게 api 요청하기
@@ -90,13 +105,6 @@ function useInfiniteScroll(
       getList();
     }
   }, [sortType]);
-
-  // useEffect(() => {
-  //   console.log('changed!');
-  //   setPage(1);
-  //   setList([]);
-  //   getList();
-  // }, [option]);
 
   // 페이지 설정
   useEffect(() => {
