@@ -30,7 +30,7 @@ const GhInformation = ({
     navigate(`/ghedit/${guestHouseId}`);
   };
   const commentHandler = () => {
-    console.log('후기페이지 이동');
+    navigate(`/review/${guestHouseId}`);
   };
 
   return (
