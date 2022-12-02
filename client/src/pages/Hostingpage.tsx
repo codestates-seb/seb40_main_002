@@ -93,11 +93,11 @@ export default function Hostingpage() {
           navigate('/');
         }
       } catch (e) {
-        alert('login을 다시 해주세요.');
-        localStorage.removeItem('accessToken');
+        alert('로그인을 다시 해주세요.');
+        navigate('/');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('persist:root');
-        navigate('/');
+        localStorage.removeItem('accessToken');
         window.location.reload();
       }
     };
