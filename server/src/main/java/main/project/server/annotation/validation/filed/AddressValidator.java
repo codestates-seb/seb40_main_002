@@ -12,6 +12,7 @@ public class AddressValidator implements ConstraintValidator<ValidAddress, Strin
 
     @Override
     public boolean isValid(String[] value, ConstraintValidatorContext context) {
+        System.out.println();
         if(value == null || value.length != 3) return false;
 
         return true;

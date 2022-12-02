@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -70,7 +71,11 @@ public class RoomReservationService {
             return false;
         });
 
-        if(!find)
+        // 날짜 유효성 검증
+        boolean notValidDay = (roomReservation.getRoomReservationStart().isAfter(roomReservation.getRoomReservationEnd())
+            || roomReservation.getRoomReservationStart().isBefore(LocalDate.now()));
+
+        if(!find || notValidDay)
             throw new BusinessException(ExceptionCode.NOT_AVAILABLE_RESERVATION);
     }
 

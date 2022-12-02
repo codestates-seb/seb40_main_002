@@ -15,7 +15,8 @@ public class ControllerExceptionAdvice {
     // Controller 클래스에서 발생하는 RequestBody의 유효성 검증
     @ExceptionHandler
     public ErrorResponse handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        final ErrorResponse response = ErrorResponse.of(exception.getBindingResult());
+        final ErrorResponse response = ErrorResponse.
+                of(exception.getBindingResult());
 
         return response;
     }
