@@ -7,9 +7,7 @@ import MyPage from './pages/MyPage';
 import Main from './pages/Main';
 import SearchResult from './pages/SearchResult';
 import GuestHouseDetail from './pages/GuestHouseDetail';
-
 import Hostingpage from './pages/Hostingpage';
-
 import ReviewPage from './pages/ReviewPage';
 import GhEditPage2 from './pages/GhEditPage2';
 import Register from './pages/Register';
@@ -20,23 +18,30 @@ import Api from './api2';
 import { setUser } from './store/reducer/user';
 import { useDispatch } from 'react-redux';
 import { User } from './types/user';
+
 export default function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     const getUser = async () => {
       if (localStorage.getItem('accessToken')) {
-        Api.get(`/api/auth/members`).then((res) => {
-          // console.log(res);
-          // user 정보 저장하기
-          dispatch(setUser(res.data.data as User));
-        });
+        try {
+          Api.get(`/api/auth/members`).then((res) => {
+            dispatch(setUser(res.data.data as User));
+          });
+        } catch (e) {
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('persist:root');
+        }
       } else {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('persist:root');
       }
     };
+    getUser();
   }, []);
+
   return (
     <div className="w-[100vw] h-[100vh]">
       <Navbar />
