@@ -7,6 +7,7 @@ import Login from '../../../pages/Login';
 import { isLogin } from '../../../utils/isLogin';
 import { RootState } from '../../../store/store';
 import { clearUser } from '../../../store/reducer/user';
+import Api from '../../../api2';
 
 const UserIconModal = () => {
   const navigate = useNavigate();
@@ -17,17 +18,16 @@ const UserIconModal = () => {
   const handleLogout = () => {
     const accessToken = localStorage.getItem('accessToken');
     console.log(accessToken);
-    axios
-      .post(
-        `/api/auth/members/logout`,
-        {},
-        {
-          headers: {
-            Authorization: accessToken,
-            'Content-Type': '',
-          },
-        }
-      )
+    Api.post(
+      `/api/auth/members/logout`,
+      {},
+      {
+        headers: {
+          Authorization: accessToken,
+          'Content-Type': '',
+        },
+      }
+    )
       .then((res) => {
         // console.log('logout:', res);
 
