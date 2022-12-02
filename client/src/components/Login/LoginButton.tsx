@@ -3,7 +3,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { SiNaver } from 'react-icons/si';
 
-const API = 'http://3.37.58.81:8080';
+const API = process.env.REACT_APP_SERVER_URL;
 
 type SocialView = {
   color: string;

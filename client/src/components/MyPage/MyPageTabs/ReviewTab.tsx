@@ -4,39 +4,8 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import MyPagePagination from './MyPagePagination';
-type Reviews = {
-  data: [
-    {
-      reviewId: number;
-      guestHouse: {
-        guestHouseId: number;
-        guestHouseName: string;
-      };
-      roomReservation: {
-        room: {
-          roomId: number;
-          roomName: string;
-          roomPrice: number;
-          roomImageUrl: string;
-          roomInfo: string;
-          reservePossible: boolean;
-        };
-        roomReservationStart: string;
-        roomReservationEnd: string;
-      };
-      comment: string;
-      star: number;
-      createdAt: string;
-      modifiedAt: string;
-    }
-  ];
-  pageInfo: {
-    page: number;
-    size: number;
-    totalElements: number;
-    totalPages: number;
-  };
-};
+import { Reviews } from '../../../types/MyPage';
+
 function ReviewTab() {
   // const detailReviewPage = '유동적으로 설정';
   const [page, setPage] = useState<number | null>(1);
@@ -67,7 +36,7 @@ function ReviewTab() {
                   type="review"
                   reviewComment={{
                     userName: mainUser.memberNickname,
-                    createBy: 'el.createdAt',
+                    createBy: el.createdAt,
                     comment: el.comment,
                     ProfileImg: mainUser.memberImageUrl,
                     starScore: el.star,

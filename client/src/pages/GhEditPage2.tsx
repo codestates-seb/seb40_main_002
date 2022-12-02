@@ -13,7 +13,7 @@ import { ghDataCheck, EditGhData } from '../libs/ghDatafunc';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ghEditForm } from '../libs/ghEditCreateForm';
 import useEditPage from '../hooks/useEditPage';
-import Api from '../api';
+import Api from '../api2';
 
 // 편집 페이지
 export default function GhEditPage2() {

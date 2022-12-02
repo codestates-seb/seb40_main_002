@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://2error.ga/api/:path*"
+    },
+    {
+      "source": "/dn/:path*",
+      "destination": "https://k.kakaocdn.net/dn/:path*"
+    }
+  ]
+}

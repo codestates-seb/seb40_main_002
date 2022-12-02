@@ -2,22 +2,7 @@ import Comment from '../../common/Comment/Comment';
 import { useEffect, useState } from 'react';
 import { getReservationData } from '../../../apis/getReservationData';
 import MyPagePagination from './MyPagePagination';
-type ReservationType = {
-  data: {
-    guestHouseId: number;
-    guestHouseName: string;
-    roomName: string;
-    roomImageUrl: string;
-    roomReservationStart: string;
-    roomReservationEnd: string;
-  }[];
-  pageInfo: {
-    page: number;
-    size: number;
-    totalElements: number;
-    totalPages: number;
-  };
-};
+import { ReservationType } from '../../../types/MyPage';
 
 function ReservationTab() {
   const [reservationData, setReservationData] = useState<ReservationType>();
