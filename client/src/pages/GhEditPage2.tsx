@@ -83,6 +83,11 @@ export default function GhEditPage2() {
         setIsLoading(true);
       } catch (e) {
         alert('로그인 상태를 확인해주세요');
+        navigate('/');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('persist:root');
+        localStorage.removeItem('accessToken');
+        window.location.reload();
       }
     };
     asynData();
