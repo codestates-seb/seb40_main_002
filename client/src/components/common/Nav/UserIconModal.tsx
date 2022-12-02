@@ -1,17 +1,19 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import useModal from '../../../hooks/useModal';
 import Login from '../../../pages/Login';
 import { isLogin } from '../../../utils/isLogin';
 import { RootState } from '../../../store/store';
 import { clearUser } from '../../../store/reducer/user';
-import Api from '../../../api2';
 
+import { getUser as settingUser } from '../../../api2/member';
+import { User2 } from '../../../types/user';
 const UserIconModal = () => {
   const navigate = useNavigate();
   const [loginModal, setLoginModal] = useModal();
+  const [user, setUser] = useState<User2>();
   const mainUser = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
@@ -61,7 +63,13 @@ const UserIconModal = () => {
       navigate('/mypage');
     }
   };
-
+  useEffect(() => {
+    const checkLogin = async () => {
+      const userGet = (await settingUser()) as User2;
+      setUser(userGet);
+    };
+    checkLogin();
+  }, []);
   return (
     <section className="flex flex-col w-36 h-40 rounded-[15px] absolute top-[80px] right-10 p-4 text-lg font-semibold items-center justify-around border-solid border-2 border-borderline bg-white">
       <div
@@ -72,7 +80,7 @@ const UserIconModal = () => {
       </div>
 
       {/* 로그인 상태에 따른 조건부 렌더링 필요 */}
-      {!isLogin() ? (
+      {!user ? (
         <div className="cursor-pointer p-2" onClick={setLoginModal}>
           로그인
         </div>
