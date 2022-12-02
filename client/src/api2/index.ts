@@ -28,7 +28,6 @@ Api.interceptors.response.use(
   },
   async function (err) {
     const originConfig = err.config;
-    console.log(err, '에러발생');
     if (err.response && err.response.status === 401) {
       const accessToken = originConfig.headers['Authorization'];
       const refreshToken = originConfig.headers['refreshToken'];
@@ -56,8 +55,13 @@ Api.interceptors.response.use(
         window.location.reload();
       }
       return Promise.reject(err);
+    } else {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('persist:root'); //
+      window.location.reload();
+      return Promise.reject(err);
     }
-    return Promise.reject(err);
   }
 );
 
