@@ -17,20 +17,20 @@ const UserIconModal = () => {
 
   const handleLogout = () => {
     const accessToken = localStorage.getItem('accessToken');
-    console.log(accessToken);
-    Api.post(
-      `/api/auth/members/logout`,
-      {},
-      {
-        headers: {
-          Authorization: accessToken,
-          'Content-Type': '',
-        },
-      }
-    )
+
+    axios
+      .post(
+        `/api/auth/members/logout`,
+        {},
+        {
+          headers: {
+            Authorization: accessToken,
+            'Content-Type': '',
+          },
+        }
+      )
       .then((res) => {
         // console.log('logout:', res);
-
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('persist:root'); //
