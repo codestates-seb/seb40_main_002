@@ -15,6 +15,7 @@ interface Props {
 }
 const GhAdminList = ({ ghAdminData }: Props) => {
   const navigate = useNavigate();
+  console.log(ghAdminData);
   const addGhHandler = () => {
     //useNavigate 사용 예정
     navigate('/ghedit');
