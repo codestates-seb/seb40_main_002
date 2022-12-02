@@ -66,3 +66,4 @@ src/main/resources/application-kakao.yml
 src/main/resources/application-naver.yml
 src/main/resources/application-rds.yml
 src/main/resources/application-mail.yml
+src/main/resources/application-test.yml

@@ -18,6 +18,13 @@
 #      hibernate:
 #        format_sql: true
 #
+#  flyway:
+#    enabled: true # flyway를 사용하겠다는 설정
+#    baseline-on-migrate: true # flyway 버전 정보를 flyway_schema_history 라는 테이블에서 관리하는데 해당 테이블을 자동으로 생성해주는 옵션. 기본값은 false로 히스토리 테이블이 이미 존재할 때 사용
+#    url: ${RDS_URL}
+#    user: ${RDS_USERNAME}
+#    password: ${RDS_SECRET}
+#
 #  #  # 파일 업로드 용량 제한
 #  #  servlet:
 #  #    multipart:

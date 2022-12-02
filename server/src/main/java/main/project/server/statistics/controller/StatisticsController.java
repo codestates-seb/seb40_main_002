@@ -11,11 +11,14 @@ import main.project.server.statistics.dto.ReserveCountOfGuestHouseDto;
 import main.project.server.statistics.service.StatisticsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Positive;
 import java.security.Principal;
 import java.util.List;
 
+@Validated
 @RequiredArgsConstructor
 @RestController
 public class StatisticsController {
@@ -34,7 +37,7 @@ public class StatisticsController {
     }
 
     @GetMapping("/api/auth/monthly-chart/{guest-house-id}")
-    public ResponseEntity monthlyChart(@PathVariable("guest-house-id") Long guestHouseId,
+    public ResponseEntity monthlyChart(@PathVariable("guest-house-id") @Positive Long guestHouseId,
                                        @RequestParam Integer year,
                                        Principal principal) {
         MonthlyReservationChartDto result = service.getMonthlyReservationChart(guestHouseId, year, principal);
@@ -43,7 +46,7 @@ public class StatisticsController {
 
     // 연령별 예약 통계 조답
     @GetMapping("/api/auth/age-chart/{guest-house-id}")
-    public ResponseEntity ageChart(@PathVariable("guest-house-id") Long guestHouseId,
+    public ResponseEntity ageChart(@PathVariable("guest-house-id") @Positive Long guestHouseId,
                                    @ModelAttribute SearchCondition condition,
                                    Principal principal) {
         AgeChartDto result = service.getAgeChart(guestHouseId, condition, principal);
