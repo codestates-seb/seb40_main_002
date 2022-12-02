@@ -22,7 +22,7 @@ public class GuestHouseDto {
     @Builder
     public static class Post{ //숙소 등록시 사용하는 Post
 
-        @Pattern(regexp = "^[a-zA-Z가-힣]*$")
+
         @NotBlank(message = "게스트하우스 이름은 빈값일 수 없습니다")
         private String guestHouseName;
 
@@ -58,7 +58,6 @@ public class GuestHouseDto {
     public static class Put{ //숙소 수정시 사용하는 Put
 
         //게스트 하우스는 패스 파라미터에서 꺼내서 사용
-        @Pattern(regexp = "^[a-zA-Z가-힣]*$")
         @NotBlank(message = "게스트하우스 이름은 빈값일 수 없습니다")
         private String guestHouseName;
 
