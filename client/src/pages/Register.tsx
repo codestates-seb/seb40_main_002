@@ -84,21 +84,21 @@ export default function Register() {
           userImg.slice(0, 33) === 'https://lh3.googleusercontent.com'
         ) {
           const convertFile = (await convertURLtoFileGoogle(userImg)) as File;
-          console.log(convertFile);
+
           formData.append('memberImageFile', convertFile);
         }
       }
     }
 
-    // try {
-    //   const res = await axios.post('/api/members', formData, {
-    //     headers: { 'Content-Type': 'multipart/form-data' },
-    //   });
-    //   navigate('/');
-    //   window.location.reload();
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    try {
+      const res = await axios.post('/api/members', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      navigate('/');
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
