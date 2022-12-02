@@ -49,6 +49,7 @@ Api.interceptors.response.use(
         }
         return await Api.request(originConfig);
       } catch (err) {
+        console.log('1');
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('persist:root'); //
@@ -56,6 +57,7 @@ Api.interceptors.response.use(
       }
       return Promise.reject(err);
     } else {
+      console.log('2');
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('persist:root'); //
