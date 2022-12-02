@@ -15,4 +15,18 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    '/static',
+    createProxyMiddleware({
+      target: 'https://ssl.pstatic.net',
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    '/a',
+    createProxyMiddleware({
+      target: 'https://lh3.googleusercontent.com',
+      changeOrigin: true,
+    })
+  );
 };
