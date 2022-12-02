@@ -36,13 +36,13 @@ export default function ReviewPage() {
   useEffect(() => {
     const test = async () => {
       await getGhReviewData(ghId).then((res) => setReview(res));
-      const userInfo = await getUserInfo(
-        window.localStorage.getItem('accessToken')
-      );
+      const userInfo = await getUserInfo(localStorage.getItem('accessToken'));
       const ghInfo = await getGhInfo(ghId);
       setGhInfo(ghInfo);
       setUser(userInfo);
-      adminChecker(userInfo.memberId, ghInfo.memberId);
+      if (userInfo) {
+        adminChecker(userInfo.memberId, ghInfo.memberId);
+      }
       setIsLoading(true);
     };
     test();
@@ -72,9 +72,8 @@ export default function ReviewPage() {
               </div>
             )}
 
-            {user &&
-              review.map((ele, i) => {
-                console.log(ele);
+            {review.map((ele, i) => {
+              if (user) {
                 return (
                   <div key={i} className="mb-2 p-2">
                     <DetailReview
@@ -84,7 +83,14 @@ export default function ReviewPage() {
                     />
                   </div>
                 );
-              })}
+              } else {
+                return (
+                  <div key={i} className="mb-2 p-2">
+                    <DetailReview type={'reviewPage'} reviewComment={ele} />
+                  </div>
+                );
+              }
+            })}
           </div>
         </div>
       )}

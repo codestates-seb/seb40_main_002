@@ -69,11 +69,13 @@ export default function EditReply({ type, id }: Props) {
                 },
               }
             )
+
             .catch(() =>
               alert('리뷰는 이용했던 이력이 있어야 작성 가능합니다.')
             );
           setStar([...new Array(5).fill(false)]); // 유저가 별점 남긴후에 별점 초기화
           setReply('');
+          window.location.reload();
         } catch (e) {
           console.log(e);
         }
@@ -92,6 +94,7 @@ export default function EditReply({ type, id }: Props) {
             }
           );
           setReply('');
+          window.location.reload();
         } catch (e) {
           console.log(e);
         }

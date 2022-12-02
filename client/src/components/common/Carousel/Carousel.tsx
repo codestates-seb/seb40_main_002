@@ -48,7 +48,7 @@ const Carousel = ({ images }: CarouselProps) => {
             <img
               key={i}
               className={`bg-center bg-no-repeat bg-cotain flex-none	rounded-xl  w-full h-[560px]`}
-              src={`http://3.37.58.81:8080${img}`}
+              src={`${process.env.REACT_APP_SERVER_URL}${img}`}
             ></img>
           ))}
         </div>

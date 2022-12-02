@@ -18,7 +18,7 @@ const RoomsDetail = ({ rooms }: RoomsProps) => {
         const data = {
           roomName: el.roomName,
           roomPrice: el.roomPrice,
-          roomImage: `http://3.37.58.81:8080${el.roomImageUrl}`,
+          roomImage: `${process.env.REACT_APP_SERVER_URL}${el.roomImageUrl}`,
           roomExplain: el.roomInfo,
           reservePossible: el.reservePossible,
         };

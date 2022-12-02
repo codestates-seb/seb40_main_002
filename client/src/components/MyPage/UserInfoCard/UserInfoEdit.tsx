@@ -5,7 +5,7 @@ import { TagSelectButton } from '../../common/TagSelectModal/TagSelectButton';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
 
 import { imgDto, stringDto } from '../../../libs/ghEditCreateForm';
-import Api from '../../../api';
+import Api from '../../../api2';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
