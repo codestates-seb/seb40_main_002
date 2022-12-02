@@ -90,6 +90,7 @@ const GhAdminPage = () => {
       const FileData = await convertURLtoFile(
         `${process.env.REACT_APP_SERVER_URL}${userGet.memberImageUrl}`
       );
+      console.log(ghData);
       // 유저 정보
       setUser({
         ...userGet,
@@ -104,7 +105,7 @@ const GhAdminPage = () => {
     };
     getGhdata();
   }, [currentpageNum]);
-  console.log(ghList);
+
   return (
     <div className="flex justify-between w-full h-full py-[20px]">
       {loading && ghList && user && (
