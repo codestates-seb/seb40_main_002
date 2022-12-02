@@ -46,7 +46,7 @@ function GuesthouseCard({
           <div className="w-fit text-base">{`${guesthouse.price.toLocaleString()} KRW / 1박`}</div>
         </div>
       </button>
-      <div className="flex px-1 py-1">
+      <div className="flex px-1 py-1 whitespace-wrap">
         {guesthouse.tags.map((el: string) => (
           <Tag key={el} name={el} />
         ))}
