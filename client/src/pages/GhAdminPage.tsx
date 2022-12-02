@@ -77,7 +77,7 @@ const GhAdminPage = () => {
       setPagenation({ ...data.data.pageInfo });
       const ghData = data.data.data.map((x: GhList) => {
         return {
-          memberNickname: userGet.memberNickname,
+          memberNickname: x.memberNickname,
           guestHouseImage: x.guestHouseImage,
           guestHouseName: x.guestHouseName,
           guestHouseStar: x.guestHouseStar,
@@ -114,7 +114,10 @@ const GhAdminPage = () => {
           <div className="flex">
             <UserInfoCard user={user} setUser={setUser} />
             <div className="mx-[20px]">
-              <GhAdminList ghAdminData={ghList.ghAdminData} />
+              <GhAdminList
+                ghAdminData={ghList.ghAdminData}
+                AdminName={user.memberNickname}
+              />
             </div>
           </div>
           <div className="text-right ">

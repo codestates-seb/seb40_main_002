@@ -12,8 +12,9 @@ interface Props {
     guestHouseId: number;
     rooms: { roomPrice: number }[];
   }[];
+  AdminName: string;
 }
-const GhAdminList = ({ ghAdminData }: Props) => {
+const GhAdminList = ({ ghAdminData, AdminName }: Props) => {
   const navigate = useNavigate();
 
   const addGhHandler = () => {
