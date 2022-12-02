@@ -51,12 +51,10 @@ export default function GhEditPage2() {
           if (userGet.memberRoles[0] !== 'ADMIN') {
             alert('호스트가 아닙니다.');
             navigate('/');
-            return;
           }
         } else {
           alert('호스트가 아닙니다');
           navigate('/');
-          return;
         }
 
         const {
@@ -84,7 +82,7 @@ export default function GhEditPage2() {
         setRooms([...rooms]);
         setIsLoading(true);
       } catch (e) {
-        console.log(e);
+        alert('로그인 상태를 확인해주세요');
       }
     };
     asynData();
