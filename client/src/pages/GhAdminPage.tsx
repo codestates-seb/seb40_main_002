@@ -112,7 +112,7 @@ const GhAdminPage = () => {
         alert('login을 다시 해주세요.');
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        localStorage.removeItem('persist:root');
+        sessionStorage.removeItem('persist:root');
         navigate('/');
         window.location.reload();
       }
