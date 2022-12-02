@@ -85,7 +85,8 @@ export default function Register() {
         ) {
           const convertFile = await convertURLtoFile(userImg);
           console.log('구글 url', userImg);
-          console.log('구글 파일', convertFile);
+          const a = new Blob([convertFile], { type: 'image/png' });
+          console.log('구글 파일', a);
           formData.append('memberImageFile', convertFile);
         }
       }
