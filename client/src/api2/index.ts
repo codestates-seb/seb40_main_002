@@ -51,7 +51,7 @@ Api.interceptors.response.use(
       } catch (err) {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        localStorage.removeItem('persist:root'); //
+        sessionStorage.removeItem('persist:root'); //
         console.log('토큰 갱신 에러');
       }
       return Promise.reject(err);

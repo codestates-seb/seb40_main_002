@@ -31,12 +31,12 @@ export default function App() {
         } catch (e) {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
-          localStorage.removeItem('persist:root');
+          sessionStorage.removeItem('persist:root');
         }
       } else {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        localStorage.removeItem('persist:root');
+        sessionStorage.removeItem('persist:root');
       }
     };
     getUser();

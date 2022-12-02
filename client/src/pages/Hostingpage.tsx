@@ -102,7 +102,7 @@ export default function Hostingpage() {
         alert('로그인을 다시 해주세요.');
         navigate('/');
         localStorage.removeItem('refreshToken');
-        localStorage.removeItem('persist:root');
+        sessionStorage.removeItem('persist:root');
         localStorage.removeItem('accessToken');
         window.location.reload();
       }

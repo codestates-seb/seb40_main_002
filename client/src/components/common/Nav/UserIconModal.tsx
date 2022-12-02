@@ -35,7 +35,7 @@ const UserIconModal = () => {
         // console.log('logout:', res);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        localStorage.removeItem('persist:root'); //
+        sessionStorage.removeItem('persist:root'); //
         dispatch(clearUser());
         navigate('/');
         window.location.reload();
@@ -43,7 +43,7 @@ const UserIconModal = () => {
       .catch((err) => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        localStorage.removeItem('persist:root'); //
+        sessionStorage.removeItem('persist:root'); //
         navigate('/');
         window.location.reload();
       });
