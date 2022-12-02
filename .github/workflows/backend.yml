@@ -36,12 +36,10 @@ jobs:
         
         
     # secret    
-    
     - name: occupy-dev
       env:
         OCCUPY_DEV: ${{ secrets.OCCUPY_DEV }}
         OCCUPY_DEV_DIR: server/src/main/resources
-        OCCUPY_DEV_TEST_DIR: server/src/test/resources
         OCCUPY_DEV_DIR_FILE_NAME: application-dev.yml
       run: echo $OCCUPY_DEV | base64 --decode > $OCCUPY_DEV_DIR/$OCCUPY_DEV_DIR_FILE_NAME
       
@@ -49,7 +47,6 @@ jobs:
       env:
         OCCUPY_GOOGLE: ${{ secrets.OCCUPY_GOOGLE }}
         OCCUPY_GOOGLE_DIR: server/src/main/resources
-        OCCUPY_GOOGLE_TEST_DIR: server/src/test/resources
         OCCUPY_GOOGLE_DIR_FILE_NAME: application-google.yml
       run: echo $OCCUPY_GOOGLE | base64 --decode > $OCCUPY_GOOGLE_DIR/$OCCUPY_GOOGLE_DIR_FILE_NAME
            
@@ -57,7 +54,6 @@ jobs:
       env:
         OCCUPY_NAVER: ${{ secrets.OCCUPY_NAVER }}
         OCCUPY_NAVER_DIR: server/src/main/resources
-        OCCUPY_NAVER_TEST_DIR: server/src/test/resources
         OCCUPY_NAVER_DIR_FILE_NAME: application-naver.yml
       run: echo $OCCUPY_NAVER | base64 --decode > $OCCUPY_NAVER_DIR/$OCCUPY_NAVER_DIR_FILE_NAME
            
@@ -65,7 +61,6 @@ jobs:
       env:
         OCCUPY_KAKAO: ${{ secrets.OCCUPY_KAKAO }}
         OCCUPY_KAKAO_DIR: server/src/main/resources
-        OCCUPY_KAKAO_TEST_DIR: server/src/test/resources
         OCCUPY_KAKAO_DIR_FILE_NAME: application-kakao.yml
       run: echo $OCCUPY_KAKAO | base64 --decode > $OCCUPY_KAKAO_DIR/$OCCUPY_KAKAO_DIR_FILE_NAME
    
@@ -73,7 +68,6 @@ jobs:
       env:
         OCCUPY_RDS: ${{ secrets.OCCUPY_RDS }}
         OCCUPY_RDS_DIR: server/src/main/resources
-        OCCUPY_RDS_TEST_DIR: server/src/test/resources
         OCCUPY_RDS_DIR_FILE_NAME: application-rds.yml
       run: echo $OCCUPY_RDS | base64 --decode > $OCCUPY_RDS_DIR/$OCCUPY_RDS_DIR_FILE_NAME
       
@@ -81,7 +75,6 @@ jobs:
       env:
         OCCUPY_JWT: ${{ secrets.OCCUPY_JWT }}
         OCCUPY_JWT_DIR: server/src/main/resources
-        OCCUPY_JWT_TEST_DIR: server/src/test/resources
         OCCUPY_JWT_DIR_FILE_NAME: application-jwt.yml
       run: echo $OCCUPY_JWT | base64 --decode > $OCCUPY_JWT_DIR/$OCCUPY_JWT_DIR_FILE_NAME  
       
@@ -89,7 +82,6 @@ jobs:
       env:
         OCCUPY_MAIL: ${{ secrets.OCCUPY_MAIL }}
         OCCUPY_MAIL_DIR: server/src/main/resources
-        OCCUPY_MAIL_TEST_DIR: server/src/test/resources
         OCCUPY_MAIL_DIR_FILE_NAME: application-mail.yml
       run: echo $OCCUPY_MAIL | base64 --decode > $OCCUPY_MAIL_DIR/$OCCUPY_MAIL_DIR_FILE_NAME
 
@@ -99,6 +91,11 @@ jobs:
       run: ./gradlew clean build
       working-directory: ${{ env.working-directory }}
       
+      
+    # secret 삭제
+    - name: delete secrect.yml
+      run: rm server/src/main/resources/*.yml
+    
       
     # build한 후 프로젝트를 압축
     - name: Make zip file
