@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import RatedStar from '../common/RatedStar';
 import Tag from '../common/Tag';
 import Heart from '../common/Heart';
@@ -10,7 +10,7 @@ type TagProps = {
   ghMemberId: string;
   tags: string[];
   ghImage: string[];
-  userMemberId: string;
+  userMemberId?: string;
   guestHouseId: number;
   guestHouseStar: number;
 };
@@ -25,14 +25,20 @@ const GhInformation = ({
   guestHouseStar,
 }: TagProps) => {
   const navigate = useNavigate();
-  const admin = ghMemberId === userMemberId;
+  const [admin, setAdmin] = useState(false);
   const editHandler = () => {
     navigate(`/ghedit/${guestHouseId}`);
   };
   const commentHandler = () => {
-    console.log('후기페이지 이동');
+    navigate(`/review/${guestHouseId}`);
   };
-
+  useEffect(() => {
+    if (ghMemberId === userMemberId) {
+      setAdmin(true);
+    } else {
+      setAdmin(false);
+    }
+  }, [ghMemberId]);
   return (
     <>
       <div className="font-bold">{ghName}</div>

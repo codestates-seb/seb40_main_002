@@ -51,15 +51,10 @@ Api.interceptors.response.use(
       } catch (err) {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        localStorage.removeItem('persist:root'); //
-        window.location.reload();
+        sessionStorage.removeItem('persist:root'); //
       }
       return Promise.reject(err);
     } else {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('persist:root'); //
-      window.location.reload();
       return Promise.reject(err);
     }
   }

@@ -87,7 +87,7 @@ export default function GhEditPage2() {
         alert('로그인 상태를 확인해주세요');
         navigate('/');
         localStorage.removeItem('refreshToken');
-        localStorage.removeItem('persist:root');
+        sessionStorage.removeItem('persist:root');
         localStorage.removeItem('accessToken');
         window.location.reload();
       }
