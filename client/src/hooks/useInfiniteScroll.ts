@@ -69,7 +69,7 @@ function useInfiniteScroll(
       optionApi = `&cityId=${option.cityId}&start=${option.start}&end=${option.end}`;
       tagApi = option.tags.join('&tag=');
     }
-    if (totalCount > list.length) {
+    if (totalCount >= list.length) {
       const newGuesthouses = await getGuesthouseList(
         `${path}?page=${page}&size=10&sort=${sortType}&tag=${
           tagApi ? tagApi : ''
