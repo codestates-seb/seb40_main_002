@@ -43,7 +43,7 @@ Api.interceptors.response.use(
 
         if (data) {
           const newAccessToken = JSON.parse(data.data.data.accessToken);
-
+          console.log(newAccessToken);
           localStorage.setItem('accessToken', JSON.stringify(newAccessToken));
         }
       } catch (err) {
