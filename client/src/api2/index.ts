@@ -40,13 +40,10 @@ Api.interceptors.response.use(
             refreshToken: refreshToken,
           },
         });
-        console.log(data);
-        console.log(data.data.data.accessToken);
+
+        const newToken = data.data.data.accessToken;
         if (data) {
-          localStorage.setItem(
-            'accessToken',
-            JSON.stringify(data.data.data.accessToken)
-          );
+          localStorage.setItem('accessToken', JSON.stringify(newToken));
         }
       } catch (err) {
         console.log('토큰 인증 오류 발생');
