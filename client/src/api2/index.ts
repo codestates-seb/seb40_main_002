@@ -30,7 +30,7 @@ Api.interceptors.response.use(
     const originConfig = err.config;
     if (err.response && err.response.status === 401) {
       const accessToken = originConfig.headers['Authorization'];
-      const refreshToken = originConfig.headers['refreshToken'];
+      const refreshToken = localStorage.getItem('refreshToken');
 
       try {
         const data = await axios({
@@ -42,13 +42,12 @@ Api.interceptors.response.use(
         });
 
         if (data) {
-          localStorage.setItem(
-            'accessToken',
-            JSON.stringify(data.data.data.accessToken)
-          );
+          console.log(data);
+          console.log(data.data);
+          localStorage.setItem('accessToken', JSON.stringify(data.data));
         }
-        return await Api.request(originConfig);
       } catch (err) {
+        console.log('토큰 인증 오류 발생');
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         sessionStorage.removeItem('persist:root'); //

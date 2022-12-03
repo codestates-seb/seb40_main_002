@@ -19,7 +19,7 @@ import { setUser } from './store/reducer/user';
 import { useDispatch } from 'react-redux';
 import { User } from './types/user';
 import axios from 'axios';
-import Sample from './components/common/Comment/Sample';
+// import Sample from './components/common/Comment/Sample';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -27,17 +27,17 @@ export default function App() {
     const getUser = async () => {
       if (localStorage.getItem('accessToken')) {
         try {
-          axios
-            .get(`/api/auth/members`, {
-              headers: { Authorization: localStorage.getItem('accessToken') },
-            })
+          Api.get(
+            `/api/auth/members`
+            // {
+            //   headers: { Authorization: localStorage.getItem('accessToken') },
+            // }
+          )
             .then((res) => {
               dispatch(setUser(res.data.data as User));
             })
             .catch((err) => {
-              localStorage.removeItem('accessToken');
-              localStorage.removeItem('refreshToken');
-              sessionStorage.removeItem('persist:root');
+              console.log(err);
             });
         } catch (e) {
           console.log(e);
@@ -65,7 +65,7 @@ export default function App() {
           <Route path="/ghadmin" element={<GhAdminPage />} />
           <Route path="/reservation" element={<Reservation />} />
           <Route path="/ghadmin" element={<GhAdminPage />} />
-          <Route path="/test" element={<Sample />} />
+          {/* <Route path="/test" element={<Sample />} /> */}
           {/* 동적 라우팅 필요 */}
         </Routes>
       </div>
