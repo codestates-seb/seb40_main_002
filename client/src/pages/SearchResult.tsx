@@ -2,9 +2,8 @@ import GuesthouseList from '../components/Main/GuesthouseList';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
 
 function SearchResult() {
-  const [list, setSortType, ref, totalCount] = useInfiniteScroll(
-    '/api/all-guesthouse'
-  );
+  const [list, setSortType, ref, totalCount] =
+    useInfiniteScroll('/api/guesthouse');
 
   return (
     <div className="w-full p-[20px]">
@@ -14,7 +13,9 @@ function SearchResult() {
         setSortType={setSortType}
         listLength={list.length}
       />
-      <div ref={ref}>...</div>
+      <div className="text-white" ref={ref}>
+        ...
+      </div>
     </div>
   );
 }
