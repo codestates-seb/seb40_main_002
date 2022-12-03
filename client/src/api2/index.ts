@@ -42,6 +42,7 @@ Api.interceptors.response.use(
         });
 
         if (data) {
+          console.log(data.data.data.accessToken);
           localStorage.setItem(
             'accessToken',
             JSON.stringify(data.data.data.accessToken)
