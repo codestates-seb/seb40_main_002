@@ -12,22 +12,26 @@ function TagSearch({
 }) {
   const [isOpen, openModalHandler] = useModal();
   return (
-    <div className="flex" onClick={openModalHandler}>
-      {tags.length > 0 || (
-        <button onClick={openModalHandler}>태그를 선택해 주세요</button>
-      )}
-      {isOpen && (
-        <div className="fixed top-20 right-80">
+    <div>
+      <div className="flex relative" onClick={openModalHandler}>
+        {tags.length > 0 || (
+          <button onClick={openModalHandler}>태그를 선택해 주세요</button>
+        )}
+      </div>
+      <div className="flex" onClick={openModalHandler}>
+        {isOpen && (
+          // <div className="">
           <TagSelect
             tags={TAGS}
             setTags={setTags}
             openModalHandler={openModalHandler}
           />
-        </div>
-      )}
-      {tags.map((el) => (
-        <Tag key={el} name={el} />
-      ))}
+          // </div>
+        )}
+        {tags.map((el) => (
+          <Tag key={el} name={el} />
+        ))}
+      </div>
     </div>
   );
 }

@@ -7,6 +7,14 @@
     {
       "source": "/dn/:path*",
       "destination": "https://k.kakaocdn.net/dn/:path*"
+    },
+    {
+      "source": "/a/:path*",
+      "destination": "https://lh3.googleusercontent.com/a/:path*"
+    },
+    {
+      "source": "/pwe/:path*",
+      "destination": "https://ssl.pstatic.net/static/pwe/:path*"
     }
   ]
 }

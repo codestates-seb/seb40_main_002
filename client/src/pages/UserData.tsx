@@ -3,12 +3,12 @@ import { getuserParams } from '../libs/getuserParams';
 import { useNavigate } from 'react-router-dom';
 import { convertURLtoFile } from '../libs/srcToFile';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../store/reducer/user';
-import { User } from '../types/user';
+// import { useDispatch } from 'react-redux';
+// import { setUser } from '../store/reducer/user';
+// import { User } from '../types/user';
 
 export default function UserData() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -37,16 +37,12 @@ export default function UserData() {
           },
         })
         .then((res) => {
-          // console.log(res);
           // user 정보 저장하기
-          dispatch(setUser(res.data.data as User));
+          // dispatch(setUser(res.data.data as User));
           navigate('/');
-          // location.reload(); // 임시
         })
         .catch((err) => console.log(err));
     }
   }, []);
   return <></>;
 }
-
-// memberId memberEmail memberImageUrl

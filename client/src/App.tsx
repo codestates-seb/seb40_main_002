@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import { Route, Routes } from 'react-router-dom';
@@ -7,17 +7,46 @@ import MyPage from './pages/MyPage';
 import Main from './pages/Main';
 import SearchResult from './pages/SearchResult';
 import GuestHouseDetail from './pages/GuestHouseDetail';
-import Sample from './components/common/Comment/Sample';
 import Hostingpage from './pages/Hostingpage';
-
 import ReviewPage from './pages/ReviewPage';
 import GhEditPage2 from './pages/GhEditPage2';
 import Register from './pages/Register';
 import UserData from './pages/UserData';
 import GhAdminPage from './pages/GhAdminPage';
 import Reservation from './pages/Reservation';
+import Api from './api2';
+import { setUser } from './store/reducer/user';
+import { useDispatch } from 'react-redux';
+import { User } from './types/user';
+import axios from 'axios';
+// import Sample from './components/common/Comment/Sample';
 
 export default function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const getUser = async () => {
+      if (localStorage.getItem('accessToken')) {
+        try {
+          Api.get(
+            `/api/auth/members`
+            // {
+            //   headers: { Authorization: localStorage.getItem('accessToken') },
+            // }
+          )
+            .then((res) => {
+              dispatch(setUser(res.data.data as User));
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    };
+    getUser();
+  }, []);
+
   return (
     <div className="w-[100vw] h-[100vh]">
       <Navbar />
@@ -36,6 +65,7 @@ export default function App() {
           <Route path="/ghadmin" element={<GhAdminPage />} />
           <Route path="/reservation" element={<Reservation />} />
           <Route path="/ghadmin" element={<GhAdminPage />} />
+          {/* <Route path="/test" element={<Sample />} /> */}
           {/* 동적 라우팅 필요 */}
         </Routes>
       </div>

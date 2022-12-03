@@ -22,7 +22,7 @@ const GhAdminList = ({ ghAdminData, AdminName }: Props) => {
     navigate('/ghedit');
   };
   return (
-    <div className="h-full overflow-auto">
+    <div className="h-full">
       <div className="text-center text-xl m-[20px] ">
         <span className=" font-bold">{AdminName}</span>
         님의 숙소 리스트
