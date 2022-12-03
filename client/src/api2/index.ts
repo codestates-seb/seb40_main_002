@@ -41,7 +41,7 @@ Api.interceptors.response.use(
           },
         });
 
-        const newToken = [...data.data.data.accessToken];
+        const newToken = [data.data.data.accessToken];
 
         if (data) {
           console.log(JSON.stringify(newToken[0]));
