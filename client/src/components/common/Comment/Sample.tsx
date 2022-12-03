@@ -59,6 +59,7 @@ export default function Sample() {
           console.log('e', e);
         });
     };
+    test();
   }, []);
   const reservationData = {
     guestHouseName: '숙소1',
