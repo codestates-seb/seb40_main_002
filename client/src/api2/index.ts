@@ -40,7 +40,8 @@ Api.interceptors.response.use(
             refreshToken: refreshToken,
           },
         });
-
+        console.log(data);
+        console.log(data.data.data.accessToken);
         if (data) {
           localStorage.setItem(
             'accessToken',
