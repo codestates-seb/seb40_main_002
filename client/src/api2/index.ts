@@ -42,11 +42,8 @@ Api.interceptors.response.use(
         });
 
         if (data) {
-          console.log(data.data.data.accessToken);
-          localStorage.setItem(
-            'accessToken',
-            JSON.stringify(data.data.data.accessToken)
-          );
+          const newAccessToken = data.data.data.accessToken;
+          localStorage.setItem('accessToken', JSON.stringify(newAccessToken));
         }
       } catch (err) {
         console.log('토큰 인증 오류 발생');
