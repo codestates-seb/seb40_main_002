@@ -18,6 +18,7 @@ import Api from './api2';
 import { setUser } from './store/reducer/user';
 import { useDispatch } from 'react-redux';
 import { User } from './types/user';
+import axios from 'axios';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -25,18 +26,20 @@ export default function App() {
     const getUser = async () => {
       if (localStorage.getItem('accessToken')) {
         try {
-          Api.get(`/api/auth/members`).then((res) => {
-            dispatch(setUser(res.data.data as User));
-          });
+          Api.get(`/api/auth/members`, {
+            // headers: { Authorization: localStorage.getItem('accessToken') },
+          })
+            .then((res) => {
+              dispatch(setUser(res.data.data as User));
+            })
+            .catch((err) => {
+              localStorage.removeItem('accessToken');
+              localStorage.removeItem('refreshToken');
+              sessionStorage.removeItem('persist:root');
+            });
         } catch (e) {
-          localStorage.removeItem('accessToken');
-          localStorage.removeItem('refreshToken');
-          sessionStorage.removeItem('persist:root');
+          console.log(e);
         }
-      } else {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        sessionStorage.removeItem('persist:root');
       }
     };
     getUser();
