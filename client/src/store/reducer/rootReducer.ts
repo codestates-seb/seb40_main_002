@@ -2,14 +2,14 @@ import { combineReducers } from '@reduxjs/toolkit';
 import user from './user';
 import door from './door';
 
-import storage from 'redux-persist/lib/storage';
+// import storage from 'redux-persist/lib/storage';
 import sessionStorage from 'redux-persist/lib/storage/session';
 import { persistReducer } from 'redux-persist';
 
-const persistConfig = {
-  key: 'root',
-  storage,
-};
+// const persistConfig = {
+//   key: 'root',
+//   storage,
+// };
 
 const doorPersistConfig = {
   key: 'door',
@@ -18,7 +18,8 @@ const doorPersistConfig = {
 
 // 만들어 놓은 리듀서들을 합친다.
 export const reducers = combineReducers({
-  user: persistReducer(persistConfig, user),
+  // user: persistReducer(persistConfig, user),
+  user,
   door: persistReducer(doorPersistConfig, door),
 });
 
