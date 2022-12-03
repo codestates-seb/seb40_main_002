@@ -18,7 +18,7 @@ function TagSearch({
           <button onClick={openModalHandler}>태그를 선택해 주세요</button>
         )}
       </div>
-      <div>
+      <div className="flex" onClick={openModalHandler}>
         {isOpen && (
           // <div className="">
           <TagSelect

@@ -37,7 +37,7 @@ function TagSelect({ tags, openModalHandler, setTags }: Props) {
   return (
     <>
       <div
-        className="flex flex-col items-center py-4 w-[340px] rounded-[15px] bg-white border border-border-color absolute top-20 ml-[-120px]"
+        className="flex flex-col items-center py-4 w-[340px] rounded-[15px] bg-white border border-border-color absolute top-20 ml-[-100px]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="text-lg font-medium w-fit mb-[20px]">
