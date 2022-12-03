@@ -69,16 +69,15 @@ function useInfiniteScroll(
       optionApi = `&cityId=${option.cityId}&start=${option.start}&end=${option.end}`;
       tagApi = option.tags.join('&tag=');
     }
-    if (totalCount >= list.length) {
-      const newGuesthouses = await getGuesthouseList(
-        `${path}?page=${page}&size=10&sort=${sortType}&tag=${
-          tagApi ? tagApi : ''
-        }${optionApi ? optionApi : ''}`, // option 있을 경우 추가
-        setTotalCount
-      );
-      if (page > 1) setList([...list, ...newGuesthouses]);
-      else setList([...newGuesthouses]);
-    }
+    const newGuesthouses = await getGuesthouseList(
+      `${path}?page=${page}&size=10&sort=${sortType}&tag=${
+        tagApi ? tagApi : ''
+      }${optionApi ? optionApi : ''}`, // option 있을 경우 추가
+      setTotalCount
+    );
+    if (page > 1) setList([...list, ...newGuesthouses]);
+    else setList([...newGuesthouses]);
+
     setLoading(false);
   }, [page, sortType]);
 
@@ -103,7 +102,7 @@ function useInfiniteScroll(
   // 페이지 설정
   useEffect(() => {
     // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면
-    if (inView && !loading) {
+    if (inView && !loading && totalCount > list.length) {
       setPage((page) => page + 1);
     }
   }, [inView, loading]);
