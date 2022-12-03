@@ -1,5 +1,3 @@
-// import React, { useCallback, useEffect, useState } from 'react';
-// import { useInView } from 'react-intersection-observer';
 import { useCallback, useEffect, useState } from 'react';
 import GuesthouseList from '../components/Main/GuesthouseList';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
@@ -17,7 +15,6 @@ function Main() {
   const [openDoor, setOpenDoor] = useState(true);
 
   useEffect(() => {
-    console.log(doorOpened);
     if (doorOpened) setOpenDoor(false);
     else {
       setTimeout(() => {
