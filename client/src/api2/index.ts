@@ -41,10 +41,12 @@ Api.interceptors.response.use(
           },
         });
 
-        const newToken = data.data.data.accessToken;
-        console.log(JSON.parse(newToken));
+        const newToken = [...data.data.data.accessToken];
+
         if (data) {
-          localStorage.setItem('accessToken', JSON.stringify(newToken));
+          console.log(JSON.stringify(newToken[0]));
+          console.log(newToken[0]);
+          localStorage.setItem('accessToken', JSON.stringify(newToken[0]));
         }
       } catch (err) {
         console.log('토큰 인증 오류 발생');
