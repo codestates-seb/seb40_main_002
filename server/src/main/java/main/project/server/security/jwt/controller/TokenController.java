@@ -10,6 +10,7 @@ import main.project.server.security.jwt.entity.RefreshToken;
 import main.project.server.security.jwt.mapper.TokenMapper;
 import main.project.server.member.entity.Member;
 import main.project.server.member.service.MemberService;
+import main.project.server.security.jwt.service.TokenService;
 import main.project.server.security.oauth.handler.OauthSuccessHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,8 @@ public class TokenController {
 
     private final TokenMapper tokenMapper;
 
+    private final TokenService tokenService;
+
 
     // refreshToken을 이용해 새로운 accessToken 발급 요청
     @PostMapping("/api/token")
@@ -51,13 +54,13 @@ public class TokenController {
 
         // refresh 토큰 검사, memberId 추출
         String memberIdFromToken = jwtTokenizer.getMemberIdFromToken(refreshToken.getRefreshToken(), encodedBase64SecretKey);
+        tokenService.findVerifiedToken(memberIdFromToken);
+
         Member member = memberService.findVerifiedMember(memberIdFromToken);
         String accessToken = oauthSuccessHandler.delegateAccessToken(member);
 
-        TokenDto.Response response = TokenDto.Response.builder().accessToken(accessToken).build();
         log.info("accessToken = {}", accessToken);
 
-        return new ResponseEntity(new SingleResponseDto<>("New accessToken delegated", response), HttpStatus.OK);
+        return new ResponseEntity(accessToken, HttpStatus.OK);
     }
-
 }
