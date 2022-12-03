@@ -43,7 +43,7 @@ Api.interceptors.response.use(
 
         if (data) {
           const newAccessToken = data.data.data.accessToken;
-          localStorage.setItem('accessToken', JSON.stringify(newAccessToken));
+          localStorage.setItem('accessToken', newAccessToken);
         }
       } catch (err) {
         console.log('토큰 인증 오류 발생');
