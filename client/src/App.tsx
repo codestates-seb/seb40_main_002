@@ -37,9 +37,7 @@ export default function App() {
               dispatch(setUser(res.data.data as User));
             })
             .catch((err) => {
-              localStorage.removeItem('accessToken');
-              localStorage.removeItem('refreshToken');
-              sessionStorage.removeItem('persist:root');
+              console.log(err);
             });
         } catch (e) {
           console.log(e);
