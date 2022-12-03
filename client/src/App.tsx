@@ -27,10 +27,12 @@ export default function App() {
     const getUser = async () => {
       if (localStorage.getItem('accessToken')) {
         try {
-          axios
-            .get(`/api/auth/members`, {
-              headers: { Authorization: localStorage.getItem('accessToken') },
-            })
+          Api.get(
+            `/api/auth/members`
+            //  ,{
+            //   headers: { Authorization: localStorage.getItem('accessToken') },
+            // }
+          )
             .then((res) => {
               dispatch(setUser(res.data.data as User));
             })

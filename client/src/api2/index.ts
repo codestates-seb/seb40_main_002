@@ -30,7 +30,7 @@ Api.interceptors.response.use(
     const originConfig = err.config;
     if (err.response && err.response.status === 401) {
       const accessToken = originConfig.headers['Authorization'];
-      const refreshToken = originConfig.headers['refreshToken'];
+      const refreshToken = localStorage.getItem('refreshToken');
 
       try {
         const data = await axios({
@@ -47,7 +47,6 @@ Api.interceptors.response.use(
             JSON.stringify(data.data.data.accessToken)
           );
         }
-        return await Api.request(originConfig);
       } catch (err) {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
