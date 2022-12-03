@@ -42,10 +42,9 @@ Api.interceptors.response.use(
         });
 
         if (data) {
-          localStorage.setItem(
-            'accessToken',
-            JSON.stringify(data.data.data.accessToken)
-          );
+          console.log(data);
+          console.log(data.data);
+          localStorage.setItem('accessToken', JSON.stringify(data.data));
         }
       } catch (err) {
         console.log('토큰 인증 오류 발생');
