@@ -19,6 +19,7 @@ import { setUser } from './store/reducer/user';
 import { useDispatch } from 'react-redux';
 import { User } from './types/user';
 import axios from 'axios';
+import Sample from './components/common/Comment/Sample';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -64,6 +65,7 @@ export default function App() {
           <Route path="/ghadmin" element={<GhAdminPage />} />
           <Route path="/reservation" element={<Reservation />} />
           <Route path="/ghadmin" element={<GhAdminPage />} />
+          <Route path="/test" element={<Sample />} />
           {/* 동적 라우팅 필요 */}
         </Routes>
       </div>
