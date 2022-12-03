@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import main.project.server.member.dto.MemberDto;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -39,8 +40,10 @@ public class ReviewCommentDto {
 
         private String reviewComment;
 
+        @DateTimeFormat(pattern = "yyyy-mm-dd")
         private LocalDateTime createdAt;
 
+        @DateTimeFormat(pattern = "yyyy-mm-dd")
         private LocalDateTime modifiedAt;
 
         private MemberDto.Response user;
