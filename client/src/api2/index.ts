@@ -49,14 +49,12 @@ Api.interceptors.response.use(
         }
         return await Api.request(originConfig);
       } catch (err) {
-        console.log('err');
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         sessionStorage.removeItem('persist:root'); //
       }
       return Promise.reject(err);
     } else {
-      console.log('else');
       return Promise.reject(err);
     }
   }
