@@ -41,9 +41,24 @@ export default function Sample() {
   const detailReviewPage = '유동적으로 설정';
   const [review, setReview] = useState<Props | null>(null);
   useEffect(() => {
-    axios.get('/api/guesthouse/1/review?page=1&size=4').then((res) => {
-      setReview(res.data.data[0]);
-    });
+    // axios.get('/api/guesthouse/1/review?page=1&size=4').then((res) => {
+    //   setReview(res.data.data[0]);
+    // });
+    const test = () => {
+      axios
+        .get('/api/token', {
+          headers: {
+            Authorization:
+              'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJZcE1WSi1ZcWVQbWNwb3NYZU4zWVVvWnFCdHlaSWh4MUZDRHlPTGFEWF9NQG5hdmVyIiwiaWF0IjoxNjY5ODMzNzQ2LCJleHAiOjE2Njk4NzY5NDZ9.LlXHUc8DgIkUz-hQ18vCu6K8yHlPIPKQPmkoN14xhi8',
+          },
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log('e', e);
+        });
+    };
   }, []);
   const reservationData = {
     guestHouseName: '숙소1',
