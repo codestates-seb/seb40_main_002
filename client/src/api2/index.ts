@@ -49,6 +49,7 @@ Api.interceptors.response.use(
           );
         }
       } catch (err) {
+        console.log('토큰 인증 오류 발생');
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         sessionStorage.removeItem('persist:root'); //
