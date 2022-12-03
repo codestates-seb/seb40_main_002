@@ -4,6 +4,7 @@ import lombok.*;
 import main.project.server.guesthouse.dto.GuestHouseDto;
 import main.project.server.member.dto.MemberDto;
 import main.project.server.roomreservation.dto.RoomReservationDto;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -49,8 +50,10 @@ public class ReviewDto {
 
         private float star;
 
+        @DateTimeFormat(pattern = "yyyy-mm-dd")
         private LocalDateTime createdAt;
 
+        @DateTimeFormat(pattern = "yyyy-mm-dd")
         private LocalDateTime modifiedAt;
 
         private MemberDto.Response member;
@@ -79,8 +82,10 @@ public class ReviewDto {
 
         private float star;
 
+        @DateTimeFormat(pattern = "yyyy-mm-dd")
         private LocalDateTime createdAt;
 
+        @DateTimeFormat(pattern = "yyyy-mm-dd")
         private LocalDateTime modifiedAt;
     }
 }
