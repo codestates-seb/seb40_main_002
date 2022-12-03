@@ -45,15 +45,15 @@ export default function Sample() {
     //   setReview(res.data.data[0]);
     // });
     const refreshGet = async () => {
-      axios
-        .post('/api/token', {
-          data: {
-            refreshToken: localStorage.getItem('refreshToken'),
-          },
-        })
-        .then((res) => {
-          console.log(res);
-        });
+      axios({
+        url: `${process.env.REACT_APP_SERVER_URL}/api/token`,
+        method: 'post',
+        data: {
+          refreshToken: localStorage.getItem('refreshToken'),
+        },
+      }).then((res) => {
+        console.log(res);
+      });
     };
     refreshGet();
   }, []);
