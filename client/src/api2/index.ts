@@ -52,10 +52,14 @@ Api.interceptors.response.use(
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         sessionStorage.removeItem('persist:root'); //
-        console.log('토큰 갱신 에러');
+        console.log('e');
       }
       return Promise.reject(err);
     } else {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      sessionStorage.removeItem('persist:root');
+      console.log('else');
       return Promise.reject(err);
     }
   }
