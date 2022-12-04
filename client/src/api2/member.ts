@@ -6,7 +6,5 @@ export const getUser = async () => {
     return response.data.data;
   } catch (e) {
     console.log('errrrrr');
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
   }
 };
