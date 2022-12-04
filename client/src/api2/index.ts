@@ -8,7 +8,7 @@ const Api = axios.create({
 Api.interceptors.request.use(function (config: any) {
   const access_token = localStorage.getItem('accessToken');
   const refresh_token = localStorage.getItem('refreshToken');
-
+  console.log('요청');
   if (!access_token && !refresh_token) {
     config.headers['Authorization'] = null;
     config.headers['refreshToken'] = null;
@@ -31,7 +31,7 @@ Api.interceptors.response.use(
       const accessToken = originConfig.headers['Authorization'];
       const refreshToken = localStorage.getItem('refreshToken');
       originConfig.sent = true;
-
+      console.log('응답');
       try {
         const data = await axios.post(
           '/api/token',
@@ -45,6 +45,7 @@ Api.interceptors.response.use(
         );
 
         if (data.headers.authorization) {
+          console.log('응답 완료');
           return localStorage.setItem(
             'accessToken',
             data.headers.authorization
