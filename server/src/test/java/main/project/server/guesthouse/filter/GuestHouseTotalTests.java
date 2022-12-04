@@ -4,6 +4,7 @@ package main.project.server.guesthouse.filter;
 import main.project.server.city.entity.City;
 import main.project.server.city.repository.CityRepository;
 import main.project.server.guesthouse.entity.GuestHouse;
+import main.project.server.guesthouse.repository.GuestHouseCustomRepositoryImpl;
 import main.project.server.guesthouse.repository.GuestHouseRepository;
 import main.project.server.guesthouse.room.entity.enums.RoomStatus;
 import main.project.server.member.entity.Member;
@@ -85,6 +86,8 @@ public class GuestHouseTotalTests {
 
     @Autowired
     RoomReservationRepository roomReservationRepository;
+
+
 
 
     @BeforeEach
@@ -345,6 +348,19 @@ public class GuestHouseTotalTests {
                 return true;
             return false;
         }));
+    }
+
+
+
+    @Test
+    @DisplayName("querydsl 적용")
+    void getGuestHouseMainFilterTest7() {
+
+        //given
+        PageRequest of = PageRequest.of(0, 10);
+
+        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter((City.City(1L).getCityId().intValue()), "%감성%", null, null, of);
+
     }
 
 }
