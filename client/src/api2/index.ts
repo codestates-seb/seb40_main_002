@@ -44,11 +44,12 @@ Api.interceptors.response.use(
             },
           }
         );
-        if (data.data.status !== 200) {
-          localStorage.removeItem('refreshToken');
-          localStorage.removeItem('accessToken');
-          return;
-        }
+        console.log(data);
+        // if (data.data.status !== 200) {
+        //   localStorage.removeItem('refreshToken');
+        //   localStorage.removeItem('accessToken');
+        //   return;
+        // }
         if (data.headers.authorization) {
           localStorage.setItem('accessToken', data.headers.authorization);
           originConfig.headers.Authorization = data.headers.authorization;
