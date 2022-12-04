@@ -1,0 +1,69 @@
+# 디폴트 무시된 파일
+/shelf/
+/workspace.xml
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!/src/main//build/
+!/src/test//build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!/src/main//bin/
+!/src/test//bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!/src/main//out/
+!/src/test//out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+.DS_Store
+
+
+
+### images ###
+imagesdir
+images/
+room/
+!src/main/java/main/project/server/guesthouse/room/
+!/src/main/resources/templates/images/
+
+### log ###
+main-project/
+
+### yml ###
+src/main/resources/application-dev.yml
+src/main/resources/application-dev-google.yml
+src/main/resources/application-dev-jwt.yml
+src/main/resources/application-dev-kakao.yml
+src/main/resources/application-dev-naver.yml
+src/main/resources/application-dev-rds.yml
+src/main/resources/application-google.yml
+src/main/resources/application-jwt.yml
+src/main/resources/application-kakao.yml
+src/main/resources/application-naver.yml
+src/main/resources/application-rds.yml
+src/main/resources/application-mail.yml
+src/main/resources/application-test.yml
