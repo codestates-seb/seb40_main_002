@@ -27,12 +27,10 @@ export default function App() {
     const getUser = async () => {
       if (localStorage.getItem('accessToken')) {
         try {
-          Api.get(
-            `/api/auth/members`
-            // {
-            //   headers: { Authorization: localStorage.getItem('accessToken') },
-            // }
-          )
+          axios
+            .get(`/api/auth/members`, {
+              headers: { Authorization: localStorage.getItem('accessToken') },
+            })
             .then((res) => {
               dispatch(setUser(res.data.data as User));
             })
@@ -40,7 +38,8 @@ export default function App() {
               console.log(err);
             });
         } catch (e) {
-          console.log(e);
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
         }
       }
     };

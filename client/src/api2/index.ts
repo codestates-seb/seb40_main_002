@@ -1,11 +1,10 @@
-import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 const baseUrl = process.env.REACT_APP_SERVER_URL;
 const Api = axios.create({
   baseURL: baseUrl,
 });
-
+// 요청을 가로채는 인터셉터 (필요할때만 토큰을 싣기 위해)
 Api.interceptors.request.use(function (config: any) {
   const access_token = localStorage.getItem('accessToken');
   const refresh_token = localStorage.getItem('refreshToken');
@@ -21,7 +20,7 @@ Api.interceptors.request.use(function (config: any) {
   }
   return config;
 });
-
+// 답변을 가로채는 인터셉터
 Api.interceptors.response.use(
   function (response) {
     return response;
@@ -31,7 +30,7 @@ Api.interceptors.response.use(
     if (err.response && err.response.status === 401) {
       const accessToken = originConfig.headers['Authorization'];
       const refreshToken = localStorage.getItem('refreshToken');
-
+      originConfig.sent = true;
       try {
         const data = await axios({
           url: `${baseUrl}/api/token`,
@@ -45,6 +44,7 @@ Api.interceptors.response.use(
           console.log(data);
           console.log(data.data);
           localStorage.setItem('accessToken', JSON.stringify(data.data));
+          return Api.request(originConfig);
         }
       } catch (err) {
         console.log('토큰 인증 오류 발생');
