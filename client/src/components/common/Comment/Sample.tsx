@@ -52,7 +52,7 @@ export default function Sample() {
         {},
         {
           headers: {
-            Authorization: refreshToken,
+            RefreshToken: refreshToken,
           },
         }
       );
