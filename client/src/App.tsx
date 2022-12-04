@@ -27,13 +27,9 @@ export default function App() {
     const getUser = async () => {
       if (localStorage.getItem('accessToken')) {
         try {
-          Api.get(`/api/auth/members`)
-            .then((res) => {
-              dispatch(setUser(res.data.data as User));
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+          const data = Api.get(`/api/auth/members`).then((res) => {
+            dispatch(setUser(res.data.data as User));
+          });
         } catch (e) {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
