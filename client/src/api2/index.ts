@@ -47,8 +47,7 @@ Api.interceptors.response.use(
 
         if (data.headers.authorization) {
           localStorage.setItem('accessToken', data.headers.authorization);
-          originConfig.defaults.headers.common.Authorization =
-            data.headers.authorization;
+          originConfig.headers.Authorization = data.headers.authorization;
           return Api(originConfig);
         }
       } catch (err) {
