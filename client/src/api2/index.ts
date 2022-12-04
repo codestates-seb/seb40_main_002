@@ -45,6 +45,7 @@ Api.interceptors.response.use(
         );
 
         if (data) {
+          console.log(data.headers.authorization);
           localStorage.setItem(
             'accessToken',
             JSON.stringify(data.headers.authorization)
