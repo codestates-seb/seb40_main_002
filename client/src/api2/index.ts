@@ -44,7 +44,7 @@ Api.interceptors.response.use(
             },
           }
         );
-
+        console.log(data);
         if (data.headers.authorization) {
           localStorage.setItem('accessToken', data.headers.authorization);
           originConfig.headers.Authorization = data.headers.authorization;
