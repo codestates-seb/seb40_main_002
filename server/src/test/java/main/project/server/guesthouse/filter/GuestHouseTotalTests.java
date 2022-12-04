@@ -76,16 +76,12 @@ public class GuestHouseTotalTests {
     CityRepository cityRepository;
     @Autowired
     MemberRepository memberRepository;
-
-
     @Autowired
     GuestHouseRepository guestHouseRepository;
     @Autowired
     RoomRepository roomRepository;
-
     @Autowired
     RoomReservationRepository roomReservationRepository;
-
 
     @BeforeEach
     void beforeEach() {
@@ -93,7 +89,7 @@ public class GuestHouseTotalTests {
     }
 
     @Test
-    @DisplayName("메인필터 - 예약 가능 숙소 찾기 - 예약 없는 룸")
+    @DisplayName("메인필터 - 예약 가능 숙소 찾기 - 예약이 없는 룸")
     void getGuestHouseMainFilterTest1() {
 
         //given
@@ -129,7 +125,7 @@ public class GuestHouseTotalTests {
 
 
     @Test
-    @DisplayName("메인필터 - 예약 가능 숙소 찾기 - 1번 케이스, 예약 있는 룸")
+    @DisplayName("메인필터 - 예약 가능 숙소 찾기 - 1번 케이스, 이미 예약 있는 룸")
     void getGuestHouseMainFilterTest2() {
 
         //given
@@ -173,7 +169,7 @@ public class GuestHouseTotalTests {
 
 
     @Test
-    @DisplayName("메인필터 - 예약 가능 숙소 찾기 - 2번 케이스, 예약 있는 룸")
+    @DisplayName("메인필터 - 예약 가능 숙소 찾기 - 2번 케이스, 이미 예약 있는 룸")
     void getGuestHouseMainFilterTest3() {
 
         //given
@@ -217,7 +213,7 @@ public class GuestHouseTotalTests {
 
 
     @Test
-    @DisplayName("메인필터 - 예약 가능 숙소 찾기 - 3번 케이스, 예약 있는 룸")
+    @DisplayName("메인필터 - 예약 가능 숙소 찾기 - 3번 케이스, 이미 예약 있는 룸")
     void getGuestHouseMainFilterTest4() {
 
         //given
@@ -261,7 +257,7 @@ public class GuestHouseTotalTests {
 
 
     @Test
-    @DisplayName("메인필터 - 예약 가능 숙소 찾기 - 4번 케이스, 예약 있는 룸")
+    @DisplayName("메인필터 - 예약 가능 숙소 찾기 - 4번 케이스, 이미 예약 있는 룸")
     void getGuestHouseMainFilterTest5() {
 
         //given
@@ -305,7 +301,7 @@ public class GuestHouseTotalTests {
 
 
     @Test
-    @DisplayName("메인필터 - 예약 검증 - 1,2,3 케이스 예약 형태가 존재하고 4번 형태의 예약을 시도할때")
+    @DisplayName("메인필터 - 예약 검증 - 1,2,3 케이스 예약 형태가 존재하고 4번 형태의 예약을 시도할때 - 예약 불가해야함")
     void getGuestHouseMainFilterTest6() {
 
         //given
