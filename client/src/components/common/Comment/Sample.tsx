@@ -49,7 +49,7 @@ export default function Sample() {
     const refreshGet = async () => {
       const data = await axios.post('/api/token', {
         headers: {
-          RefreshToken: refreshToken,
+          refreshToken: refreshToken,
         },
       });
       console.log(data);
