@@ -44,7 +44,11 @@ Api.interceptors.response.use(
             },
           }
         );
-        console.log(data);
+        if (data.data.status !== 200) {
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('accessToken');
+          return;
+        }
         if (data.headers.authorization) {
           localStorage.setItem('accessToken', data.headers.authorization);
           originConfig.headers.Authorization = data.headers.authorization;
@@ -53,8 +57,6 @@ Api.interceptors.response.use(
       } catch (err) {
         console.log(err);
         console.log('토큰 인증 오류 발생');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('accessToken');
       }
       return Promise.reject(err);
     } else {
