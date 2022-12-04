@@ -47,15 +47,11 @@ export default function Sample() {
     const refreshToken = localStorage.getItem('refreshToken');
 
     const refreshGet = async () => {
-      const data = await axios.post(
-        '/api/token',
-        {},
-        {
-          headers: {
-            RefreshToken: refreshToken,
-          },
-        }
-      );
+      const data = await axios.post('/api/token', {
+        headers: {
+          RefreshToken: refreshToken,
+        },
+      });
       console.log(data);
     };
 
