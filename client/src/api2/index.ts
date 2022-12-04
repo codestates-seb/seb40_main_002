@@ -45,11 +45,11 @@ Api.interceptors.response.use(
         );
 
         if (data.headers.authorization) {
-          localStorage.setItem('accessToken', data.headers.authorization);
-          originConfig.defaults.headers.common.Authorization =
-            data.headers.authorization;
+          return localStorage.setItem(
+            'accessToken',
+            data.headers.authorization
+          );
         }
-        return Api(originConfig);
       } catch (err) {
         console.log('토큰 인증 오류 발생');
         localStorage.removeItem('refreshToken');
@@ -57,7 +57,6 @@ Api.interceptors.response.use(
       }
       return Promise.reject(err);
     } else {
-      console.log('interceptors');
       return Promise.reject(err);
     }
   }
