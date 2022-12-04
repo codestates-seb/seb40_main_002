@@ -52,6 +52,7 @@ Api.interceptors.response.use(
           return Api(originConfig);
         }
       } catch (err) {
+        console.log(err);
         console.log('토큰 인증 오류 발생');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('accessToken');
