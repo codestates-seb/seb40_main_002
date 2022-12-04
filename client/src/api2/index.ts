@@ -31,8 +31,7 @@ Api.interceptors.response.use(
       const accessToken = originConfig.headers['Authorization'];
       const refreshToken = localStorage.getItem('refreshToken');
       originConfig.sent = true;
-      console.log(originConfig);
-      console.log('응답');
+
       try {
         const data = await axios.post(
           '/api/token',
@@ -44,12 +43,7 @@ Api.interceptors.response.use(
             },
           }
         );
-        console.log(data);
-        // if (data.data.status !== 200) {
-        //   localStorage.removeItem('refreshToken');
-        //   localStorage.removeItem('accessToken');
-        //   return;
-        // }
+
         if (data.headers.authorization) {
           localStorage.setItem('accessToken', data.headers.authorization);
           originConfig.headers.Authorization = data.headers.authorization;
@@ -60,7 +54,6 @@ Api.interceptors.response.use(
           return;
         }
       } catch (err) {
-        console.log(err);
         console.log('토큰 인증 오류 발생');
       }
       return Promise.reject(err);
