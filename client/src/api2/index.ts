@@ -44,11 +44,8 @@ Api.interceptors.response.use(
           }
         );
 
-        if (data) {
-          localStorage.setItem(
-            'accessToken',
-            JSON.stringify(data.headers.authorization)
-          );
+        if (data.headers.authorization) {
+          localStorage.setItem('accessToken', data.headers.authorization);
         }
       } catch (err) {
         console.log('토큰 인증 오류 발생');
