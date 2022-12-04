@@ -47,7 +47,7 @@ export default function Sample() {
     const refreshToken = localStorage.getItem('refreshToken');
 
     const refreshGet = async () => {
-      const data = axios.post('/api/token', {
+      const data = await axios.post('/api/token', {
         headers: {
           Authorization: refreshToken,
         },
