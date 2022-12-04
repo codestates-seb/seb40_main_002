@@ -47,8 +47,11 @@ Api.interceptors.response.use(
         if (data.headers.authorization) {
           localStorage.setItem('accessToken', data.headers.authorization);
         }
+        return Api(originConfig);
       } catch (err) {
         console.log('토큰 인증 오류 발생');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('accessToken');
       }
       return Promise.reject(err);
     } else {

@@ -26,14 +26,9 @@ export default function App() {
   useEffect(() => {
     const getUser = async () => {
       if (localStorage.getItem('accessToken')) {
-        const data = await Api.get(`/api/auth/members`)
-          .then((res) => {
-            dispatch(setUser(res.data.data as User));
-          })
-          .catch((e) => {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('refreshToken');
-          });
+        const data = Api.get(`/api/auth/members`).then((res) => {
+          dispatch(setUser(res.data.data as User));
+        });
       }
     };
 
