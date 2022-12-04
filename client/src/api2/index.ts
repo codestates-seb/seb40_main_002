@@ -31,25 +31,24 @@ Api.interceptors.response.use(
       const accessToken = originConfig.headers['Authorization'];
       const refreshToken = localStorage.getItem('refreshToken');
       originConfig.sent = true;
+
       try {
-        const data = await axios.post('/api/token', {
-          headers: {
-            Authorization: refreshToken,
-          },
-        });
-        console.log(data);
-        // axios({
-        //   url: `${baseUrl}/api/token`,
-        //   method: 'post',
-        //   data: {
-        //     refreshToken: refreshToken,
-        //   },
-        // });
+        const data = await axios.post(
+          '/api/token',
+          {},
+          {
+            headers: {
+              RefreshToken: refreshToken,
+              'Content-Type': '',
+            },
+          }
+        );
 
         if (data) {
-          console.log(data);
-          console.log(data.data);
-          localStorage.setItem('accessToken', JSON.stringify(data.data));
+          localStorage.setItem(
+            'accessToken',
+            JSON.stringify(data.headers.authorization)
+          );
           return Api.request(originConfig);
         }
       } catch (err) {
