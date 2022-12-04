@@ -52,9 +52,6 @@ Api.interceptors.response.use(
       }
       return Promise.reject(err);
     } else {
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      sessionStorage.removeItem('persist:root'); //
       return Promise.reject(err);
     }
   }
