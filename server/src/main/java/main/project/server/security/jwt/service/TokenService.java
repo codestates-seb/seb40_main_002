@@ -2,6 +2,7 @@ package main.project.server.security.jwt.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import main.project.server.exception.AuthException;
 import main.project.server.exception.BusinessException;
 import main.project.server.exception.ExceptionCode;
 import main.project.server.security.jwt.entity.RefreshToken;
@@ -17,6 +18,11 @@ import java.util.Optional;
 public class TokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
+
+    public void verifyToken(String memberId, String token) {
+        RefreshToken refreshToken = findVerifiedToken(memberId);
+        if (!refreshToken.getRefreshToken().equals(token)) throw new AuthException(ExceptionCode.INVALID_TOKEN);
+    }
 
     public RefreshToken findVerifiedToken(String memberId) {
         Optional<RefreshToken> optional =
