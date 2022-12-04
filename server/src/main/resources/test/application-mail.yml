@@ -1,0 +1,19 @@
+mail:
+  smtp:
+    host: smtp.gmail.com
+    port: 587
+    username: nty1017@gmail.com
+    password: ksuypwvujqseoehv
+    auth: true
+    starttls:
+      enable: true
+  subject:
+    member:
+      registration: 🍊방귤방귤🍊 회원이 되신걸 환영합니다!
+    reservation:
+      registration: 🍊방귤방귤🍊 예약 정보 확인
+  template:
+    name:
+      member:
+        join: email-registration-member
+      reservation:  room-reservation

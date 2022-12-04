@@ -1,0 +1,32 @@
+# KAKAO
+spring:
+  security:
+    oauth2:
+      client:  # client
+        registration:
+          kakao:
+            client-id: 51c48e045bddb0b6bec5cc60ac962740
+            client-secret: chRdBdeSOqeKELP0I81EuyftSTEt7wsz
+            redirect-uri: http://ec2-15-164-1-22.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/code/kakao # resource owner가 로그인을 완료하면, 백엔드서버가 카카오로부터 인가 코드를 받을 리다이렉트 url
+            #            redirect-uri: http://localhost:8080/login/oauth2/kakao # resource owner가 로그인을 완료하면, 백엔드서버가 카카오로부터 인가 코드를 받을 리다이렉트 url
+            authorization-grant-type: authorization_code
+            scope:
+              - account_email
+              - profile_nickname
+              - profile_image
+              - age_range
+
+            client-name: kakao # http://localhost:8080/oauth2/authorization/kakao (클라이언트가 oauth 로그인을 위해 서버로 최초 요청하는 uri) 에서 사용되는 oauth의 대상 플랫폼 이름
+            client-authentication-method: POST
+
+        provider: # 백엔드 서버에서 카카오로 request시 사용되는 provider(제공자)
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize # 인증 처리에 기본적으로 사용되는 uri, 프론트엔드에서 우리 백엔드 서버로 최초에 카카오로그인 요청을 할때, 백엔드 서버가 카카오로 보내는 최초 요청 (인증의 시작) (1번에 해당)
+            token-uri: https://kauth.kakao.com/oauth/token # 토큰 요청 할 uri
+            user-info-uri: https://kapi.kakao.com/v2/user/me # 카카오로부터 유저 정보를 가져올 uri
+            user-name-attribute: id
+
+
+
+
+
