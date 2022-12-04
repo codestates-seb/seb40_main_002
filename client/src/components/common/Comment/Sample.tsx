@@ -44,14 +44,18 @@ export default function Sample() {
     // axios.get('/api/guesthouse/1/review?page=1&size=4').then((res) => {
     //   setReview(res.data.data[0]);
     // });
-    const refreshToken = localStorage.getItem('refreshToken');
 
     const refreshGet = async () => {
-      const data = await axios.post('/api/token', {
-        headers: {
-          refreshToken: refreshToken,
-        },
-      });
+      const refreshToken = localStorage.getItem('refreshToken');
+      const data = await axios.post(
+        '/api/token',
+        {},
+        {
+          headers: {
+            RefreshToken: refreshToken,
+          },
+        }
+      );
       console.log(data);
     };
 
