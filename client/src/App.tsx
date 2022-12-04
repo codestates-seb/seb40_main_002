@@ -26,16 +26,12 @@ export default function App() {
   useEffect(() => {
     const getUser = async () => {
       if (localStorage.getItem('accessToken')) {
-        const getUser = async () => {
-          if (localStorage.getItem('accessToken')) {
-            const data = await Api.get(`/api/auth/members`).then((res) => {
-              dispatch(setUser(res.data.data as User));
-            });
-          }
-        };
-        getUser();
+        const data = await Api.get(`/api/auth/members`).then((res) => {
+          dispatch(setUser(res.data.data as User));
+        });
       }
     };
+
     getUser();
   }, []);
 
