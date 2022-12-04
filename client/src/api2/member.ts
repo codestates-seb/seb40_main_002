@@ -5,6 +5,6 @@ export const getUser = async () => {
     const response = await Api.get(`/api/auth/members/`);
     return response.data.data;
   } catch (e) {
-    console.log(e);
+    console.log('errrrrr');
   }
 };
