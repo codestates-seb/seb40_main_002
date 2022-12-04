@@ -15,7 +15,7 @@ import UserData from './pages/UserData';
 import GhAdminPage from './pages/GhAdminPage';
 import Reservation from './pages/Reservation';
 import Api from './api2';
-import { setUser } from './store/reducer/user';
+import { clearUser, setUser } from './store/reducer/user';
 import { useDispatch } from 'react-redux';
 import { User } from './types/user';
 import axios from 'axios';
@@ -26,9 +26,13 @@ export default function App() {
   useEffect(() => {
     const getUser = async () => {
       if (localStorage.getItem('accessToken')) {
-        const data = Api.get(`/api/auth/members`).then((res) => {
-          dispatch(setUser(res.data.data as User));
-        });
+        const data = Api.get(`/api/auth/members`)
+          .then((res) => {
+            dispatch(setUser(res.data.data as User));
+          })
+          .catch((err) => {
+            dispatch(clearUser());
+          });
       }
     };
 
