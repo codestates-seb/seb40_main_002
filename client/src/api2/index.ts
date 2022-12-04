@@ -27,7 +27,7 @@ Api.interceptors.response.use(
   },
   async function (err) {
     const originConfig = err.config;
-    if (err.response && err.response.status === 401) {
+    if (err?.response?.status === 401 && !originConfig?.sent) {
       const accessToken = originConfig.headers['Authorization'];
       const refreshToken = localStorage.getItem('refreshToken');
       originConfig.sent = true;
