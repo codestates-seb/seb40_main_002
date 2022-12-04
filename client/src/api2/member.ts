@@ -5,6 +5,8 @@ export const getUser = async () => {
     const response = await Api.get(`/api/auth/members/`);
     return response.data.data;
   } catch (e) {
-    console.log('errrrrr');
+    console.log('에러발생');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   }
 };
