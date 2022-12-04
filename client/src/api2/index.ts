@@ -52,6 +52,7 @@ Api.interceptors.response.use(
       }
       return Promise.reject(err);
     } else {
+      console.log('interceptors');
       return Promise.reject(err);
     }
   }
