@@ -53,7 +53,7 @@ export default function DetailReview({ reviewComment, type, userId }: Props) {
                     reviewComment &&
                     `${process.env.REACT_APP_SERVER_URL}${reviewComment.member.memberImageUrl}`
                   }
-                  className="w-full"
+                  className="w-full h-full rounded-full object-fill"
                 />
               </div>
             </div>

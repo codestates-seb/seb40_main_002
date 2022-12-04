@@ -44,17 +44,22 @@ export default function Sample() {
     // axios.get('/api/guesthouse/1/review?page=1&size=4').then((res) => {
     //   setReview(res.data.data[0]);
     // });
+
     const refreshGet = async () => {
-      axios({
-        url: `${process.env.REACT_APP_SERVER_URL}/api/token`,
-        method: 'post',
-        data: {
-          refreshToken: localStorage.getItem('refreshToken'),
-        },
-      }).then((res) => {
-        console.log(res);
-      });
+      const refreshToken = localStorage.getItem('refreshToken');
+      const data = await axios.post(
+        '/api/token',
+        {},
+        {
+          headers: {
+            RefreshToken: refreshToken,
+            'Content-Type': '',
+          },
+        }
+      );
+      console.log(data);
     };
+
     refreshGet();
   }, []);
   const reservationData = {
