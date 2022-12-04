@@ -27,10 +27,11 @@ Api.interceptors.response.use(
   },
   async function (err) {
     const originConfig = err.config;
-    if (err?.response?.status === 401 && !originConfig?.sent) {
+    if (err?.response?.status === 401) {
       const accessToken = originConfig.headers['Authorization'];
       const refreshToken = localStorage.getItem('refreshToken');
       originConfig.sent = true;
+      console.log(originConfig);
       console.log('응답');
       try {
         const data = await axios.post(
@@ -45,11 +46,10 @@ Api.interceptors.response.use(
         );
 
         if (data.headers.authorization) {
-          console.log('응답 완료');
-          return localStorage.setItem(
-            'accessToken',
-            data.headers.authorization
-          );
+          localStorage.setItem('accessToken', data.headers.authorization);
+          originConfig.default.headers.common.Authorization =
+            data.headers.authorization;
+          return Api(originConfig);
         }
       } catch (err) {
         console.log('토큰 인증 오류 발생');
