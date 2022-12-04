@@ -47,13 +47,15 @@ export default function DetailReview({ reviewComment, type, userId }: Props) {
         {type && ['roomDetail', 'reviewPage'].includes(type) && (
           <div className="flex flex-col justify-between">
             <div className="w-[40px] mr-[10px]">
-              <img
-                src={
-                  reviewComment &&
-                  `${process.env.REACT_APP_SERVER_URL}${reviewComment.member.memberImageUrl}`
-                }
-                className="rounded-full w-[40px] mr-[10px] mb-[10px]"
-              />
+              <div className="rounded-full h-[40px] w-[40px] mr-[10px] mb-[10px]">
+                <img
+                  src={
+                    reviewComment &&
+                    `${process.env.REACT_APP_SERVER_URL}${reviewComment.member.memberImageUrl}`
+                  }
+                  className="w-full"
+                />
+              </div>
             </div>
             {type === 'reviewPage' &&
               reviewComment &&
@@ -79,7 +81,7 @@ export default function DetailReview({ reviewComment, type, userId }: Props) {
                 {reviewComment && <RatedStar star={reviewComment.star} />}
               </div>
               <p className="text-font-color text-sm">
-                {reviewComment && reviewComment.createdAt}
+                {reviewComment && reviewComment.createdAt.slice(0, 10)}
               </p>
             </div>
           ) : (
@@ -89,7 +91,7 @@ export default function DetailReview({ reviewComment, type, userId }: Props) {
                   {reviewComment && reviewComment.member.memberNickname}
                 </p>
                 <p className="text-font-color text-sm mr-[5px]">
-                  {reviewComment && reviewComment.createdAt}
+                  {reviewComment && reviewComment.createdAt.slice(0, 10)}
                 </p>
                 {reviewComment && <RatedStar star={reviewComment.star} />}
               </div>
@@ -106,7 +108,7 @@ export default function DetailReview({ reviewComment, type, userId }: Props) {
                     <div className="flex flex-row ml-[26px] items-center">
                       <li>{reviewComment.reviewComment.reviewComment}</li>
                       <li className="ml-[14px] text-sm">
-                        {reviewComment.reviewComment.createdAt}
+                        {reviewComment.reviewComment.createdAt.slice(0, 10)}
                       </li>
                     </div>
                   </ul>
