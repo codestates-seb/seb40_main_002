@@ -50,6 +50,7 @@ export default function Sample() {
       const data = await axios.post('/api/token', {
         headers: {
           RefreshToken: refreshToken,
+          'Content-Type': '',
         },
       });
       console.log(data);
