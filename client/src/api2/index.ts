@@ -45,12 +45,10 @@ Api.interceptors.response.use(
         );
 
         if (data) {
-          console.log(data.headers.authorization);
           localStorage.setItem(
             'accessToken',
             JSON.stringify(data.headers.authorization)
           );
-          return Api.request(originConfig);
         }
       } catch (err) {
         console.log('토큰 인증 오류 발생');
