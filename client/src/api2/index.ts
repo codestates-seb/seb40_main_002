@@ -32,13 +32,19 @@ Api.interceptors.response.use(
       const refreshToken = localStorage.getItem('refreshToken');
       originConfig.sent = true;
       try {
-        const data = await axios({
-          url: `${baseUrl}/api/token`,
-          method: 'post',
-          data: {
-            refreshToken: refreshToken,
+        const data = await axios.post('/api/token', {
+          headers: {
+            Authorization: refreshToken,
           },
         });
+        console.log(data);
+        // axios({
+        //   url: `${baseUrl}/api/token`,
+        //   method: 'post',
+        //   data: {
+        //     refreshToken: refreshToken,
+        //   },
+        // });
 
         if (data) {
           console.log(data);
