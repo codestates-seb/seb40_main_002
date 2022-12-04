@@ -54,6 +54,10 @@ Api.interceptors.response.use(
           localStorage.setItem('accessToken', data.headers.authorization);
           originConfig.headers.Authorization = data.headers.authorization;
           return Api(originConfig);
+        } else {
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('accessToken');
+          return;
         }
       } catch (err) {
         console.log(err);
