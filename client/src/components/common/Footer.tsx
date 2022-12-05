@@ -41,7 +41,7 @@ const Footer = () => {
             return (
               <div key={idx} className="flex">
                 <AiOutlineGithub />
-                <a href={member.memberLink} className="mr-2">
+                <a href={member.memberLink} className="mr-2 text-footerFont">
                   {member.memberName}
                 </a>
               </div>
