@@ -4,17 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import useModal from '../../../hooks/useModal';
 import Login from '../../../pages/Login';
-import { isLogin } from '../../../utils/isLogin';
 import { RootState } from '../../../store/store';
 import { clearUser } from '../../../store/reducer/user';
-
-import { getUser as settingUser } from '../../../api2/member';
-import { User2 } from '../../../types/user';
 import Api from '../../../api2';
 const UserIconModal = () => {
   const navigate = useNavigate();
   const [loginModal, setLoginModal] = useModal();
-  const [user, setUser] = useState<User2>();
   const mainUser = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
 
@@ -31,7 +26,6 @@ const UserIconModal = () => {
       }
     )
       .then((res) => {
-        // console.log('logout:', res);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         dispatch(clearUser());
