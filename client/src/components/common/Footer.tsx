@@ -42,8 +42,10 @@ const Footer = () => {
           {memberList.map((member, idx) => {
             return (
               <div key={idx} className="flex">
-                <AiOutlineGithub />
-                <a href={member.memberLink} className="mr-2 text-footerFont">
+                <a
+                  href={member.memberLink}
+                  className="mr-2 flex text-footerFont"
+                >
                   <AiOutlineGithub />
                   {member.memberName}
                 </a>
