@@ -1,5 +1,5 @@
 import React from 'react';
-import { AiOutlineGithub } from 'react-icons/Ai';
+import { AiOutlineGithub } from 'react-icons/ai';
 const Footer = () => {
   const memberList = [
     {
