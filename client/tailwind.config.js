@@ -42,6 +42,8 @@ module.exports = {
           success: '#36D399',
           warning: '#FBBD23',
           error: '#F87272',
+          footer: '#333333',
+          footerFont: '#999999',
         },
       },
     ],
