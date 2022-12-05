@@ -12,5 +12,5 @@ public interface GuestHouseCustomRepository {
 
 
     Page<GuestHouse>  findAllGuestHouse(
-            String tags, Pageable pageable);
+            String[] tags, Pageable pageable);
 }

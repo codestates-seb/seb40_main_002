@@ -146,16 +146,20 @@ public class GuestHouseService {
         //오더바이 정렬 구하기
         String sortValue = queryStringDto.getSort();
 
-        Sort sort = Sort.by(Sort.Direction.DESC, "guest_house_id"); //기본, 등록순 내림차순
+        Sort sort = Sort.by(Sort.Direction.DESC, "guest_house_id"); //기본, 등록순 내림차순;
 
-        if (sortValue.equals("star")) {
+        if(sortValue != null)
+        {
+            if (sortValue.equals("star")) {
 
-            sort = Sort.by(Sort.Direction.DESC,"guest_house_star");
+                sort = Sort.by(Sort.Direction.DESC,"guest_house_star");
 
-        } else if (sortValue.equals("review")) {
+            } else if (sortValue.equals("review")) {
 
-           sort = Sort.by(Sort.Direction.DESC,"guest_house_review_count");
+                sort = Sort.by(Sort.Direction.DESC,"guest_house_review_count");
+            }
         }
+
 
 
         //필터링으로 인한 게스트하우스 리스트 구하기
@@ -226,7 +230,7 @@ public class GuestHouseService {
 
     public Page<GuestHouse> findAllGuestHouse(Integer page, Integer size, String[] tag, String sortValue) {
 
-        String tagStr = guestHouseMapper.tagStrArrToTagStrForFilter(tag);
+        String[] tagStr = guestHouseMapper.tagStrArrToTagStrForRecommend(tag);
 
         Sort sort;
         if (sortValue.equals("star")) sort = Sort.by(Sort.Direction.DESC,"guest_house_star");

@@ -51,11 +51,6 @@ public class GuestHouseTotalTests {
     RoomReservationRepository roomReservationRepository;
 
 
-    @BeforeEach
-    void beforeEach() {
-
-    }
-
     @Test
     @DisplayName("메인필터 - 예약 가능 숙소 찾기 - 예약이 없는 룸")
     void getGuestHouseMainFilterTest1() {

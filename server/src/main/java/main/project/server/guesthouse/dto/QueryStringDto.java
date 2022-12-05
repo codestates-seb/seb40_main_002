@@ -17,8 +17,6 @@ public class QueryStringDto {
     @Builder
     public static class MainFilterDto{
 
-        @NotNull
-        @Positive
         private Integer cityId;
 
         @NotBlank
@@ -30,16 +28,13 @@ public class QueryStringDto {
 
         private String[] tag;
 
-        @NotBlank
         private String sort;
 
-        @NotNull
         @Positive
-        private Integer page;
+        private int page = 1;
 
-        @NotNull
         @Positive
-        private Integer size;
+        private int size = 10;
 
 
     }

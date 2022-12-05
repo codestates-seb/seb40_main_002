@@ -107,12 +107,21 @@ public class GuestHouseCustomRepositoryImpl implements GuestHouseCustomRepositor
     }
 
     @Override
-    public Page<GuestHouse> findAllGuestHouse(String tags, Pageable pageable) {
+    public Page<GuestHouse> findAllGuestHouse(String[] tags, Pageable pageable) {
+
+        BooleanBuilder tagBuilder = new BooleanBuilder();
+
+        if(tags != null)
+        {
+            for (String t : tags) {
+                tagBuilder.or(guestHouse.guestHouseTag.like(t));
+            }
+        }
 
         List<GuestHouse> guestHouseList = jpaQueryFactory
                 .select(guestHouse)
                 .from(guestHouse)
-                .where(tagEq(tags))
+                .where(tagBuilder)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -121,8 +130,6 @@ public class GuestHouseCustomRepositoryImpl implements GuestHouseCustomRepositor
     }
 
 
-    BooleanExpression tagEq(String tag) {
-        return tag != null ? guestHouse.guestHouseTag.like(tag) : null;
-    }
+
 
 }
