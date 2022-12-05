@@ -39,12 +39,12 @@ const Footer = () => {
         <div className="flex">
           {memberList.map((member, idx) => {
             return (
-              <>
+              <div key={idx}>
                 <AiOutlineGithub />
-                <a href={member.memberLink} key={idx} className="mr-2">
+                <a href={member.memberLink} className="mr-2">
                   {member.memberName}
                 </a>
-              </>
+              </div>
             );
           })}
         </div>
