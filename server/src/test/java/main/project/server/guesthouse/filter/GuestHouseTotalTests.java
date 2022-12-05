@@ -30,7 +30,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
-@ActiveProfiles("test")
+@ActiveProfiles("dev")
 @Transactional
 @SpringBootTest
 public class GuestHouseTotalTests {
@@ -74,7 +74,6 @@ public class GuestHouseTotalTests {
 
     @Autowired
     CityRepository cityRepository;
-
     @Autowired
     MemberRepository memberRepository;
     @Autowired
