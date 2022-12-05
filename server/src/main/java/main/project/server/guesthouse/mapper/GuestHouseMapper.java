@@ -257,8 +257,6 @@ public interface GuestHouseMapper {
 
     default String[] plainTagArrToSeperTagArr(String[] tag) {
 
-        StringBuilder likeStringBuilder = new StringBuilder();
-
         if(tag == null || tag.length == 0)
             return null;
 
