@@ -34,6 +34,7 @@ interface FormData {
   guestHouseInfo: string;
   rooms: Room[];
   icons: Obj[];
+  userPhone: string;
 }
 
 const checkLength = <T>(lengthCheck: T, alertList: string) => {
@@ -96,11 +97,11 @@ const checkAddress = (address: Address): boolean => {
 
 const cityIds = [
   {
-    cityId: 2,
+    cityId: 6,
     cityName: '조천',
   },
   {
-    cityId: 3,
+    cityId: 5,
     cityName: '구좌',
   },
   {
@@ -108,23 +109,23 @@ const cityIds = [
     cityName: '우도',
   },
   {
-    cityId: 5,
+    cityId: 4,
     cityName: '성산',
   },
   {
-    cityId: 6,
+    cityId: 3,
     cityName: '표선',
   },
   {
-    cityId: 7,
+    cityId: 2,
     cityName: '남원',
   },
   {
-    cityId: 9,
+    cityId: 13,
     cityName: '중문',
   },
   {
-    cityId: 10,
+    cityId: 12,
     cityName: '안덕',
   },
   {
@@ -132,23 +133,23 @@ const cityIds = [
     cityName: '대정',
   },
   {
-    cityId: 12,
+    cityId: 10,
     cityName: '한경',
   },
   {
-    cityId: 13,
+    cityId: 9,
     cityName: '한림',
   },
   {
-    cityId: 14,
+    cityId: 8,
     cityName: '애월',
   },
   {
-    cityId: 8,
+    cityId: 1,
     cityName: '서귀포시',
   },
   {
-    cityId: 1,
+    cityId: 7,
     cityName: '제주시',
   },
 ];
@@ -166,6 +167,7 @@ const makeGhData = ({
   guestHouseInfo,
   rooms,
   icons,
+  userPhone,
 }: FormData) => {
   const guestHouseDetails = icons.map((icon) => icon.checked);
   const cityId = findCityId(address.guestHouseAddress);
@@ -178,7 +180,7 @@ const makeGhData = ({
       address.guestHouseAddress,
       address.detailAddress,
     ],
-    guestHousePhone: '010-1234-1234',
+    guestHousePhone: userPhone,
     guestHouseTag,
     guestHouseInfo,
     guestHouseDetails,
@@ -210,6 +212,7 @@ const EditGhData = ({
   guestHouseInfo,
   rooms,
   icons,
+  userPhone,
 }: FormData) => {
   const guestHouseDetails = icons.map((icon) => icon.checked);
   const cityId = findCityId(address.guestHouseAddress);
@@ -222,7 +225,7 @@ const EditGhData = ({
       address.guestHouseAddress,
       address.detailAddress,
     ],
-    guestHousePhone: '010-1234-1234',
+    guestHousePhone: userPhone,
     guestHouseTag,
     guestHouseInfo,
     guestHouseDetails,

@@ -3,13 +3,6 @@ import CarouselBtn from './CarouselBtn';
 //carouselSize 값으로 width,height값을 문자열로 넣어 주시면 됩니다(e.g {w-[250px] h-[250px]}),images 값은 이미지 배열을 프롭스로 내려주면 됩니다.
 type CarouselProps = {
   images: string[];
-} & typeof defaultProps;
-const defaultProps = {
-  images: [
-    'https://a0.muscache.com/im/pictures/miso/Hosting-713898202877836679/original/7b073b89-ffea-47f9-a8b3-e6ccd96f0f16.jpeg?im_w=1200',
-    'https://a0.muscache.com/im/pictures/miso/Hosting-715759276214360126/original/6c04ca59-6e3b-4cf3-8cb2-210b01e4f09a.jpeg?im_w=720',
-    'https://a0.muscache.com/im/pictures/miso/Hosting-715759276214360126/original/ad0118a8-db37-4027-a038-d4ec8e77ca5b.jpeg?im_w=1200',
-  ],
 };
 const Carousel = ({ images }: CarouselProps) => {
   const [btnHover, setBtnHover] = useState<boolean>(false); //Carousel hover  state
@@ -55,7 +48,7 @@ const Carousel = ({ images }: CarouselProps) => {
             <img
               key={i}
               className={`bg-center bg-no-repeat bg-cotain flex-none	rounded-xl  w-full h-[560px]`}
-              src={`${img}`}
+              src={`${process.env.REACT_APP_SERVER_URL}${img}`}
             ></img>
           ))}
         </div>
@@ -63,5 +56,5 @@ const Carousel = ({ images }: CarouselProps) => {
     </div>
   );
 };
-Carousel.defaultProps = defaultProps;
+
 export default Carousel;

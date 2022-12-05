@@ -4,7 +4,7 @@ import UserImg from '../components/Register/UserImg';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { convertURLtoFile } from '../libs/srcToFile';
+import { convertURLtoFile, convertURLtoFileGoogle } from '../libs/srcToFile';
 
 type Social = {
   memberId: string;
@@ -28,7 +28,8 @@ export default function Register() {
     day: '01',
   });
   const birth = `${form.year}-${form.month}-${form.day}`;
-  const [userImg, setUserImg] = useState<[] | File[]>([]);
+  const [userImg, setUserImg] = useState<string>('');
+  const [imgFile, setImgFile] = useState<File | string>('');
   const [socialData, setSocialData] = useState<Social | null>(null);
 
   const submitHandler = async () => {
@@ -45,42 +46,60 @@ export default function Register() {
       memberBirth: birth,
       memberNationality: isLocal,
       memberRegisterKind: socialData?.memberRegisterKind,
-      memberRoles: [isHost],
-      memberTags: guestHouseTag,
+      memberRole: [isHost],
+      memberTag: guestHouseTag,
     };
     const memberDto = JSON.stringify(memberData);
 
     if (socialData) {
-      const imgFile = socialData?.memberImage[0];
       formData.append(
         'member-dto',
         new Blob([memberDto], { type: 'application/json' })
       );
-      formData.append('memberImageFile', imgFile);
+
+      if (memberData.memberRegisterKind === 'KAKAO') {
+        if (userImg.slice(0, 21) !== 'http://k.kakaocdn.net') {
+          formData.append('memberImageFile', imgFile);
+        } else if (userImg.slice(0, 21) === 'http://k.kakaocdn.net') {
+          const convertFile = await convertURLtoFile(userImg.slice(21));
+          formData.append('memberImageFile', convertFile);
+        }
+      }
+
+      if (memberData.memberRegisterKind === 'NAVER') {
+        if (userImg.slice(0, 23) !== 'https://ssl.pstatic.net') {
+          formData.append('memberImageFile', imgFile);
+        } else if (userImg.slice(0, 23) === 'https://ssl.pstatic.net') {
+          const convertFile = await convertURLtoFile(userImg);
+          console.log('네이버 url', userImg);
+          console.log('네이버 파일', convertFile);
+          formData.append('memberImageFile', convertFile);
+        }
+      }
+
+      if (memberData.memberRegisterKind === 'GOOGLE') {
+        if (userImg.slice(0, 33) !== 'https://lh3.googleusercontent.com') {
+          formData.append('memberImageFile', imgFile);
+        } else if (
+          userImg.slice(0, 33) === 'https://lh3.googleusercontent.com'
+        ) {
+          const convertFile = (await convertURLtoFileGoogle(userImg)) as File;
+          const convertFile2 = await convertURLtoFile(userImg);
+          console.log(convertFile, convertFile2);
+          formData.append('memberImageFile', convertFile);
+        }
+      }
     }
-    console.log(memberDto);
+
     try {
       const res = await axios.post('/api/members', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-      console.log(res);
+      navigate('/');
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
-
-    // const config = {
-    //   method: 'post',
-    //   url: 'http://3.37.58.81:8080/api/members',
-    //   data: memberData,
-    // };
-
-    // axios(config)
-    //   .then(function (res) {
-    //     console.log(JSON.stringify(res));
-    //   })
-    //   .catch(function (err) {
-    //     console.log(err);
-    //   });
   };
 
   useEffect(() => {
@@ -90,9 +109,8 @@ export default function Register() {
     } else if (userData) {
       const getImage = async () => {
         const data = JSON.parse(userData);
-        const imgUrl = data.memberImgurl.split('/').slice(3).join('/');
-        const memberImage = await convertURLtoFile(imgUrl);
-        setSocialData({ ...data, memberImage: [memberImage] });
+        setUserImg(data.memberImgurl);
+        setSocialData({ ...data });
         sessionStorage.removeItem('userData');
       };
       getImage();
@@ -107,8 +125,9 @@ export default function Register() {
           </div>
           <div className="flex justify-evenly items-center w-[1120px] mb-8">
             <UserImg
-              userImg={URL.createObjectURL(socialData.memberImage[0])}
-              // setUserImg={setUserImg}
+              userImg={userImg}
+              setUserImg={setUserImg}
+              setImgFile={setImgFile}
             />
             <RightSide
               nickname={nickname}

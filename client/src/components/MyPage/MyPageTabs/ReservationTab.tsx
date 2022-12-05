@@ -1,21 +1,52 @@
 import Comment from '../../common/Comment/Comment';
+import { useEffect, useState } from 'react';
+import { getReservationData } from '../../../apis/getReservationData';
+import MyPagePagination from './MyPagePagination';
+import { ReservationType } from '../../../types/MyPage';
 
 function ReservationTab() {
-  const id = '해당객실주소';
-  const detailReviewPage = '유동적으로 설정';
+  const [reservationData, setReservationData] = useState<ReservationType>();
+  const [page, setPage] = useState<number | null>(1);
+  useEffect(() => {
+    const data = async () => {
+      const userData = await getReservationData(`?page=${page}&size=4`);
+      setReservationData(userData);
+    };
+    data();
+  }, [page]);
+
   return (
-    <div>
-      <Comment
-        // type 종류 : myPage, roomDetail, reviewPage
-        houseName={'정우네 게스트하우스'}
-        date={'2022-11-16~2022-11-18'}
-        imgsrc={'http://gravatar.com/avatar/1'}
-        room={'도미토리 4인실'}
-        roomLink={`/room/${id}`}
-        // 이동되는 라우터를 적어주시면 됩니다. 해당 게스트하우스 페이지로 이동됩니다.
-        reviewLink={`${detailReviewPage}`}
-        type="myPage"
-      />
+    <div className="mb-[100px]">
+      <div>
+        {reservationData && reservationData.data.length > 0 ? (
+          reservationData.data.map((el, i) => {
+            return (
+              <div key={i} className="mb-[10px]">
+                <Comment
+                  houseName={el.guestHouseName}
+                  date={`${el.roomReservationStart}~${el.roomReservationEnd}`}
+                  imgsrc={el.roomImageUrl}
+                  room={el.roomName}
+                  roomLink={`/ghdetail/${el.guestHouseId}?start=${el.roomReservationStart}&end=${el.roomReservationEnd}`}
+                  reviewLink={`/review/${el.guestHouseId}`}
+                  type="myPage"
+                />
+              </div>
+            );
+          })
+        ) : (
+          <div className="text-center">예약 내역이 없습니다</div>
+        )}
+      </div>
+      <div className="text-center">
+        {reservationData && reservationData.data.length > 0 ? (
+          <MyPagePagination
+            totalPages={reservationData.pageInfo.totalPages}
+            page={page}
+            setPage={setPage}
+          />
+        ) : null}
+      </div>
     </div>
   );
 }

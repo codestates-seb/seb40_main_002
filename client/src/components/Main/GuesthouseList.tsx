@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { GuestHouseShort } from '../../types/guesthouse';
 import GuesthouseCard from '../common/GuesthouseCard';
 import SortButton from './SortButton';
@@ -17,6 +18,11 @@ function GuesthouseList({
   setSortType,
   isMyPage = false,
 }: Props) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const start = searchParams.get('start');
+  const end = searchParams.get('end');
+
+  // console.log(start, end);
   return (
     <div className="w-full mb-[48px]">
       <div className="flex items-center justify-between">
@@ -38,7 +44,11 @@ function GuesthouseList({
       >
         {guesthouses.map((el, idx) => (
           <React.Fragment key={idx}>
-            <GuesthouseCard guesthouse={el} />
+            <GuesthouseCard
+              guesthouse={el}
+              start={start ? start : undefined}
+              end={end ? end : undefined}
+            />
           </React.Fragment>
         ))}
       </div>

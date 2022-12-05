@@ -23,7 +23,7 @@ export default function DuplicateBtn({ nickname, setIsDup, isDup }: Props) {
   // stringDto(formData, 'memberNickname', nickname);
   const config = {
     method: 'get',
-    url: 'http://3.37.58.81:8080/api/members/checkname',
+    url: '/api/members/checkname',
     params: {
       memberNickname: nickname,
     },

@@ -27,7 +27,10 @@ export default function BottomLabel({
 }: Props) {
   return (
     <div className="p-[22px] flex text-base">
-      <img src={`${imgsrc}`} className="rounded-ImgRadius w-[90px] h-[90px]" />
+      <img
+        src={`${process.env.REACT_APP_SERVER_URL}${imgsrc}`}
+        className="rounded-ImgRadius w-[90px] h-[90px]"
+      />
       <div className="flex justify-between w-[100%] items-center">
         <Details
           houseName={houseName}

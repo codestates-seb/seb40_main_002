@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import DetailReview from './DetailReview';
 
-type Props = {
+interface Props {
   houseName: string;
   room: string;
   reviewLink?: string | null;
@@ -14,7 +14,7 @@ type Props = {
     ProfileImg: string;
     starScore: number;
   };
-};
+}
 
 export default function Details({
   houseName,
@@ -28,11 +28,15 @@ export default function Details({
   return (
     <div className="flex flex-col justify-between pl-[10px] h-[100%]">
       <div className="mb-[15px]">
-        <div>{houseName}</div>
+        <div className="font-bold">{houseName}</div>
         <div>{room}</div>
       </div>
-
-      {reviewLink ? (
+      <div className="flex gap-[8px]">
+        <div className="text-base font-bold">{reviewComment?.userName}</div>
+        <div className="text-stone-500	">{reviewComment?.createBy}</div>
+      </div>
+      <div>{reviewComment && reviewComment.comment}</div>
+      {type && type == 'myPage' ? (
         <div
           className="cursor-pointer text-font-color"
           onClick={() => {
@@ -41,12 +45,7 @@ export default function Details({
         >
           리뷰 작성
         </div>
-      ) : (
-        <DetailReview
-          reviewComment={reviewComment && reviewComment}
-          type={type}
-        />
-      )}
+      ) : null}
     </div>
   );
 }

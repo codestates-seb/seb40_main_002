@@ -1,19 +1,8 @@
 import useModal from '../../../hooks/useModal';
 import Tag from '../Tag';
 import TagSelect from '../TagSelectModal/TagSelect';
-const testTags = [
-  '오션뷰',
-  '노을',
-  '대리석',
-  '숲',
-  '태그1',
-  '태그2',
-  '태그3',
-  '태그4',
-  '태그5',
-  '태그6',
-  '태그7',
-];
+import { TAGS } from '../../../assets/tags/tags';
+
 function TagSearch({
   tags,
   setTags,
@@ -23,22 +12,26 @@ function TagSearch({
 }) {
   const [isOpen, openModalHandler] = useModal();
   return (
-    <div className="flex" onClick={openModalHandler}>
-      {tags.length > 0 || (
-        <button onClick={openModalHandler}>태그를 선택해 주세요</button>
-      )}
-      {isOpen && (
-        <div className="fixed top-20 right-80">
+    <div>
+      <div className="flex relative" onClick={openModalHandler}>
+        {tags.length > 0 || (
+          <button onClick={openModalHandler}>태그를 선택해 주세요</button>
+        )}
+      </div>
+      <div className="flex" onClick={openModalHandler}>
+        {isOpen && (
+          // <div className="">
           <TagSelect
-            tags={testTags}
+            tags={TAGS}
             setTags={setTags}
             openModalHandler={openModalHandler}
           />
-        </div>
-      )}
-      {tags.map((el) => (
-        <Tag key={el} name={el} />
-      ))}
+          // </div>
+        )}
+        {tags.map((el) => (
+          <Tag key={el} name={el} />
+        ))}
+      </div>
     </div>
   );
 }

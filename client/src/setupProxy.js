@@ -2,9 +2,9 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 module.exports = function (app) {
   app.use(
-    '/api',
+    ['/api', '/oauth2'],
     createProxyMiddleware({
-      target: 'http://3.37.58.81:8080',
+      target: process.env.REACT_APP_SERVER_URL,
       changeOrigin: true,
     })
   );
@@ -12,6 +12,20 @@ module.exports = function (app) {
     '/dn',
     createProxyMiddleware({
       target: 'http://k.kakaocdn.net',
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    '/static',
+    createProxyMiddleware({
+      target: 'https://ssl.pstatic.net',
+      changeOrigin: true,
+    })
+  );
+  app.use(
+    '/a',
+    createProxyMiddleware({
+      target: 'https://lh3.googleusercontent.com',
       changeOrigin: true,
     })
   );

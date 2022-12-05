@@ -1,5 +1,8 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { getUser } from '../api2/member';
 import CommonBtn from '../components/common/CommonBtn/CommonBtn';
 import AddressContainer from '../components/ghEdit/AddressContainer';
 import FacilitiesContainer from '../components/ghEdit/FacilitiesContainer';
@@ -11,7 +14,8 @@ import TagContainer from '../components/ghEdit/TagContainer';
 import useEditPage from '../hooks/useEditPage';
 import { ghDataCheck, makeGhData } from '../libs/ghDatafunc';
 import { ghCreateForm } from '../libs/ghEditCreateForm';
-
+import { User2 } from '../types/user';
+import { RootState } from '../store/store';
 export default function Hostingpage() {
   const {
     guestHouseName,
@@ -29,6 +33,8 @@ export default function Hostingpage() {
     icons,
     setIcons,
   } = useEditPage();
+  const navigate = useNavigate();
+  const mainUser = useSelector((state: RootState) => state.user);
 
   const sendData = async () => {
     const flag = ghDataCheck({
@@ -41,7 +47,7 @@ export default function Hostingpage() {
     });
 
     if (flag) return;
-
+    const userPhone = mainUser.memberPhone;
     const { guest_house_dto, roomImg, roomDto } = makeGhData({
       guestHouseName,
       address,
@@ -50,6 +56,7 @@ export default function Hostingpage() {
       guestHouseInfo,
       rooms,
       icons,
+      userPhone,
     });
 
     const formData = ghCreateForm({
@@ -60,14 +67,48 @@ export default function Hostingpage() {
     });
 
     try {
+      const accessToken = localStorage.getItem('accessToken');
       const postSurvey = await axios.post(`/api/auth/guesthouse`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `${accessToken}`,
+        },
+        transformRequest: (formData) => formData,
       });
-      console.log(postSurvey);
+      navigate('/ghadmin');
+      window.location.reload();
     } catch (e) {
       console.log(e);
     }
   };
+
+  useEffect(() => {
+    const userCheck = async () => {
+      try {
+        const userGet = (await getUser()) as User2;
+        if (
+          userGet.memberRoles !== undefined &&
+          userGet.memberRoles.length > 0
+        ) {
+          if (userGet.memberRoles[0] !== 'ADMIN') {
+            alert('호스트가 아닙니다.');
+            navigate('/');
+          }
+        } else {
+          alert('호스트가 아닙니다');
+          navigate('/');
+        }
+      } catch (e) {
+        alert('로그인을 다시 해주세요.');
+        navigate('/');
+        localStorage.removeItem('refreshToken');
+        sessionStorage.removeItem('persist:root');
+        localStorage.removeItem('accessToken');
+        window.location.reload();
+      }
+    };
+    userCheck();
+  }, []);
 
   return (
     <div className="w-full p-5">

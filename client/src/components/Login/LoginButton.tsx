@@ -1,9 +1,9 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
 import { ReactElement } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { RiKakaoTalkFill } from 'react-icons/ri';
 import { SiNaver } from 'react-icons/si';
-import { login } from '../../apis';
+
+const API = process.env.REACT_APP_SERVER_URL;
 
 type SocialView = {
   color: string;
@@ -38,9 +38,7 @@ const social: Social = {
 function LoginButton({ socialType }: { socialType: keyof Social }) {
   const nowSocial = social[socialType];
   const handleLogin = () => {
-    return window.location.assign(
-      `http://3.37.58.81:8080/oauth2/authorization/${socialType}`
-    );
+    return window.location.assign(`${API}/oauth2/authorization/${socialType}`);
   };
   return (
     <button

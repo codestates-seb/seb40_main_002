@@ -1,14 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { getGuesthouseList } from '../apis/guesthouse';
 import { GuestHouseShort } from '../types/guesthouse';
 import { SearchOption } from '../types/search';
-import getTodayToTomorrow from '../utils/getTodayToTomorrow';
 
 function useInfiniteScroll(
   path: string
-  // option?: SearchOption
 ): [
   GuestHouseShort[],
   React.Dispatch<React.SetStateAction<string>>,
@@ -25,60 +23,86 @@ function useInfiniteScroll(
 
   const location = useLocation();
   const url = new URLSearchParams(location.search);
+  const cityId = url.get('cityId');
   const start = url.get('start');
   const end = url.get('end');
   const tag = url.get('tag');
 
   const tags = tag?.split('-');
-
-  const startEnd = getTodayToTomorrow();
   const [option, setOption] = useState<SearchOption>({
-    cityId: 1, // 변경해야 함
-    start: start ? start : startEnd.today,
-    end: end ? end : startEnd.tomorrow,
+    cityId: Number(cityId),
+    start: start ? start : '',
+    end: end ? end : '',
     tags: tags ? tags : [],
   });
+
+  // const [searchParams] = useSearchParams();
+
+  // useEffect(() => {
+  //   const paramCityId = searchParams.get('cityId');
+  //   const paramStart = searchParams.get('start');
+  //   const paramEnd = searchParams.get('end');
+  //   const paramTag = searchParams.get('tag');
+
+  //   if (paramCityId && paramStart && paramEnd && paramTag) {
+  //     setOption({
+  //       cityId: Number(paramCityId),
+  //       start: paramStart,
+  //       end: paramEnd,
+  //       tags: paramTag.split('-'),
+  //     });
+  //   }
+  // }, [searchParams]);
+
+  // useEffect(() => {
+  //   console.log('changed!');
+  //   setPage(1);
+  //   setList([]);
+  //   getList();
+  // }, [option]);
 
   // 숙소 리스트 가져오기
   const getList = useCallback(async () => {
     setLoading(true);
     let optionApi, tagApi;
-    if (option) {
+    if (option && option.cityId !== 0) {
       optionApi = `&cityId=${option.cityId}&start=${option.start}&end=${option.end}`;
       tagApi = option.tags.join('&tag=');
-      // console.log(optionApi, tagApi);
     }
-    if (totalCount > list.length) {
-      const newGuesthouses = await getGuesthouseList(
-        `${path}?page=${page}&size=10&sort=${sortType}&tag=${
-          tagApi ? tagApi : ''
-        }${optionApi ? optionApi : ''}`, // option 있을 경우 추가
-        setTotalCount
-      );
-      setList([...list, ...newGuesthouses]);
-    }
+    const newGuesthouses = await getGuesthouseList(
+      `${path}?page=${page}&size=10&sort=${sortType}&tag=${
+        tagApi ? tagApi : ''
+      }${optionApi ? optionApi : ''}`, // option 있을 경우 추가
+      setTotalCount
+    );
+    if (page > 1) setList([...list, ...newGuesthouses]);
+    else setList([...newGuesthouses]);
+
     setLoading(false);
-  }, [page]);
+  }, [page, sortType]);
+
+  let isCalled = false;
 
   // page에 따라 다르게 api 요청하기
   useEffect(() => {
-    getList();
+    if (!isCalled) {
+      isCalled = true;
+      getList();
+    }
   }, [page]);
 
   // sortType에 따라 다르게 api 요청하기
   useEffect(() => {
     if (list.length > 0) {
       setPage(1);
-      setList([]);
       getList();
-      // console.log('sortType: ', sortType);
     }
   }, [sortType]);
 
   // 페이지 설정
   useEffect(() => {
     // 사용자가 마지막 요소를 보고 있고, 로딩 중이 아니라면
-    if (inView && !loading) {
+    if (inView && !loading && totalCount > list.length) {
       setPage((page) => page + 1);
     }
   }, [inView, loading]);

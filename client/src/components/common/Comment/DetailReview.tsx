@@ -2,43 +2,64 @@ import React, { useState } from 'react';
 import RatedStar from '../RatedStar';
 import { BiMessage } from 'react-icons/bi';
 import EditReply from './EditReply';
+interface reviewComment {
+  createdAt: string;
+  modifiedAt: string;
+  reviewComment: string;
+  reviewCommentId: number;
+}
 
-type Props = {
-  reviewComment?: {
-    userName: string;
-    createBy: string;
+interface Member {
+  memberBirth: string;
+  memberEmail: string;
+  memberId: string;
+  memberImageUrl: string;
+  memberNationality: string;
+  memberNickname: string;
+  memberPhone: string;
+  memberRegisterKind: string;
+  memberTag: string[] | null;
+}
+
+interface Props {
+  reviewComment: {
     comment: string;
-    ProfileImg: string;
-    starScore: number;
-    admin?: string;
-    adminComment?: Reply[];
-    id?: number; // 해당 댓글 고유 아이디
+    createdAt: string;
+    guestHouseMemberId: string;
+    guestHouseName: string;
+    member: Member;
+    modifiedAt: string;
+    reviewComment: reviewComment;
+    reviewId: number;
+    star: number; // 해당 댓글 고유 아이디
   };
-  type?: string;
-};
-type Reply = {
-  replyComment: string;
-  createBy: string;
-};
+  userId?: string;
+  type: string;
+}
 
-export default function DetailReview({ reviewComment, type }: Props) {
+export default function DetailReview({ reviewComment, type, userId }: Props) {
   // 전역 변수 로그인된 사용자(관리자)
-  const currentUser = 'mk';
   const [openComment, setOpenComment] = useState<boolean>(false);
+
   return (
     <>
       <div className="flex flex-row">
         {type && ['roomDetail', 'reviewPage'].includes(type) && (
           <div className="flex flex-col justify-between">
             <div className="w-[40px] mr-[10px]">
-              <img
-                src={reviewComment && reviewComment.ProfileImg}
-                className="rounded-full w-[40px] mr-[10px] mb-[10px]"
-              />
+              <div className="rounded-full h-[40px] w-[40px] mr-[10px] mb-[10px]">
+                <img
+                  src={
+                    reviewComment &&
+                    `${process.env.REACT_APP_SERVER_URL}${reviewComment.member.memberImageUrl}`
+                  }
+                  className="w-full h-full rounded-full object-fill"
+                />
+              </div>
             </div>
             {type === 'reviewPage' &&
               reviewComment &&
-              reviewComment.admin === currentUser && (
+              reviewComment.guestHouseMemberId === userId && (
                 <div
                   className="text-sm text-font-color cursor-pointer"
                   onClick={() => {
@@ -55,45 +76,41 @@ export default function DetailReview({ reviewComment, type }: Props) {
             <div className="flex flex-col justify-between">
               <div className="flex">
                 <p className="mr-[5px] text-base font-bold">
-                  {reviewComment && reviewComment.userName}
+                  {reviewComment && reviewComment.member.memberNickname}
                 </p>
-                {reviewComment && <RatedStar star={reviewComment.starScore} />}
+                {reviewComment && <RatedStar star={reviewComment.star} />}
               </div>
               <p className="text-font-color text-sm">
-                {reviewComment && reviewComment.createBy}
+                {reviewComment && reviewComment.createdAt.slice(0, 10)}
               </p>
             </div>
           ) : (
             <>
               <div className="flex items-center mb-15px ">
                 <p className="mr-[10px] text-base font-bold">
-                  {reviewComment && reviewComment.userName}
+                  {reviewComment && reviewComment.member.memberNickname}
                 </p>
                 <p className="text-font-color text-sm mr-[5px]">
-                  {reviewComment && reviewComment.createBy}
+                  {reviewComment && reviewComment.createdAt.slice(0, 10)}
                 </p>
-                {reviewComment && <RatedStar star={reviewComment.starScore} />}
+                {reviewComment && <RatedStar star={reviewComment.star} />}
               </div>
               <div>{reviewComment && reviewComment.comment}</div>
               {type === 'reviewPage' &&
                 reviewComment &&
-                reviewComment.adminComment &&
-                reviewComment.adminComment.length > 0 && (
+                reviewComment.reviewComment && (
                   <ul className="mt-[20px] flex flex-col">
                     <ul className="flex items-center">
                       <BiMessage className="mr-[10px]" />
                       <p className="font-bold mb-[5px]">사장님 댓글</p>
                     </ul>
 
-                    {reviewComment.adminComment.map((reply, idx) => (
-                      <div
-                        key={idx}
-                        className="flex flex-row ml-[26px] items-center"
-                      >
-                        <li>{reply.replyComment}</li>
-                        <li className="ml-[14px] text-sm">{reply.createBy}</li>
-                      </div>
-                    ))}
+                    <div className="flex flex-row ml-[26px] items-center">
+                      <li>{reviewComment.reviewComment.reviewComment}</li>
+                      <li className="ml-[14px] text-sm">
+                        {reviewComment.reviewComment.createdAt.slice(0, 10)}
+                      </li>
+                    </div>
                   </ul>
                 )}
             </>
@@ -101,8 +118,8 @@ export default function DetailReview({ reviewComment, type }: Props) {
         </div>
       </div>
       <div>
-        {openComment && reviewComment && reviewComment.id && (
-          <EditReply type="admin" id={reviewComment.id} />
+        {openComment && reviewComment && reviewComment.reviewId && (
+          <EditReply type="admin" id={reviewComment.reviewId} />
         )}
       </div>
       {type && type === 'roomDetail' && (

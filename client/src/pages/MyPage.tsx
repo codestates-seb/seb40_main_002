@@ -1,59 +1,64 @@
 import { useEffect, useState } from 'react';
+
 import MyPageTabs from '../components/MyPage/MyPageTabs/MyPageTabs';
 import UserInfoCard from '../components/MyPage/UserInfoCard/UserInfoCard';
-import { MyPageUser } from '../types/user';
+import { User1, User2 } from '../types/user';
 
-const testUser: MyPageUser = {
-  memberImageUrl:
-    'https://cdn.pixabay.com/photo/2015/11/16/14/43/cat-1045782_1280.jpg',
-  memberTag: ['오션뷰', '한적한', '나무'],
-  memberId: '45423243244@kakao',
-  memberNickname: '찰나의지루함',
-  memberEmail: 'wotddd@naver.com',
-  memberPhone: '010-2222-5555',
-  memberReservation: [
-    {
-      guestHouserName: '숙소명1',
-      guestHouseRoomStart: '2022-11-01',
-      guestHouseRoomEnd: '2022-11-05',
-    },
-    {
-      guestHouserName: '숙소명2',
-      guestHouseRoomStart: '2022-11-07',
-      guestHouseRoomEnd: '2022-11-09',
-    },
-  ],
-  memberReview: [
-    {
-      guestHouseName: '숙소명1',
-      reviewContent: '리뷰내용1',
-    },
-    {
-      guestHouseName: '숙소명2',
-      reviewContent: '리뷰내용2',
-    },
-  ],
-  memberComunity: [
-    {
-      postTitle: '게시글 제목1',
-    },
-    {
-      postTitle: '게시글 제목2',
-    },
-  ],
-};
+import { getUser } from '../api2/member';
+import { convertURLtoFile } from '../libs/srcToFile';
+import { useNavigate } from 'react-router-dom';
 
 function MyPage() {
-  const [user, setUser] = useState(testUser);
-
+  const [user, setUser] = useState<User1>({
+    memberId: '',
+    memberBirth: '',
+    memberEmail: '',
+    memberImageFile: [],
+    memberNationality: '',
+    memberNickname: '',
+    memberPhone: '',
+    memberRegisterKind: '',
+    memberRoles: [],
+    memberTag: [],
+  });
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
-    // 회원 정보 요청
-    setUser(testUser);
+    const getGhdata = async () => {
+      // 유저 정보 가져 오기
+      try {
+        const userGet = (await getUser()) as User2;
+        if (userGet.memberRoles[0] !== 'USER') {
+          return navigate('/');
+        }
+        const FileData = await convertURLtoFile(
+          `${process.env.REACT_APP_SERVER_URL}${userGet.memberImageUrl}`
+        );
+        setUser({
+          ...userGet,
+          memberImageFile: [FileData],
+        });
+        setLoading(true);
+      } catch (e) {
+        alert('login을 다시 해주세요.');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        sessionStorage.removeItem('persist:root');
+        navigate('/');
+        window.location.reload();
+      }
+    };
+    getGhdata();
   }, []);
+
   return (
     <div className="flex justify-between w-full h-full py-[20px]">
-      <UserInfoCard user={user} setUser={setUser} />
-      <MyPageTabs />
+      {loading && (
+        <>
+          <UserInfoCard user={user} setUser={setUser} />
+          <MyPageTabs />
+        </>
+      )}
     </div>
   );
 }

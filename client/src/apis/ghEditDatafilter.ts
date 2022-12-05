@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Api from '../api2';
 
 import { convertURLtoFile } from '../libs/srcToFile';
 
@@ -34,7 +35,7 @@ type GetType = {
 export const ghEditDatafilter = async (url: string) => {
   const {
     data: { data: returnData },
-  } = await axios.get(url);
+  } = await Api.get(url);
   const data = returnData as GetType;
 
   // 게스트하우스 명
@@ -52,7 +53,9 @@ export const ghEditDatafilter = async (url: string) => {
   //게스트 하우스 이미지
   const guestHouseImage = await Promise.all(
     data.guestHouseImage.map(async (src: string) => {
-      return await convertURLtoFile(`http://3.37.58.81:8080${src}`);
+      return await convertURLtoFile(
+        `${process.env.REACT_APP_SERVER_URL + src}`
+      );
     })
   );
 
@@ -65,7 +68,8 @@ export const ghEditDatafilter = async (url: string) => {
   // 객실 정보
   const rooms = await Promise.all(
     data.rooms.map(async (room: Room) => {
-      const imgFileUrl = `http://3.37.58.81:8080${room.roomImageUrl}`;
+      const imgFileUrl = `${process.env.REACT_APP_SERVER_URL}${room.roomImageUrl}`;
+
       const imgFile = await convertURLtoFile(imgFileUrl);
       return {
         roomName: room.roomName,

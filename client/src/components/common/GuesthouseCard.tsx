@@ -5,15 +5,24 @@ import Heart from './Heart';
 import RatedStar from './RatedStar';
 import Tag from './Tag';
 
-function GuesthouseCard({ guesthouse }: { guesthouse: GuestHouseShort }) {
+function GuesthouseCard({
+  guesthouse,
+  start,
+  end,
+}: {
+  guesthouse: GuestHouseShort;
+  start?: string;
+  end?: string;
+}) {
   const navigate = useNavigate();
   const handleToGuesthouse = () => {
     // 해당 게스트하우스 링크로 이동
-    const startEnd = getTodayToTomorrow();
-    navigate(
-      `/ghdetail/${guesthouse.id}?start=${startEnd.today}&end=${startEnd.tomorrow}`
-    ); // start, end 지정 필요
-    console.log('gonna move to', guesthouse.id);
+    if (start === undefined && end === undefined) {
+      const startEnd = getTodayToTomorrow();
+      start = startEnd.today;
+      end = startEnd.tomorrow;
+    }
+    navigate(`/ghdetail/${guesthouse.id}?start=${start}&end=${end}`); // start, end 지정 필요
   };
   return (
     <div className="w-full h-full">
@@ -29,7 +38,7 @@ function GuesthouseCard({ guesthouse }: { guesthouse: GuestHouseShort }) {
         </div>
         <div className="px-1">
           <div className="flex justify-between ">
-            <div className="block whitespace-nowrap overflow-hidden text-lg font-bold text-start mr-[2px] my-[2px] text-ellipsis">
+            <div className="block whitespace-wrap overflow-hidden text-lg font-bold text-start mr-[2px] my-[2px] text-ellipsis">
               {guesthouse.name}
             </div>
             <RatedStar star={guesthouse.star} />
@@ -37,7 +46,7 @@ function GuesthouseCard({ guesthouse }: { guesthouse: GuestHouseShort }) {
           <div className="w-fit text-base">{`${guesthouse.price.toLocaleString()} KRW / 1박`}</div>
         </div>
       </button>
-      <div className="flex px-1 py-1">
+      <div className="flex px-1 py-1 whitespace-wrap">
         {guesthouse.tags.map((el: string) => (
           <Tag key={el} name={el} />
         ))}
