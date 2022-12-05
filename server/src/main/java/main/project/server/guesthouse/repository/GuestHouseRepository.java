@@ -15,9 +15,9 @@ import java.util.List;
 public interface GuestHouseRepository extends JpaRepository<GuestHouse, Long>, GuestHouseCustomRepository {
     Page<GuestHouse> findGuestHouseByMember(Member member, PageRequest pageRequest);
 
-//
-//
-//
+
+
+
 //    @Query(
 //            value = " select gh.* from guest_house as gh join room as ghr on gh.guest_house_id = ghr.guest_house_id" +
 //                    " where gh.city_id = :cityId" +
@@ -61,14 +61,14 @@ public interface GuestHouseRepository extends JpaRepository<GuestHouse, Long>, G
 
 
 
-    @Query(
-            value = " select gh.* from guest_house as gh where gh.guest_house_tag like :tags",
-            countQuery = " select count(*) from guest_house as gh where gh.guest_house_tag like :tags",
-            nativeQuery = true
-    )
-    Page<GuestHouse> findAllGuestHouseOnlyAsTag(
-            @Param("tags")String tags,
-            Pageable pageable);
+//    @Query(
+//            value = " select gh.* from guest_house as gh where gh.guest_house_tag like :tags",
+//            countQuery = " select count(*) from guest_house as gh where gh.guest_house_tag like :tags",
+//            nativeQuery = true
+//    )
+//    Page<GuestHouse> findAllGuestHouseOnlyAsTag(
+//            @Param("tags")String tags,
+//            Pageable pageable);
 
 
 

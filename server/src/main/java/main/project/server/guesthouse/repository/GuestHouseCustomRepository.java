@@ -11,5 +11,6 @@ public interface GuestHouseCustomRepository {
             Integer cityId, String like, String start, String end, Pageable pageable);
 
 
-
+    Page<GuestHouse>  findAllGuestHouse(
+            String tags, Pageable pageable);
 }
