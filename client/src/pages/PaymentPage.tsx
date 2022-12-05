@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Api from '../api2';
 import { getGhData } from '../api2/ghdata';
@@ -10,6 +11,7 @@ import PaymentLeft from '../components/paymentPage/PaymentLeft';
 import PaymentRight from '../components/paymentPage/PaymentRight';
 import dateCheck from '../libs/dateCheck';
 import { getPaymentParams } from '../libs/getuserParams';
+import { RootState } from '../store/store';
 import { Props } from '../types/payment';
 interface Room {
   roomId: number;
@@ -37,7 +39,7 @@ export default function PaymentPage() {
   const [loading, setLoading] = useState(false);
   const [paymentRole, setPaymentRole] = useState<string>('카카오페이');
   const navigate = useNavigate();
-
+  const user = useSelector((state: RootState) => state.user);
   const [ghData, setGhdata] = useState<Props>({
     date: [],
     ghname: null,
@@ -51,6 +53,10 @@ export default function PaymentPage() {
   });
 
   useEffect(() => {
+    if (!user.memberId) {
+      alert('로그인을 확인해주세요');
+      return navigate('/');
+    }
     const reqData = async () => {
       const data = await getGhData(guestHouseId, startDate, endDate);
       const findRooms = data.rooms.filter(
