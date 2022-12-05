@@ -39,7 +39,7 @@ const Footer = () => {
         <div className="flex">
           {memberList.map((member, idx) => {
             return (
-              <div key={idx}>
+              <div key={idx} className="flex">
                 <AiOutlineGithub />
                 <a href={member.memberLink} className="mr-2">
                   {member.memberName}
