@@ -97,6 +97,4 @@ public class GuestHouse extends Auditable {
 
         return this.getGuestHouseImage().stream().map(g -> new String(g.getGuestHouseImageUrl())).collect(Collectors.toList());
     }
-
-
 }

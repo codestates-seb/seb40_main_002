@@ -106,23 +106,4 @@ public class GuestHouseCustomRepositoryImpl implements GuestHouseCustomRepositor
         return new PageImpl<>(guestHouses, pageable, guestHouses.size());
     }
 
-    @Override
-    public Page<GuestHouse> findAllGuestHouse(String tags, Pageable pageable) {
-
-        List<GuestHouse> guestHouseList = jpaQueryFactory
-                .select(guestHouse)
-                .from(guestHouse)
-                .where(tagEq(tags))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        return new PageImpl<>(guestHouseList, pageable, guestHouseList.size());
-    }
-
-
-    BooleanExpression tagEq(String tag) {
-        return tag != null ? guestHouse.guestHouseTag.like(tag) : null;
-    }
-
 }

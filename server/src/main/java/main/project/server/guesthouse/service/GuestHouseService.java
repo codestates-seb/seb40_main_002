@@ -233,8 +233,7 @@ public class GuestHouseService {
         else if(sortValue.equals("review")) sort = Sort.by(Sort.Direction.DESC,"guest_house_review_count");
         else sort = Sort.by(Sort.Direction.DESC, "guest_house_id"); //기본, 등록순 내림차순
 
-//        Page<GuestHouse> guestHousePage = repository.findAllGuestHouseOnlyAsTag(tagStr, PageRequest.of(page-1, size, sort));
-        Page<GuestHouse> guestHousePage = repository.findAllGuestHouse(tagStr, PageRequest.of(page-1, size, sort));
+        Page<GuestHouse> guestHousePage = repository.findAllGuestHouseOnlyAsTag(tagStr, PageRequest.of(page-1, size, sort));
         return guestHousePage;
     }
 

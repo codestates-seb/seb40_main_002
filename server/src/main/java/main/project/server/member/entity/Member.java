@@ -77,9 +77,4 @@ public class Member extends Auditable {
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Heart> heart = new ArrayList<>();
 
-    public Member setAndReturn(String memberId) {
-        this.memberId = memberId;
-        return this;
-    }
-
 }
