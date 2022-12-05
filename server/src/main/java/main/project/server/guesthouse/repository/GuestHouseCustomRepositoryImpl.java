@@ -69,7 +69,9 @@ public class GuestHouseCustomRepositoryImpl implements GuestHouseCustomRepositor
 
         OrderSpecifier orderSpecifier;
 
-        if (sort.equals("star"))
+        if(sort == null || sort.equals(""))
+            orderSpecifier = guestHouse.guestHouseId.desc();
+        else if (sort.equals("star"))
             orderSpecifier = guestHouse.guestHouseStar.desc();
         else if(sort.equals("review"))
             orderSpecifier = guestHouse.guestHouseReviewCount.desc();
@@ -96,6 +98,7 @@ public class GuestHouseCustomRepositoryImpl implements GuestHouseCustomRepositor
                 .fetch();
 
 
+        //카운트 쿼리를 직접 해줘야함.
         JPAQuery<Long> countQuery = jpaQueryFactory
                 .select(guestHouse.count())
                 .from(guestHouse)
