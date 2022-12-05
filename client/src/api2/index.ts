@@ -49,6 +49,8 @@ Api.interceptors.response.use(
           originConfig.headers.Authorization = data.headers.authorization;
           return Api(originConfig);
         } else {
+          alert('로그인 요청이 잘못되었습니다.');
+          window.location.reload();
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('accessToken');
           return;
