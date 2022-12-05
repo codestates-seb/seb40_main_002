@@ -7,6 +7,8 @@ import { User1, User2 } from '../types/user';
 import { getUser } from '../api2/member';
 import { convertURLtoFile } from '../libs/srcToFile';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 
 function MyPage() {
   const [user, setUser] = useState<User1>({
@@ -23,12 +25,12 @@ function MyPage() {
   });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const userGet = useSelector((state: RootState) => state.user);
   useEffect(() => {
     const getGhdata = async () => {
       // 유저 정보 가져 오기
       try {
-        const userGet = (await getUser()) as User2;
-        if (userGet.memberRoles[0] !== 'USER') {
+        if (userGet.memberRoles && userGet.memberRoles[0] !== 'USER') {
           return navigate('/');
         }
         const FileData = await convertURLtoFile(
@@ -37,13 +39,10 @@ function MyPage() {
         setUser({
           ...userGet,
           memberImageFile: [FileData],
-        });
+        } as User1);
         setLoading(true);
       } catch (e) {
         alert('login을 다시 해주세요.');
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        sessionStorage.removeItem('persist:root');
         navigate('/');
         window.location.reload();
       }
