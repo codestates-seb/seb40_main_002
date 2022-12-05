@@ -53,8 +53,8 @@ Api.interceptors.response.use(
           window.location.reload();
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('accessToken');
-          return;
         }
+        return;
       } catch (err) {
         console.log('토큰 인증 오류 발생');
       }
