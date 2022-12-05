@@ -84,9 +84,6 @@ public class GuestHouseTotalTests {
     @Autowired
     RoomReservationRepository roomReservationRepository;
 
-
-
-
     @BeforeEach
     void beforeEach() {
 
@@ -345,19 +342,6 @@ public class GuestHouseTotalTests {
                 return true;
             return false;
         }));
-    }
-
-
-
-    @Test
-    @DisplayName("querydsl 적용")
-    void getGuestHouseMainFilterTest7() {
-
-        //given
-        PageRequest of = PageRequest.of(0, 10);
-
-        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter((City.City(1L).getCityId().intValue()), "%감성%", null, null, of);
-
     }
 
 }

@@ -9,7 +9,6 @@ import main.project.server.guesthouse.entity.GuestHouse;
 import main.project.server.guesthouse.entity.enums.GuestHouseStatus;
 import main.project.server.guesthouse.mapper.GuestHouseMapper;
 import main.project.server.guesthouse.guesthouseimage.entity.GuestHouseImage;
-import main.project.server.guesthouse.repository.GuestHouseCustomRepositoryImpl;
 import main.project.server.guesthouse.repository.GuestHouseRepository;
 import main.project.server.guesthouse.guesthouseimage.repository.GuestHouseImageRepository;
 import main.project.server.member.entity.Member;
@@ -43,7 +42,6 @@ public class GuestHouseService {
 
     private final RoomService roomService;
 
-//    private final GuestHouseCustomRepositoryImpl guestHouseCustomRepository;
     private final GuestHouseMapper guestHouseMapper;
 
 
