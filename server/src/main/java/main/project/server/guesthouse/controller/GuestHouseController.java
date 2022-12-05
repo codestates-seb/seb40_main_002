@@ -167,7 +167,7 @@ public class GuestHouseController {
             @RequestParam(name = "page", defaultValue = "1") @Positive Integer page,
             @RequestParam(name = "size", defaultValue = "10") @Positive Integer size,
             @RequestParam(name = "sort", defaultValue = "default") String sort,
-            @RequestParam(name = "tag") String[] tag
+            @RequestParam(name = "tag", required = false) String[] tag //required를 false로 함으로써 null로 들어와도 차단되지 않는다.
     ) {
 
 
