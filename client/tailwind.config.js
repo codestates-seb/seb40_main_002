@@ -9,6 +9,8 @@ module.exports = {
         'point-color': '#6294CD',
         'border-color': '#DDDDDD',
         'font-color': '#717171',
+        footer: '#333333',
+        footerFont: '#999999',
       },
       fontSize: {
         sm: '11px',
