@@ -248,28 +248,34 @@ public interface GuestHouseMapper {
         //DB에 저장되어 있는 문자열 형식으로 변환
 
         for (int i = 0; i < tag.length; i++) {
-            likeStringBuilder.append("%" + formattedTagArr[i] + "%");
+            likeStringBuilder.append(formattedTagArr[i] + "%");
         }
 
         return likeStringBuilder.toString();
     }
 
-    default String[] tagStrArrToTagStrForRecommend(String[] tag) {
 
-
-        if(tag == null || tag.length == 0)
-            return null;
-
-        //태그 정렬
-        Arrays.sort(tag);
-
-        String[] formattedTagArr = Stream.of(tag).map(plainTagStr -> "%|" + plainTagStr + "|%").toArray(String[]::new);
-
-
-        return formattedTagArr;
-    }
-
-
+//    default String tagStrArrToTagStrForFilter(String[] tag) {
+//
+//        StringBuilder likeStringBuilder = new StringBuilder("%");
+//
+//        if(tag == null || tag.length == 0)
+//            return likeStringBuilder.toString();
+//
+//        //태그 정렬
+//        Arrays.sort(tag);
+//
+//        String[] formattedTagArr = Stream.of(tag).map(plainTagStr -> "|" + plainTagStr + "|").toArray(String[]::new);
+//
+//
+//        //DB에 저장되어 있는 문자열 형식으로 변환
+//
+//        for (int i = 0; i < tag.length; i++) {
+//            likeStringBuilder.append(formattedTagArr[i] + "%");
+//        }
+//
+//        return likeStringBuilder.toString();
+//    }
 
 
     default GuestHouseDto.ResponseSimple guestHouseToResponseSimple(GuestHouse guestHouse, TagMapper tagMapper) {
