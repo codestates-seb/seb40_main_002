@@ -130,30 +130,30 @@ const GhAdminPage = () => {
         <div className="flex flex-col">
           <div className="flex">
             <UserInfoCard user={user} setUser={setUser} />
-            <div className="mx-[20px]">
+            <div className="mx-[20px] h-full">
               <GhAdminList
                 ghAdminData={ghList.ghAdminData}
                 AdminName={user.memberNickname}
               />
             </div>
-            <div className="text-right ">
-              {pagenation &&
-                new Array(pagenation.totalPages).fill(0).map((x, idx) => (
-                  <button
-                    className={`${
-                      currentpageNum === idx + 1
-                        ? 'border-b-[2px] border-black border-b-2'
-                        : ''
-                    } ml-[10px] py-[2px] px-[12px] mb-[20px] pointer-events-auto}`}
-                    key={idx}
-                    onClick={() => {
-                      setCurrentPageNum(idx + 1);
-                    }}
-                  >
-                    {idx + 1}
-                  </button>
-                ))}
-            </div>
+          </div>
+          <div className="text-right ">
+            {pagenation &&
+              new Array(pagenation.totalPages).fill(0).map((x, idx) => (
+                <button
+                  className={`${
+                    currentpageNum === idx + 1
+                      ? 'border-b-[2px] border-black border-b-2'
+                      : ''
+                  } ml-[10px] py-[2px] px-[12px] mb-[20px] pointer-events-auto}`}
+                  key={idx}
+                  onClick={() => {
+                    setCurrentPageNum(idx + 1);
+                  }}
+                >
+                  {idx + 1}
+                </button>
+              ))}
           </div>
         </div>
       )}
