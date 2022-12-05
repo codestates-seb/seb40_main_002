@@ -37,15 +37,22 @@
 <table>
   <tbody>
     <tr>
-      <td align="center"><a href="https://github.com/billy5982"><img src="https://avatars.githubusercontent.com/u/104412610?v=4" width="100px;" alt=""/><br /><sub><b>FE 이명규</b></sub></a>
-      <td align="center"><a href="https://github.com/cule97"><img src="https://avatars.githubusercontent.com/u/106367435?v=4" width="100px;" alt=""/><br /><sub><b>FE 이상민</b></sub></a>
-      <td align="center"><a href="https://github.com/callmejeje"><img src="https://avatars.githubusercontent.com/u/45119238?v=4" width="100px;" alt=""/><br /><sub><b>FE 최주은</b></sub></a>
-      <td align="center"><a href="https://github.com/heoputer"><img src="https://avatars.githubusercontent.com/u/58350169?v=4" width="100px;" alt=""/><br /><sub><b>FE 허정우</b></sub></a>
+      <td align="center"><a href="https://github.com/billy5982"><img src="https://avatars.githubusercontent.com/u/104412610?v=4" width="100px;" alt=""/><br /><sub><b>@billy5982</b></sub></a><br/></td>
+      <td align="center"><a href="https://github.com/cule97"><img src="https://avatars.githubusercontent.com/u/106367435?v=4" width="100px;" alt=""/><br /><sub><b>@cule97</b></sub></a><br/></td>
+      <td align="center"><a href="https://github.com/callmejeje"><img src="https://avatars.githubusercontent.com/u/45119238?v=4" width="100px;" alt=""/><br /><sub><b>@callmejeje</b></sub></a><br/></td>
+      <td align="center"><a href="https://github.com/heoputer"><img src="https://avatars.githubusercontent.com/u/58350169?v=4" width="100px;" alt=""/><br /><sub><b>@heoputer</b></sub></a><br/></td>
+      <td align="center"><a href="https://github.com/JanuaryKim"><img src="https://avatars.githubusercontent.com/u/107736531?v=4" width="100px;" alt=""/><br /><sub><b>@JanuaryKim</b></sub></a><br/></td>
+      <td align="center"><a href="https://github.com/NTY-1017"><img src="https://avatars.githubusercontent.com/u/88229250?v=4" width="100px;" alt=""/><br /><sub><b>@NTY-1017</b></sub></a><br/></td>
+      <td align="center"><a href="https://github.com/see1237"><img src="https://avatars.githubusercontent.com/u/105643326?v=4" width="100px;" alt=""/><br /><sub><b>@see1237</b></sub></a><br/></td>
     </tr>
     <tr>
-      <td align="center"><a href="https://github.com/JanuaryKim"><img src="https://avatars.githubusercontent.com/u/107736531?v=4" width="100px;" alt=""/><br /><sub><b>BE 김영현</b></sub></a>
-      <td align="center"><a href="https://github.com/NTY-1017"><img src="https://avatars.githubusercontent.com/u/88229250?v=4" width="100px;" alt=""/><br /><sub><b>BE 노태윤</b></sub></a>
-      <td align="center"><a href="https://github.com/see1237"><img src="https://avatars.githubusercontent.com/u/105643326?v=4" width="100px;" alt=""/><br /><sub><b>BE 최수혜</b></sub></a>
+      <td align="center">FE 이명규</td>
+      <td align="center">FE 이상민</td>
+      <td align="center">FE 최주은</td>  
+      <td align="center">FE 허정우</td> 
+      <td align="center">BE 김영현</td>
+      <td align="center">BE 노태윤</td>
+      <td align="center">BE 최수혜</td> 
     </tr>
   </tbody>
 </table>
