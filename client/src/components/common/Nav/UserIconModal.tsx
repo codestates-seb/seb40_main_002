@@ -10,6 +10,7 @@ import { clearUser } from '../../../store/reducer/user';
 
 import { getUser as settingUser } from '../../../api2/member';
 import { User2 } from '../../../types/user';
+import Api from '../../../api2';
 const UserIconModal = () => {
   const navigate = useNavigate();
   const [loginModal, setLoginModal] = useModal();
@@ -20,30 +21,24 @@ const UserIconModal = () => {
   const handleLogout = () => {
     const accessToken = localStorage.getItem('accessToken');
 
-    axios
-      .post(
-        `/api/auth/members/logout`,
-        {},
-        {
-          headers: {
-            Authorization: accessToken,
-            'Content-Type': '',
-          },
-        }
-      )
+    Api.post(
+      `/api/auth/members/logout`,
+      {},
+      {
+        headers: {
+          'Content-Type': '',
+        },
+      }
+    )
       .then((res) => {
         // console.log('logout:', res);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        sessionStorage.removeItem('persist:root'); //
         dispatch(clearUser());
         navigate('/');
         window.location.reload();
       })
       .catch((err) => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        sessionStorage.removeItem('persist:root'); //
         navigate('/');
         window.location.reload();
       });
@@ -63,15 +58,15 @@ const UserIconModal = () => {
       navigate('/mypage');
     }
   };
-  useEffect(() => {
-    const checkLogin = async () => {
-      if (localStorage.getItem('accessToken')) {
-        const userGet = (await settingUser()) as User2;
-        setUser(userGet);
-      }
-    };
-    checkLogin();
-  }, []);
+  // useEffect(() => {
+  // const checkLogin = async () => {
+  //   if (localStorage.getItem('accessToken')) {
+  //     const userGet = (await settingUser()) as User2;
+  //     setUser(userGet);
+  //   }
+  // };
+  // checkLogin();
+  // }, []);
   return (
     <section className="flex flex-col w-36 h-40 rounded-[15px] absolute top-[80px] right-10 p-4 text-lg font-semibold items-center justify-around border-solid border-2 border-borderline bg-white">
       <div
@@ -82,7 +77,7 @@ const UserIconModal = () => {
       </div>
 
       {/* 로그인 상태에 따른 조건부 렌더링 필요 */}
-      {!user ? (
+      {!mainUser.memberId ? (
         <div className="cursor-pointer p-2" onClick={setLoginModal}>
           로그인
         </div>
