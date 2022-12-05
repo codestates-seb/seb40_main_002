@@ -74,3 +74,4 @@ src/main/resources/application-local-jwt.yml
 src/main/resources/application-local-kakao.yml
 src/main/resources/application-local-naver.yml
 src/main/resources/application-local-rds.yml
+src/main/resources/application-local-mail.yml

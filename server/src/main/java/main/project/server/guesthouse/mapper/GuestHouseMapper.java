@@ -255,6 +255,21 @@ public interface GuestHouseMapper {
     }
 
 
+    default String[] plainTagArrToSeperTagArr(String[] tag) {
+
+        StringBuilder likeStringBuilder = new StringBuilder();
+
+        if(tag == null || tag.length == 0)
+            return null;
+
+
+        return Arrays.stream(tag).map(str -> {
+            return "%|" + str + "|%";
+        }).toArray(String[]::new);
+
+    }
+
+
     default GuestHouseDto.ResponseSimple guestHouseToResponseSimple(GuestHouse guestHouse, TagMapper tagMapper) {
 
         GuestHouseDto.ResponseSimple responseSimple = new GuestHouseDto.ResponseSimple();

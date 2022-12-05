@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface GuestHouseRepository extends JpaRepository<GuestHouse, Long> {
+public interface GuestHouseRepository extends JpaRepository<GuestHouse, Long>, GuestHouseCustomRepository {
     Page<GuestHouse> findGuestHouseByMember(Member member, PageRequest pageRequest);
 
 
@@ -61,14 +61,14 @@ public interface GuestHouseRepository extends JpaRepository<GuestHouse, Long> {
 
 
 
-    @Query(
-            value = " select gh.* from guest_house as gh where gh.guest_house_tag like :tags",
-            countQuery = " select count(*) from guest_house as gh where gh.guest_house_tag like :tags",
-            nativeQuery = true
-    )
-    Page<GuestHouse> findAllGuestHouseOnlyAsTag(
-            @Param("tags")String tags,
-            Pageable pageable);
+//    @Query(
+//            value = " select gh.* from guest_house as gh where gh.guest_house_tag like :tags",
+//            countQuery = " select count(*) from guest_house as gh where gh.guest_house_tag like :tags",
+//            nativeQuery = true
+//    )
+//    Page<GuestHouse> findAllGuestHouseOnlyAsTag(
+//            @Param("tags")String tags,
+//            Pageable pageable);
 
 
 
