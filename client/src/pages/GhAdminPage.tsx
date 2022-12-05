@@ -6,7 +6,8 @@ import Api from '../api2';
 import { getUser as settingUser } from '../api2/member';
 import { convertURLtoFile } from '../libs/srcToFile';
 import { useNavigate } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
 interface GhData {
   ghAdminData: {
     memberNickname: string;
@@ -50,6 +51,8 @@ interface GhList {
 }
 
 const GhAdminPage = () => {
+  const userGet = useSelector((state: RootState) => state.user);
+
   const [user, setUser] = useState<User1>({
     memberId: '',
     memberBirth: '',
@@ -62,6 +65,7 @@ const GhAdminPage = () => {
     memberRoles: [],
     memberTag: [],
   });
+
   const [ghList, setGhList] = useState<GhData | null>(null);
   const [pagenation, setPagenation] = useState<PageInfo | null>(null);
   const [loading, setLoading] = useState(false);
@@ -71,8 +75,7 @@ const GhAdminPage = () => {
     const getGhdata = async () => {
       // 유저 정보 가져 오기
       try {
-        const userGet = (await settingUser()) as User2;
-        if (userGet.memberRoles[0] !== 'ADMIN') {
+        if (userGet.memberRoles && userGet.memberRoles[0] !== 'ADMIN') {
           return navigate('/');
         }
         // 해당 호스트가 가지고 있는 데이터 가져오기
@@ -98,10 +101,11 @@ const GhAdminPage = () => {
         );
 
         // 유저 정보
+
         setUser({
           ...userGet,
           memberImageFile: [FileData],
-        });
+        } as User1);
 
         // 게하 정보 갱신
         setGhList({
