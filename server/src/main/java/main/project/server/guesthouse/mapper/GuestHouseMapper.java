@@ -103,6 +103,7 @@ public interface GuestHouseMapper {
             Collections.sort(guestHouse.getRooms()); //Room 을 Price 기준으로 오름차순 정렬
             return GuestHouseDto.response.builder()
                     .guestHouseId(guestHouse.getGuestHouseId())
+                    .cityId(guestHouse.getCity().getCityId().intValue())
                     .guestHouseName(guestHouse.getGuestHouseName())
                     .memberId(guestHouse.getMember().getMemberId())
                     .memberNickname(guestHouse.getMember().getMemberNickname())
@@ -231,27 +232,41 @@ public interface GuestHouseMapper {
     }
 
 
-    /** 프론트에서 들어 온 태그 배열을 정렬하여 DB에 저장되는 태그 문자열 형식으로 변환하여 주는 메소드 **/
-    default String tagStrArrToTagStrForFilter(String[] tag) {
+//    /** 프론트에서 들어 온 태그 배열을 정렬하여 DB에 저장되는 태그 문자열 형식으로 변환하여 주는 메소드 **/
+//    default String tagStrArrToTagStrForFilter(String[] tag) {
+//
+//        StringBuilder likeStringBuilder = new StringBuilder("%");
+//
+//        if(tag == null || tag.length == 0)
+//            return likeStringBuilder.toString();
+//
+//        //태그 정렬
+//        Arrays.sort(tag);
+//
+//        String[] formattedTagArr = Stream.of(tag).map(plainTagStr -> "|" + plainTagStr + "|").toArray(String[]::new);
+//
+//
+//        //DB에 저장되어 있는 문자열 형식으로 변환
+//
+//        for (int i = 0; i < tag.length; i++) {
+//            likeStringBuilder.append(formattedTagArr[i] + "%");
+//        }
+//
+//        return likeStringBuilder.toString();
+//    }
 
-        StringBuilder likeStringBuilder = new StringBuilder("%");
+
+    /** 평문 형태로 들어온 태그 배열을 구분자와 %를 붙인 배열 형태로 변환하는 메소드 - DB 조회때 사용 **/
+    default String[] plainTagArrToSeperTagArr(String[] tag) {
 
         if(tag == null || tag.length == 0)
-            return likeStringBuilder.toString();
-
-        //태그 정렬
-        Arrays.sort(tag);
-
-        String[] formattedTagArr = Stream.of(tag).map(plainTagStr -> "|" + plainTagStr + "|").toArray(String[]::new);
+            return null;
 
 
-        //DB에 저장되어 있는 문자열 형식으로 변환
+        return Arrays.stream(tag).map(str -> {
+            return "%|" + str + "|%";
+        }).toArray(String[]::new);
 
-        for (int i = 0; i < tag.length; i++) {
-            likeStringBuilder.append(formattedTagArr[i] + "%");
-        }
-
-        return likeStringBuilder.toString();
     }
 
 

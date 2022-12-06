@@ -98,6 +98,8 @@ public class GuestHouseDto {
 
         private String guestHouseName;
 
+        private Integer cityId;
+
         //멤버 관련
         private String memberId;
 
