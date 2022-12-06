@@ -142,30 +142,18 @@ public class GuestHouseService {
     public Page<GuestHouse> findGuestHouseByMainFilter(QueryStringDto.MainFilterDto queryStringDto) {
 
 
-        String tagStr = guestHouseMapper.tagStrArrToTagStrForFilter(queryStringDto.getTag());
+        String[] sepTagArr = guestHouseMapper.plainTagArrToSeperTagArr(queryStringDto.getTag());
 
-        //오더바이 정렬 구하기
         String sortValue = queryStringDto.getSort();
-
-        Sort sort = Sort.by(Sort.Direction.DESC, "guest_house_id"); //기본, 등록순 내림차순
-
-        if (sortValue.equals("star")) {
-
-            sort = Sort.by(Sort.Direction.DESC,"guest_house_star");
-
-        } else if (sortValue.equals("review")) {
-
-           sort = Sort.by(Sort.Direction.DESC,"guest_house_review_count");
-        }
-
 
         //필터링으로 인한 게스트하우스 리스트 구하기
         Page<GuestHouse> guestHouseByFilter = repository.findGuestHouseByFilter(
                 queryStringDto.getCityId(),
-                tagStr,
+                sepTagArr,
                 queryStringDto.getStart(),
                 queryStringDto.getEnd(),
-                PageRequest.of(queryStringDto.getPage() - 1, queryStringDto.getSize(), sort));
+                PageRequest.of(queryStringDto.getPage() - 1, queryStringDto.getSize()),
+                sortValue);
 
         return guestHouseByFilter;
     }

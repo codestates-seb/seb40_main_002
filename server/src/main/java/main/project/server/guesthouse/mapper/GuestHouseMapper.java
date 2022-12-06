@@ -231,28 +231,28 @@ public interface GuestHouseMapper {
     }
 
 
-    /** 프론트에서 들어 온 태그 배열을 정렬하여 DB에 저장되는 태그 문자열 형식으로 변환하여 주는 메소드 **/
-    default String tagStrArrToTagStrForFilter(String[] tag) {
-
-        StringBuilder likeStringBuilder = new StringBuilder("%");
-
-        if(tag == null || tag.length == 0)
-            return likeStringBuilder.toString();
-
-        //태그 정렬
-        Arrays.sort(tag);
-
-        String[] formattedTagArr = Stream.of(tag).map(plainTagStr -> "|" + plainTagStr + "|").toArray(String[]::new);
-
-
-        //DB에 저장되어 있는 문자열 형식으로 변환
-
-        for (int i = 0; i < tag.length; i++) {
-            likeStringBuilder.append(formattedTagArr[i] + "%");
-        }
-
-        return likeStringBuilder.toString();
-    }
+//    /** 프론트에서 들어 온 태그 배열을 정렬하여 DB에 저장되는 태그 문자열 형식으로 변환하여 주는 메소드 **/
+//    default String tagStrArrToTagStrForFilter(String[] tag) {
+//
+//        StringBuilder likeStringBuilder = new StringBuilder("%");
+//
+//        if(tag == null || tag.length == 0)
+//            return likeStringBuilder.toString();
+//
+//        //태그 정렬
+//        Arrays.sort(tag);
+//
+//        String[] formattedTagArr = Stream.of(tag).map(plainTagStr -> "|" + plainTagStr + "|").toArray(String[]::new);
+//
+//
+//        //DB에 저장되어 있는 문자열 형식으로 변환
+//
+//        for (int i = 0; i < tag.length; i++) {
+//            likeStringBuilder.append(formattedTagArr[i] + "%");
+//        }
+//
+//        return likeStringBuilder.toString();
+//    }
 
 
     default String[] plainTagArrToSeperTagArr(String[] tag) {

@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 public interface GuestHouseCustomRepository {
 
     Page<GuestHouse> findGuestHouseByFilter(
-            Integer cityId, String like, String start, String end, Pageable pageable);
+            Integer cityId, String[] tags, String start, String end, Pageable pageable, String sort);
 
 
     Page<GuestHouse> findAllGuestHouse(
