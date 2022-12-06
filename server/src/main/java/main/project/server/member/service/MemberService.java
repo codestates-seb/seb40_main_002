@@ -17,6 +17,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -128,9 +129,9 @@ public class MemberService {
     public String saveFile(MultipartFile memberImageFile, String memberId){
 
         String originalName = memberImageFile.getOriginalFilename();
-        String fileName = originalName.substring(originalName.lastIndexOf("."));
+        String fileName = StringUtils.cleanPath(originalName);
         String folderPath = makeFolder(memberId);
-        String saveName = File.separator + uploadPath + folderPath + File.separator + memberId + fileName;
+        String saveName = File.separator + uploadPath + folderPath + File.separator + fileName;
         String savePath = uploadEc2 + saveName;
         // 경로 정의
         Path path = Paths.get(savePath).toAbsolutePath();
