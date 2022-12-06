@@ -1,8 +1,12 @@
 package main.project.server.guesthouse.repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.EntityPath;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Wildcard;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -130,14 +134,38 @@ public class GuestHouseCustomRepositoryImpl implements GuestHouseCustomRepositor
 
 
         //카운트 쿼리를 직접 해줘야함.
-        JPAQuery<Long> countQuery = jpaQueryFactory.select(guestHouse.count())
+//        JPAQuery<Long> countQuery = jpaQueryFactory.select(guestHouse.count())
+//                .from(guestHouse)
+//                .join(room).on(guestHouse.guestHouseId.eq(room.guestHouse.guestHouseId))
+//                .where(where)
+//                .groupBy(guestHouse.guestHouseId);
+
+
+
+
+//        JPQLQuery<GuestHouse> guestHouseJPQLQuery = select(guestHouse).from(guestHouse).join(room).on(guestHouse.guestHouseId.eq(room.guestHouse.guestHouseId))
+//                .where(where).groupBy(guestHouse.guestHouseId);
+//        JPQLQuery<Long> select = guestHouseJPQLQuery.select(guestHouse.count());
+
+
+
+
+
+//        JPAQuery<Long> countQuery = jpaQueryFactory.select(Wildcard.count)
+//                .from(
+//                        JPAExpressions.select(guestHouse).from(guestHouse).join(room).on(guestHouse.guestHouseId.eq(room.guestHouse.guestHouseId))
+//                                .where(where).groupBy(guestHouse.guestHouseId)
+//                );
+
+
+        JPQLQuery<GuestHouse> part = jpaQueryFactory.select(guestHouse)
                 .from(guestHouse)
                 .join(room).on(guestHouse.guestHouseId.eq(room.guestHouse.guestHouseId))
                 .where(where)
                 .groupBy(guestHouse.guestHouseId);
 
 
-        return PageableExecutionUtils.getPage(guestHouseList, pageable, countQuery::fetchOne);
+        return PageableExecutionUtils.getPage(guestHouseList, pageable, ()-> part.fetchCount());
     }
 
     @Override

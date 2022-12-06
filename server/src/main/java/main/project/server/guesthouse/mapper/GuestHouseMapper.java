@@ -103,6 +103,7 @@ public interface GuestHouseMapper {
             Collections.sort(guestHouse.getRooms()); //Room 을 Price 기준으로 오름차순 정렬
             return GuestHouseDto.response.builder()
                     .guestHouseId(guestHouse.getGuestHouseId())
+                    .cityId(guestHouse.getCity().getCityId().intValue())
                     .guestHouseName(guestHouse.getGuestHouseName())
                     .memberId(guestHouse.getMember().getMemberId())
                     .memberNickname(guestHouse.getMember().getMemberNickname())
