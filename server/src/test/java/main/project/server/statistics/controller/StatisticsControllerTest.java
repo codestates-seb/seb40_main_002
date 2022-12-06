@@ -2,6 +2,7 @@ package main.project.server.statistics.controller;
 
 import com.google.gson.Gson;
 import main.project.server.helper.StatisticsControllerTestHelper;
+import main.project.server.statistics.dto.AgeChartDto;
 import main.project.server.statistics.dto.MonthlyReservationChartDto;
 import main.project.server.statistics.service.StatisticsService;
 import main.project.server.stub.ReservationStub;
@@ -52,12 +53,37 @@ public class StatisticsControllerTest implements StatisticsControllerTestHelper 
                 .willReturn(chart);
 
         // when
-        ResultActions actions = mockMvc.perform(getRequestBuilder(getURI(), guestHouseId, queryParams));
+        ResultActions actions = mockMvc.perform(getRequestBuilder(getMonthlyChartUri(), guestHouseId, queryParams));
 
         // then
         actions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.totalCount").value(chart.getTotalCount()))
                 .andExpect(jsonPath("$.data.monthlyReservationList.size()").value(chart.getMonthlyReservationList().size()));
+    }
+
+    @Test
+    void ageChartTest() throws Exception {
+
+        // given
+        Long guestHouseId = 1L;
+        String year = "2022";
+        String month = "1";
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("year", year);
+        queryParams.add("month", month);
+
+        AgeChartDto chart = ReservationStub.MockReservationChart.getAgeChartDto();
+
+        given(statisticsService.getAgeChart(Mockito.anyLong(), Mockito.any(), Mockito.any()))
+                .willReturn(chart);
+
+        // when
+        ResultActions actions = mockMvc.perform(getRequestBuilder(getAgeChartUri(), guestHouseId, queryParams));
+
+        // then
+        actions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.totalCount").value(chart.getTotalCount()))
+                .andExpect(jsonPath("$.data.ageGroupReservationList.size()").value(chart.getAgeGroupReservationList().size()));
     }
 
 }
