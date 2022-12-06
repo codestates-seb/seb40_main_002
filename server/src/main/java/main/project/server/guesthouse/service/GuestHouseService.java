@@ -18,16 +18,15 @@ import main.project.server.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Transactional
 @RequiredArgsConstructor
@@ -36,29 +35,28 @@ public class GuestHouseService {
 
     @Value("${images.upload-path}")
     private String guestHouseImagePath;
-
     private final GuestHouseRepository repository;
     private final GuestHouseImageRepository guestHouseImageRepository;
-
     private final RoomService roomService;
-
     private final GuestHouseMapper guestHouseMapper;
 
 
     //-- 컨트롤러와 직접 연결된 메소드
     public GuestHouse createGuestHouse(GuestHouse guestHouse, MultipartFile[] guestHouseImages, List<Room> rooms, MultipartFile[] roomImages) throws IOException {
 
-        //entity 저장
+        // 게스트하우스 생성
         GuestHouse savedGuestHouse = repository.save(guestHouse);
 
         // 룸 생성
         roomService.createRoom(rooms, roomImages, savedGuestHouse.getGuestHouseId());
 
-        //파일이 없을 경우에 대한 더 적절한 처리가 필요
+        // 게스트하우스의 이미지가 넘어 오지 않은 경우, 처리하지 않는다
         if(guestHouseImages != null && guestHouseImages.length != 0 && !guestHouseImages[0].getOriginalFilename().equals(""))
         {
-            //이미지 저장
+            // 게스트 하우스 이미지 파일 저장
             List<String> imageUrls = saveFiles(guestHouseImages, savedGuestHouse.getGuestHouseId());
+
+            // "게스트하우스 엔티티" 객체에 "게스트하우스 이미지 엔티티" 세팅
             guestHouse.setGuestHouseImage(urlListToGuestHouseImageList(guestHouse, imageUrls));
         }
 
@@ -69,51 +67,54 @@ public class GuestHouseService {
     public GuestHouse modifyGuestHouse(GuestHouse guestHouse, MultipartFile[] guestHouseImages, String memberId,
                                        List<List<Room>> rooms, MultipartFile[] roomImages, MultipartFile[] newRoomImages) throws IOException {
 
-
-        //기존 게스트하우스 데이터 가져오기
+        // 기존 게스트하우스 데이터 가져오기
         GuestHouse existsGuestHouse = verifyExistsGuestHouse(guestHouse.getGuestHouseId());
 
-        //수정할 수 있는 멤버가 맞는지 검증
+        // 수정할 수 있는 멤버가 맞는지 검증
         verifyOwnGuestHouse(existsGuestHouse, memberId);
 
-        //url만 String으로 매핑
+        // "게스트 하우스 이미지 엔티티" 가 가진 URL만 리스트화
         List<String> urlList = existsGuestHouse.getGuestHouseImage().stream().map(
                 guestHouseImage -> new String(guestHouseImage.getGuestHouseImageUrl())).collect(Collectors.toList());
 
         // 룸 정보 업데이트
         roomService.updateRoom(rooms, roomImages, newRoomImages, existsGuestHouse.getGuestHouseId());
 
-        //기존 이미지 파일 삭제, 기존 이미지 데이터 삭제
+        // 기존 이미지 데이터 삭제
         guestHouseImageRepository.deleteAllByGuestHouse(guestHouse);
+
+        // 기존 이미지 파일 삭제
         deleteAllGuestHouseImageByGuestHouse(urlList,guestHouse.getGuestHouseId());
 
-
-        //파일이 없을 경우에 대한 더 적절한 처리가 필요
+        // 게스트하우스의 이미지가 넘어 오지 않은 경우, 처리하지 않는다 (현재 구조는 put 이므로 클라이언트가 모든 데이터를 다시 다 보내는 방식)
         if(guestHouseImages != null && guestHouseImages.length != 0 && !guestHouseImages[0].getOriginalFilename().equals(""))
         {
-            //이미지 저장
+            // 게스트 하우스 이미지 파일 저장
             List<String> imageUrls = saveFiles(guestHouseImages, guestHouse.getGuestHouseId());
+
+            // "게스트하우스 엔티티" 객체에 "게스트하우스 이미지 엔티티" 세팅
             guestHouse.setGuestHouseImage(urlListToGuestHouseImageList(guestHouse, imageUrls));
         }
 
-        //GuestHouseDetails가 새롭게 생성되지 않도록, DB에서 가져온 GuestHouseDetails의 id를 세팅
+        // GuestHouseDetails가 새롭게 생성되지 않도록, DB에서 가져온 GuestHouseDetails의 id를 업데이트될 게스트하우스의 GuestHouseDetails에 세팅
         guestHouse.getGuestHouseDetails().setGuestHouseDetailsId(existsGuestHouse.getGuestHouseDetails().getGuestHouseDetailsId());
 
-        //기존 값으로 세팅
+        // "게스트 하우스 엔티티"의 필드값들을 기존 값으로 세팅
         guestHouse.setGuestHouseReviewCount(existsGuestHouse.getGuestHouseReviewCount());
         guestHouse.setGuestHouseStar(existsGuestHouse.getGuestHouseStar());
         guestHouse.setGuestHouseStatus(existsGuestHouse.getGuestHouseStatus());
 
-        //기존 찜 갯수 저장
+        // 기존 찜 갯수 저장
         guestHouse.setHearts(existsGuestHouse.getHearts());
 
-        //entity 저장
+        // entity 저장
         repository.save(guestHouse);
 
         return guestHouse;
 
     }
 
+    /** ID값으로 게스트하우스를 가져옴과 동시에, 존재하는 게스트하우스인지 검증 **/
     public GuestHouse findGuestHouse(Long guestHouseId) {
 
         return verifyExistsGuestHouse(guestHouseId);
@@ -138,31 +139,18 @@ public class GuestHouseService {
 
     public Page<GuestHouse> findGuestHouseByMainFilter(QueryStringDto.MainFilterDto queryStringDto) {
 
+        String[] sepTagArr = guestHouseMapper.plainTagArrToSeperTagArr(queryStringDto.getTag());
 
-        String tagStr = guestHouseMapper.tagStrArrToTagStrForFilter(queryStringDto.getTag());
-
-        //오더바이 정렬 구하기
         String sortValue = queryStringDto.getSort();
-
-        Sort sort = Sort.by(Sort.Direction.DESC, "guest_house_id"); //기본, 등록순 내림차순
-
-        if (sortValue.equals("star")) {
-
-            sort = Sort.by(Sort.Direction.DESC,"guest_house_star");
-
-        } else if (sortValue.equals("review")) {
-
-           sort = Sort.by(Sort.Direction.DESC,"guest_house_review_count");
-        }
-
 
         //필터링으로 인한 게스트하우스 리스트 구하기
         Page<GuestHouse> guestHouseByFilter = repository.findGuestHouseByFilter(
                 queryStringDto.getCityId(),
-                tagStr,
+                sepTagArr,
                 queryStringDto.getStart(),
                 queryStringDto.getEnd(),
-                PageRequest.of(queryStringDto.getPage() - 1, queryStringDto.getSize(), sort));
+                PageRequest.of(queryStringDto.getPage() - 1, queryStringDto.getSize()),
+                sortValue);
 
         return guestHouseByFilter;
     }
@@ -182,8 +170,6 @@ public class GuestHouseService {
     private List<String> saveFiles(MultipartFile[] images, Long guestHouseId) throws IOException {
 
         String uploadPath = guestHouseImagePath + guestHouseId; //저장 디렉토리 경로
-
-//        Long currentTimeMillis = System.currentTimeMillis();//현재 시간 밀리세컨드로
 
         List<String> imageUrl = new ArrayList<>();
 
@@ -224,14 +210,9 @@ public class GuestHouseService {
 
     public Page<GuestHouse> findAllGuestHouse(Integer page, Integer size, String[] tag, String sortValue) {
 
-        String tagStr = guestHouseMapper.tagStrArrToTagStrForFilter(tag);
+        String[] sepTagArr = guestHouseMapper.plainTagArrToSeperTagArr(tag);
 
-        Sort sort;
-        if (sortValue.equals("star")) sort = Sort.by(Sort.Direction.DESC,"guest_house_star");
-        else if(sortValue.equals("review")) sort = Sort.by(Sort.Direction.DESC,"guest_house_review_count");
-        else sort = Sort.by(Sort.Direction.DESC, "guest_house_id"); //기본, 등록순 내림차순
-
-        Page<GuestHouse> guestHousePage = repository.findAllGuestHouseOnlyAsTag(tagStr, PageRequest.of(page-1, size, sort));
+        Page<GuestHouse> guestHousePage = repository.findAllGuestHouse(sepTagArr, PageRequest.of(page-1, size), sortValue);
         return guestHousePage;
     }
 
@@ -244,7 +225,6 @@ public class GuestHouseService {
 
         //조회할 수 있는 멤버가 맞는지 검증
         verifyOwnGuestHouse(existsGuestHouse, memberId);
-
 
         String addedBarYearMonth = yearMonth+"-";
         List<Object[]> guestHouseReserveStatistics = repository.getGuestHouseReserveStatistics(

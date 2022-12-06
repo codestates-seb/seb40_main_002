@@ -2,14 +2,15 @@ package main.project.server.helper;
 
 public interface StatisticsControllerTestHelper extends ControllerTestHelper {
 
-    String CHART_URL = "/api/auth/monthly-chart";
+    String MONTHLY_CHART_URL = "/api/auth/monthly-chart";
+    String AGE_CHART_URL = "/api/auth/age-chart";
     String RESOURCE_URI = "/{guest-house-id}";
 
-    default String getUrl() {
-        return CHART_URL;
+    default String getMonthlyChartUri() {
+        return MONTHLY_CHART_URL + RESOURCE_URI;
     }
 
-    default String getURI() {
-        return CHART_URL + RESOURCE_URI;
+    default String getAgeChartUri() {
+        return AGE_CHART_URL + RESOURCE_URI;
     }
 }

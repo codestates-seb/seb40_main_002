@@ -1,7 +1,0 @@
-spring:
-  # mysql
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${RDS_USERNAME}
-    password: ${RDS_SECRET}
-    url: ${RDS_URL}

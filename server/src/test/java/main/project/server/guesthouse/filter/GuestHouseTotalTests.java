@@ -30,7 +30,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
-@ActiveProfiles("dev")
+@ActiveProfiles("local")
 @Transactional
 @SpringBootTest
 public class GuestHouseTotalTests {
@@ -109,7 +109,10 @@ public class GuestHouseTotalTests {
         //where
 //        Page<GuestHouse> all = guestHouseRepository.findAll(PageRequest.of(1, 10));
 
-        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter(city.getCityId().intValue(), "%", start, end, pageRequest);
+        String[] tags = null;
+        String sort = "default";
+
+        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter(city.getCityId().intValue(), tags, start, end, pageRequest, sort);
 
 
         //then
@@ -153,7 +156,10 @@ public class GuestHouseTotalTests {
 
 
         //where
-        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter(city.getCityId().intValue(), "%", start, end, pageRequest);
+        String[] tags = null;
+        String sort = "default";
+
+        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter(city.getCityId().intValue(), tags, start, end, pageRequest, sort);
 
 
         //then
@@ -197,7 +203,10 @@ public class GuestHouseTotalTests {
 
 
         //where
-        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter(city.getCityId().intValue(), "%", start, end, pageRequest);
+        String[] tags = null;
+        String sort = "default";
+
+        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter(city.getCityId().intValue(), tags, start, end, pageRequest, sort);
 
 
         //then
@@ -241,7 +250,10 @@ public class GuestHouseTotalTests {
 
 
         //where
-        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter(city.getCityId().intValue(), "%", start, end, pageRequest);
+        String[] tags = null;
+        String sort = "default";
+
+        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter(city.getCityId().intValue(), tags, start, end, pageRequest, sort);
 
 
         //then
@@ -285,7 +297,10 @@ public class GuestHouseTotalTests {
 
 
         //where
-        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter(city.getCityId().intValue(), "%", start, end, pageRequest);
+        String[] tags = null;
+        String sort = "default";
+
+        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter(city.getCityId().intValue(), tags, start, end, pageRequest, sort);
 
 
         //then
@@ -329,7 +344,10 @@ public class GuestHouseTotalTests {
 
 
         //where
-        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter(city.getCityId().intValue(), "%", start, end, pageRequest);
+        String[] tags = null;
+        String sort = "default";
+
+        Page<GuestHouse> guestHouseByFilter = guestHouseRepository.findGuestHouseByFilter(city.getCityId().intValue(), tags, start, end, pageRequest, sort);
 
 
         //then
