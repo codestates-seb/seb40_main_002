@@ -81,6 +81,9 @@ dependencies {
 
 	// thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	// guava
+	implementation 'com.google.guava:guava:31.1-jre'
 }
 
 //tasks.named('test') {

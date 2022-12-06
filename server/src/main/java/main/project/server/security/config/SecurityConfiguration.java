@@ -26,7 +26,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-@EnableWebSecurity(debug = true)
+//@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfiguration {
