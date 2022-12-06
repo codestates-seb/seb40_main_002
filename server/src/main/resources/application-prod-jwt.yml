@@ -1,5 +1,0 @@
-# jwt, my properties
-jwt:
-  secret-key: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 120
-  refresh-token-expiration-minutes: 720
