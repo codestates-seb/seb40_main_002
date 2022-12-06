@@ -20,10 +20,6 @@ function SearchResult() {
   const [list, ref, totalCount] =
     // useInfiniteScroll('/api/guesthouse');
     useInfiniteScroll2(
-      // `/api/guesthouse?sortType=${sortType}&size=10&cityId=${cityId}&start=${
-      //   start ? start : todayToTomorrow.today
-      // }&end=${end ? end : todayToTomorrow.tomorrow}&tag=${
-      //   tags && tags.join('&tag=')
       `/api/guesthouse?size=10&cityId=${cityId}&start=${
         start ? start : todayToTomorrow.today
       }&end=${end ? end : todayToTomorrow.tomorrow}&tag=${

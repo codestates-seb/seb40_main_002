@@ -22,12 +22,6 @@ const Search = () => {
     // cityId, start, end, tag
     let start, end;
     if (dateRange[0] && dateRange[1]) {
-      // navigate(
-      //   `/search?cityId=${cityId}&start=${getPrettyDate(
-      //     dateRange[0]
-      //   )}&end=${getPrettyDate(dateRange[1])}&tag=${tags.join('-')}`
-      // );
-      // location.reload(); // 임시
       start = getPrettyDate(dateRange[0]);
       end = getPrettyDate(dateRange[1]);
     } else {
