@@ -256,6 +256,7 @@ public interface GuestHouseMapper {
 //    }
 
 
+    /** 평문 형태로 들어온 태그 배열을 구분자와 %를 붙인 배열 형태로 변환하는 메소드 - DB 조회때 사용 **/
     default String[] plainTagArrToSeperTagArr(String[] tag) {
 
         if(tag == null || tag.length == 0)
