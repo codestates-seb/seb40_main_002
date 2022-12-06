@@ -58,8 +58,14 @@ public class GuestHouseCustomRepositoryImpl implements GuestHouseCustomRepositor
 
         //지역 세팅
         BooleanBuilder where = new BooleanBuilder();
+        
         if(cityId != null)
-            where.and(guestHouse.city.cityId.eq(Long.valueOf(cityId)));
+        {
+            if(cityId >= 1 && cityId <= 13) //DB에 저장되어 있는 코드 범위가 아니면 검색 조건 자체에 넣지 않음
+                where.and(guestHouse.city.cityId.eq(Long.valueOf(cityId)));
+            
+        }
+           
 
 
         //태그 세팅
