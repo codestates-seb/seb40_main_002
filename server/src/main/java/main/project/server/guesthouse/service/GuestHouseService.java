@@ -1,5 +1,6 @@
 package main.project.server.guesthouse.service;
 
+import com.querydsl.core.types.OrderSpecifier;
 import lombok.RequiredArgsConstructor;
 import main.project.server.exception.BusinessException;
 import main.project.server.exception.ExceptionCode;
@@ -28,6 +29,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static main.project.server.guesthouse.entity.QGuestHouse.guestHouse;
 
 @Transactional
 @RequiredArgsConstructor
@@ -139,30 +142,18 @@ public class GuestHouseService {
     public Page<GuestHouse> findGuestHouseByMainFilter(QueryStringDto.MainFilterDto queryStringDto) {
 
 
-        String tagStr = guestHouseMapper.tagStrArrToTagStrForFilter(queryStringDto.getTag());
+        String[] sepTagArr = guestHouseMapper.plainTagArrToSeperTagArr(queryStringDto.getTag());
 
-        //오더바이 정렬 구하기
         String sortValue = queryStringDto.getSort();
-
-        Sort sort = Sort.by(Sort.Direction.DESC, "guest_house_id"); //기본, 등록순 내림차순
-
-        if (sortValue.equals("star")) {
-
-            sort = Sort.by(Sort.Direction.DESC,"guest_house_star");
-
-        } else if (sortValue.equals("review")) {
-
-           sort = Sort.by(Sort.Direction.DESC,"guest_house_review_count");
-        }
-
 
         //필터링으로 인한 게스트하우스 리스트 구하기
         Page<GuestHouse> guestHouseByFilter = repository.findGuestHouseByFilter(
                 queryStringDto.getCityId(),
-                tagStr,
+                sepTagArr,
                 queryStringDto.getStart(),
                 queryStringDto.getEnd(),
-                PageRequest.of(queryStringDto.getPage() - 1, queryStringDto.getSize(), sort));
+                PageRequest.of(queryStringDto.getPage() - 1, queryStringDto.getSize()),
+                sortValue);
 
         return guestHouseByFilter;
     }
@@ -224,14 +215,9 @@ public class GuestHouseService {
 
     public Page<GuestHouse> findAllGuestHouse(Integer page, Integer size, String[] tag, String sortValue) {
 
-        String tagStr = guestHouseMapper.tagStrArrToTagStrForFilter(tag);
+        String[] sepTagArr = guestHouseMapper.plainTagArrToSeperTagArr(tag);
 
-        Sort sort;
-        if (sortValue.equals("star")) sort = Sort.by(Sort.Direction.DESC,"guest_house_star");
-        else if(sortValue.equals("review")) sort = Sort.by(Sort.Direction.DESC,"guest_house_review_count");
-        else sort = Sort.by(Sort.Direction.DESC, "guest_house_id"); //기본, 등록순 내림차순
-
-        Page<GuestHouse> guestHousePage = repository.findAllGuestHouseOnlyAsTag(tagStr, PageRequest.of(page-1, size, sort));
+        Page<GuestHouse> guestHousePage = repository.findAllGuestHouse(sepTagArr, PageRequest.of(page-1, size), sortValue);
         return guestHousePage;
     }
 
