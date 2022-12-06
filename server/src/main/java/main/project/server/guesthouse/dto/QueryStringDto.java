@@ -3,9 +3,10 @@ package main.project.server.guesthouse.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class QueryStringDto {
@@ -19,12 +20,25 @@ public class QueryStringDto {
 
         private Integer cityId;
 
-        @NotBlank
-//        private String start = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        private String start;
 
-        @NotBlank
-        private String end;
+//        @NotNull
+//        private String start;
+//
+//
+//        @NotNull
+//        private String end;
+
+
+        //체크인 시간이 안 들어올 경우 현재 코리안시간으로 초기화
+        private String start = ZonedDateTime
+                .now(ZoneId.of("Asia/Seoul"))
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        //체크인 시간이 안 들어올 경우 현재 코리안시간 + 1 로 초기화
+        private String end = ZonedDateTime
+                .now(ZoneId.of("Asia/Seoul"))
+                .plusDays(1)
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         private String[] tag;
 
