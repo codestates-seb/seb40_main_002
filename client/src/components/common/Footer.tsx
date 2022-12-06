@@ -34,7 +34,7 @@ const Footer = () => {
 
   return (
     <>
-      <div className="h-[60px] w-full flex justify-between items-center z-100 fixed bottom-0 bg-footer border-2 border-black-100">
+      <div className="h-[60px] w-full flex justify-between items-center z-[100] fixed bottom-0 bg-footer border-2 border-black-100">
         <p className="font-semibold left-6 text-footerFont ml-6">
           팀 2rror, 빛과 소금...그리고 우리
         </p>
