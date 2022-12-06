@@ -7,7 +7,7 @@ export const getGuesthouseList = async (
   setTotalCount?: React.Dispatch<React.SetStateAction<number>>
 ) => {
   const data = await axios.get(`${path}`).then((res: AxiosResponse) => {
-    // console.log(res.data);
+    // console.log('getGuesthouseList', path, res.data);
     const totalCount = res.data.pageInfo.totalElements;
     if (setTotalCount) {
       if (totalCount) setTotalCount(totalCount);
