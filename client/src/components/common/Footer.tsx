@@ -19,7 +19,7 @@ const Footer = () => {
       memberLink: 'https://github.com/heoputer',
     },
     {
-      memberName: '김영헌',
+      memberName: '김영현',
       memberLink: 'https://github.com/JanuaryKim',
     },
     {
