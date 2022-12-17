@@ -37,10 +37,10 @@ function UserInfoEdit({
 
     try {
       stringDto(formData, 'member-dto', settingUser);
-      const sendData = await axios.patch('/api/auth/members', formData, {
+      const sendData = await Api.patch('/api/auth/members', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `${localStorage.getItem('accessToken')}`,
+          // Authorization: `${localStorage.getItem('accessToken')}`,
         },
       });
 

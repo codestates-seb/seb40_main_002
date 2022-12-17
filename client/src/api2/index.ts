@@ -8,7 +8,7 @@ const Api = axios.create({
 Api.interceptors.request.use(function (config: any) {
   const access_token = localStorage.getItem('accessToken');
   const refresh_token = localStorage.getItem('refreshToken');
-
+  console.log('요청');
   if (!access_token && !refresh_token) {
     config.headers['Authorization'] = null;
     config.headers['refreshToken'] = null;
@@ -27,7 +27,7 @@ Api.interceptors.response.use(
   },
   async function (err) {
     const originConfig = err.config;
-    if (err.response && err.response.status === 401) {
+    if (err?.response?.status === 401) {
       const accessToken = originConfig.headers['Authorization'];
       const refreshToken = localStorage.getItem('refreshToken');
       originConfig.sent = true;
@@ -46,13 +46,20 @@ Api.interceptors.response.use(
 
         if (data.headers.authorization) {
           localStorage.setItem('accessToken', data.headers.authorization);
+          originConfig.headers.Authorization = data.headers.authorization;
+          return Api(originConfig);
+        } else {
+          alert('로그인 요청이 잘못되었습니다.');
+          window.location.reload();
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('accessToken');
         }
+        return;
       } catch (err) {
         console.log('토큰 인증 오류 발생');
       }
       return Promise.reject(err);
     } else {
-      console.log('interceptors');
       return Promise.reject(err);
     }
   }

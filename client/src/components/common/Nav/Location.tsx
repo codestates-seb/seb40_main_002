@@ -6,7 +6,7 @@ import axios from 'axios';
 const Location = ({
   setCityId,
 }: {
-  setCityId: React.Dispatch<React.SetStateAction<number>>;
+  setCityId: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [locations, setLocations] = useState([]);

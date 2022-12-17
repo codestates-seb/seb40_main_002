@@ -5,7 +5,7 @@ export interface DateRange {
 }
 
 export interface SearchOption {
-  cityId: number;
+  cityId: string;
   start: string;
   end: string;
   tags: string[];

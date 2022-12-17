@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import GuesthouseList from '../components/Main/GuesthouseList';
-import useInfiniteScroll from '../hooks/useInfiniteScroll';
+// import useInfiniteScroll from '../hooks/useInfiniteScroll';
 import { GuestHouseShort } from '../types/guesthouse';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/store';
@@ -8,6 +8,7 @@ import { isLogin } from '../utils/isLogin';
 import { getGuesthouseList } from '../apis/guesthouse';
 import Door from './Door';
 import { visited } from '../store/reducer/door';
+import useInfiniteScroll2 from '../hooks/useInfiniteScroll2';
 
 function Main() {
   const dispatch = useDispatch();
@@ -24,7 +25,13 @@ function Main() {
     }
   }, [openDoor]);
   const mainUser = useSelector((state: RootState) => state.user);
-  const [list, setSortType, ref] = useInfiniteScroll('/api/all-guesthouse');
+  // const [list, setSortType, ref] = useInfiniteScroll('/api/all-guesthouse');
+  const [sortType, setSortType] = useState('default');
+  const [list, ref] = useInfiniteScroll2(
+    // `/api/all-guesthouse?sort=${sortType}&size=10`
+    `/api/all-guesthouse?size=10`,
+    sortType
+  );
   const [myRecommended, setMyRecommended] = useState<GuestHouseShort[]>([]);
 
   const getRecommended = useCallback(async () => {
@@ -38,8 +45,7 @@ function Main() {
   let isRecommended = false;
 
   useEffect(() => {
-    // console.log('in');
-    if (!isRecommended) {
+    if (isLogin() && !isRecommended && mainUser.memberTag) {
       isRecommended = true;
       getRecommended();
     }
