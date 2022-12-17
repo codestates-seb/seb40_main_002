@@ -127,16 +127,12 @@ export default function GhEditPage2() {
     });
 
     try {
-      const postSurvey = await axios.put(
-        `/api/auth/guesthouse/${id}`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `${localStorage.getItem('accessToken')}`,
-          },
-        }
-      );
+      const postSurvey = await Api.put(`/api/auth/guesthouse/${id}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          // Authorization: `${localStorage.getItem('accessToken')}`,
+        },
+      });
       navigate('/ghadmin');
       window.location.reload();
     } catch (e) {

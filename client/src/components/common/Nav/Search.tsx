@@ -7,11 +7,12 @@ import TagSearch from './TagSearch';
 import { useNavigate } from 'react-router-dom';
 import { DateRange } from '../../../types/search';
 import { getPrettyDate } from '../../../utils/getPrettyDate';
+import getTodayToTomorrow from '../../../utils/getTodayToTomorrow';
 
 const Search = () => {
   const navigate = useNavigate();
   // const [keyword, setKeyword] = useState('');
-  const [cityId, setCityId] = useState(0); // cityId 정해지면 넘겨주기
+  const [cityId, setCityId] = useState(''); // cityId 정해지면 넘겨주기
   const [tags, setTags] = useState<string[]>([]);
   const [dateRange, setDateRange] = useState([new Date(), null]);
   const [startDate, endDate] = dateRange;
@@ -19,14 +20,19 @@ const Search = () => {
   const search = () => {
     // 검색 api 들어갈 자리
     // cityId, start, end, tag
+    let start, end;
     if (dateRange[0] && dateRange[1]) {
-      navigate(
-        `/search?cityId=${cityId}&start=${getPrettyDate(
-          dateRange[0]
-        )}&end=${getPrettyDate(dateRange[1])}&tag=${tags.join('-')}`
-      );
-      location.reload(); // 임시
+      start = getPrettyDate(dateRange[0]);
+      end = getPrettyDate(dateRange[1]);
+    } else {
+      const todayToTomorrow = getTodayToTomorrow();
+      start = todayToTomorrow.today;
+      end = todayToTomorrow.tomorrow;
     }
+    navigate(
+      `/search?cityId=${cityId}&start=${start}&end=${end}&tag=${tags.join('-')}`
+    );
+    location.reload(); // 임시
   };
 
   return (

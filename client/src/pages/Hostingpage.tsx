@@ -16,6 +16,7 @@ import { ghDataCheck, makeGhData } from '../libs/ghDatafunc';
 import { ghCreateForm } from '../libs/ghEditCreateForm';
 import { User2 } from '../types/user';
 import { RootState } from '../store/store';
+import Api from '../api2';
 export default function Hostingpage() {
   const {
     guestHouseName,
@@ -68,10 +69,10 @@ export default function Hostingpage() {
 
     try {
       const accessToken = localStorage.getItem('accessToken');
-      const postSurvey = await axios.post(`/api/auth/guesthouse`, formData, {
+      const postSurvey = await Api.post(`/api/auth/guesthouse`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `${accessToken}`,
+          // Authorization: `${accessToken}`,
         },
         transformRequest: (formData) => formData,
       });

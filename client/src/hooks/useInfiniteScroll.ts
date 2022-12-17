@@ -30,7 +30,7 @@ function useInfiniteScroll(
 
   const tags = tag?.split('-');
   const [option, setOption] = useState<SearchOption>({
-    cityId: Number(cityId),
+    cityId: cityId ? cityId : '',
     start: start ? start : '',
     end: end ? end : '',
     tags: tags ? tags : [],
@@ -63,12 +63,14 @@ function useInfiniteScroll(
 
   // 숙소 리스트 가져오기
   const getList = useCallback(async () => {
+    // console.log('getList', page);
     setLoading(true);
     let optionApi, tagApi;
-    if (option && option.cityId !== 0) {
+    if (option) {
       optionApi = `&cityId=${option.cityId}&start=${option.start}&end=${option.end}`;
       tagApi = option.tags.join('&tag=');
     }
+    // console.log(optionApi !== undefined);
     const newGuesthouses = await getGuesthouseList(
       `${path}?page=${page}&size=10&sort=${sortType}&tag=${
         tagApi ? tagApi : ''
@@ -86,6 +88,7 @@ function useInfiniteScroll(
   // page에 따라 다르게 api 요청하기
   useEffect(() => {
     if (!isCalled) {
+      // console.log('1');
       isCalled = true;
       getList();
     }
@@ -93,7 +96,8 @@ function useInfiniteScroll(
 
   // sortType에 따라 다르게 api 요청하기
   useEffect(() => {
-    if (list.length > 0) {
+    if (list.length > 0 && !isCalled) {
+      // console.log('2');
       setPage(1);
       getList();
     }
