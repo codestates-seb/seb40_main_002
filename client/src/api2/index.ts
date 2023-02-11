@@ -58,7 +58,7 @@ Api.interceptors.response.use(
         console.log('토큰 인증 오류 발생');
         window.location.href = '/';
       }
-      return Promise.reject(err);
+      // return Promise.reject(err);
     } else {
       return Promise.reject(err);
     }
