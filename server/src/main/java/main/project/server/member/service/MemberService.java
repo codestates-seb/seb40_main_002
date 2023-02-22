@@ -69,6 +69,7 @@ public class MemberService {
 
         Member savedMember = memberRepository.save(member);
 
+        //매개변수로 Event를 보내는 것 자체가 이벤트 발행
         publisher.publishEvent(new MemberRegistrationApplicationEvent(this, savedMember));
 
         return savedMember;
@@ -129,7 +130,7 @@ public class MemberService {
     public String saveFile(MultipartFile memberImageFile, String memberId){
 
         String originalName = memberImageFile.getOriginalFilename();
-        String fileName = StringUtils.cleanPath(originalName);
+        String fileName = StringUtils.cleanPath(originalName); //각 운영체제별 상이한 구분자를 일반화 하기 위함
         String folderPath = makeFolder(memberId);
         String saveName = File.separator + uploadPath + folderPath + File.separator + fileName;
         String savePath = uploadEc2 + saveName;

@@ -34,7 +34,7 @@ public class MemberRegistrationEventListener {
 
     @Async
     @EventListener
-    public void listen(MemberRegistrationApplicationEvent event) throws Exception {
+    public void listen(MemberRegistrationApplicationEvent event) throws Exception { //이벤트가 이자로 들어 옴
         try {
             String[] to = new String[]{event.getMember().getMemberEmail()};
             String message = event.getMember().getMemberNickname();
