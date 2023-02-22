@@ -69,7 +69,7 @@ dependencies {
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
 
-	//	 aws parameter sotre
+	//	 aws parameter store
 	implementation group: 'io.awspring.cloud', name: 'spring-cloud-starter-aws-parameter-store-config'
 
 	// flyway

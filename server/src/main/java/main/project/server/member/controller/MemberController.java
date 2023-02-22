@@ -113,8 +113,8 @@ public class MemberController {
 
     // 멤버 예약 정보
     @GetMapping("/api/auth/members/reservations")
-    public ResponseEntity getMemberReservation(@Positive @RequestParam Integer page,
-                                               @Positive @RequestParam Integer size,
+    public ResponseEntity getMemberReservation(@Positive @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                               @Positive @RequestParam(name = "size", required = false, defaultValue = "4") int size,
                                                @ModelAttribute SearchCondition condition,
                                                Principal principal) {
 
