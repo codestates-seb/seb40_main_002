@@ -50,15 +50,15 @@ Api.interceptors.response.use(
           return Api(originConfig);
         } else {
           alert('로그인 요청이 잘못되었습니다.');
-          window.location.reload();
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('accessToken');
+          window.location.href = '/';
         }
-        return;
       } catch (err) {
         console.log('토큰 인증 오류 발생');
+        window.location.href = '/';
       }
-      return Promise.reject(err);
+      // return Promise.reject(err);
     } else {
       return Promise.reject(err);
     }
